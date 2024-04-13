@@ -65,18 +65,24 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage()));
-                    },
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 40),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text("Don't have an account? "),
-                        Text("Sign up", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage()));
+                          },
+                          child: MouseRegion(
+                            cursor: SystemMouseCursors.click, // Change cursor to pointer
+                            child: Text("Sign up", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+                          ),
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

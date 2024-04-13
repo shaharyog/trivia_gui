@@ -43,8 +43,6 @@ class SignupPage extends StatelessWidget {
                   FadeInUp(duration: Duration(milliseconds: 1500), child: makeInput(label: "Address")),
                   FadeInUp(duration: Duration(milliseconds: 1600), child: makeInput(label: "Phone Number")),
                   FadeInUp(duration: Duration(milliseconds: 1700), child: makeInput(label: "Birthday")),
-
-
                 ],
               ),
               FadeInUp(
@@ -66,31 +64,29 @@ class SignupPage extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
-
                       ),
                     ),
                   ),
                 ),
               ),
-
               FadeInUp(
                 duration: Duration(milliseconds: 1500),
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("Already have an account? "),
-                        Text("Sign in", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
-                      ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Already have an account? "),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                      },
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Text("Log in", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              )
+              ),
             ],
           ),
         ),
