@@ -1,0 +1,25 @@
+name: your_flutter_app_name
+description: A Flutter app for login and signup pages
+version: 1.0.0
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  animate_do: ^2.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/illustration.png
+    - assets/background.png
+    - assets/logo.png
+    - assets/question1.png
+
+  uses-material-design: true
+
