@@ -12,25 +12,7 @@ class SignupPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-              PageRouteBuilder(
-                opaque: false,
-                pageBuilder: (BuildContext context, _, __) {
-                  return FadeTransition(
-                    opacity: Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-                      parent: ModalRoute.of(context)!.animation!,
-                      curve: Curves.easeInOut,
-                    )),
-                    child: HomePage(), // Replace MainScreen() with HomePage()
-                  );
-                },
-              ),
-            );
-          },
-          icon: Icon(Icons.arrow_back_ios, size: 20, color: Colors.black,),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Container(
