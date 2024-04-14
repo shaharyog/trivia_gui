@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:your_flutter_app_name/theme_provider.dart';
 import 'package:your_flutter_app_name/utils.dart';
 
 class SignupPage extends StatelessWidget {
@@ -8,19 +6,9 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: [
-          Consumer<ThemeProvider>(
-            builder: (context, themeProvider, child) {
-              return IconButton(
-                icon: Icon(themeProvider.themeMode == ThemeMode.light
-                    ? Icons.brightness_2
-                    : Icons.brightness_6),
-                onPressed: () {
-                  themeProvider.toggleTheme();
-                },
-              );
-            },
-          ),
+          themeToggleButton(),
         ],
       ),
       body: SingleChildScrollView(
@@ -63,7 +51,9 @@ class SignupPage extends StatelessWidget {
                     EdgeInsets.symmetric(horizontal: 80, vertical: 20),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/home');
+                },
                 child: Text(
                   "Sign up",
                 ),

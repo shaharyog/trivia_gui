@@ -1,8 +1,11 @@
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:your_flutter_app_name/theme_provider.dart';
+import 'package:your_flutter_app_name/providers/rooms_provider.dart';
+import 'package:your_flutter_app_name/providers/theme_provider.dart';
+import 'homepage.dart';
 import 'login.dart';
+import 'providers/navigation_provider.dart';
 import 'signup.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +15,12 @@ const _defaultDarkColorScheme = ColorScheme.dark();
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => NavigationState()),
+        ChangeNotifierProvider(create: (context) => RoomsProvider()),
+      ],
       child: MyApp(),
     ),
   );
@@ -43,6 +50,7 @@ class MyApp extends StatelessWidget {
                     // When navigating to the "/" route, build the HomePage widget.
                     '/login': (context) => LoginPage(),
                     '/signup': (context) => SignupPage(),
+                    '/home': (context) => Homepage(),
                   },
                 )
         );
