@@ -64,17 +64,27 @@ class _RoomCardState extends State<RoomCard> {
             subtitle: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.group_outlined, size: 16, color: onSurfaceColor),
+                Icon(Icons.group_outlined, size: 16),
                 SizedBox(width: 4),
                 Text('${widget.room.maxPlayers}'),
+
                 SizedBox(width: 12),
-                Icon(Icons.question_mark, size: 16, color: onSurfaceColor),
+
+                Icon(Icons.question_mark, size: 16),
                 SizedBox(width: 4),
                 Text('${widget.room.questionsCount}'),
+
                 SizedBox(width: 12),
-                Icon(Icons.timer_outlined, size: 16, color: onSurfaceColor),
+
+                Icon(Icons.timer_outlined, size: 16),
                 SizedBox(width: 4),
                 Text('${widget.room.timePerQuestion}'),
+
+                SizedBox(width: 12),
+
+                Icon(Icons.groups, size: 16),
+                SizedBox(width: 4),
+                Text('${widget.room.players.length}'),
               ],
             ),
             trailing: Row(

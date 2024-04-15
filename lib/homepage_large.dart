@@ -63,13 +63,19 @@ class HomePageLarge extends StatelessWidget {
           },
         ),
         actions: [
-          themeToggleButton(),
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              // back to login screen
-              Navigator.of(context).pushReplacementNamed('/login');
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: themeToggleButton(),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                // back to login screen
+                Navigator.of(context).pushReplacementNamed('/login');
+              },
+            ),
           ),
         ],
       ),

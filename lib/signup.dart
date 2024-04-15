@@ -8,7 +8,10 @@ class SignupPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
-          themeToggleButton(),
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: themeToggleButton(),
+          ),
         ],
       ),
       body: SingleChildScrollView(
