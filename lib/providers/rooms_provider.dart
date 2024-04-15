@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../Objects/room.dart';
+import 'filters_providers/rooms_filters_provider.dart';
 
-class RoomsProvider extends ChangeNotifier {
+class RoomsProvider with ChangeNotifier {
   List<Room> _rooms = [
     Room(
       uuid: '1',
@@ -45,25 +46,60 @@ class RoomsProvider extends ChangeNotifier {
     ),
   ];
 
-  List<Room> get rooms => _rooms;
+  List<Room> _filteredRooms = [];
 
-  void updateRoom(Room updatedRoom) {
-    final index = _rooms.indexWhere((room) => room.uuid == updatedRoom.uuid);
-    if (index != -1) {
-      _rooms[index] = updatedRoom;
-      notifyListeners(); // Notify listeners that the state has changed
+  RoomsProvider(this._filtersProvider) {
+    _filteredRooms = _rooms;
+    _filtersProvider.addListener(_onFiltersChanged);
+  }
+
+  final FiltersProvider _filtersProvider;
+
+  List<Room> get filteredRooms => _filteredRooms;
+
+  void _onFiltersChanged() {
+    filterRooms();
+  }
+
+  void sortRooms(String sortBy) {
+    switch (sortBy) {
+      case 'questionsCount':
+        _filteredRooms
+            .sort((a, b) => a.questionsCount.compareTo(b.questionsCount));
+        break;
+      case 'players':
+        _filteredRooms
+            .sort((a, b) => a.players.length.compareTo(b.players.length));
+        break;
+      case 'isActive':
+        _filteredRooms.sort((a, b) => a.isActive == b.isActive ? 0 : 1);
+        break;
     }
+    notifyListeners();
   }
 
-  void addRoom(Room newRoom) {
-    _rooms.add(newRoom);
+  void filterRooms() {
+    _filteredRooms = _rooms
+        .where((room) =>
+            room.name
+                .toLowerCase()
+                .contains(_filtersProvider.searchText.toLowerCase()) &&
+            room.questionsCount >=
+                _filtersProvider.questionCountRange.start.round() &&
+            room.questionsCount <=
+                _filtersProvider.questionCountRange.end.round() &&
+            room.players.length >=
+                _filtersProvider.playersCountRange.start.round() &&
+            room.players.length <=
+                _filtersProvider.playersCountRange.end.round() &&
+            (_filtersProvider.isActive ? room.isActive : true))
+        .toList();
+    notifyListeners();
   }
 
-  void removeRoom(String uuid) {
-    _rooms.removeWhere((room) => room.uuid == uuid);
-  }
-
-  void updateRooms(List<Room> updatedRooms) {
-    _rooms = updatedRooms;
+  @override
+  void dispose() {
+    _filtersProvider.removeListener(_onFiltersChanged);
+    super.dispose();
   }
 }
