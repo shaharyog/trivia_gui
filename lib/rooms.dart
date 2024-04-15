@@ -96,7 +96,17 @@ class _RoomCardState extends State<RoomCard> {
               ],
             ),
             children: <Widget>[
-              ListTile(title: Text("")),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: widget.room.players.length,
+                itemBuilder: (context, index) {
+                  final player = widget.room.players[index];
+                  return ListTile(
+                    title: Text(player),
+                  );
+                }
+              )
             ],
             onExpansionChanged: (isExpanded) {
               setState(() {
