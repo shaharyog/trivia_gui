@@ -3,11 +3,13 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:your_flutter_app_name/providers/rooms_provider.dart';
 import 'package:your_flutter_app_name/providers/theme_provider.dart';
-import 'homepage.dart';
-import 'login.dart';
+import 'homepage/homepage.dart';
+import 'auth/login.dart';
 import 'providers/navigation_provider.dart';
-import 'signup.dart';
+import 'auth/signup.dart';
 import 'package:provider/provider.dart';
+
+import 'providers/filters_providers/rooms_filters_provider.dart';
 
 const _defaultLightColorScheme = ColorScheme.light();
 
@@ -19,7 +21,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => NavigationState()),
-        ChangeNotifierProvider(create: (context) => RoomsProvider()),
+        ChangeNotifierProvider(create: (context) => FiltersProvider()),
+        ChangeNotifierProvider(create: (context) => RoomsProvider(context.read<FiltersProvider>())),
       ],
       child: MyApp(),
     ),

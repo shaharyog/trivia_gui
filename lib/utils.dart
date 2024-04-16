@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'providers/theme_provider.dart';
+enum ScreenSize { small, medium, large }
 
 Widget makeInput({label, obscureText = false}) {
   return Column(
@@ -22,17 +21,6 @@ Widget makeInput({label, obscureText = false}) {
   );
 }
 
-Widget themeToggleButton() {
-  return Consumer<ThemeProvider>(
-    builder: (context, themeProvider, child) {
-      return IconButton(
-        icon: Icon(themeProvider.themeMode == ThemeMode.light
-            ? Icons.brightness_2
-            : Icons.brightness_6),
-        onPressed: () {
-          themeProvider.toggleTheme();
-        },
-      );
-    },
-  );
-}
+
+
+

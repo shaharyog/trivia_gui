@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:your_flutter_app_name/utils.dart';
 
+import '../utils/toggle_theme_button.dart';
+
 class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -8,7 +10,10 @@ class SignupPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
-          themeToggleButton(),
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: themeToggleButton(),
+          ),
         ],
       ),
       body: SingleChildScrollView(
