@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import '../providers/navigation_provider.dart';
-import '../screens/rooms.dart';
-import '../utils.dart';
+import '../screens/rooms/rooms.dart';
 
-Widget HomePageBody({
+Widget homePageBody({
   required NavigationState navigationState,
-  required ScreenSize screenSize,
   required BuildContext context,
 }) {
   return Center(
     child: Builder(builder: (context) {
       switch (navigationState.selectedIndex) {
         case 0:
-          return Text('Unknown');
+          return const Text('Unknown');
         case 1:
-          return RoomsWidget(screenSize: screenSize);
+          return const RoomsWidget();
         case 2:
-          return Text('Unknown');
+          return const Text('Unknown');
         default:
-          return Text('Unknown');
+          return const Text('Unknown');
       }
     }),
   );

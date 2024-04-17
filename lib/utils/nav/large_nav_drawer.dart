@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../providers/navigation_provider.dart';
 
-Widget HomePageLargeNavDrawer({
+Widget homePageLargeNavDrawer({
   required NavigationState navigationState,
   required BuildContext context,
 }) {
@@ -13,7 +13,7 @@ Widget HomePageLargeNavDrawer({
     },
     children: const <Widget>[
       Padding(
-        padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
+        padding: EdgeInsets.fromLTRB(28, 16, 16, 10),
       ),
 
       NavigationDrawerDestination(
@@ -38,7 +38,7 @@ Widget HomePageLargeNavDrawer({
         label: Text('Leaderboard'),
       ),
 
-      const Padding(
+      Padding(
         padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
         child: Divider(),
       ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../providers/navigation_provider.dart';
-import '../utils.dart';
 import 'toggle_theme_button.dart';
 
-AppBar HomePageAppBar({
+AppBar homePageAppBar({
   required NavigationState navigationState,
   required BuildContext context,
 }) {
@@ -12,13 +11,13 @@ AppBar HomePageAppBar({
       builder: (context) {
         switch (navigationState.selectedIndex) {
           case 0:
-            return Text('Profile');
+            return const Text('Profile');
           case 1:
-            return Text('Rooms');
+            return const Text('Rooms');
           case 2:
-            return Text('Leaderboard');
+            return const Text('Leaderboard');
           default:
-            return Text('Unknown');
+            return const Text('Unknown');
         }
       },
     ),
@@ -30,7 +29,7 @@ AppBar HomePageAppBar({
       Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: IconButton(
-          icon: Icon(Icons.logout),
+          icon: const Icon(Icons.logout),
           onPressed: () {
             // back to login screen
             Navigator.of(context).pushReplacementNamed('/login');

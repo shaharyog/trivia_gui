@@ -1,54 +1,77 @@
 import 'package:flutter/material.dart';
-
-import 'rooms_temporary_filters_provider.dart';
+import '../rooms_provider.dart';
+import 'filters.dart';
 
 class FiltersProvider with ChangeNotifier {
-  String _searchText = '';
-  RangeValues _questionCountRange = RangeValues(0, 100);
-  RangeValues _playersCountRange = RangeValues(0, 10);
-  bool _isActive = false;
+  Filters _filters = Filters();
 
-  String get searchText => _searchText;
+  Filters get filters => _filters;
 
-  RangeValues get questionCountRange => _questionCountRange;
+  SortBy get sortBy => _filters.sortBy;
 
-  RangeValues get playersCountRange => _playersCountRange;
+  bool get isReversedSort => _filters.isReversedSort;
 
-  bool get isActive => _isActive;
+  bool get putActiveRoomsFirst => _filters.putActiveRoomsFirst;
+
+  String get searchText => _filters.searchText;
+
+  RangeValues get questionCountRange => _filters.questionCountRange;
+
+  RangeValues get playersCountRange => _filters.playersCountRange;
+
+  bool get showOnlyActive => _filters.showOnlyActive;
+
+  void setSortBy(SortBy sortBy) {
+    _filters.sortBy = sortBy;
+    notifyListeners();
+  }
+
+  void setIsReversedSort(bool isReversedSort) {
+    _filters.isReversedSort = isReversedSort;
+    notifyListeners();
+  }
+
+  void setPutActiveRoomsFirst(bool putActiveRoomsFirst) {
+    _filters.putActiveRoomsFirst = putActiveRoomsFirst;
+  }
 
   void updateSearchText(String text) {
-    _searchText = text;
+    _filters.searchText = text;
     notifyListeners();
   }
 
   void updateQuestionCountRange(RangeValues range) {
-    _questionCountRange = range;
+    _filters.questionCountRange = range;
     notifyListeners();
   }
 
   void updatePlayersCountRange(RangeValues range) {
-    _playersCountRange = range;
+    _filters.playersCountRange = range;
     notifyListeners();
   }
 
-  void updateIsActive(bool isActive) {
-    _isActive = isActive;
+  void updateShowOnlyActive(bool isActive) {
+    _filters.showOnlyActive = isActive;
     notifyListeners();
   }
 
-  // Method to apply filters from the temporary filters
   void applyTemporaryFilters(
-      TemporaryFiltersProvider temporaryFiltersProvider) {
-    _questionCountRange = temporaryFiltersProvider.questionCountRange;
-    _playersCountRange = temporaryFiltersProvider.playersCountRange;
-    _isActive = temporaryFiltersProvider.isActive;
+    Filters newFilters,
+  ) {
+    _filters = newFilters;
     notifyListeners();
   }
 
-  TemporaryFiltersProvider get temporaryFiltersProvider =>
-      TemporaryFiltersProvider(
-        _questionCountRange,
-        _playersCountRange,
-        _isActive,
-      );
+  bool doesSorting() {
+    return sortBy != SortBy.nothing;
+  }
+
+  bool doesFiltering() {
+    return questionCountRange.start != 0 ||
+        questionCountRange.end != 100 ||
+        playersCountRange.start != 0 ||
+        playersCountRange.end != 50 ||
+        showOnlyActive ||
+        putActiveRoomsFirst;
+  }
 }

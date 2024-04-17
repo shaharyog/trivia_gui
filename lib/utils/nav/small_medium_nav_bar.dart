@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../providers/navigation_provider.dart';
 
-NavigationBar HomePageSmallOrMediumNavBar(
+NavigationBar homePageSmallOrMediumNavBar(
     {required NavigationState navigationState, required BuildContext context}) {
   return NavigationBar(
     onDestinationSelected: (int index) {

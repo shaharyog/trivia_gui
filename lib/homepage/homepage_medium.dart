@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import '../providers/navigation_provider.dart';
-import '../utils.dart';
 import 'package:provider/provider.dart';
 import '../utils/floating_action_button.dart';
 import '../utils/homepage_body.dart';
-import '../utils/nav/small_medium_nav_bar.dart';
+import '../utils/nav/large_nav_drawer.dart';
 import '../utils/homepage_appbar.dart';
 
 class HomePageMedium extends StatelessWidget {
+  const HomePageMedium({super.key});
+
   @override
   Widget build(BuildContext context) {
     final navigationState = Provider.of<NavigationState>(context);
     return Scaffold(
-      appBar: HomePageAppBar(
+      appBar: homePageAppBar(
         navigationState: navigationState,
         context: context,
       ),
-      bottomNavigationBar: HomePageSmallOrMediumNavBar(
+      drawer: homePageLargeNavDrawer(
         navigationState: navigationState,
         context: context,
       ),
-      body: HomePageBody(
+      body: homePageBody(
         navigationState: navigationState,
-        screenSize: ScreenSize.medium,
         context: context,
       ),
       floatingActionButton: HomePageFloatingActionButton(

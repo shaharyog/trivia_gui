@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:your_flutter_app_name/utils/homepage_body.dart';
-import 'package:your_flutter_app_name/utils/nav/large_nav_drawer.dart';
 import '../providers/navigation_provider.dart';
-import '../utils.dart';
 import '../utils/floating_action_button.dart';
 import '../utils/homepage_appbar.dart';
+import '../utils/homepage_body.dart';
+import '../utils/nav/large_nav_drawer.dart';
 
 class HomePageLarge extends StatelessWidget {
+  const HomePageLarge({super.key});
+
   @override
   Widget build(BuildContext context) {
     final navigationState = Provider.of<NavigationState>(context);
     return Scaffold(
-      appBar: HomePageAppBar(
+      appBar: homePageAppBar(
         navigationState: navigationState,
         context: context,
       ),
-      drawer: HomePageLargeNavDrawer(
+      drawer: homePageLargeNavDrawer(
         navigationState: navigationState,
         context: context,
       ),
-      body: HomePageBody(
+      body: homePageBody(
         navigationState: navigationState,
-        screenSize: ScreenSize.large,
         context: context,
       ),
       floatingActionButton: HomePageFloatingActionButton(

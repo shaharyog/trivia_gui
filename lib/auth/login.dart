@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:your_flutter_app_name/utils.dart';
 
+import '../utils.dart';
 import '../utils/toggle_theme_button.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String username = '';
+  String password = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,72 +26,95 @@ class LoginPage extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            constraints: BoxConstraints(maxWidth: 400),
-            padding: EdgeInsets.symmetric(horizontal: 40),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text(
-                      "Login",
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text("Login to your account",
-                        style: Theme.of(context).textTheme.headlineSmall),
-                  ],
+                Text(
+                  "Login",
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  "Login to your account",
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 32),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: InputField(
+                    label: "User Name",
+                    onChanged: (value) {
+                      setState(() {
+                        username = value;
+                      });
+                    },
+                    moveFocusToNext: true,
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40),
-                  child: Column(
-                    children: <Widget>[
-                      makeInput(label: "User Name"),
-                      makeInput(label: "Password", obscureText: true),
-                    ],
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: InputField(
+                    label: "Password",
+                    onChanged: (value) {
+                      setState(() {
+                        password = value;
+                      });
+                    },
+                    obscureText: true,
+                    moveFocusToNext: true,
                   ),
                 ),
+                const SizedBox(height: 32),
                 FilledButton(
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 80, vertical: 20),
-                    ),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(200, 60),
                   ),
-                  onPressed: () {
+                  onPressed: !isAllCredentialsEntered() ? null : () {
                     Navigator.pushReplacementNamed(context, '/home');
                   },
-                  child: Text(
+                  child: const Text(
                     "Login",
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Don't have an account? "),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/signup');
-                        },
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: Text(
-                            "Sign up",
-                            style:
-                                Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.underline,
-                                    ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 32.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text("Don't have an account? "),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacementNamed(context, '/signup');
+                          },
+                          child: MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: Text(
+                              "Sign up",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -90,5 +123,10 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+
+  bool isAllCredentialsEntered() {
+    return username.isNotEmpty && password.isNotEmpty;
   }
 }
