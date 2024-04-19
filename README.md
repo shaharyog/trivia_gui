@@ -1,3 +1,1 @@
-# trivia
-
-A Trivia Game By Shahar Yogev & Yuval Bar
+# Trivia Game By Shahar Yogev & Yuval Bar
