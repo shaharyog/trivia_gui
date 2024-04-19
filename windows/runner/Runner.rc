@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.shaharyogev47.trivia" "\0"
-            VALUE "FileDescription", "trivia" "\0"
+            VALUE "FileDescription", "Trivia" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "trivia" "\0"
+            VALUE "InternalName", "Trivia" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.shaharyogev47.trivia. All rights reserved." "\0"
-            VALUE "OriginalFilename", "trivia.exe" "\0"
-            VALUE "ProductName", "trivia" "\0"
+            VALUE "OriginalFilename", "Trivia.exe" "\0"
+            VALUE "ProductName", "Trivia" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

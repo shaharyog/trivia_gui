@@ -25,7 +25,7 @@ class HomePageLarge extends StatelessWidget {
         navigationState: navigationState,
         context: context,
       ),
-      floatingActionButton: HomePageFloatingActionButton(
+      floatingActionButton: homePageFloatingActionButton(
         navigationState: navigationState,
         context: context,
       ),

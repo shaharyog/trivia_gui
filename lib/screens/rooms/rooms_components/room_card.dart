@@ -73,7 +73,7 @@ Widget roomLeadingStatus({required Room room, required AnimationController blink
       width: 12.0,
       height: 12.0,
       decoration: const BoxDecoration(
-        color: Colors.red,
+        color: Colors.grey,
         shape: BoxShape.circle,
       ),
     ),

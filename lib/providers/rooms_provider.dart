@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Objects/room.dart';
 import 'filters_providers/rooms_filters_provider.dart';
 
-enum SortBy { nothing, playersCount, questionsCount, timePerQuestion }
+enum SortBy { isActive, playersCount, questionsCount, timePerQuestion }
 
 class RoomsProvider with ChangeNotifier {
   final List<Room> _rooms = [
@@ -39,6 +39,7 @@ class RoomsProvider with ChangeNotifier {
 
   RoomsProvider(this._filtersProvider) {
     _filteredRooms = List.from(_rooms);
+    sortRooms();
     _filtersProvider.addListener(_onFiltersChanged);
   }
 
@@ -72,33 +73,17 @@ class RoomsProvider with ChangeNotifier {
   }
 
   void sortRooms() {
-
-
-
-    // Sort active rooms first if needed
-    if (_filtersProvider.putActiveRoomsFirst) {
-      List<Room> activeRooms = _filteredRooms.where((room) => room.isActive).toList();
-      List<Room> inactiveRooms = _filteredRooms.where((room) => !room.isActive).toList();
-      List<Room> sortedActiveRooms = sortRoomsBy(_filtersProvider.sortBy, activeRooms);
-      List<Room> sortedInactiveRooms = sortRoomsBy(_filtersProvider.sortBy, inactiveRooms);
-      _filteredRooms = [...sortedActiveRooms, ...sortedInactiveRooms];
-    } else {
-      List<Room> sortedRooms = sortRoomsBy(_filtersProvider.sortBy, _filteredRooms);
-      _filteredRooms = sortedRooms;
-    }
-
+    _filteredRooms = sortRoomsBy(_filtersProvider.sortBy, _filteredRooms);
     notifyListeners();
   }
 
 
   List<Room> sortRoomsBy(SortBy sortBy, List<Room> rooms) {
-    if (_filtersProvider.sortBy == SortBy.nothing) {
-      return rooms;
-    }
-
     List<Room> sortedRooms = List.from(rooms);
     sortedRooms.sort((a, b) {
       switch (_filtersProvider.sortBy) {
+        case SortBy.isActive:
+          return b.isActive ? 1 : -1;
         case SortBy.playersCount:
           return b.playersCount.compareTo(a.playersCount);
         case SortBy.questionsCount:

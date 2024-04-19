@@ -1,12 +1,39 @@
 import 'package:flutter/material.dart';
+import '../../consts.dart';
 import '../rooms_provider.dart';
 
 class Filters {
-  String searchText = '';
-  RangeValues questionCountRange = const RangeValues(0, 100);
-  RangeValues playersCountRange = const RangeValues(0, 50);
-  bool showOnlyActive = false;
-  SortBy sortBy = SortBy.nothing;
-  bool putActiveRoomsFirst = false;
-  bool isReversedSort = false;
+  String searchText = defaultSearchText;
+  RangeValues questionCountRange = const RangeValues(defaultQuestionCountRangeStart, defaultQuestionCountRangeEnd);
+  RangeValues playersCountRange = const RangeValues(defaultPlayersCountRangeStart, defaultPlayersCountRangeEnd);
+  bool showOnlyActive = defaultShowOnlyActive;
+  SortBy sortBy = defaultSortBy;
+  bool isReversedSort = defaultIsReversedSort;
+
+  void reset() {
+    searchText = defaultSearchText;
+    questionCountRange = const RangeValues(defaultQuestionCountRangeStart, defaultQuestionCountRangeEnd);
+    playersCountRange = const RangeValues(defaultPlayersCountRangeStart, defaultPlayersCountRangeEnd);
+    showOnlyActive = defaultShowOnlyActive;
+    sortBy = defaultSortBy;
+    isReversedSort = defaultIsReversedSort;
+  }
+
+  void resetFilters() {
+    questionCountRange = const RangeValues(defaultQuestionCountRangeStart, defaultQuestionCountRangeEnd);
+    playersCountRange = const RangeValues(defaultPlayersCountRangeStart, defaultPlayersCountRangeEnd);
+    showOnlyActive = defaultShowOnlyActive;
+  }
+
+  void resetSort() {
+    sortBy = defaultSortBy;
+  }
+
+  void resetSortDirection() {
+    isReversedSort = defaultIsReversedSort;
+  }
+
+  void resetSearch() {
+    searchText = defaultSearchText;
+  }
 }

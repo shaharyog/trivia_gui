@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../consts.dart';
 import '../../providers/filters_providers/rooms_filters_provider.dart';
 import '../../providers/rooms_provider.dart';
 import '../../providers/screen_size_provider.dart';
@@ -13,7 +14,8 @@ class RoomsWidget extends StatefulWidget {
   State<RoomsWidget> createState() => _RoomsWidgetState();
 }
 
-class _RoomsWidgetState extends State<RoomsWidget> with SingleTickerProviderStateMixin{
+class _RoomsWidgetState extends State<RoomsWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _blinkingController;
 
   @override
@@ -21,7 +23,7 @@ class _RoomsWidgetState extends State<RoomsWidget> with SingleTickerProviderStat
     super.initState();
     _blinkingController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 550),
+      duration: const Duration(milliseconds: defaultBlinkingCircleDuration),
     )..repeat(reverse: true);
   }
 
@@ -31,19 +33,18 @@ class _RoomsWidgetState extends State<RoomsWidget> with SingleTickerProviderStat
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Consumer3<FiltersProvider, RoomsProvider, ScreenSizeProvider>(
       builder:
           (context, filtersProvider, roomsProvider, screenSizeProvider, child) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
                 child: Row(
                   children: [
                     Expanded(
@@ -52,8 +53,9 @@ class _RoomsWidgetState extends State<RoomsWidget> with SingleTickerProviderStat
                           filtersProvider.updateSearchText(value);
                         },
                         hintText: 'Search rooms',
-                        hintStyle: MaterialStateProperty.resolveWith<TextStyle?>(
-                              (Set<MaterialState> states) {
+                        hintStyle:
+                            MaterialStateProperty.resolveWith<TextStyle?>(
+                          (Set<MaterialState> states) {
                             if (states.contains(MaterialState.focused)) {
                               return TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
@@ -68,99 +70,184 @@ class _RoomsWidgetState extends State<RoomsWidget> with SingleTickerProviderStat
                           child: Icon(Icons.search),
                         ),
                         trailing: <Widget>[
-                          IconButton(
-                            onPressed: filtersProvider.sortBy == SortBy.nothing
-                                ? null
-                                : () {
-                                    setState(() {
-                                      filtersProvider.setIsReversedSort(
-                                          !filtersProvider.isReversedSort);
-                                    });
-                                    // Implement logic to sort rooms based on _isAscending
-                                  },
-                            icon: Icon(
-                              filtersProvider.isReversedSort
-                                  ? Icons.arrow_downward
-                                  : Icons.arrow_upward,
-                              color: filtersProvider.sortBy == SortBy.nothing
-                                  ? null
-                                  : Theme.of(context).colorScheme.primary,
+                          GestureDetector(
+                            onLongPress: () {
+                              filtersProvider.resetSortDirection();
+                            },
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  filtersProvider.setIsReversedSort(
+                                      !filtersProvider.isReversedSort);
+                                });
+                              },
+                              icon: Icon(
+                                filtersProvider.isReversedSort
+                                    ? Icons.arrow_downward
+                                    : Icons.arrow_upward,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ),
-                          PopupMenuButton<SortBy>(
-                            tooltip: '',
-                            icon: Icon(
-                              Icons.sort,
-                              color: filtersProvider.doesSorting()
-                                  ? Theme.of(context).colorScheme.primary
-                                  : null,
+                          GestureDetector(
+                            onLongPress: () {
+                              filtersProvider.resetSort();
+                            },
+                            child: PopupMenuButton<SortBy>(
+                              tooltip: '',
+                              icon: Icon(
+                                Icons.sort,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              onSelected: (SortBy selectedSortBy) {
+                                filtersProvider.setSortBy(selectedSortBy);
+                              },
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<SortBy>>[
+                                PopupMenuItem<SortBy>(
+                                  value: SortBy.isActive,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: Icon(
+                                          Icons.check_circle,
+                                          color: filtersProvider.sortBy ==
+                                                  SortBy.isActive
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : null,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Sort by Active Status',
+                                        style: TextStyle(
+                                          color: filtersProvider.sortBy ==
+                                                  SortBy.isActive
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : null,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem<SortBy>(
+                                  value: SortBy.playersCount,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: Icon(
+                                          Icons.people,
+                                          color: filtersProvider.sortBy ==
+                                                  SortBy.playersCount
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : null,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Sort by Number of Online Players',
+                                        style: TextStyle(
+                                          color: filtersProvider.sortBy ==
+                                                  SortBy.playersCount
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : null,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem<SortBy>(
+                                  value: SortBy.questionsCount,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: Icon(
+                                          Icons.question_mark,
+                                          color: filtersProvider.sortBy ==
+                                                  SortBy.questionsCount
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : null,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Sort by Number of Questions',
+                                        style: TextStyle(
+                                          color: filtersProvider.sortBy ==
+                                                  SortBy.questionsCount
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : null,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem<SortBy>(
+                                  value: SortBy.timePerQuestion,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: Icon(
+                                          Icons.timer,
+                                          color: filtersProvider.sortBy ==
+                                                  SortBy.timePerQuestion
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : null,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Sort by Time Per Question',
+                                        style: TextStyle(
+                                          color: filtersProvider.sortBy ==
+                                                  SortBy.timePerQuestion
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : null,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            onSelected: (SortBy selectedSortBy) {
-                              filtersProvider.setSortBy(selectedSortBy);
-                            },
-                            itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry<SortBy>>[
-                              const PopupMenuItem<SortBy>(
-                                value: SortBy.nothing,
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.only(right: 8.0),
-                                      child: Icon(Icons.clear),
-                                    ),
-                                    Text('None'),
-                                  ],
-                                ),
-                              ),
-                              const PopupMenuItem<SortBy>(
-                                value: SortBy.playersCount,
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 8.0),
-                                      child: Icon(Icons.people),
-                                    ),
-                                    Text('Sort by Number of Online Players'),
-                                  ],
-                                ),
-                              ),
-                              const PopupMenuItem<SortBy>(
-                                value: SortBy.questionsCount,
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 8.0),
-                                      child: Icon(Icons.question_mark),
-                                    ),
-                                    Text('Sort by Number of Questions'),
-                                  ],
-                                ),
-                              ),
-                              const PopupMenuItem<SortBy>(
-                                value: SortBy.timePerQuestion,
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 8.0),
-                                      child: Icon(Icons.timer),
-                                    ),
-                                    Text('Sort by Time Per Question'),
-                                  ],
-                                ),
-                              ),
-                            ],
                           ),
-                          IconButton(
-                            onPressed: () async {
-                              await launchFilterSheet(
-                                  context, filtersProvider, screenSizeProvider);
+                          GestureDetector(
+                            onLongPress: () {
+                              setState(() {
+                                filtersProvider.resetFilters();
+                              });
                             },
-                            icon: Icon(
-                              Icons.tune,
-                              color: filtersProvider.doesFiltering()
-                                  ? Theme.of(context).colorScheme.primary
-                                  : null,
+                            child: IconButton(
+                              onPressed: () async {
+                                await launchFilterSheet(context,
+                                    filtersProvider, screenSizeProvider);
+                              },
+                              icon: Icon(
+                                Icons.tune,
+                                color: filtersProvider.doesFiltering()
+                                    ? Theme.of(context).colorScheme.primary
+                                    : null,
+                              ),
                             ),
                           ),
                         ],
@@ -174,7 +261,10 @@ class _RoomsWidgetState extends State<RoomsWidget> with SingleTickerProviderStat
                   itemCount: roomsProvider.filteredRooms.length,
                   itemBuilder: (context, index) {
                     final room = roomsProvider.filteredRooms[index];
-                    return RoomCard(room: room, blinkingController: _blinkingController, );
+                    return RoomCard(
+                      room: room,
+                      blinkingController: _blinkingController,
+                    );
                   },
                 ),
               ),

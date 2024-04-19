@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../utils.dart';
+import 'package:trivia/utils/input_field.dart';
+import '../consts.dart';
+import '../server_settings.dart';
 import '../utils/toggle_theme_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,8 +12,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String username = '';
-  String password = '';
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  bool _showPassword = false;
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void _login() {
+    // add login request to server
+    Navigator.pushReplacementNamed(context, '/home');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +35,24 @@ class _LoginPageState extends State<LoginPage> {
         automaticallyImplyLeading: false,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 8.0),
+            padding: const EdgeInsets.only(right: 4.0),
             child: themeToggleButton(),
           ),
+          Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: Hero(
+              tag: "settings_icon_button",
+              child: IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const SettingsDialog(),
+                  );
+                },
+                icon: const Icon(Icons.settings_sharp),
+              ),
+            ),
+          )
         ],
       ),
       body: Padding(
@@ -51,36 +80,57 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
-                    label: "User Name",
-                    onChanged: (value) {
-                      setState(() {
-                        username = value;
-                      });
+                    controller: usernameController,
+                    errorText: null,
+                    validate: (value) {
+                      setState(
+                          () {}); // update the ui state, although there is no logic here
                     },
-                    moveFocusToNext: true,
+                    label: "Username",
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
-                    label: "Password",
-                    onChanged: (value) {
-                      setState(() {
-                        password = value;
-                      });
+                    controller: passwordController,
+                    errorText: null,
+                    validate: (value) {
+                      setState(
+                          () {}); // update the ui state, although there is no logic here
                     },
-                    obscureText: true,
-                    moveFocusToNext: true,
+                    label: "Password",
+                    inputType: TextInputType.visiblePassword,
+                    isPassword: true,
+                    textInputAction: isAllCredentialsEntered()
+                        ? TextInputAction.next
+                        : TextInputAction.done,
+                    showPassword: _showPassword,
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _showPassword = !_showPassword;
+                          });
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Icon(
+                            _showPassword
+                                ? Icons.visibility_rounded
+                                : Icons.visibility_off_rounded,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 32),
                 FilledButton(
                   style: FilledButton.styleFrom(
-                    minimumSize: const Size(200, 60),
+                    minimumSize: signInAndUpButtonSize,
                   ),
-                  onPressed: !isAllCredentialsEntered() ? null : () {
-                    Navigator.pushReplacementNamed(context, '/home');
-                  },
+                  onPressed: isAllCredentialsEntered() ? _login : null,
                   child: const Text(
                     "Login",
                   ),
@@ -125,8 +175,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-
   bool isAllCredentialsEntered() {
-    return username.isNotEmpty && password.isNotEmpty;
+    return usernameController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty;
   }
 }

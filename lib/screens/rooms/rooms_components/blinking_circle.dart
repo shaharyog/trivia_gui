@@ -13,7 +13,7 @@ class BlinkingCircle extends StatelessWidget {
         width: 12.0,
         height: 12.0,
         decoration: const BoxDecoration(
-          color: Colors.green,
+          color: Colors.red,
           shape: BoxShape.circle,
         ),
       ),

@@ -1,17 +1,17 @@
 import 'dart:io';
-
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
+import 'consts.dart';
 import 'homepage/homepage.dart';
 import 'auth/login.dart';
 import 'providers/navigation_provider.dart';
 import 'auth/signup.dart';
 import 'package:provider/provider.dart';
-
 import 'providers/filters_providers/rooms_filters_provider.dart';
 import 'providers/rooms_provider.dart';
 import 'providers/screen_size_provider.dart';
+import 'providers/server_endpoint_provider.dart';
 import 'providers/theme_provider.dart';
 
 const _defaultLightColorScheme = ColorScheme.light();
@@ -25,13 +25,13 @@ void main() async {
     await windowManager.ensureInitialized();
 
     WindowOptions windowOptions = const WindowOptions(
-      size: Size(800, 600),
+      size: initialScreenSize,
       center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
       titleBarStyle: TitleBarStyle.normal,
     );
-    windowManager.setMinimumSize(const Size(450, 550));
+    windowManager.setMinimumSize(minScreenSize);
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
       await windowManager.focus();
@@ -48,6 +48,7 @@ void main() async {
         ChangeNotifierProvider(
             create: (context) =>
                 RoomsProvider(context.read<FiltersProvider>())),
+        ChangeNotifierProvider(create: (context) => ServerEndpointProvider()),
       ],
       child: const MyApp(),
     ),
@@ -76,7 +77,6 @@ class MyApp extends StatelessWidget {
             title: 'Trivia - Shahar & Yuval',
             initialRoute: '/login',
             routes: {
-              // When navigating to the "/" route, build the HomePage widget.
               '/login': (context) => const LoginPage(),
               '/signup': (context) => const SignupPage(),
               '/home': (context) => const Homepage(),

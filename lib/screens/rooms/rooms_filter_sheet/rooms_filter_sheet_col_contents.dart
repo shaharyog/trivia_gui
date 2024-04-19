@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:trivia/consts.dart';
 import '../../../providers/filters_providers/filters.dart';
-import '../../../providers/rooms_provider.dart';
 
 class RoomFilterSheetColContents extends StatefulWidget {
   final Function updateFiltersCallback;
@@ -34,7 +33,7 @@ class _RoomFilterSheetColContentsState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Question Count:\t${tempFilters.questionCountRange.start.round()} - ${tempFilters.questionCountRange.end.round()}',
+          'Number of questions:\t${tempFilters.questionCountRange.start.round()} - ${tempFilters.questionCountRange.end.round()}',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         SliderTheme(
@@ -47,9 +46,9 @@ class _RoomFilterSheetColContentsState
           ),
           child: RangeSlider(
             values: tempFilters.questionCountRange,
-            min: 0,
-            max: 100,
-            divisions: 100,
+            min: defaultQuestionCountRangeStart,
+            max: defaultQuestionCountRangeEnd,
+            divisions: defaultQuestionCountRangeEnd.toInt(),
             labels: RangeLabels(
               tempFilters.questionCountRange.start.round().toString(),
               tempFilters.questionCountRange.end.round().toString(),
@@ -65,7 +64,7 @@ class _RoomFilterSheetColContentsState
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: Text(
-            'Players Count:\t${tempFilters.playersCountRange.start.round()} - ${tempFilters.playersCountRange.end.round()}',
+            'Number of online players:\t${tempFilters.playersCountRange.start.round()} - ${tempFilters.playersCountRange.end.round()}',
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
@@ -79,9 +78,9 @@ class _RoomFilterSheetColContentsState
           ),
           child: RangeSlider(
             values: tempFilters.playersCountRange,
-            min: 0,
-            max: 50,
-            divisions: 50,
+            min: defaultPlayersCountRangeStart,
+            max: defaultPlayersCountRangeEnd,
+            divisions: defaultPlayersCountRangeEnd.toInt(),
             labels: RangeLabels(
               tempFilters.playersCountRange.start.round().toString(),
               tempFilters.playersCountRange.end.round().toString(),
@@ -95,7 +94,7 @@ class _RoomFilterSheetColContentsState
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -120,50 +119,8 @@ class _RoomFilterSheetColContentsState
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Text(
-                    'Put Active Rooms First',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-              ),
-              Switch(
-                value: tempFilters.putActiveRoomsFirst,
-                onChanged: tempFilters.showOnlyActive
-                    ? null
-                    : (value) {
-                        setState(() {
-                          tempFilters.putActiveRoomsFirst = value;
-                          widget.updateFiltersCallback(tempFilters);
-                        });
-                      },
-              )
-            ],
-          ),
-        ),
       ],
     );
-  }
-}
-
-
-String sortByToString(SortBy sortBy) {
-  switch (sortBy) {
-    case SortBy.nothing:
-      return 'Sort By';
-    case SortBy.playersCount:
-      return 'Players Count';
-    case SortBy.questionsCount:
-      return 'Questions Count';
-    case SortBy.timePerQuestion:
-      return 'Time Per Question';
   }
 }
 

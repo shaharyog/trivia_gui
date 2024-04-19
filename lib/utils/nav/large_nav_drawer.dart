@@ -10,6 +10,7 @@ Widget homePageLargeNavDrawer({
     selectedIndex: navigationState.selectedIndex,
     onDestinationSelected: (int index) {
       navigationState.selectedIndex = index;
+      Navigator.of(context).pop();
     },
     children: const <Widget>[
       Padding(

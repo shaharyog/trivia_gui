@@ -8,8 +8,9 @@ import '../providers/screen_size_provider.dart';
 import '../screens/rooms/create_room_sheet_bottom/create_room_bottom_sheet.dart';
 import '../screens/rooms/create_room_sheet_bottom/create_room_side_sheet.dart';
 
-FloatingActionButton? HomePageFloatingActionButton(
+FloatingActionButton? homePageFloatingActionButton(
     {required NavigationState navigationState, required BuildContext context}) {
+  final roomsProvider = Provider.of<RoomsProvider>(context, listen: false);
   return navigationState.selectedIndex == 1
       ? FloatingActionButton(
           onPressed: () async {
@@ -73,7 +74,7 @@ FloatingActionButton? HomePageFloatingActionButton(
             }
 
             if (isConfirmed) {
-              Provider.of<RoomsProvider>(context, listen: false).addRoom(Room(
+              roomsProvider.addRoom(Room(
                 uuid: "",
                 name: name,
                 maxPlayers: maxPlayers,

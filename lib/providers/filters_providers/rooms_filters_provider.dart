@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trivia/consts.dart';
 import '../rooms_provider.dart';
 import 'filters.dart';
 
@@ -10,8 +11,6 @@ class FiltersProvider with ChangeNotifier {
   SortBy get sortBy => _filters.sortBy;
 
   bool get isReversedSort => _filters.isReversedSort;
-
-  bool get putActiveRoomsFirst => _filters.putActiveRoomsFirst;
 
   String get searchText => _filters.searchText;
 
@@ -31,9 +30,6 @@ class FiltersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setPutActiveRoomsFirst(bool putActiveRoomsFirst) {
-    _filters.putActiveRoomsFirst = putActiveRoomsFirst;
-  }
 
   void updateSearchText(String text) {
     _filters.searchText = text;
@@ -62,16 +58,36 @@ class FiltersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool doesSorting() {
-    return sortBy != SortBy.nothing;
+  bool doesFiltering() {
+    return questionCountRange.start != defaultQuestionCountRangeStart ||
+        questionCountRange.end != defaultQuestionCountRangeEnd ||
+        playersCountRange.start != defaultPlayersCountRangeStart ||
+        playersCountRange.end != defaultPlayersCountRangeEnd ||
+        showOnlyActive != defaultShowOnlyActive;
   }
 
-  bool doesFiltering() {
-    return questionCountRange.start != 0 ||
-        questionCountRange.end != 100 ||
-        playersCountRange.start != 0 ||
-        playersCountRange.end != 50 ||
-        showOnlyActive ||
-        putActiveRoomsFirst;
+  void reset() {
+    _filters.reset();
+    notifyListeners();
+  }
+
+  void resetFilters() {
+    _filters.resetFilters();
+    notifyListeners();
+  }
+
+  void resetSort() {
+    _filters.resetSort();
+    notifyListeners();
+  }
+
+  void resetSortDirection() {
+    _filters.resetSortDirection();
+    notifyListeners();
+  }
+
+  void resetSearch() {
+    _filters.resetSearch();
+    notifyListeners();
   }
 }

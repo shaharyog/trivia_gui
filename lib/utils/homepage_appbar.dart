@@ -23,11 +23,11 @@ AppBar homePageAppBar({
     ),
     actions: [
       Padding(
-        padding: const EdgeInsets.only(right: 8.0),
+        padding: const EdgeInsets.only(right: 4.0),
         child: themeToggleButton(),
       ),
       Padding(
-        padding: const EdgeInsets.only(right: 8.0),
+        padding: const EdgeInsets.only(right: 4.0),
         child: IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () {
