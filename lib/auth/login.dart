@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                         const Text("Don't have an account? "),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacementNamed(context, '/signup');
+                            Navigator.pushNamed(context, '/signup');
                           },
                           child: MouseRegion(
                             cursor: SystemMouseCursors.click,
@@ -158,7 +158,8 @@ class _LoginPageState extends State<LoginPage> {
                                   .bodyMedium!
                                   .copyWith(
                                     fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                   ),
                             ),
                           ),

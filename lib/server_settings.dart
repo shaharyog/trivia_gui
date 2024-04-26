@@ -168,6 +168,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
                     onPressed: () {
                       setState(() {
                         serverPortController.text = defaultPort.toString();
+                        validatePort(serverPortController.text);
                       });
                     },
                   ),

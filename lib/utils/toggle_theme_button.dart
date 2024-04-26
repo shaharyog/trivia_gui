@@ -9,8 +9,8 @@ Widget themeToggleButton() {
         tag: "themeToggle",
         child: IconButton(
           icon: Icon(themeProvider.themeMode == ThemeMode.light
-              ? Icons.brightness_2
-              : Icons.brightness_6),
+              ? Icons.brightness_2_sharp
+              : Icons.brightness_6_sharp),
           onPressed: () {
             themeProvider.toggleTheme();
           },

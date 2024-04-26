@@ -23,3 +23,9 @@ const bool defaultIsReversedSort = false;
 
 // animations durations:
 const int defaultBlinkingCircleDuration = 550;
+
+
+// color scheme related consts:
+const defaultLightColorScheme = ColorScheme.light();
+const defaultDarkColorScheme = ColorScheme.dark();
+

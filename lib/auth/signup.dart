@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../consts.dart';
+import '../server_settings.dart';
 import '../utils/input_field.dart';
 import '../utils/toggle_theme_button.dart';
 import 'package:intl/intl.dart';
@@ -166,7 +167,6 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
@@ -178,7 +178,10 @@ class _SignupPageState extends State<SignupPage> {
               tag: "settings_icon_button",
               child: IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
+                  showDialog(
+                    context: context,
+                    builder: (context) => const SettingsDialog(),
+                  );
                 },
                 icon: const Icon(Icons.settings_sharp),
               ),
@@ -363,7 +366,8 @@ class _SignupPageState extends State<SignupPage> {
                                   .bodyMedium!
                                   .copyWith(
                                     fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                   ),
                             ),
                           ),

@@ -14,10 +14,6 @@ import 'providers/screen_size_provider.dart';
 import 'providers/server_endpoint_provider.dart';
 import 'providers/theme_provider.dart';
 
-const _defaultLightColorScheme = ColorScheme.light();
-
-const _defaultDarkColorScheme = ColorScheme.dark();
-
 void main() async {
   // check if the platform is windows, linux or mac
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -63,14 +59,15 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         return DynamicColorBuilder(
-          builder: (lightColorScheme, darkColorScheme) => MaterialApp(
+            builder: (lightColorScheme, darkColorScheme) {
+          return MaterialApp(
             theme: ThemeData(
               useMaterial3: true,
-              colorScheme: lightColorScheme ?? _defaultLightColorScheme,
+              colorScheme: lightColorScheme ?? defaultLightColorScheme,
             ),
             darkTheme: ThemeData(
               useMaterial3: true,
-              colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
+              colorScheme: darkColorScheme ?? defaultDarkColorScheme,
             ),
             themeMode: themeProvider.themeMode,
             debugShowCheckedModeBanner: false,
@@ -81,8 +78,8 @@ class MyApp extends StatelessWidget {
               '/signup': (context) => const SignupPage(),
               '/home': (context) => const Homepage(),
             },
-          ),
-        );
+          );
+        });
       },
     );
   }

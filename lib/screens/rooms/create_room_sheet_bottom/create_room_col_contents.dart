@@ -52,11 +52,9 @@ class _CreateRoomSheetColContentsState
           style: Theme.of(context).textTheme.titleMedium,
         ),
         SliderTheme(
-          data: const SliderThemeData(
-            rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
+          data: SliderThemeData(
+            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
-            disabledActiveTickMarkColor: Colors.transparent,
-            disabledInactiveTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
           child: Slider(
@@ -78,11 +76,9 @@ class _CreateRoomSheetColContentsState
           style: Theme.of(context).textTheme.titleMedium,
         ),
         SliderTheme(
-          data: const SliderThemeData(
-            rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
+          data: SliderThemeData(
+            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
-            disabledActiveTickMarkColor: Colors.transparent,
-            disabledInactiveTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
           child: Slider(
@@ -104,11 +100,9 @@ class _CreateRoomSheetColContentsState
           style: Theme.of(context).textTheme.titleMedium,
         ),
         SliderTheme(
-          data: const SliderThemeData(
-            rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
+          data: SliderThemeData(
+            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
-            disabledActiveTickMarkColor: Colors.transparent,
-            disabledInactiveTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
           child: Slider(

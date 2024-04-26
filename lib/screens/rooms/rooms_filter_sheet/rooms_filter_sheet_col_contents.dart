@@ -37,11 +37,10 @@ class _RoomFilterSheetColContentsState
           style: Theme.of(context).textTheme.titleMedium,
         ),
         SliderTheme(
-          data: const SliderThemeData(
-            rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
+          data: SliderThemeData(
+            rangeValueIndicatorShape: const PaddleRangeSliderValueIndicatorShape(),
+            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
-            disabledActiveTickMarkColor: Colors.transparent,
-            disabledInactiveTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
           child: RangeSlider(
@@ -69,11 +68,10 @@ class _RoomFilterSheetColContentsState
           ),
         ),
         SliderTheme(
-          data: const SliderThemeData(
-            rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
+          data: SliderThemeData(
+            rangeValueIndicatorShape: const PaddleRangeSliderValueIndicatorShape(),
+            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
-            disabledActiveTickMarkColor: Colors.transparent,
-            disabledInactiveTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
           child: RangeSlider(
