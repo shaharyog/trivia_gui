@@ -34,7 +34,8 @@ class _LeaderboardState extends State<Leaderboard> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
             child: TopThree(
               user1: leaderboardProvider.topUsers[0],
               user2: leaderboardProvider.topUsers[1],
@@ -51,9 +52,9 @@ class _LeaderboardState extends State<Leaderboard> {
             ),
             child: ListView.separated(
               shrinkWrap: true,
-              itemCount: leaderboardProvider.topUsers.length,
+              itemCount: leaderboardProvider.topUsers.length - 3,
               itemBuilder: (context, index) {
-                final user = leaderboardProvider.topUsers[index];
+                final user = leaderboardProvider.topUsers[index + 3];
                 return ListTile(
                   leading: CircleAvatar(
                     backgroundColor: brightness == Brightness.dark
@@ -66,7 +67,13 @@ class _LeaderboardState extends State<Leaderboard> {
                   trailing: Text("#${index + 4}",
                       style: Theme.of(context).textTheme.titleLarge),
                   title: Text(user.name),
-                  subtitle: Text('Score: ${user.score.toString()}'),
+                  subtitle: Row(
+                    children: [
+                      Text(user.score.toString()),
+                      const SizedBox(width: 2),
+                      const Icon(Icons.star_border_sharp, size: 16,),
+                    ],
+                  ),
                 );
               },
               separatorBuilder: (BuildContext context, int index) {

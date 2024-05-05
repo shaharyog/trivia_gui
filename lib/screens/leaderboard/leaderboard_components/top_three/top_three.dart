@@ -1,14 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:trivia/Objects/user_score.dart';
 
 class TopThree extends StatelessWidget {
   final UserScore user1, user2, user3;
 
-  const TopThree(
-      {super.key,
-      required this.user1,
-      required this.user2,
-      required this.user3});
+  const TopThree({super.key, required this.user1, required this.user2, required this.user3});
 
   String getInitials(String name) {
     List<String> words = name.split(' ');
@@ -35,19 +33,19 @@ class TopThree extends StatelessWidget {
               alignment: Alignment.topCenter,
               children: [
                 const SizedBox(
-                  height: 120,
+                  height: 180,
                   width: 120,
                 ),
                 Positioned(
-                  top: 35,
+                  top: 70,
                   child: Container(
-                    height: 120,
+                    height: 110,
                     width: 120,
                     decoration: BoxDecoration(
                       color: Theme.of(context)
                           .colorScheme
                           .primary
-                          .withOpacity(0.03),
+                          .withOpacity(0.025),
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(16),
                         bottomLeft: Radius.circular(16),
@@ -66,30 +64,32 @@ class TopThree extends StatelessWidget {
                               .textTheme
                               .titleSmall!
                               .copyWith(
-                                  color:
-                                      const Color.fromRGBO(154, 154, 154, 1.0),
+                                  color: const Color.fromRGBO(156, 156, 156, 1.0),
                                   fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color.fromRGBO(179, 179, 179, 1.0),
-                      width: 2.0,
+                Positioned(
+                  top: 35,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color.fromRGBO(179, 179, 179, 1),
+                        width: 2.0,
+                      ),
                     ),
-                  ),
-                  child: CircleAvatar(
-                    backgroundColor: brightness == Brightness.dark
-                        ? Colors.grey[700]
-                        : Colors.grey[300],
-                    radius: 30,
-                    child: Text(
-                      getInitials(user2.name),
-                      style: Theme.of(context).textTheme.titleLarge,
+                    child: CircleAvatar(
+                      backgroundColor: brightness == Brightness.dark
+                          ? Colors.grey[700]
+                          : Colors.grey[300],
+                      radius: 27.5,
+                      child: Text(
+                        getInitials(user2.name),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
                     ),
                   ),
                 ),
@@ -104,13 +104,13 @@ class TopThree extends StatelessWidget {
               alignment: Alignment.topCenter,
               children: [
                 const SizedBox(
-                  height: 160,
+                  height: 180,
                   width: 120,
                 ),
                 Positioned(
                   top: 35,
                   child: Container(
-                    height: 160,
+                    height: 145,
                     width: 120,
                     decoration: BoxDecoration(
                       color: Theme.of(context)
@@ -135,8 +135,8 @@ class TopThree extends StatelessWidget {
                               .textTheme
                               .titleSmall!
                               .copyWith(
-                                  color: const Color.fromRGBO(183, 119, 2, 1.0),
-                                  fontWeight: FontWeight.bold),
+                              color: const Color.fromRGBO(183, 119, 2, 1.0),
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -172,22 +172,22 @@ class TopThree extends StatelessWidget {
               alignment: Alignment.topCenter,
               children: [
                 const SizedBox(
-                  height: 160,
+                  height: 180,
                   width: 120,
                 ),
                 Positioned(
-                  top: 35,
+                  top: 90,
                   child: Container(
-                    height: 160,
+                    height: 90,
                     width: 120,
                     decoration: BoxDecoration(
                       color: Theme.of(context)
                           .colorScheme
                           .primary
-                          .withOpacity(0.03),
+                          .withOpacity(0.025),
                       borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(32),
-                        topRight: Radius.circular(32),
+                        topRight: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
                       ),
                     ),
                     child: Column(
@@ -203,29 +203,32 @@ class TopThree extends StatelessWidget {
                               .textTheme
                               .titleSmall!
                               .copyWith(
-                                  color: const Color.fromRGBO(183, 119, 2, 1.0),
-                                  fontWeight: FontWeight.bold),
+                              color: const Color.fromRGBO(208, 125, 43, 1.0),
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color.fromRGBO(206, 151, 3, 1.0),
-                      width: 2.0,
+                Positioned(
+                  top: 55,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color.fromRGBO(205, 127, 50, 1.0),
+                        width: 2.0,
+                      ),
                     ),
-                  ),
-                  child: CircleAvatar(
-                    backgroundColor: brightness == Brightness.dark
-                        ? Colors.grey[700]
-                        : Colors.grey[300],
-                    radius: 30,
-                    child: Text(
-                      getInitials(user3.name),
-                      style: Theme.of(context).textTheme.titleLarge,
+                    child: CircleAvatar(
+                      backgroundColor: brightness == Brightness.dark
+                          ? Colors.grey[700]
+                          : Colors.grey[300],
+                      radius: 25,
+                      child: Text(
+                        getInitials(user3.name),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
                     ),
                   ),
                 ),
@@ -234,6 +237,7 @@ class TopThree extends StatelessWidget {
           ],
         ),
       ],
+
     );
   }
 }
