@@ -33,7 +33,7 @@ class _LeaderboardState extends State<Leaderboard> {
           children: [
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                  const EdgeInsets.symmetric(vertical: 16.0,),
               child: TopThree(
                 user1: leaderboardProvider.topUsers[0],
                 user2: leaderboardProvider.topUsers[1],

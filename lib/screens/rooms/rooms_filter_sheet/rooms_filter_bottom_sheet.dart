@@ -30,9 +30,11 @@ class FilterBottomSheet extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              RoomFilterSheetColContents(
-                tempFilters: Provider.of<FiltersProvider>(context).filters,
-                updateFiltersCallback: updateFiltersCallback,
+              SingleChildScrollView(
+                child: RoomFilterSheetColContents(
+                  tempFilters: Provider.of<FiltersProvider>(context).filters,
+                  updateFiltersCallback: updateFiltersCallback,
+                ),
               ),
               RoomsFiltersSheetActions(
                 isFiltersApplyConfirmed: isFiltersApplyConfirmed,

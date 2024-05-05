@@ -20,9 +20,11 @@ class FilterSideSheet extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: RoomFilterSheetColContents(
-              tempFilters: Provider.of<FiltersProvider>(context).filters,
-              updateFiltersCallback: updateFiltersCallback,
+            child: SingleChildScrollView(
+              child: RoomFilterSheetColContents(
+                tempFilters: Provider.of<FiltersProvider>(context).filters,
+                updateFiltersCallback: updateFiltersCallback,
+              ),
             ),
           ),
           RoomsFiltersSheetActions(

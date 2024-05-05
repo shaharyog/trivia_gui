@@ -14,7 +14,7 @@ class RoomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shadowColor: Colors.transparent,
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.015),
       child: ListTile(
         title: Text(
           room.name,
@@ -44,21 +44,21 @@ Widget roomSubtitleInfo({required Room room}) {
       children: [
         const Icon(Icons.group_sharp, size: 16),
         const SizedBox(width: 4),
-        SizedBox(
-          width: 36,
-          child: Text('${room.maxPlayers}'),
+        Text('${room.maxPlayers}'),
+        const SizedBox(
+          width: 12,
         ),
         const Icon(Icons.question_mark_sharp, size: 16),
         const SizedBox(width: 2),
-        SizedBox(
-          width: 36,
-          child: Text('${room.questionsCount}'),
+        Text('${room.questionsCount}'),
+        const SizedBox(
+          width: 12,
         ),
         const Icon(Icons.groups_sharp, size: 16),
         const SizedBox(width: 4),
-        SizedBox(
-          width: 36,
-          child: Text(room.playersCount.toString()),
+        Text(room.playersCount.toString()),
+        const SizedBox(
+          width: 12,
         ),
         const Icon(Icons.timer_sharp, size: 16),
         const SizedBox(width: 4),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'create_room_col_contents.dart';
 
 class CreateRoomBottomSheet extends StatefulWidget {
@@ -42,16 +41,18 @@ class _CreateRoomBottomSheetState extends State<CreateRoomBottomSheet> {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              CreateRoomSheetColContents(
-                roomNameCallback: (value) {
-                  setState(() {
-                    name = value;
-                    widget.roomNameCallback(name);
-                  });
-                },
-                roomMaxPlayersCallback: widget.roomMaxPlayersCallback,
-                roomQuestionsCountCallback: widget.roomQuestionsCountCallback,
-                roomTimePerQuestionCallback: widget.roomTimePerQuestionCallback,
+              SingleChildScrollView(
+                child: CreateRoomSheetColContents(
+                  roomNameCallback: (value) {
+                    setState(() {
+                      name = value;
+                      widget.roomNameCallback(name);
+                    });
+                  },
+                  roomMaxPlayersCallback: widget.roomMaxPlayersCallback,
+                  roomQuestionsCountCallback: widget.roomQuestionsCountCallback,
+                  roomTimePerQuestionCallback: widget.roomTimePerQuestionCallback,
+                ),
               ),
               CreateRoomSheetActions(
                 name: name,

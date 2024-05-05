@@ -42,6 +42,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding:

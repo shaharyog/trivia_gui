@@ -6,41 +6,43 @@ import 'package:trivia/Objects/user_score.dart';
 Widget buildTopThreePlayer({required BuildContext context, required UserScore user, required double avatarRadius, required double containerSize, required Color containerColor, required Color avatarBorderColor, required Color scoreTextColor, required BorderRadiusGeometry? containerBorderRadius}) {
   final brightness = Theme.of(context).brightness;
   return Column(
-    mainAxisAlignment: MainAxisAlignment.end,
     children: [
       Stack(
         alignment: Alignment.topCenter,
         children: [
-          const SizedBox(
+          SizedBox(
             height: 185,
-            width: 120,
+            width: (MediaQuery.of(context).size.width - 32) / 3,
           ),
           Positioned(
             top: 185 - containerSize,
-            child: Container(
-              height: containerSize,
-              width: 120,
-              decoration: BoxDecoration(
-                color: containerColor,
-                borderRadius: containerBorderRadius,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    user.name,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Text(
-                    '${user.score}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(
-                        color: scoreTextColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: containerSize,
+                width: (MediaQuery.of(context).size.width - 32) / 3,
+                decoration: BoxDecoration(
+                  color: containerColor,
+                  borderRadius: containerBorderRadius,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      user.name,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(
+                      '${user.score}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(
+                          color: scoreTextColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
