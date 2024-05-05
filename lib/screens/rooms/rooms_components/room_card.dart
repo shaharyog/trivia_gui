@@ -13,7 +13,8 @@ class RoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      shadowColor: Colors.transparent,
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
       child: ListTile(
         title: Text(
           room.name,
