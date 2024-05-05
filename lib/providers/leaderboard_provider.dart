@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import '../Objects/user_score.dart';
 
 class LeaderboardProvider extends ChangeNotifier {
-  List<UserScore> _topUsers = [];
+  List<UserScore> _topUsers = [
+    UserScore(name: 'yuval bar', score: 1000),
+    UserScore(name: 'tuna', score: 900),
+    UserScore(name: 'shahar', score: 800),
+    UserScore(name: 'omer', score: 345),
+    UserScore(name: 'nagar', score: 300),
+  ];
 
   List<UserScore> get topUsers => _topUsers;
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:trivia/providers/leaderboard_provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'consts.dart';
 import 'homepage/homepage.dart';
@@ -45,6 +46,8 @@ void main() async {
             create: (context) =>
                 RoomsProvider(context.read<FiltersProvider>())),
         ChangeNotifierProvider(create: (context) => ServerEndpointProvider()),
+        ChangeNotifierProvider(create: (context) => LeaderboardProvider()),
+
       ],
       child: const MyApp(),
     ),

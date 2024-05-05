@@ -50,8 +50,8 @@ class _RoomsWidgetState extends State<RoomsWidget>
               children: [
                 Expanded(
                   child: SearchBar(
-                    surfaceTintColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
+                    surfaceTintColor: MaterialStateProperty.resolveWith<Color?>(
+                        (Set<MaterialState> states) {
                       return Theme.of(context)
                           .colorScheme
                           .primary
@@ -61,9 +61,9 @@ class _RoomsWidgetState extends State<RoomsWidget>
                       filtersProvider.updateSearchText(value);
                     },
                     hintText: 'Search rooms',
-                    hintStyle: WidgetStateProperty.resolveWith<TextStyle?>(
-                      (Set<WidgetState> states) {
-                        if (states.contains(WidgetState.focused)) {
+                    hintStyle: MaterialStateProperty.resolveWith<TextStyle?>(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.focused)) {
                           return TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                           );
