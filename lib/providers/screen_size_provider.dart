@@ -11,7 +11,7 @@ class ScreenSizeProvider with ChangeNotifier {
   void setScreenSize(double screenWidth) {
     if (screenWidth >= 1350) {
       _screenSize = ScreenSize.large;
-    } else if (screenWidth >= 500) {
+    } else if (screenWidth >= 700) {
       _screenSize = ScreenSize.medium;
     } else {
       _screenSize = ScreenSize.small;
