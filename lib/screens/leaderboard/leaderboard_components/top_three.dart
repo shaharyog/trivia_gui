@@ -3,7 +3,7 @@ import 'package:trivia/Objects/user_score.dart';
 import 'package:trivia/screens/leaderboard/leaderboard_components/top_three_player.dart';
 
 class TopThree extends StatelessWidget {
-  final UserScore user1, user2, user3;
+  final UserScore? user1, user2, user3;
 
   const TopThree(
       {super.key,
@@ -23,8 +23,7 @@ class TopThree extends StatelessWidget {
           containerSize: 120,
           containerColor:
               Theme.of(context).colorScheme.primary.withOpacity(0.08),
-          avatarBorderColor: const Color.fromRGBO(179, 179, 179, 1),
-          scoreTextColor: const Color.fromRGBO(156, 156, 156, 1.0),
+          placeColor: const Color.fromRGBO(179, 179, 179, 1),
           containerBorderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16),
             bottomLeft: Radius.circular(16),
@@ -37,8 +36,7 @@ class TopThree extends StatelessWidget {
           containerSize: 150,
           containerColor:
           Theme.of(context).colorScheme.primary.withOpacity(0.12),
-          scoreTextColor: const Color.fromRGBO(206, 151, 3, 1.0),
-          avatarBorderColor: const Color.fromRGBO(217, 158, 3, 1.0),
+          placeColor: const Color.fromRGBO(206, 151, 3, 1.0),
           containerBorderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16),
             topRight: Radius.circular(16),
@@ -51,8 +49,7 @@ class TopThree extends StatelessWidget {
           containerSize: 105,
           containerColor:
           Theme.of(context).colorScheme.primary.withOpacity(0.08),
-          scoreTextColor: const Color.fromRGBO(208, 125, 43, 1.0),
-          avatarBorderColor: const Color.fromRGBO(205, 127, 50, 1.0),
+          placeColor: const Color.fromRGBO(208, 125, 43, 1.0),
           containerBorderRadius: const BorderRadius.only(
             topRight: Radius.circular(16),
             bottomRight: Radius.circular(16),

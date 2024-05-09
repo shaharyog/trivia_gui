@@ -1,10 +1,14 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:trivia/Objects/user_score.dart';
 
-Widget buildTopThreePlayer({required BuildContext context, required UserScore user, required double avatarRadius, required double containerSize, required Color containerColor, required Color avatarBorderColor, required Color scoreTextColor, required BorderRadiusGeometry? containerBorderRadius}) {
-  final brightness = Theme.of(context).brightness;
+Widget buildTopThreePlayer(
+    {required BuildContext context,
+    required UserScore? user,
+    required double avatarRadius,
+    required double containerSize,
+    required Color containerColor,
+    required Color placeColor,
+    required BorderRadiusGeometry? containerBorderRadius}) {
   return Column(
     children: [
       Stack(
@@ -25,57 +29,80 @@ Widget buildTopThreePlayer({required BuildContext context, required UserScore us
                   color: containerColor,
                   borderRadius: containerBorderRadius,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      user.name,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Text(
-                      '${user.score}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(
-                          color: scoreTextColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+                child: user == null
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.no_accounts_outlined,
+                              size: 32,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.6)),
+                          Text(
+                            'No one yet',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withOpacity(0.6)),
+                          )
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            user.name,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          Text(
+                            '${user.score}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                  color: placeColor,
+                                ),
+                          ),
+                        ],
+                      ),
               ),
             ),
           ),
-          Positioned(
-            top: 185 -containerSize - avatarRadius - 5,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: avatarBorderColor,
-                  width: 2.0,
+          user == null
+              ? Container()
+              : Positioned(
+                  top: 185 - containerSize - avatarRadius - 5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: placeColor,
+                        width: 3.0,
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      backgroundColor: user.avatarColor,
+                      radius: avatarRadius,
+                      child: Text(
+                        getInitials(user.name),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              child: CircleAvatar(
-                backgroundColor: brightness == Brightness.dark
-                    ? Colors.grey[700]
-                    : Colors.grey[300],
-                radius: avatarRadius,
-                child: Text(
-                  getInitials(user.name),
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     ],
   );
 }
 
-
 String getInitials(String name) {
+  if (name.isEmpty) return '';
   List<String> words = name.split(' ');
   String initials = '';
   for (var word in words) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import '../../consts.dart';
 import '../../providers/filters_providers/rooms_filters_provider.dart';
@@ -261,16 +262,29 @@ class _RoomsWidgetState extends State<RoomsWidget>
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: roomsProvider.filteredRooms.length,
-              itemBuilder: (context, index) {
-                final room = roomsProvider.filteredRooms[index];
-                return RoomCard(
-                  room: room,
-                  blinkingController: _blinkingController,
-                );
-              },
-            ),
+            child: roomsProvider.filteredRooms.isNotEmpty
+                ? ListView.builder(
+                    itemCount: roomsProvider.filteredRooms.length,
+                    itemBuilder: (context, index) {
+                      final room = roomsProvider.filteredRooms[index];
+                      return RoomCard(
+                        room: room,
+                        blinkingController: _blinkingController,
+                      );
+                    },
+                  )
+                : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.do_not_disturb,
+                        size: 64,
+                      ),
+                      Text("No available rooms found",
+                          style: Theme.of(context).textTheme.titleLarge),
+                    ],
+                  ),
           ),
         ],
       ),

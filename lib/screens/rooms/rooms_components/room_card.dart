@@ -22,7 +22,9 @@ class RoomCard extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         leading: roomLeadingStatus(
-            room: room, blinkingController: blinkingController),
+          room: room,
+          blinkingController: blinkingController,
+        ),
         subtitle: roomSubtitleInfo(room: room),
         trailing: IconButton(
           onPressed: () {

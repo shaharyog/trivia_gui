@@ -5,35 +5,35 @@ import 'filters_providers/rooms_filters_provider.dart';
 enum SortBy { isActive, playersCount, questionsCount, timePerQuestion }
 
 class RoomsProvider with ChangeNotifier {
-  final List<Room> _rooms = [
-    Room(
-      uuid: '1',
-      name: 'Room 1',
-      maxPlayers: 5,
-      playersCount: 5,
-      questionsCount: 10,
-      timePerQuestion: 30,
-      isActive: false,
-    ),
-    Room(
-      uuid: '2',
-      name: 'Room 2',
-      maxPlayers: 8,
-      playersCount: 7,
-      questionsCount: 15,
-      timePerQuestion: 20,
-      isActive: true,
-    ),
-    Room(
-      uuid: '3',
-      name: 'Room 3',
-      maxPlayers: 6,
-      playersCount: 2,
-      questionsCount: 12,
-      timePerQuestion: 25,
-      isActive: false,
-    ),
-  ];
+  final List<Room> _rooms = [];
+  //   Room(
+  //     uuid: '1',
+  //     name: 'Room 1',
+  //     maxPlayers: 5,
+  //     playersCount: 5,
+  //     questionsCount: 10,
+  //     timePerQuestion: 30,
+  //     isActive: false,
+  //   ),
+  //   Room(
+  //     uuid: '2',
+  //     name: 'Room 2',
+  //     maxPlayers: 8,
+  //     playersCount: 7,
+  //     questionsCount: 15,
+  //     timePerQuestion: 20,
+  //     isActive: true,
+  //   ),
+  //   Room(
+  //     uuid: '3',
+  //     name: 'Room 3',
+  //     maxPlayers: 6,
+  //     playersCount: 2,
+  //     questionsCount: 12,
+  //     timePerQuestion: 25,
+  //     isActive: false,
+  //   ),
+  // ];
 
   List<Room> _filteredRooms = [];
 
