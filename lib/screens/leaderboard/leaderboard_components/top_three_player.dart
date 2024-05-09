@@ -59,14 +59,21 @@ Widget buildTopThreePlayer(
                             user.name,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          Text(
-                            '${user.score}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(
-                                  color: placeColor,
-                                ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '${user.score}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: placeColor,
+                                    ),
+                              ),
+                              Icon(Icons.star_border_sharp, size: 22, color: placeColor),
+                            ],
                           ),
                         ],
                       ),

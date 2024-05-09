@@ -73,7 +73,7 @@ Widget _buildSmallScreen(BuildContext context, List<UserScore> topUsers) {
       ),
       if (topUsers.length > 3)
         Expanded(
-          child: _buildListView(context: context, topUsers: topUsers),
+          child: _buildListView(context: context, topUsers: topUsers, startIndex: 3),
         ),
     ],
   );
@@ -85,18 +85,59 @@ Widget _buildLargeScreen(BuildContext context, List<UserScore> topUsers) {
       flex: 2,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(201, 166, 70, 0.30196078431372547),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(16),
+            color: const Color.fromRGBO(107, 98, 80, 0.3),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(16),
+            ),
+            border: Border.all(
+              color: const Color.fromRGBO(206, 151, 3, 1.0),
+              width: 2.0,
+            )),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                backgroundColor: topUsers[0].avatarColor,
+                radius: 54,
+                child: Text(
+                  getInitials(topUsers[0].name),
+                  style: Theme.of(context).textTheme.displaySmall,
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Text(
+                topUsers[0].name,
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    '${topUsers[0].score}',
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                          color: const Color.fromRGBO(206, 151, 3, 1.0),
+                        ),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(Icons.star_border_sharp, color: const Color.fromRGBO(206, 151, 3, 1.0),size: 42,)
+                ],
+              )
+            ],
           ),
         ),
       ),
     ),
     const SizedBox(width: 16.0),
-    Expanded(
-      flex: 3,
-      child: _buildListView(context: context, topUsers: topUsers),
-    )
+    if (topUsers.length > 1)
+      Expanded(
+        flex: 3,
+        child: _buildListView(context: context, topUsers: topUsers, startIndex: 1),
+      )
   ]);
 }
 
@@ -112,7 +153,7 @@ String getInitials(String name) {
 }
 
 Widget _buildListView(
-    {required BuildContext context, required List<UserScore> topUsers}) {
+    {required BuildContext context, required List<UserScore> topUsers, required int startIndex}) {
   return Container(
     decoration: BoxDecoration(
       color: Theme.of(context).colorScheme.primary.withOpacity(0.069),
@@ -121,31 +162,52 @@ Widget _buildListView(
       ),
     ),
     child: ListView.separated(
-      itemCount: topUsers.length - 3,
+      itemCount: topUsers.length - startIndex,
       itemBuilder: (context, index) {
-        final user = topUsers[index + 3];
+        Color placeColor = index + startIndex + 1 == 2 ? const Color.fromRGBO(
+            213, 213, 213, 1.0) : index + startIndex + 1 == 3 ? const Color.fromRGBO(
+            208, 112, 0, 1.0) : Theme.of(context).colorScheme.onSurface;
+        double width = index + startIndex + 1 == 2 ? 4.0 : index + startIndex + 1 == 3 ? 3.0 : 0.0;
+        final user = topUsers[index + startIndex];
         return ListTile(
-          leading: CircleAvatar(
-            backgroundColor: user.avatarColor,
-            child: Text(
-              getInitials(user.name),
+          leading: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: placeColor,
+                width: width,
+              ),
+            ),
+            child: CircleAvatar(
+              backgroundColor: user.avatarColor,
+              child: Text(
+                getInitials(user.name),
+              ),
             ),
           ),
           trailing: Text(
-            "#${index + 4}",
-            style: Theme.of(context).textTheme.titleLarge,
+            "#${index + startIndex + 1}",
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: placeColor
+            ),
           ),
           title: Text(
             user.name,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: placeColor
+            ),
           ),
           subtitle: Row(
             children: [
-              Text(user.score.toString()),
+              Text(user.score.toString(),
+              style: TextStyle(
+                color: placeColor
+              ),),
               const SizedBox(width: 2),
-              const Icon(
+              Icon(
                 Icons.star_border_sharp,
                 size: 16,
+                color: placeColor
               ),
             ],
           ),
