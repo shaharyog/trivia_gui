@@ -4,7 +4,7 @@ import '../Objects/user_score.dart';
 
 class LeaderboardProvider extends ChangeNotifier {
   List<UserScore> _topUsers = [
-    UserScore(name: 'yuval bar', score: 1000, avatarColor: Colors.green),
+    UserScore(name: 'yuval bar 123', score: 1000, avatarColor: Colors.green),
     UserScore(name: 'tuna', score: 900, avatarColor: Colors.green),
     UserScore(name: 'shahar', score: 800, avatarColor: Colors.blue),
     UserScore(name: 'omer', score: 345, avatarColor: Colors.orange),

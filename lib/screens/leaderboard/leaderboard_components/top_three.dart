@@ -15,44 +15,48 @@ class TopThree extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        buildTopThreePlayer(
-          context: context,
-          user: user2,
-          avatarRadius: 27.5,
-          containerRatio: 0.5,
-          containerColor:
-              Theme.of(context).colorScheme.primary.withOpacity(0.08),
-          placeColor: const Color.fromRGBO(179, 179, 179, 1),
-          containerBorderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(16),
-            bottomLeft: Radius.circular(16),
+        Flexible(
+          child: buildTopThreePlayer(
+            context: context,
+            user: user2,
+            containerRatio: 0.65,
+            containerColor:
+                Theme.of(context).colorScheme.primary.withOpacity(0.08),
+            placeColor: const Color.fromRGBO(179, 179, 179, 1),
+            containerBorderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              bottomLeft: Radius.circular(16),
+            ),
           ),
         ),
-        buildTopThreePlayer(
-          context: context,
-          user: user1,
-          avatarRadius: 30,
-          containerRatio: 0.66,
-          containerColor:
-          Theme.of(context).colorScheme.primary.withOpacity(0.12),
-          placeColor: const Color.fromRGBO(206, 151, 3, 1.0),
-          containerBorderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
+        Flexible(
+          child: buildTopThreePlayer(
+            context: context,
+            user: user1,
+            containerRatio: 0.78,
+            containerColor:
+            Theme.of(context).colorScheme.primary.withOpacity(0.12),
+            placeColor: const Color.fromRGBO(206, 151, 3, 1.0),
+            containerBorderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
           ),
         ),
-        buildTopThreePlayer(
-          context: context,
-          user: user3,
-          avatarRadius: 25,
-          containerRatio: 0.33,
-          containerColor:
-          Theme.of(context).colorScheme.primary.withOpacity(0.08),
-          placeColor: const Color.fromRGBO(208, 125, 43, 1.0),
-          containerBorderRadius: const BorderRadius.only(
-            topRight: Radius.circular(16),
-            bottomRight: Radius.circular(16),
+        Flexible(
+          child: buildTopThreePlayer(
+            context: context,
+            user: user3,
+            containerRatio: 0.5,
+            containerColor:
+            Theme.of(context).colorScheme.primary.withOpacity(0.08),
+            placeColor: const Color.fromRGBO(208, 125, 43, 1.0),
+            containerBorderRadius: const BorderRadius.only(
+              topRight: Radius.circular(16),
+              bottomRight: Radius.circular(16),
+            ),
           ),
         ),
       ],

@@ -23,7 +23,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
             child: screenSizeProvider.screenSize == ScreenSize.small
                 ? _buildSmallScreen(context, leaderboardProvider.topUsers)
-                : _buildSmallScreen(context, leaderboardProvider.topUsers),
+                : _buildLargeScreen(context, leaderboardProvider.topUsers),
           )
         : Center(
             child: Column(
@@ -60,85 +60,61 @@ Widget _buildTopThree({
 }
 
 Widget _buildSmallScreen(BuildContext context, List<UserScore> topUsers) {
-  return Column(
-    children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16.0,
-        ),
-        child: _buildTopThree(
-          topUsers: topUsers,
-          context: context,
-        ),
-      ),
-      if (topUsers.length > 3)
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
         Expanded(
-          child: _buildListView(context: context, topUsers: topUsers, startIndex: 3),
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 16.0,
+            ),
+            child: _buildTopThree(
+              topUsers: topUsers,
+              context: context,
+            ),
+          ),
         ),
-    ],
+        if (topUsers.length > 3)
+          Expanded(
+            flex: 3,
+            child: _buildListView(context: context, topUsers: topUsers, startIndex: 3),
+          ),
+      ],
+    ),
   );
 }
 
 Widget _buildLargeScreen(BuildContext context, List<UserScore> topUsers) {
-  return Row(children: [
-    Expanded(
-      flex: 2,
-      child: Container(
-        decoration: BoxDecoration(
-            color: const Color.fromRGBO(107, 98, 80, 0.3),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(16),
+  return Center(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 3,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 16.0,
+              bottom: 16.0,
+              right: 16.0,
             ),
-            border: Border.all(
-              color: const Color.fromRGBO(206, 151, 3, 1.0),
-              width: 2.0,
-            )),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: topUsers[0].avatarColor,
-                radius: 54,
-                child: Text(
-                  getInitials(topUsers[0].name),
-                  style: Theme.of(context).textTheme.displaySmall,
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Text(
-                topUsers[0].name,
-                style: Theme.of(context).textTheme.displayMedium,
-              ),
-              const SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '${topUsers[0].score}',
-                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                          color: const Color.fromRGBO(206, 151, 3, 1.0),
-                        ),
-                  ),
-                  const SizedBox(width: 4),
-                  Icon(Icons.star_border_sharp, color: const Color.fromRGBO(206, 151, 3, 1.0),size: 42,)
-                ],
-              )
-            ],
+            child: _buildTopThree(
+              topUsers: topUsers,
+              context: context,
+            ),
           ),
         ),
-      ),
+        if (topUsers.length > 3)
+          Expanded(
+            flex: 2,
+            child: _buildListView(context: context, topUsers: topUsers, startIndex: 3),
+          ),
+      ],
     ),
-    const SizedBox(width: 16.0),
-    if (topUsers.length > 1)
-      Expanded(
-        flex: 3,
-        child: _buildListView(context: context, topUsers: topUsers, startIndex: 1),
-      )
-  ]);
+  );
 }
 
 String getInitials(String name) {
@@ -197,19 +173,21 @@ Widget _buildListView(
               color: placeColor
             ),
           ),
-          subtitle: Row(
-            children: [
-              Text(user.score.toString(),
-              style: TextStyle(
-                color: placeColor
-              ),),
-              const SizedBox(width: 2),
-              Icon(
-                Icons.star_border_sharp,
-                size: 16,
-                color: placeColor
-              ),
-            ],
+          subtitle: ClipRect(
+            child: Row(
+              children: [
+                Text(user.score.toString(),
+                style: TextStyle(
+                  color: placeColor
+                ),),
+                const SizedBox(width: 2),
+                Icon(
+                  Icons.star_border_sharp,
+                  size: 16,
+                  color: placeColor
+                ),
+              ],
+            ),
           ),
         );
       },
