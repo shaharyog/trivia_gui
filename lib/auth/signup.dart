@@ -355,7 +355,7 @@ class _SignupPageState extends State<SignupPage> {
                         const Text("Already have an account? "),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacementNamed(context, '/login');
+                            Navigator.pop(context);
                           },
                           child: MouseRegion(
                             cursor: SystemMouseCursors.click,

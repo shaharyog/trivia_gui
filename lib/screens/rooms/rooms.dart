@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import '../../consts.dart';
 import '../../providers/filters_providers/rooms_filters_provider.dart';
@@ -264,8 +263,13 @@ class _RoomsWidgetState extends State<RoomsWidget>
           Expanded(
             child: roomsProvider.filteredRooms.isNotEmpty
                 ? ListView.builder(
-                    itemCount: roomsProvider.filteredRooms.length,
+                    itemCount: roomsProvider.filteredRooms.length + 1,
                     itemBuilder: (context, index) {
+                      if (index >= roomsProvider.filteredRooms.length) {
+                        return const SizedBox(
+                          height: 84,
+                        );
+                      }
                       final room = roomsProvider.filteredRooms[index];
                       return RoomCard(
                         room: room,
@@ -274,8 +278,8 @@ class _RoomsWidgetState extends State<RoomsWidget>
                     },
                   )
                 : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Icon(
                         Icons.do_not_disturb,
