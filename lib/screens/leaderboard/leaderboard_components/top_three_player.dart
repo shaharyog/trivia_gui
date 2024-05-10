@@ -11,8 +11,9 @@ Widget buildTopThreePlayer(
   return LayoutBuilder(builder: (context, constraints) {
     double height = constraints.maxHeight;
     height = height > 500 ? 500 : height;
-    final double width =
-        height / 1.8 > constraints.maxWidth ? constraints.maxWidth : height / 1.8 ;
+    final double width = height / 1.8 > constraints.maxWidth
+        ? constraints.maxWidth
+        : height / 1.8;
     double containerHeight = height * containerRatio;
     final double avatarRadius = width / 4;
     return Stack(
@@ -34,29 +35,34 @@ Widget buildTopThreePlayer(
                 borderRadius: containerBorderRadius,
               ),
               child: user == null
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.no_accounts_outlined,
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.no_accounts_outlined,
                             size: avatarRadius,
                             color: Theme.of(context)
                                 .colorScheme
                                 .onSurface
-                                .withOpacity(0.6)),
-                        Text(
-                          'No one yet',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(
-                                  fontSize: width / 14,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
-                                      .withOpacity(0.6)),
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      ],
+                                .withOpacity(0.6),
+                          ),
+                          Text(
+                            'No one yet',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                    fontSize: width / 14,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withOpacity(0.6)),
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        ],
+                      ),
                     )
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -65,29 +71,39 @@ Widget buildTopThreePlayer(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
                             user.name,
-                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              fontSize: width / 8,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                  fontSize: width / 8,
+                                ),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '${user.score}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(
-                                    color: placeColor,
-                                    fontSize: width / 12,
-                                  ),
-                            ),
-                            Icon(Icons.star_border_sharp,
-                                size: width / 10, color: placeColor),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '${user.score}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: placeColor,
+                                      fontSize: width / 10,
+                                    ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Icon(
+                                Icons.star_border_sharp,
+                                size: width / 8,
+                                color: placeColor,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -96,27 +112,28 @@ Widget buildTopThreePlayer(
         ),
         if (user != null)
           Positioned(
-                bottom: containerHeight - avatarRadius / 1.5,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: placeColor,
-                      width: width / 40,
-                    ),
-                  ),
-                  child: CircleAvatar(
-                    backgroundColor: user.avatarColor,
-                    radius: avatarRadius,
-                    child: Text(
-                      getInitials(user.name),
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: avatarRadius,
-                      ),
-                    ),
-                  ),
+            bottom: containerHeight - avatarRadius / 1.5,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: placeColor,
+                  width: width / 40,
                 ),
               ),
+              child: CircleAvatar(
+                backgroundColor: user.avatarColor,
+                radius: avatarRadius,
+                child: Text(
+                  getInitials(user.name),
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontSize: avatarRadius,
+                        color: Colors.white,
+                      ),
+                ),
+              ),
+            ),
+          ),
       ],
     );
   });

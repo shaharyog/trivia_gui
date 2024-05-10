@@ -130,7 +130,6 @@ String getInitials(String name) {
 
 Widget _buildListView(
     {required BuildContext context, required List<UserScore> topUsers, required int startIndex}) {
-  Brightness brightness = Theme.of(context).brightness;
   return Container(
     decoration: BoxDecoration(
       color: Theme.of(context).colorScheme.primary.withOpacity(0.069),
@@ -141,50 +140,33 @@ Widget _buildListView(
     child: ListView.separated(
       itemCount: topUsers.length - startIndex,
       itemBuilder: (context, index) {
-        Color placeColor = index + startIndex + 1 == 2 ? brightness == Brightness.dark ? const Color.fromRGBO(179, 179, 179, 1) : const Color.fromRGBO(140, 140, 140, 1) : index + startIndex + 1 == 3 ? const Color.fromRGBO(
-            208, 112, 0, 1.0) : Theme.of(context).colorScheme.onSurface;
-        double width = index + startIndex + 1 == 2 ? 4.0 : index + startIndex + 1 == 3 ? 3.0 : 0.0;
         final user = topUsers[index + startIndex];
         return ListTile(
-          leading: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: placeColor,
-                width: width,
-              ),
-            ),
-            child: CircleAvatar(
-              backgroundColor: user.avatarColor,
-              child: Text(
-                getInitials(user.name),
+          leading: CircleAvatar(
+            backgroundColor: user.avatarColor,
+            child: Text(
+              getInitials(user.name),
+              style: const TextStyle(
+                color: Colors.white,
               ),
             ),
           ),
           trailing: Text(
             "#${index + startIndex + 1}",
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: placeColor
-            ),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           title: Text(
             user.name,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: placeColor
-            ),
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           subtitle: ClipRect(
             child: Row(
               children: [
-                Text(user.score.toString(),
-                style: TextStyle(
-                  color: placeColor
-                ),),
+                Text(user.score.toString(),),
                 const SizedBox(width: 2),
-                Icon(
+                const Icon(
                   Icons.star_border_sharp,
                   size: 16,
-                  color: placeColor
                 ),
               ],
             ),
