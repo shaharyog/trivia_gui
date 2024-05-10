@@ -5,5 +5,8 @@ String secondsToReadableTime(int seconds) {
   if (minutes == 0) {
     return '${remainingSeconds}s';
   }
+  if(remainingSeconds == 0) {
+    return '${minutes}m';
+  }
   return '${minutes}m, ${remainingSeconds}s';
 }

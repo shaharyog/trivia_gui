@@ -23,7 +23,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
             child: screenSizeProvider.screenSize == ScreenSize.small
                 ? _buildSmallScreen(context, leaderboardProvider.topUsers)
-                : _buildLargeScreen(context, leaderboardProvider.topUsers),
+                : _buildSmallScreen(context, leaderboardProvider.topUsers),
           )
         : Center(
             child: Column(
@@ -154,6 +154,7 @@ String getInitials(String name) {
 
 Widget _buildListView(
     {required BuildContext context, required List<UserScore> topUsers, required int startIndex}) {
+  Brightness brightness = Theme.of(context).brightness;
   return Container(
     decoration: BoxDecoration(
       color: Theme.of(context).colorScheme.primary.withOpacity(0.069),
@@ -164,8 +165,7 @@ Widget _buildListView(
     child: ListView.separated(
       itemCount: topUsers.length - startIndex,
       itemBuilder: (context, index) {
-        Color placeColor = index + startIndex + 1 == 2 ? const Color.fromRGBO(
-            213, 213, 213, 1.0) : index + startIndex + 1 == 3 ? const Color.fromRGBO(
+        Color placeColor = index + startIndex + 1 == 2 ? brightness == Brightness.dark ? const Color.fromRGBO(179, 179, 179, 1) : const Color.fromRGBO(140, 140, 140, 1) : index + startIndex + 1 == 3 ? const Color.fromRGBO(
             208, 112, 0, 1.0) : Theme.of(context).colorScheme.onSurface;
         double width = index + startIndex + 1 == 2 ? 4.0 : index + startIndex + 1 == 3 ? 3.0 : 0.0;
         final user = topUsers[index + startIndex];

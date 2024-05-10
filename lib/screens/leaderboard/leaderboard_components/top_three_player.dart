@@ -5,25 +5,29 @@ Widget buildTopThreePlayer(
     {required BuildContext context,
     required UserScore? user,
     required double avatarRadius,
-    required double containerSize,
+    required double containerRatio,
     required Color containerColor,
     required Color placeColor,
     required BorderRadiusGeometry? containerBorderRadius}) {
+  double height = (MediaQuery.of(context).size.height - 32) / 3;
+  height = height > 300 ? 300 : height;
+  double containerHeight = height * containerRatio;
+
   return Column(
     children: [
       Stack(
         alignment: Alignment.topCenter,
         children: [
           SizedBox(
-            height: 185,
+            height: height,
             width: (MediaQuery.of(context).size.width - 32) / 3,
           ),
           Positioned(
-            top: 185 - containerSize,
+            top: containerRatio,
             child: Align(
               alignment: Alignment.center,
               child: Container(
-                height: containerSize,
+                height: containerHeight,
                 width: (MediaQuery.of(context).size.width - 32) / 3,
                 decoration: BoxDecoration(
                   color: containerColor,
@@ -57,7 +61,7 @@ Widget buildTopThreePlayer(
                         children: [
                           Text(
                             user.name,
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: TextStyle(fontSize: 16),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -83,7 +87,7 @@ Widget buildTopThreePlayer(
           user == null
               ? Container()
               : Positioned(
-                  top: 185 - containerSize - avatarRadius - 5,
+                  top: containerRatio - avatarRadius - 5,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
