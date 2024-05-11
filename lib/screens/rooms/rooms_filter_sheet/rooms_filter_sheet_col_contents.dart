@@ -38,8 +38,10 @@ class _RoomFilterSheetColContentsState
         ),
         SliderTheme(
           data: SliderThemeData(
-            rangeValueIndicatorShape: const PaddleRangeSliderValueIndicatorShape(),
-            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            rangeValueIndicatorShape:
+                const PaddleRangeSliderValueIndicatorShape(),
+            inactiveTrackColor:
+                Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
@@ -69,8 +71,10 @@ class _RoomFilterSheetColContentsState
         ),
         SliderTheme(
           data: SliderThemeData(
-            rangeValueIndicatorShape: const PaddleRangeSliderValueIndicatorShape(),
-            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            rangeValueIndicatorShape:
+                const PaddleRangeSliderValueIndicatorShape(),
+            inactiveTrackColor:
+                Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
@@ -121,7 +125,6 @@ class _RoomFilterSheetColContentsState
     );
   }
 }
-
 
 class RoomsFiltersSheetActions extends StatelessWidget {
   final Function isFiltersApplyConfirmed;

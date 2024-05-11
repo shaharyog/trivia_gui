@@ -51,7 +51,8 @@ class _CreateRoomBottomSheetState extends State<CreateRoomBottomSheet> {
                   },
                   roomMaxPlayersCallback: widget.roomMaxPlayersCallback,
                   roomQuestionsCountCallback: widget.roomQuestionsCountCallback,
-                  roomTimePerQuestionCallback: widget.roomTimePerQuestionCallback,
+                  roomTimePerQuestionCallback:
+                      widget.roomTimePerQuestionCallback,
                 ),
               ),
               CreateRoomSheetActions(

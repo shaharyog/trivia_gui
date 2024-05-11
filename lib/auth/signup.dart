@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../consts.dart';
+import '../providers/server_endpoint_provider.dart';
+import '../providers/session_provider.dart';
 import '../server_settings.dart';
+import '../src/rust/api/error.dart';
+import '../src/rust/api/request/signup.dart';
+import '../src/rust/api/session.dart';
+import '../utils/error_dialog.dart';
 import '../utils/input_field.dart';
 import '../utils/toggle_theme_button.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +33,8 @@ class _SignupPageState extends State<SignupPage> {
   String? phoneNumberErrorText;
   TextEditingController birthdateController = TextEditingController();
   String? birthdateErrorText;
+  bool _isLoading = false;
+  String? _errorText = null;
 
   @override
   void dispose() {
@@ -39,6 +48,10 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void _selectBirthdate() async {
+    setState(() {
+      _errorText = null;
+    });
+
     final DateTime? pickedDate = await showDatePicker(
       fieldLabelText: "Birthdate",
       context: context,
@@ -158,8 +171,65 @@ class _SignupPageState extends State<SignupPage> {
     }
   }
 
-  void _signup() {
-    // add signup request to server
+  Future<void> _signup() async {
+    setState(() {
+      _errorText = null;
+    });
+    final sessionProvider =
+        Provider.of<SessionProvider>(context, listen: false);
+    final serverEndpointProvider =
+        Provider.of<ServerEndpointProvider>(context, listen: false);
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      sessionProvider.session = await Session.signup(
+        address:
+            "${serverEndpointProvider.serverIp}:${serverEndpointProvider.port}",
+        signupRequest: SignupRequest(
+            username: usernameController.text,
+            password: passwordController.text,
+            email: emailController.text,
+            address: addressController.text,
+            birthday: birthdateController.text,
+            phoneNumber: phoneNumberController.text),
+      );
+    } on Error_SignupError catch (e) {
+      setState(() {
+        _errorText = "• ${e.format()}";
+      });
+      return;
+    } on Error_ServerConnectionError catch (e) {
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ErrorDialog(
+            title: "Server Connection Error",
+            message: e.format(),
+          );
+        },
+      );
+      return;
+    } on Error catch (e) {
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ErrorDialog(
+            title: "Error",
+            message: e.format(),
+          );
+        },
+      );
+      return;
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+
+    if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/home');
   }
 
@@ -215,11 +285,13 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    enabled: !_isLoading,
                     controller: usernameController,
                     errorText: usernameErrorText,
                     label: 'Username',
                     validate: (String value) {
                       setState(() {
+                        _errorText = null;
                         validateUsername(value);
                       });
                     },
@@ -228,6 +300,7 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    enabled: !_isLoading,
                     label: "Password",
                     inputType: TextInputType.visiblePassword,
                     controller: passwordController,
@@ -236,6 +309,7 @@ class _SignupPageState extends State<SignupPage> {
                     isPassword: true,
                     validate: (String value) {
                       setState(() {
+                        _errorText = null;
                         validatePassword(value);
                       });
                     },
@@ -262,12 +336,14 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    enabled: !_isLoading,
                     label: "Email",
                     inputType: TextInputType.emailAddress,
                     controller: emailController,
                     errorText: emailErrorText,
                     validate: (String value) {
                       setState(() {
+                        _errorText = null;
                         validateEmail(value);
                       });
                     },
@@ -276,11 +352,13 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    enabled: !_isLoading,
                     controller: addressController,
                     label: "Address",
                     errorText: addressErrorText,
                     validate: (String value) {
                       setState(() {
+                        _errorText = null;
                         validateAddress(value);
                       });
                     },
@@ -289,12 +367,14 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    enabled: !_isLoading,
                     inputType: TextInputType.phone,
                     controller: phoneNumberController,
                     label: "Phone number",
                     errorText: phoneNumberErrorText,
                     validate: (String value) {
                       setState(() {
+                        _errorText = null;
                         validatePhoneNumber(value);
                       });
                     },
@@ -306,9 +386,11 @@ class _SignupPageState extends State<SignupPage> {
                     constraints:
                         const BoxConstraints(maxWidth: maxTextFieldWidth),
                     child: TextFormField(
+                      enabled: !_isLoading,
                       readOnly: false,
                       onChanged: (String value) {
                         setState(() {
+                          _errorText = null;
                           validateBirthdate(value);
                         });
                       },
@@ -333,13 +415,20 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ),
+                if (_errorText != null)
+                  Text(
+                    _errorText!,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                  ),
                 const SizedBox(height: 32),
                 FilledButton(
                   style: FilledButton.styleFrom(
                     minimumSize: signInAndUpButtonSize,
                   ),
-                  onPressed: isAllFieldsValid() ? _signup : null,
-                  child: const Text(
+                  onPressed: isAllFieldsValid() && !_isLoading ? _signup : null,
+                  child: _isLoading ? const CircularProgressIndicator() : const Text(
                     "Sign up",
                   ),
                 ),

@@ -115,7 +115,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
         scrollDirection: Axis.vertical,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min, // This ensures the column takes up only the necessary height
+          mainAxisSize: MainAxisSize
+              .min, // This ensures the column takes up only the necessary height
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),

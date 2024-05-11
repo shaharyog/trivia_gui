@@ -14,6 +14,7 @@ class InputField extends StatefulWidget {
   final String? initialValue;
   final bool showPassword;
   final Widget? suffixIcon;
+  final bool enabled;
 
   const InputField({
     required this.controller,
@@ -24,6 +25,7 @@ class InputField extends StatefulWidget {
     this.initialValue,
     this.isPassword = false,
     this.showPassword = false,
+    this.enabled = true,
     this.inputType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
     this.formatters,
@@ -40,6 +42,7 @@ class _InputFieldState extends State<InputField> {
     return Container(
       constraints: const BoxConstraints(maxWidth: maxTextFieldWidth),
       child: TextFormField(
+        enabled: widget.enabled,
         initialValue: widget.initialValue,
         onChanged: widget.validate,
         validator: (value) => widget.errorText,

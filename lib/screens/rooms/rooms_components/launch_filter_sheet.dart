@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:side_sheet_material3/side_sheet_material3.dart';
 
@@ -52,4 +51,3 @@ Future<void> launchFilterSheet(
     filtersProvider.applyTemporaryFilters(tempFilters);
   }
 }
-

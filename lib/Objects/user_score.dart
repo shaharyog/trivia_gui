@@ -20,7 +20,7 @@ class UserScore {
       case "Blue":
         c = Colors.blue;
         break;
-        // add more colors in the future
+      // add more colors in the future
     }
     return UserScore(
       name: json['name'],

@@ -77,7 +77,6 @@ class RoomsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   List<Room> sortRoomsBy(SortBy sortBy, List<Room> rooms) {
     List<Room> sortedRooms = List.from(rooms);
     sortedRooms.sort((a, b) {
@@ -94,8 +93,11 @@ class RoomsProvider with ChangeNotifier {
           return 0; // No sorting if 'nothing' is selected
       }
     });
-    return _filtersProvider.isReversedSort ? sortedRooms.reversed.toList() : sortedRooms;
+    return _filtersProvider.isReversedSort
+        ? sortedRooms.reversed.toList()
+        : sortedRooms;
   }
+
   void addRoom(Room room) {
     _rooms.add(room);
     filterRooms();

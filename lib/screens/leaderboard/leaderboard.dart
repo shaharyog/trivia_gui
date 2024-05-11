@@ -80,7 +80,8 @@ Widget _buildSmallScreen(BuildContext context, List<UserScore> topUsers) {
         if (topUsers.length > 3)
           Expanded(
             flex: 3,
-            child: _buildListView(context: context, topUsers: topUsers, startIndex: 3),
+            child: _buildListView(
+                context: context, topUsers: topUsers, startIndex: 3),
           ),
       ],
     ),
@@ -110,7 +111,8 @@ Widget _buildLargeScreen(BuildContext context, List<UserScore> topUsers) {
         if (topUsers.length > 3)
           Expanded(
             flex: 2,
-            child: _buildListView(context: context, topUsers: topUsers, startIndex: 3),
+            child: _buildListView(
+                context: context, topUsers: topUsers, startIndex: 3),
           ),
       ],
     ),
@@ -129,7 +131,9 @@ String getInitials(String name) {
 }
 
 Widget _buildListView(
-    {required BuildContext context, required List<UserScore> topUsers, required int startIndex}) {
+    {required BuildContext context,
+    required List<UserScore> topUsers,
+    required int startIndex}) {
   return Container(
     decoration: BoxDecoration(
       color: Theme.of(context).colorScheme.primary.withOpacity(0.069),
@@ -162,7 +166,9 @@ Widget _buildListView(
           subtitle: ClipRect(
             child: Row(
               children: [
-                Text(user.score.toString(),),
+                Text(
+                  user.score.toString(),
+                ),
                 const SizedBox(width: 2),
                 const Icon(
                   Icons.star_border_sharp,

@@ -1,3 +1,4 @@
+
 import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,13 @@ import 'providers/filters_providers/rooms_filters_provider.dart';
 import 'providers/rooms_provider.dart';
 import 'providers/screen_size_provider.dart';
 import 'providers/server_endpoint_provider.dart';
+import 'providers/session_provider.dart';
 import 'providers/theme_provider.dart';
+import 'package:trivia/src/rust/frb_generated.dart';
 
 void main() async {
+  await RustLib.init();
+
   // check if the platform is windows, linux or mac
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +51,7 @@ void main() async {
                 RoomsProvider(context.read<FiltersProvider>())),
         ChangeNotifierProvider(create: (context) => ServerEndpointProvider()),
         ChangeNotifierProvider(create: (context) => LeaderboardProvider()),
-
+        ChangeNotifierProvider(create: (context) => SessionProvider()),
       ],
       child: const MyApp(),
     ),

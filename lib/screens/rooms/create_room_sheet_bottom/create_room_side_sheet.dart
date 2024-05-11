@@ -31,20 +31,19 @@ class _CreateRoomSideSheetState extends State<CreateRoomSideSheet> {
       child: Column(
         children: [
           Expanded(
-            child: SingleChildScrollView(
-              child: CreateRoomSheetColContents(
-                roomNameCallback: (value) {
-                  setState(() {
-                    name = value;
-                    widget.roomNameCallback(name);
-                  });
-                },
-                roomMaxPlayersCallback: widget.roomMaxPlayersCallback,
-                roomQuestionsCountCallback: widget.roomQuestionsCountCallback,
-                roomTimePerQuestionCallback: widget.roomTimePerQuestionCallback,
-              ),
-            )
-          ),
+              child: SingleChildScrollView(
+            child: CreateRoomSheetColContents(
+              roomNameCallback: (value) {
+                setState(() {
+                  name = value;
+                  widget.roomNameCallback(name);
+                });
+              },
+              roomMaxPlayersCallback: widget.roomMaxPlayersCallback,
+              roomQuestionsCountCallback: widget.roomQuestionsCountCallback,
+              roomTimePerQuestionCallback: widget.roomTimePerQuestionCallback,
+            ),
+          )),
           CreateRoomSheetActions(
             name: name,
             isCreationConfirmed: widget.isCreationConfirmed,
@@ -53,5 +52,4 @@ class _CreateRoomSideSheetState extends State<CreateRoomSideSheet> {
       ),
     );
   }
-
 }

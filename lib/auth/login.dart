@@ -1,7 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:trivia/src/rust/api/error.dart';
+import 'package:trivia/src/rust/api/request/login.dart';
 import 'package:trivia/utils/input_field.dart';
 import '../consts.dart';
+import '../providers/server_endpoint_provider.dart';
+import '../providers/session_provider.dart';
 import '../server_settings.dart';
+import '../src/rust/api/session.dart';
+import '../utils/error_dialog.dart';
 import '../utils/toggle_theme_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +23,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  String? loginError;
+  bool _isLoading = false;
   bool _showPassword = false;
 
   @override
@@ -23,8 +34,62 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _login() {
-    // add login request to server
+  Future<void> _login() async {
+    setState(() {
+      loginError = null;
+    });
+    final sessionProvider =
+        Provider.of<SessionProvider>(context, listen: false);
+    final serverEndpointProvider =
+        Provider.of<ServerEndpointProvider>(context, listen: false);
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      sessionProvider.session = await Session.login(
+        loginRequest: LoginRequest(
+          username: usernameController.text,
+          password: passwordController.text,
+        ),
+        address:
+            "${serverEndpointProvider.serverIp}:${serverEndpointProvider.port}",
+      );
+    } on Error_LoginError catch (_) {
+      setState(() {
+        loginError = "• Wrong credentials: Invalid username or password";
+      });
+      return;
+    } on Error_ServerConnectionError catch (e) {
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ErrorDialog(
+            title: "Server Connection Error",
+            message: e.format(),
+          );
+        },
+      );
+      return;
+    } on Error catch (e) {
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ErrorDialog(
+            title: "Error",
+            message: e.format(),
+          );
+        },
+      );
+      return;
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+
+    if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/home');
   }
 
@@ -80,11 +145,13 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    enabled: !_isLoading,
                     controller: usernameController,
-                    errorText: null,
+                    errorText: loginError,
                     validate: (value) {
-                      setState(
-                          () {}); // update the ui state, although there is no logic here
+                      setState(() {
+                        loginError = null;
+                      });
                     },
                     label: "Username",
                   ),
@@ -92,11 +159,13 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    enabled: !_isLoading,
                     controller: passwordController,
-                    errorText: null,
+                    errorText: loginError,
                     validate: (value) {
-                      setState(
-                          () {}); // update the ui state, although there is no logic here
+                      setState(() {
+                        loginError = null;
+                      });
                     },
                     label: "Password",
                     inputType: TextInputType.visiblePassword,
@@ -130,10 +199,14 @@ class _LoginPageState extends State<LoginPage> {
                   style: FilledButton.styleFrom(
                     minimumSize: signInAndUpButtonSize,
                   ),
-                  onPressed: isAllCredentialsEntered() ? _login : null,
-                  child: const Text(
-                    "Login",
-                  ),
+                  onPressed: isAllCredentialsEntered() && !_isLoading
+                      ? _login
+                      : null,
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          "Login",
+                        ),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

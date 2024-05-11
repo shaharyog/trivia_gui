@@ -30,7 +30,6 @@ class FiltersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   void updateSearchText(String text) {
     _filters.searchText = text;
     notifyListeners();

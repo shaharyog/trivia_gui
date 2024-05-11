@@ -3,7 +3,7 @@ import 'package:trivia/providers/rooms_provider.dart';
 
 const Size initialScreenSize = Size(800, 600);
 const Size minScreenSize = Size(450, 550);
-const Size signInAndUpButtonSize =  Size(200, 60);
+const Size signInAndUpButtonSize = Size(200, 60);
 const double maxTextFieldWidth = 400;
 
 // server settings defaults:
@@ -23,7 +23,6 @@ const bool defaultIsReversedSort = false;
 
 // animations durations:
 const int defaultBlinkingCircleDuration = 550;
-
 
 // color scheme related consts:
 const defaultLightColorScheme = ColorScheme.light();

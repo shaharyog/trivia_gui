@@ -53,7 +53,8 @@ class _CreateRoomSheetColContentsState
         ),
         SliderTheme(
           data: SliderThemeData(
-            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            inactiveTrackColor:
+                Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
@@ -77,7 +78,8 @@ class _CreateRoomSheetColContentsState
         ),
         SliderTheme(
           data: SliderThemeData(
-            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            inactiveTrackColor:
+                Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
@@ -101,7 +103,8 @@ class _CreateRoomSheetColContentsState
         ),
         SliderTheme(
           data: SliderThemeData(
-            inactiveTrackColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            inactiveTrackColor:
+                Theme.of(context).colorScheme.primary.withOpacity(0.2),
             activeTickMarkColor: Colors.transparent,
             inactiveTickMarkColor: Colors.transparent,
           ),
@@ -122,61 +125,56 @@ class _CreateRoomSheetColContentsState
       ],
     );
   }
-
 }
-
 
 class CreateRoomSheetActions extends StatelessWidget {
   final Function isCreationConfirmed;
   final String name;
 
-  const CreateRoomSheetActions({
-    super.key,
-    required this.isCreationConfirmed,
-    required this.name
-  });
+  const CreateRoomSheetActions(
+      {super.key, required this.isCreationConfirmed, required this.name});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: FilledButton(
-                        onPressed: name.isEmpty
-                            ? null
-                            : () {
-                          isCreationConfirmed(true);
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Create'),
-                      ),
-                    ),
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: FilledButton(
+                    onPressed: name.isEmpty
+                        ? null
+                        : () {
+                            isCreationConfirmed(true);
+                            Navigator.of(context).pop();
+                          },
+                    child: const Text('Create'),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
-        );
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
