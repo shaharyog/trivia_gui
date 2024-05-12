@@ -7,8 +7,10 @@ const Size signInAndUpButtonSize = Size(200, 60);
 const double maxTextFieldWidth = 400;
 
 // server settings defaults:
-const int defaultPort = 8826;
+const String defaultPort = "8826";
+const String serverPortKey = 'serverPortKey';
 const String defaultServerIp = "127.0.0.1";
+const String serverIpKey = 'serverIpKey';
 
 // filters related defaults:
 const String defaultSearchText = "";

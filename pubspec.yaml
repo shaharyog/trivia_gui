@@ -23,6 +23,7 @@ dependencies:
   flutter_rust_bridge: 2.0.0-dev.33
   freezed_annotation: ^2.4.1
   ffi: ^2.1.2
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:

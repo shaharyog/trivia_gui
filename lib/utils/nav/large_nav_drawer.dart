@@ -17,9 +17,9 @@ Widget homePageLargeNavDrawer({
         padding: EdgeInsets.fromLTRB(28, 16, 16, 10),
       ),
       NavigationDrawerDestination(
-        selectedIcon: Icon(Icons.person),
-        icon: Icon(Icons.person_outline),
-        label: Text('Profile'),
+        selectedIcon: Icon(Icons.leaderboard),
+        icon: Icon(Icons.leaderboard_outlined),
+        label: Text('Leaderboard'),
       ),
       SizedBox(height: 8),
       NavigationDrawerDestination(
@@ -29,9 +29,9 @@ Widget homePageLargeNavDrawer({
       ),
       SizedBox(height: 8),
       NavigationDrawerDestination(
-        selectedIcon: Icon(Icons.leaderboard),
-        icon: Icon(Icons.leaderboard_outlined),
-        label: Text('Leaderboard'),
+        selectedIcon: Icon(Icons.person),
+        icon: Icon(Icons.person_outline),
+        label: Text('Profile'),
       ),
       Padding(
         padding: EdgeInsets.fromLTRB(28, 16, 28, 10),

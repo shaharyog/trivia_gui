@@ -272,7 +272,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dco_decode_String(raw[1]),
         );
       case 3:
-        return Error_RequestTooBig();
+        return const Error_RequestTooBig();
       case 4:
         return Error_ResponseError(
           dco_decode_String(raw[1]),
@@ -290,7 +290,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dco_decode_String(raw[1]),
         );
       case 8:
-        return Error_LogoutError();
+        return const Error_LogoutError();
       case 9:
         return Error_InvalidAddress(
           dco_decode_String(raw[1]),
@@ -413,7 +413,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         var var_field0 = sse_decode_String(deserializer);
         return Error_ResponseDeserializationError(var_field0);
       case 3:
-        return Error_RequestTooBig();
+        return const Error_RequestTooBig();
       case 4:
         var var_field0 = sse_decode_String(deserializer);
         return Error_ResponseError(var_field0);
@@ -427,7 +427,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         var var_field0 = sse_decode_String(deserializer);
         return Error_SignupError(var_field0);
       case 8:
-        return Error_LogoutError();
+        return const Error_LogoutError();
       case 9:
         var var_field0 = sse_decode_String(deserializer);
         return Error_InvalidAddress(var_field0);

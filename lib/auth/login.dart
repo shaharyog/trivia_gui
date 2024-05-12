@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trivia/src/rust/api/error.dart';
 import 'package:trivia/src/rust/api/request/login.dart';
 import 'package:trivia/utils/input_field.dart';
 import '../consts.dart';
-import '../providers/server_endpoint_provider.dart';
 import '../providers/session_provider.dart';
 import '../server_settings.dart';
 import '../src/rust/api/session.dart';
@@ -37,22 +37,21 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login() async {
     setState(() {
       loginError = null;
+      _isLoading = true;
     });
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
-    final serverEndpointProvider =
-        Provider.of<ServerEndpointProvider>(context, listen: false);
+    final prefs = await SharedPreferences.getInstance();
+    final serverIp = prefs.getString(serverIpKey);
+    final serverPort = prefs.getString(serverPortKey);
     try {
-      setState(() {
-        _isLoading = true;
-      });
       sessionProvider.session = await Session.login(
         loginRequest: LoginRequest(
           username: usernameController.text,
           password: passwordController.text,
         ),
         address:
-            "${serverEndpointProvider.serverIp}:${serverEndpointProvider.port}",
+            "$serverIp:$serverPort",
       );
     } on Error_LoginError catch (_) {
       setState(() {
@@ -145,6 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    suffixIcon: const Icon(Icons.person_sharp),
                     enabled: !_isLoading,
                     controller: usernameController,
                     errorText: loginError,
@@ -199,9 +199,8 @@ class _LoginPageState extends State<LoginPage> {
                   style: FilledButton.styleFrom(
                     minimumSize: signInAndUpButtonSize,
                   ),
-                  onPressed: isAllCredentialsEntered() && !_isLoading
-                      ? _login
-                      : null,
+                  onPressed:
+                      isAllCredentialsEntered() && !_isLoading ? _login : null,
                   child: _isLoading
                       ? const CircularProgressIndicator()
                       : const Text(
@@ -219,11 +218,11 @@ class _LoginPageState extends State<LoginPage> {
                       children: <Widget>[
                         const Text("Don't have an account? "),
                         GestureDetector(
-                          onTap: () {
+                          onTap: !_isLoading ? () {
                             Navigator.pushNamed(context, '/signup');
-                          },
+                          } : null,
                           child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
+                            cursor: !_isLoading ? SystemMouseCursors.click : MouseCursor.defer,
                             child: Text(
                               "Sign up",
                               style: Theme.of(context)
@@ -231,8 +230,9 @@ class _LoginPageState extends State<LoginPage> {
                                   .bodyMedium!
                                   .copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: !_isLoading
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).disabledColor,
                                   ),
                             ),
                           ),

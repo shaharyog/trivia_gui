@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../consts.dart';
-import '../providers/server_endpoint_provider.dart';
 import '../providers/session_provider.dart';
 import '../server_settings.dart';
 import '../src/rust/api/error.dart';
@@ -34,7 +34,7 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController birthdateController = TextEditingController();
   String? birthdateErrorText;
   bool _isLoading = false;
-  String? _errorText = null;
+  String? _errorText;
 
   @override
   void dispose() {
@@ -109,7 +109,7 @@ class _SignupPageState extends State<SignupPage> {
       bool doesPasswordContainLowercase = value.contains(RegExp(r'[a-z]'));
       bool doesPasswordContainNumber = value.contains(RegExp(r'[0-9]'));
       bool doesPasswordContainSpecialCharacter =
-          value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+          value.contains(RegExp(r'[*&^%$#@!]'));
 
       String tempErrorText = "";
       if (isPasswordTooShort) {
@@ -174,22 +174,20 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> _signup() async {
     setState(() {
       _errorText = null;
+      _isLoading = true;
     });
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
-    final serverEndpointProvider =
-        Provider.of<ServerEndpointProvider>(context, listen: false);
+    final prefs = await SharedPreferences.getInstance();
+    final serverIp = prefs.getString(serverIpKey);
+    final serverPort = prefs.getString(serverPortKey);
     try {
-      setState(() {
-        _isLoading = true;
-      });
       sessionProvider.session = await Session.signup(
-        address:
-            "${serverEndpointProvider.serverIp}:${serverEndpointProvider.port}",
+        address: "$serverIp:$serverPort",
         signupRequest: SignupRequest(
             username: usernameController.text,
             password: passwordController.text,
-            email: emailController.text,
+            email: emailController.text.toLowerCase(),
             address: addressController.text,
             birthday: birthdateController.text,
             phoneNumber: phoneNumberController.text),
@@ -237,6 +235,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: !_isLoading,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
@@ -285,6 +284,7 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    suffixIcon: const Icon(Icons.person_sharp),
                     enabled: !_isLoading,
                     controller: usernameController,
                     errorText: usernameErrorText,
@@ -336,6 +336,7 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    suffixIcon: const Icon(Icons.email_sharp),
                     enabled: !_isLoading,
                     label: "Email",
                     inputType: TextInputType.emailAddress,
@@ -352,6 +353,7 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    suffixIcon: const Icon(Icons.home_work_sharp),
                     enabled: !_isLoading,
                     controller: addressController,
                     label: "Address",
@@ -367,6 +369,7 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
+                    suffixIcon: const Icon(Icons.phone_sharp),
                     enabled: !_isLoading,
                     inputType: TextInputType.phone,
                     controller: phoneNumberController,
@@ -407,7 +410,7 @@ class _SignupPageState extends State<SignupPage> {
                         suffixIcon: Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
                           child: IconButton(
-                            icon: const Icon(Icons.edit_calendar),
+                            icon: const Icon(Icons.edit_calendar_sharp),
                             onPressed: () => _selectBirthdate(),
                           ),
                         ),
@@ -428,9 +431,11 @@ class _SignupPageState extends State<SignupPage> {
                     minimumSize: signInAndUpButtonSize,
                   ),
                   onPressed: isAllFieldsValid() && !_isLoading ? _signup : null,
-                  child: _isLoading ? const CircularProgressIndicator() : const Text(
-                    "Sign up",
-                  ),
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          "Sign up",
+                        ),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -443,20 +448,25 @@ class _SignupPageState extends State<SignupPage> {
                       children: <Widget>[
                         const Text("Already have an account? "),
                         GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
+                          onTap: !_isLoading
+                              ? () {
+                                  Navigator.pop(context);
+                                }
+                              : null,
                           child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
+                            cursor: !_isLoading
+                                ? SystemMouseCursors.click
+                                : MouseCursor.defer,
                             child: Text(
-                              "Sign in",
+                              "Login",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: !_isLoading
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).disabledColor,
                                   ),
                             ),
                           ),
@@ -504,7 +514,7 @@ bool isValidEmail(String email) {
       r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
       r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
 
-  return RegExp(pattern).hasMatch(email);
+  return RegExp(pattern).hasMatch(email.toLowerCase());
 }
 
 bool isValidAddress(String address) {

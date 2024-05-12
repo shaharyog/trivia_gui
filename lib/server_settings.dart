@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:trivia/utils/input_field.dart';
 import 'consts.dart';
-import 'providers/server_endpoint_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsDialog extends StatefulWidget {
   const SettingsDialog({super.key});
@@ -20,14 +19,21 @@ class _SettingsDialogState extends State<SettingsDialog> {
 
   @override
   void initState() {
-    final serverEndpointProvider =
-        Provider.of<ServerEndpointProvider>(context, listen: false);
-    serverIpController =
-        TextEditingController(text: serverEndpointProvider.serverIp);
-    serverPortController =
-        TextEditingController(text: serverEndpointProvider.port.toString());
     super.initState();
+    serverIpController = TextEditingController();
+    serverPortController = TextEditingController();
+    initializeControllers();
   }
+
+  Future<void> initializeControllers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final ip = prefs.getString(serverIpKey) ?? defaultServerIp;
+    final port = prefs.getString(serverPortKey) ?? defaultPort;
+    serverIpController.text = ip;
+    serverPortController.text = port;
+    setState(() {}); // Trigger a rebuild after the controllers are initialized.
+  }
+
 
   @override
   void dispose() {
@@ -65,7 +71,6 @@ class _SettingsDialogState extends State<SettingsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final serverEndpointProvider = Provider.of<ServerEndpointProvider>(context);
     return AlertDialog(
       title: const Text("Server Settings"),
       icon: const Icon(Icons.settings_sharp),
@@ -83,11 +88,13 @@ class _SettingsDialogState extends State<SettingsDialog> {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: FilledButton(
                   onPressed: isAllFieldsValid()
-                      ? () {
-                          serverEndpointProvider
-                              .setServerIp(serverIpController.text);
-                          serverEndpointProvider
-                              .setPort(int.parse(serverPortController.text));
+                      ? () async {
+                          final prefs = await SharedPreferences.getInstance();
+
+                          prefs.setString(
+                              'serverIpKey', serverIpController.text);
+                          prefs.setString(
+                              'serverPortKey', serverPortController.text);
                           Navigator.pop(context);
                         }
                       : null,
@@ -115,8 +122,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
         scrollDirection: Axis.vertical,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize
-              .min, // This ensures the column takes up only the necessary height
+          mainAxisSize: MainAxisSize.min,
+          // This ensures the column takes up only the necessary height
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
