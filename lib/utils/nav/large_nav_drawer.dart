@@ -4,13 +4,13 @@ import '../../providers/navigation_provider.dart';
 
 Widget homePageLargeNavDrawer({
   required NavigationState navigationState,
-  required BuildContext context,
+  required GlobalKey<ScaffoldState> scaffoldKey,
 }) {
   return NavigationDrawer(
     selectedIndex: navigationState.selectedIndex,
     onDestinationSelected: (int index) {
       navigationState.selectedIndex = index;
-      Navigator.of(context).pop();
+      scaffoldKey.currentState!.closeDrawer();
     },
     children: const <Widget>[
       Padding(

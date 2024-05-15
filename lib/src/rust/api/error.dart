@@ -38,6 +38,10 @@ sealed class Error with _$Error {
   const factory Error.invalidAddress(
     String field0,
   ) = Error_InvalidAddress;
+  const factory Error.internalServerError() = Error_InternalServerError;
+  const factory Error.updateUserDataError(
+    String field0,
+  ) = Error_UpdateUserDataError;
 
   String format({dynamic hint}) =>
       RustLib.instance.api.errorFormat(that: this, hint: hint);

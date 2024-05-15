@@ -25,6 +25,10 @@ pub enum Error {
     LogoutError,
     #[error("Invalid address: {0}")]
     InvalidAddress(String),
+    #[error("Internal Server Error")]
+    InternalServerError,
+    #[error("Update user data failed: {0}")]
+    UpdateUserDataError(String),
 }
 
 impl Error{

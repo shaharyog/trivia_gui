@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trivia/screens/leaderboard/leaderboard_components/top_three.dart';
-import '../../Objects/user_score.dart';
+import '../../objects/user_score.dart';
 import '../../providers/leaderboard_provider.dart';
 import '../../providers/screen_size_provider.dart';
+import '../../utils/user_data.dart';
 
 class Leaderboard extends StatefulWidget {
   const Leaderboard({super.key});
@@ -117,17 +118,6 @@ Widget _buildLargeScreen(BuildContext context, List<UserScore> topUsers) {
       ],
     ),
   );
-}
-
-String getInitials(String name) {
-  List<String> words = name.split(' ');
-  String initials = '';
-  for (var word in words) {
-    if (initials.length < 2) {
-      initials += word[0].toUpperCase();
-    }
-  }
-  return initials;
 }
 
 Widget _buildListView(

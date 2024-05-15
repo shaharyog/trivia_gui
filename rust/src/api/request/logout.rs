@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use crate::api::request::Request;
 
 #[derive(Serialize)]
-pub struct LogoutRequest {}
+pub struct LogoutRequest;
 
 #[derive(Deserialize)]
 pub struct LogoutResponse {

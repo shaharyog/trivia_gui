@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:trivia/providers/leaderboard_provider.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:window_size/window_size.dart' as window_size;
 import 'consts.dart';
 import 'homepage/homepage.dart';
 import 'auth/login.dart';
@@ -19,21 +19,17 @@ import 'package:trivia/src/rust/frb_generated.dart';
 void main() async {
   await RustLib.init();
 
-  // check if the platform is windows, linux or mac
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     WidgetsFlutterBinding.ensureInitialized();
-    await windowManager.ensureInitialized();
+    window_size.getWindowInfo().then((window) {
+      final screen = window.screen;
 
-    WindowOptions windowOptions = const WindowOptions(
-      center: true,
-      backgroundColor: Colors.transparent,
-      skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.normal,
-    );
-    windowManager.setMinimumSize(minScreenSize);
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
+      if (screen != null) {
+        window_size.setWindowMinSize(const Size(500, 700));
+        window_size.setWindowMaxSize(const Size(10000000, 10000000));
+        window_size
+            .setWindowTitle('Trivia');
+      }
     });
   }
 
@@ -76,7 +72,7 @@ class MyApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             debugShowCheckedModeBanner: false,
             title: 'Trivia - Shahar & Yuval',
-            initialRoute: '/home',
+            initialRoute: '/login',
             routes: {
               '/login': (context) => const LoginPage(),
               '/signup': (context) => const SignupPage(),

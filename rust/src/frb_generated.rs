@@ -32,7 +32,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.0.0-dev.33";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2021524121;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1378054505;
 
 // Section: executor
 
@@ -66,6 +66,55 @@ fn wire_error_format_impl(
             transform_result_sse((move || {
                 Result::<_, ()>::Ok(crate::api::error::Error::format(&api_that))
             })())
+        },
+    )
+}
+fn wire_Session_get_user_data_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_get_user_data",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::get_user_data(&mut api_that)
+                })())
+            }
         },
     )
 }
@@ -167,6 +216,62 @@ fn wire_Session_signup_impl(
         },
     )
 }
+fn wire_Session_update_user_data_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_update_user_data",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            let api_update_user_data_request =
+                <crate::api::request::update_user_data::UpdateUserDataRequest>::sse_decode(
+                    &mut deserializer,
+                );
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::update_user_data(
+                        &mut api_that,
+                        api_update_user_data_request,
+                    )
+                })())
+            }
+        },
+    )
+}
 
 // Section: related_funcs
 
@@ -183,6 +288,15 @@ impl SseDecode for Session {
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
         >>::sse_decode(deserializer);
         return inner.rust_auto_opaque_decode_owned();
+    }
+}
+
+impl SseDecode for chrono::NaiveDateTime {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i64>::sse_decode(deserializer);
+        return chrono::NaiveDateTime::from_timestamp_micros(inner)
+            .expect("invalid or out-of-range datetime");
     }
 }
 
@@ -245,10 +359,24 @@ impl SseDecode for crate::api::error::Error {
                 let mut var_field0 = <String>::sse_decode(deserializer);
                 return crate::api::error::Error::InvalidAddress(var_field0);
             }
+            10 => {
+                return crate::api::error::Error::InternalServerError;
+            }
+            11 => {
+                let mut var_field0 = <String>::sse_decode(deserializer);
+                return crate::api::error::Error::UpdateUserDataError(var_field0);
+            }
             _ => {
                 unimplemented!("");
             }
         }
+    }
+}
+
+impl SseDecode for i64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i64::<NativeEndian>().unwrap()
     }
 }
 
@@ -273,6 +401,17 @@ impl SseDecode for crate::api::request::login::LoginRequest {
             username: var_username,
             password: var_password,
         };
+    }
+}
+
+impl SseDecode for Option<String> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<String>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
     }
 }
 
@@ -308,6 +447,46 @@ impl SseDecode for () {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {}
 }
 
+impl SseDecode for crate::api::request::update_user_data::UpdateUserDataRequest {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_password = <Option<String>>::sse_decode(deserializer);
+        let mut var_email = <String>::sse_decode(deserializer);
+        let mut var_address = <String>::sse_decode(deserializer);
+        let mut var_phoneNumber = <String>::sse_decode(deserializer);
+        let mut var_avatarColor = <String>::sse_decode(deserializer);
+        return crate::api::request::update_user_data::UpdateUserDataRequest {
+            password: var_password,
+            email: var_email,
+            address: var_address,
+            phone_number: var_phoneNumber,
+            avatar_color: var_avatarColor,
+        };
+    }
+}
+
+impl SseDecode for crate::api::request::get_user_data::UserData {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_username = <String>::sse_decode(deserializer);
+        let mut var_email = <String>::sse_decode(deserializer);
+        let mut var_address = <String>::sse_decode(deserializer);
+        let mut var_phoneNumber = <String>::sse_decode(deserializer);
+        let mut var_birthday = <String>::sse_decode(deserializer);
+        let mut var_avatarColor = <String>::sse_decode(deserializer);
+        let mut var_memberSince = <chrono::NaiveDateTime>::sse_decode(deserializer);
+        return crate::api::request::get_user_data::UserData {
+            username: var_username,
+            email: var_email,
+            address: var_address,
+            phone_number: var_phoneNumber,
+            birthday: var_birthday,
+            avatar_color: var_avatarColor,
+            member_since: var_memberSince,
+        };
+    }
+}
+
 impl SseDecode for usize {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -338,9 +517,11 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
+        5 => wire_Session_get_user_data_impl(port, ptr, rust_vec_len, data_len),
         2 => wire_Session_login_impl(port, ptr, rust_vec_len, data_len),
         4 => wire_Session_logout_impl(port, ptr, rust_vec_len, data_len),
         3 => wire_Session_signup_impl(port, ptr, rust_vec_len, data_len),
+        6 => wire_Session_update_user_data_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -405,6 +586,10 @@ impl flutter_rust_bridge::IntoDart for crate::api::error::Error {
             crate::api::error::Error::InvalidAddress(field0) => {
                 [9.into_dart(), field0.into_into_dart().into_dart()].into_dart()
             }
+            crate::api::error::Error::InternalServerError => [10.into_dart()].into_dart(),
+            crate::api::error::Error::UpdateUserDataError(field0) => {
+                [11.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
         }
     }
 }
@@ -460,11 +645,70 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::request::signup::SignupReques
         self
     }
 }
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart
+    for crate::api::request::update_user_data::UpdateUserDataRequest
+{
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.password.into_into_dart().into_dart(),
+            self.email.into_into_dart().into_dart(),
+            self.address.into_into_dart().into_dart(),
+            self.phone_number.into_into_dart().into_dart(),
+            self.avatar_color.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::update_user_data::UpdateUserDataRequest
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::update_user_data::UpdateUserDataRequest>
+    for crate::api::request::update_user_data::UpdateUserDataRequest
+{
+    fn into_into_dart(self) -> crate::api::request::update_user_data::UpdateUserDataRequest {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_user_data::UserData {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.username.into_into_dart().into_dart(),
+            self.email.into_into_dart().into_dart(),
+            self.address.into_into_dart().into_dart(),
+            self.phone_number.into_into_dart().into_dart(),
+            self.birthday.into_into_dart().into_dart(),
+            self.avatar_color.into_into_dart().into_dart(),
+            self.member_since.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_user_data::UserData
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_user_data::UserData>
+    for crate::api::request::get_user_data::UserData
+{
+    fn into_into_dart(self) -> crate::api::request::get_user_data::UserData {
+        self
+    }
+}
 
 impl SseEncode for Session {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
+    }
+}
+
+impl SseEncode for chrono::NaiveDateTime {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i64>::sse_encode(self.timestamp_micros(), serializer);
     }
 }
 
@@ -526,7 +770,21 @@ impl SseEncode for crate::api::error::Error {
                 <i32>::sse_encode(9, serializer);
                 <String>::sse_encode(field0, serializer);
             }
+            crate::api::error::Error::InternalServerError => {
+                <i32>::sse_encode(10, serializer);
+            }
+            crate::api::error::Error::UpdateUserDataError(field0) => {
+                <i32>::sse_encode(11, serializer);
+                <String>::sse_encode(field0, serializer);
+            }
         }
+    }
+}
+
+impl SseEncode for i64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i64::<NativeEndian>(self).unwrap();
     }
 }
 
@@ -545,6 +803,16 @@ impl SseEncode for crate::api::request::login::LoginRequest {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.username, serializer);
         <String>::sse_encode(self.password, serializer);
+    }
+}
+
+impl SseEncode for Option<String> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <String>::sse_encode(value, serializer);
+        }
     }
 }
 
@@ -570,6 +838,30 @@ impl SseEncode for u8 {
 impl SseEncode for () {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {}
+}
+
+impl SseEncode for crate::api::request::update_user_data::UpdateUserDataRequest {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<String>>::sse_encode(self.password, serializer);
+        <String>::sse_encode(self.email, serializer);
+        <String>::sse_encode(self.address, serializer);
+        <String>::sse_encode(self.phone_number, serializer);
+        <String>::sse_encode(self.avatar_color, serializer);
+    }
+}
+
+impl SseEncode for crate::api::request::get_user_data::UserData {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.username, serializer);
+        <String>::sse_encode(self.email, serializer);
+        <String>::sse_encode(self.address, serializer);
+        <String>::sse_encode(self.phone_number, serializer);
+        <String>::sse_encode(self.birthday, serializer);
+        <String>::sse_encode(self.avatar_color, serializer);
+        <chrono::NaiveDateTime>::sse_encode(self.member_since, serializer);
+    }
 }
 
 impl SseEncode for usize {

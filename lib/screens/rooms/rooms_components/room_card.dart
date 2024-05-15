@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../Objects/room.dart';
+import '../../../objects/room.dart';
 import '../../../utils/seconds_to_readable.dart';
 import 'blinking_circle.dart';
 

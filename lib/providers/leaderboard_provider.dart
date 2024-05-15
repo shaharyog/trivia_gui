@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Objects/user_score.dart';
+import '../objects/user_score.dart';
 
 class LeaderboardProvider extends ChangeNotifier {
   List<UserScore> _topUsers = [

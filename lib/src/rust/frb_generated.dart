@@ -4,8 +4,10 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/error.dart';
+import 'api/request/get_user_data.dart';
 import 'api/request/login.dart';
 import 'api/request/signup.dart';
+import 'api/request/update_user_data.dart';
 import 'api/session.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -57,7 +59,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.0.0-dev.33';
 
   @override
-  int get rustContentHash => -2021524121;
+  int get rustContentHash => -1378054505;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -70,6 +72,8 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 abstract class RustLibApi extends BaseApi {
   String errorFormat({required Error that, dynamic hint});
 
+  Future<UserData> sessionGetUserData({required Session that, dynamic hint});
+
   Future<Session> sessionLogin(
       {required LoginRequest loginRequest,
       required String address,
@@ -80,6 +84,11 @@ abstract class RustLibApi extends BaseApi {
   Future<Session> sessionSignup(
       {required SignupRequest signupRequest,
       required String address,
+      dynamic hint});
+
+  Future<void> sessionUpdateUserData(
+      {required Session that,
+      required UpdateUserDataRequest updateUserDataRequest,
       dynamic hint});
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Session;
@@ -118,6 +127,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kErrorFormatConstMeta => const TaskConstMeta(
         debugName: "error_format",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<UserData> sessionGetUserData({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 5, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_user_data,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetUserDataConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetUserDataConstMeta => const TaskConstMeta(
+        debugName: "Session_get_user_data",
         argNames: ["that"],
       );
 
@@ -207,6 +242,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         argNames: ["signupRequest", "address"],
       );
 
+  @override
+  Future<void> sessionUpdateUserData(
+      {required Session that,
+      required UpdateUserDataRequest updateUserDataRequest,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        sse_encode_box_autoadd_update_user_data_request(
+            updateUserDataRequest, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 6, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionUpdateUserDataConstMeta,
+      argValues: [that, updateUserDataRequest],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionUpdateUserDataConstMeta => const TaskConstMeta(
+        debugName: "Session_update_user_data",
+        argNames: ["that", "updateUserDataRequest"],
+      );
+
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_Session => wire
           .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession;
@@ -221,6 +287,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return Session.dcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Session
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Session.dcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  DateTime dco_decode_Chrono_Naive(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeTimestamp(ts: dco_decode_i_64(raw).toInt(), isUtc: true);
   }
 
   @protected
@@ -256,6 +336,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  UpdateUserDataRequest dco_decode_box_autoadd_update_user_data_request(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_update_user_data_request(raw);
+  }
+
+  @protected
   Error dco_decode_error(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     switch (raw[0]) {
@@ -272,7 +359,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dco_decode_String(raw[1]),
         );
       case 3:
-        return const Error_RequestTooBig();
+        return Error_RequestTooBig();
       case 4:
         return Error_ResponseError(
           dco_decode_String(raw[1]),
@@ -290,14 +377,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dco_decode_String(raw[1]),
         );
       case 8:
-        return const Error_LogoutError();
+        return Error_LogoutError();
       case 9:
         return Error_InvalidAddress(
+          dco_decode_String(raw[1]),
+        );
+      case 10:
+        return Error_InternalServerError();
+      case 11:
+        return Error_UpdateUserDataError(
           dco_decode_String(raw[1]),
         );
       default:
         throw Exception("unreachable");
     }
+  }
+
+  @protected
+  int dco_decode_i_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeI64OrU64(raw);
   }
 
   @protected
@@ -316,6 +415,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       username: dco_decode_String(arr[0]),
       password: dco_decode_String(arr[1]),
     );
+  }
+
+  @protected
+  String? dco_decode_opt_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_String(raw);
   }
 
   @protected
@@ -347,6 +452,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  UpdateUserDataRequest dco_decode_update_user_data_request(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return UpdateUserDataRequest(
+      password: dco_decode_opt_String(arr[0]),
+      email: dco_decode_String(arr[1]),
+      address: dco_decode_String(arr[2]),
+      phoneNumber: dco_decode_String(arr[3]),
+      avatarColor: dco_decode_String(arr[4]),
+    );
+  }
+
+  @protected
+  UserData dco_decode_user_data(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 7)
+      throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
+    return UserData(
+      username: dco_decode_String(arr[0]),
+      email: dco_decode_String(arr[1]),
+      address: dco_decode_String(arr[2]),
+      phoneNumber: dco_decode_String(arr[3]),
+      birthday: dco_decode_String(arr[4]),
+      avatarColor: dco_decode_String(arr[5]),
+      memberSince: dco_decode_Chrono_Naive(arr[6]),
+    );
+  }
+
+  @protected
   int dco_decode_usize(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeI64OrU64(raw);
@@ -359,6 +496,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return Session.sseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Session
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Session.sseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  DateTime sse_decode_Chrono_Naive(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_64(deserializer);
+    return DateTime.fromMicrosecondsSinceEpoch(inner, isUtc: true);
   }
 
   @protected
@@ -398,6 +551,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  UpdateUserDataRequest sse_decode_box_autoadd_update_user_data_request(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_update_user_data_request(deserializer));
+  }
+
+  @protected
   Error sse_decode_error(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -413,7 +573,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         var var_field0 = sse_decode_String(deserializer);
         return Error_ResponseDeserializationError(var_field0);
       case 3:
-        return const Error_RequestTooBig();
+        return Error_RequestTooBig();
       case 4:
         var var_field0 = sse_decode_String(deserializer);
         return Error_ResponseError(var_field0);
@@ -427,13 +587,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         var var_field0 = sse_decode_String(deserializer);
         return Error_SignupError(var_field0);
       case 8:
-        return const Error_LogoutError();
+        return Error_LogoutError();
       case 9:
         var var_field0 = sse_decode_String(deserializer);
         return Error_InvalidAddress(var_field0);
+      case 10:
+        return Error_InternalServerError();
+      case 11:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_UpdateUserDataError(var_field0);
       default:
         throw UnimplementedError('');
     }
+  }
+
+  @protected
+  int sse_decode_i_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt64();
   }
 
   @protected
@@ -449,6 +620,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_username = sse_decode_String(deserializer);
     var var_password = sse_decode_String(deserializer);
     return LoginRequest(username: var_username, password: var_password);
+  }
+
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_String(deserializer));
+    } else {
+      return null;
+    }
   }
 
   @protected
@@ -481,6 +663,43 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  UpdateUserDataRequest sse_decode_update_user_data_request(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_password = sse_decode_opt_String(deserializer);
+    var var_email = sse_decode_String(deserializer);
+    var var_address = sse_decode_String(deserializer);
+    var var_phoneNumber = sse_decode_String(deserializer);
+    var var_avatarColor = sse_decode_String(deserializer);
+    return UpdateUserDataRequest(
+        password: var_password,
+        email: var_email,
+        address: var_address,
+        phoneNumber: var_phoneNumber,
+        avatarColor: var_avatarColor);
+  }
+
+  @protected
+  UserData sse_decode_user_data(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_username = sse_decode_String(deserializer);
+    var var_email = sse_decode_String(deserializer);
+    var var_address = sse_decode_String(deserializer);
+    var var_phoneNumber = sse_decode_String(deserializer);
+    var var_birthday = sse_decode_String(deserializer);
+    var var_avatarColor = sse_decode_String(deserializer);
+    var var_memberSince = sse_decode_Chrono_Naive(deserializer);
+    return UserData(
+        username: var_username,
+        email: var_email,
+        address: var_address,
+        phoneNumber: var_phoneNumber,
+        birthday: var_birthday,
+        avatarColor: var_avatarColor,
+        memberSince: var_memberSince);
+  }
+
+  @protected
   int sse_decode_usize(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint64();
@@ -504,6 +723,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           Session self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(self.sseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          Session self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(self.sseEncode(move: false), serializer);
+  }
+
+  @protected
+  void sse_encode_Chrono_Naive(DateTime self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_64(self.microsecondsSinceEpoch, serializer);
   }
 
   @protected
@@ -541,6 +774,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_update_user_data_request(
+      UpdateUserDataRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_update_user_data_request(self, serializer);
+  }
+
+  @protected
   void sse_encode_error(Error self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     switch (self) {
@@ -572,7 +812,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case Error_InvalidAddress(field0: final field0):
         sse_encode_i_32(9, serializer);
         sse_encode_String(field0, serializer);
+      case Error_InternalServerError():
+        sse_encode_i_32(10, serializer);
+      case Error_UpdateUserDataError(field0: final field0):
+        sse_encode_i_32(11, serializer);
+        sse_encode_String(field0, serializer);
     }
+  }
+
+  @protected
+  void sse_encode_i_64(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt64(self);
   }
 
   @protected
@@ -588,6 +839,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.username, serializer);
     sse_encode_String(self.password, serializer);
+  }
+
+  @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_String(self, serializer);
+    }
   }
 
   @protected
@@ -610,6 +871,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_unit(void self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+  }
+
+  @protected
+  void sse_encode_update_user_data_request(
+      UpdateUserDataRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_String(self.password, serializer);
+    sse_encode_String(self.email, serializer);
+    sse_encode_String(self.address, serializer);
+    sse_encode_String(self.phoneNumber, serializer);
+    sse_encode_String(self.avatarColor, serializer);
+  }
+
+  @protected
+  void sse_encode_user_data(UserData self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.username, serializer);
+    sse_encode_String(self.email, serializer);
+    sse_encode_String(self.address, serializer);
+    sse_encode_String(self.phoneNumber, serializer);
+    sse_encode_String(self.birthday, serializer);
+    sse_encode_String(self.avatarColor, serializer);
+    sse_encode_Chrono_Naive(self.memberSince, serializer);
   }
 
   @protected

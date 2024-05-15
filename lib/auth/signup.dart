@@ -10,7 +10,7 @@ import '../src/rust/api/session.dart';
 import '../utils/error_dialog.dart';
 import '../utils/input_field.dart';
 import '../utils/toggle_theme_button.dart';
-import 'package:intl/intl.dart';
+import '../utils/user_data.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -35,6 +35,7 @@ class _SignupPageState extends State<SignupPage> {
   String? birthdateErrorText;
   bool _isLoading = false;
   String? _errorText;
+
 
   @override
   void dispose() {
@@ -67,107 +68,8 @@ class _SignupPageState extends State<SignupPage> {
             '${pickedDate.day}/${pickedDate.month}/${pickedDate.year}';
       });
       setState(() {
-        validateBirthdate(birthdateController.text);
+        birthdateErrorText = getBirthdateErrorText(birthdateController.text);
       });
-    }
-  }
-
-  void validateBirthdate(String value) {
-    if (value.isEmpty) {
-      birthdateErrorText = null;
-    } else {
-      DateTime? date = parseDate(value);
-      if (date == null) {
-        birthdateErrorText = "• Invalid birthdate format";
-        return;
-      }
-
-      if (date.isBefore(DateTime(1900, 1, 1)) || date.isAfter(DateTime.now())) {
-        birthdateErrorText = "• Invalid birthdate";
-      } else {
-        birthdateErrorText = null;
-      }
-    }
-  }
-
-  void validateUsername(String value) {
-    if (value.isEmpty) {
-      usernameErrorText = null;
-    } else if (value.length < 4) {
-      usernameErrorText = "• Username must be at least 4 characters long";
-    } else {
-      usernameErrorText = null;
-    }
-  }
-
-  void validatePassword(String value) {
-    if (value.isEmpty) {
-      passwordErrorText = null;
-    } else if (!isValidPassword(value)) {
-      bool isPasswordTooShort = value.length < 8;
-      bool doesPasswordContainUppercase = value.contains(RegExp(r'[A-Z]'));
-      bool doesPasswordContainLowercase = value.contains(RegExp(r'[a-z]'));
-      bool doesPasswordContainNumber = value.contains(RegExp(r'[0-9]'));
-      bool doesPasswordContainSpecialCharacter =
-          value.contains(RegExp(r'[*&^%$#@!]'));
-
-      String tempErrorText = "";
-      if (isPasswordTooShort) {
-        tempErrorText += "• Password must be at least 8 characters long\n";
-      }
-      if (!doesPasswordContainUppercase) {
-        tempErrorText +=
-            "• Password must contain at least one uppercase letter\n";
-      }
-      if (!doesPasswordContainLowercase) {
-        tempErrorText +=
-            "• Password must contain at least one lowercase letter\n";
-      }
-      if (!doesPasswordContainNumber) {
-        tempErrorText += "• Password must contain at least one number\n";
-      }
-      if (!doesPasswordContainSpecialCharacter) {
-        tempErrorText +=
-            "• Password must contain at least one special character\n";
-      }
-      if (tempErrorText.isNotEmpty) {
-        tempErrorText = tempErrorText.substring(0, tempErrorText.length - 1);
-      }
-      passwordErrorText = tempErrorText;
-    } else {
-      passwordErrorText = null;
-    }
-  }
-
-  void validateEmail(String value) {
-    if (value.isEmpty) {
-      emailErrorText = null;
-    } else if (!isValidEmail(value)) {
-      emailErrorText = "• Invalid email address";
-    } else {
-      emailErrorText = null;
-    }
-  }
-
-  void validateAddress(String value) {
-    if (value.isEmpty) {
-      addressErrorText = null;
-    } else if (!isValidAddress(value)) {
-      addressErrorText =
-          "• Invalid address, format should be: 'Street, Number, City'\n• Street and City must contain only letters";
-    } else {
-      addressErrorText = null;
-    }
-  }
-
-  void validatePhoneNumber(String value) {
-    if (value.isEmpty) {
-      phoneNumberErrorText = null;
-    } else if (!isValidPhoneNumber(value)) {
-      phoneNumberErrorText =
-          "• Phone number must be a valid Israeli phone number";
-    } else {
-      phoneNumberErrorText = null;
     }
   }
 
@@ -179,8 +81,8 @@ class _SignupPageState extends State<SignupPage> {
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
     final prefs = await SharedPreferences.getInstance();
-    final serverIp = prefs.getString(serverIpKey);
-    final serverPort = prefs.getString(serverPortKey);
+    final serverIp = prefs.getString(serverIpKey) ?? defaultServerIp;
+    final serverPort = prefs.getString(serverPortKey) ?? defaultPort;
     try {
       sessionProvider.session = await Session.signup(
         address: "$serverIp:$serverPort",
@@ -228,6 +130,7 @@ class _SignupPageState extends State<SignupPage> {
     }
 
     if (!mounted) return;
+    Navigator.pop(context);
     Navigator.pushReplacementNamed(context, '/home');
   }
 
@@ -235,7 +138,13 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: !_isLoading,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_sharp),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
@@ -284,7 +193,7 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
-                    suffixIcon: const Icon(Icons.person_sharp),
+                    suffixIcon: const Icon(Icons.person_outlined),
                     enabled: !_isLoading,
                     controller: usernameController,
                     errorText: usernameErrorText,
@@ -292,7 +201,7 @@ class _SignupPageState extends State<SignupPage> {
                     validate: (String value) {
                       setState(() {
                         _errorText = null;
-                        validateUsername(value);
+                        usernameErrorText = getUsernameErrorText(value);
                       });
                     },
                   ),
@@ -310,7 +219,7 @@ class _SignupPageState extends State<SignupPage> {
                     validate: (String value) {
                       setState(() {
                         _errorText = null;
-                        validatePassword(value);
+                        passwordErrorText = getPasswordErrorText(value);
                       });
                     },
                     suffixIcon: Padding(
@@ -336,7 +245,7 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
-                    suffixIcon: const Icon(Icons.email_sharp),
+                    suffixIcon: const Icon(Icons.email_outlined),
                     enabled: !_isLoading,
                     label: "Email",
                     inputType: TextInputType.emailAddress,
@@ -345,7 +254,7 @@ class _SignupPageState extends State<SignupPage> {
                     validate: (String value) {
                       setState(() {
                         _errorText = null;
-                        validateEmail(value);
+                        emailErrorText = getEmailErrorText(value);
                       });
                     },
                   ),
@@ -353,7 +262,7 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
-                    suffixIcon: const Icon(Icons.home_work_sharp),
+                    suffixIcon: const Icon(Icons.home_work_outlined),
                     enabled: !_isLoading,
                     controller: addressController,
                     label: "Address",
@@ -361,7 +270,7 @@ class _SignupPageState extends State<SignupPage> {
                     validate: (String value) {
                       setState(() {
                         _errorText = null;
-                        validateAddress(value);
+                        addressErrorText = getAddressErrorText(value);
                       });
                     },
                   ),
@@ -369,7 +278,7 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: InputField(
-                    suffixIcon: const Icon(Icons.phone_sharp),
+                    suffixIcon: const Icon(Icons.phone_outlined),
                     enabled: !_isLoading,
                     inputType: TextInputType.phone,
                     controller: phoneNumberController,
@@ -378,7 +287,7 @@ class _SignupPageState extends State<SignupPage> {
                     validate: (String value) {
                       setState(() {
                         _errorText = null;
-                        validatePhoneNumber(value);
+                        phoneNumberErrorText = getPhoneNumberErrorText(value);
                       });
                     },
                   ),
@@ -394,7 +303,7 @@ class _SignupPageState extends State<SignupPage> {
                       onChanged: (String value) {
                         setState(() {
                           _errorText = null;
-                          validateBirthdate(value);
+                          birthdateErrorText = getBirthdateErrorText(value);
                         });
                       },
                       validator: (value) => birthdateErrorText,
@@ -450,6 +359,7 @@ class _SignupPageState extends State<SignupPage> {
                         GestureDetector(
                           onTap: !_isLoading
                               ? () {
+
                                   Navigator.pop(context);
                                 }
                               : null,
@@ -496,45 +406,5 @@ class _SignupPageState extends State<SignupPage> {
         addressErrorText == null &&
         phoneNumberErrorText == null;
     return isAllFieldsEntered && isAllFieldsWithoutError;
-  }
-}
-
-bool isValidPassword(String pass) {
-  return RegExp(
-          r'(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[*&^%$#@!])[A-Za-z0-9*&^%$#@!]{8,}')
-      .hasMatch(pass);
-}
-
-bool isValidEmail(String email) {
-  const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
-      r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
-      r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
-      r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
-      r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
-      r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
-      r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
-
-  return RegExp(pattern).hasMatch(email.toLowerCase());
-}
-
-bool isValidAddress(String address) {
-  return RegExp(r'^[a-zA-Z\s]+, \d+, [a-zA-Z\s]+$').hasMatch(address);
-}
-
-bool isValidPhoneNumber(String phoneNumber) {
-  return RegExp(
-          r'^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0[23489]{1})|(0[57]{1}[0-9]))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$')
-      .hasMatch(phoneNumber);
-}
-
-DateTime? parseDate(String date) {
-  try {
-    return DateFormat("dd-MM-yyyy").tryParseStrict(date) != null
-        ? DateFormat("dd-MM-yyyy").parseStrict(date)
-        : DateFormat("dd/MM/yyyy").tryParseStrict(date) != null
-            ? DateFormat("dd/MM/yyyy").parseStrict(date)
-            : DateFormat("dd.mm.yyyy").parse(date);
-  } catch (e) {
-    return null;
   }
 }

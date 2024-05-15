@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:side_sheet_material3/side_sheet_material3.dart';
-import '../Objects/room.dart';
+import '../objects/room.dart';
 import '../providers/navigation_provider.dart';
 import '../providers/rooms_provider.dart';
 import '../providers/screen_size_provider.dart';

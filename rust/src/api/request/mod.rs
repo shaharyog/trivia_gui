@@ -1,6 +1,8 @@
 pub mod login;
 pub mod signup;
 pub mod logout;
+pub mod get_user_data;
+pub mod update_user_data;
 
 use crate::api::error::{Error};
 use serde::{Deserialize, Serialize};

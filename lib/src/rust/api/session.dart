@@ -6,8 +6,10 @@
 import '../frb_generated.dart';
 import 'error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'request/get_user_data.dart';
 import 'request/login.dart';
 import 'request/signup.dart';
+import 'request/update_user_data.dart';
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>>
 @sealed
@@ -26,6 +28,9 @@ class Session extends RustOpaque {
         RustLib.instance.api.rust_arc_decrement_strong_count_SessionPtr,
   );
 
+  Future<UserData> getUserData({dynamic hint}) =>
+      RustLib.instance.api.sessionGetUserData(that: this, hint: hint);
+
   static Future<Session> login(
           {required LoginRequest loginRequest,
           required String address,
@@ -42,4 +47,10 @@ class Session extends RustOpaque {
           dynamic hint}) =>
       RustLib.instance.api.sessionSignup(
           signupRequest: signupRequest, address: address, hint: hint);
+
+  Future<void> updateUserData(
+          {required UpdateUserDataRequest updateUserDataRequest,
+          dynamic hint}) =>
+      RustLib.instance.api.sessionUpdateUserData(
+          that: this, updateUserDataRequest: updateUserDataRequest, hint: hint);
 }

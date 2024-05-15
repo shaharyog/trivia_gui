@@ -15,11 +15,11 @@ AppBar homePageAppBar({
       builder: (context) {
         switch (navigationState.selectedIndex) {
           case 0:
-            return const Text('Profile');
+            return const Text('Leaderboard');
           case 1:
             return const Text('Rooms');
           case 2:
-            return const Text('Leaderboard');
+            return const Text('Profile');
           default:
             return const Text('Unknown');
         }
@@ -35,6 +35,7 @@ AppBar homePageAppBar({
         child: IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () async {
+            Navigator.of(context).pushReplacementNamed('/login');
             final sessionProvider =
                 Provider.of<SessionProvider>(context, listen: false);
             try {
@@ -68,7 +69,6 @@ AppBar homePageAppBar({
                   });
             } finally {
               sessionProvider.session = null;
-              Navigator.of(context).pushReplacementNamed('/login');
             }
           },
         ),

@@ -4,8 +4,10 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/error.dart';
+import 'api/request/get_user_data.dart';
 import 'api/request/login.dart';
 import 'api/request/signup.dart';
+import 'api/request/update_user_data.dart';
 import 'api/session.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -31,6 +33,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Session
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic raw);
+
+  @protected
+  DateTime dco_decode_Chrono_Naive(dynamic raw);
+
+  @protected
+  Session
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
           dynamic raw);
 
@@ -47,13 +57,23 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   SignupRequest dco_decode_box_autoadd_signup_request(dynamic raw);
 
   @protected
+  UpdateUserDataRequest dco_decode_box_autoadd_update_user_data_request(
+      dynamic raw);
+
+  @protected
   Error dco_decode_error(dynamic raw);
+
+  @protected
+  int dco_decode_i_64(dynamic raw);
 
   @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
   LoginRequest dco_decode_login_request(dynamic raw);
+
+  @protected
+  String? dco_decode_opt_String(dynamic raw);
 
   @protected
   SignupRequest dco_decode_signup_request(dynamic raw);
@@ -65,12 +85,26 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void dco_decode_unit(dynamic raw);
 
   @protected
+  UpdateUserDataRequest dco_decode_update_user_data_request(dynamic raw);
+
+  @protected
+  UserData dco_decode_user_data(dynamic raw);
+
+  @protected
   int dco_decode_usize(dynamic raw);
 
   @protected
   Session
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
           SseDeserializer deserializer);
+
+  @protected
+  Session
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          SseDeserializer deserializer);
+
+  @protected
+  DateTime sse_decode_Chrono_Naive(SseDeserializer deserializer);
 
   @protected
   Session
@@ -92,13 +126,23 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
+  UpdateUserDataRequest sse_decode_box_autoadd_update_user_data_request(
+      SseDeserializer deserializer);
+
+  @protected
   Error sse_decode_error(SseDeserializer deserializer);
+
+  @protected
+  int sse_decode_i_64(SseDeserializer deserializer);
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
   LoginRequest sse_decode_login_request(SseDeserializer deserializer);
+
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
   SignupRequest sse_decode_signup_request(SseDeserializer deserializer);
@@ -108,6 +152,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_decode_unit(SseDeserializer deserializer);
+
+  @protected
+  UpdateUserDataRequest sse_decode_update_user_data_request(
+      SseDeserializer deserializer);
+
+  @protected
+  UserData sse_decode_user_data(SseDeserializer deserializer);
 
   @protected
   int sse_decode_usize(SseDeserializer deserializer);
@@ -122,6 +173,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
           Session self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          Session self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_Chrono_Naive(DateTime self, SseSerializer serializer);
 
   @protected
   void
@@ -143,7 +202,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SignupRequest self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_update_user_data_request(
+      UpdateUserDataRequest self, SseSerializer serializer);
+
+  @protected
   void sse_encode_error(Error self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_i_64(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_strict(
@@ -153,6 +219,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_login_request(LoginRequest self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_signup_request(SignupRequest self, SseSerializer serializer);
 
   @protected
@@ -160,6 +229,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_update_user_data_request(
+      UpdateUserDataRequest self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_user_data(UserData self, SseSerializer serializer);
 
   @protected
   void sse_encode_usize(int self, SseSerializer serializer);

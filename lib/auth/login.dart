@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,8 +41,8 @@ class _LoginPageState extends State<LoginPage> {
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
     final prefs = await SharedPreferences.getInstance();
-    final serverIp = prefs.getString(serverIpKey);
-    final serverPort = prefs.getString(serverPortKey);
+    final serverIp = prefs.getString(serverIpKey) ?? defaultServerIp;
+    final serverPort = prefs.getString(serverPortKey) ?? defaultPort;
     try {
       sessionProvider.session = await Session.login(
         loginRequest: LoginRequest(
@@ -55,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } on Error_LoginError catch (_) {
       setState(() {
-        loginError = "• Wrong credentials: Invalid username or password";
+        loginError = "• Invalid username or password, or user already logged in from another device";
       });
       return;
     } on Error_ServerConnectionError catch (e) {

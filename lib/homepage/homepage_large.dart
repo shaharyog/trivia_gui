@@ -6,20 +6,29 @@ import '../utils/homepage_appbar.dart';
 import '../utils/homepage_body.dart';
 import '../utils/nav/large_nav_drawer.dart';
 
-class HomePageLarge extends StatelessWidget {
+class HomePageLarge extends StatefulWidget {
+
   const HomePageLarge({super.key});
+
+  @override
+  State<HomePageLarge> createState() => _HomePageLargeState();
+}
+
+class _HomePageLargeState extends State<HomePageLarge> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     final navigationState = Provider.of<NavigationState>(context);
     return Scaffold(
+      key: _scaffoldKey,
       appBar: homePageAppBar(
         navigationState: navigationState,
         context: context,
       ),
       drawer: homePageLargeNavDrawer(
         navigationState: navigationState,
-        context: context,
+        scaffoldKey: _scaffoldKey,
       ),
       body: homePageBody(
         navigationState: navigationState,

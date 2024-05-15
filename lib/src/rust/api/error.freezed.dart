@@ -28,6 +28,8 @@ mixin _$Error {
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -42,6 +44,8 @@ mixin _$Error {
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -56,6 +60,8 @@ mixin _$Error {
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -75,6 +81,10 @@ mixin _$Error {
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -91,6 +101,8 @@ mixin _$Error {
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -107,6 +119,8 @@ mixin _$Error {
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -206,6 +220,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return serverConnectionError(field0);
   }
@@ -223,6 +239,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return serverConnectionError?.call(field0);
   }
@@ -240,6 +258,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (serverConnectionError != null) {
@@ -265,6 +285,10 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return serverConnectionError(this);
   }
@@ -284,6 +308,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return serverConnectionError?.call(this);
   }
@@ -303,6 +329,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (serverConnectionError != null) {
@@ -402,6 +430,8 @@ class _$Error_RequestSerializationErrorImpl
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return requestSerializationError(field0);
   }
@@ -419,6 +449,8 @@ class _$Error_RequestSerializationErrorImpl
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return requestSerializationError?.call(field0);
   }
@@ -436,6 +468,8 @@ class _$Error_RequestSerializationErrorImpl
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (requestSerializationError != null) {
@@ -461,6 +495,10 @@ class _$Error_RequestSerializationErrorImpl
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return requestSerializationError(this);
   }
@@ -480,6 +518,8 @@ class _$Error_RequestSerializationErrorImpl
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return requestSerializationError?.call(this);
   }
@@ -499,6 +539,8 @@ class _$Error_RequestSerializationErrorImpl
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (requestSerializationError != null) {
@@ -599,6 +641,8 @@ class _$Error_ResponseDeserializationErrorImpl
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return responseDeserializationError(field0);
   }
@@ -616,6 +660,8 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return responseDeserializationError?.call(field0);
   }
@@ -633,6 +679,8 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (responseDeserializationError != null) {
@@ -658,6 +706,10 @@ class _$Error_ResponseDeserializationErrorImpl
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return responseDeserializationError(this);
   }
@@ -677,6 +729,8 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return responseDeserializationError?.call(this);
   }
@@ -696,6 +750,8 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (responseDeserializationError != null) {
@@ -766,6 +822,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return requestTooBig();
   }
@@ -783,6 +841,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return requestTooBig?.call();
   }
@@ -800,6 +860,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (requestTooBig != null) {
@@ -825,6 +887,10 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return requestTooBig(this);
   }
@@ -844,6 +910,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return requestTooBig?.call(this);
   }
@@ -863,6 +931,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (requestTooBig != null) {
@@ -952,6 +1022,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return responseError(field0);
   }
@@ -969,6 +1041,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return responseError?.call(field0);
   }
@@ -986,6 +1060,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (responseError != null) {
@@ -1011,6 +1087,10 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return responseError(this);
   }
@@ -1030,6 +1110,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return responseError?.call(this);
   }
@@ -1049,6 +1131,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (responseError != null) {
@@ -1146,6 +1230,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return invalidResponseCode(field0);
   }
@@ -1163,6 +1249,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return invalidResponseCode?.call(field0);
   }
@@ -1180,6 +1268,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (invalidResponseCode != null) {
@@ -1205,6 +1295,10 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return invalidResponseCode(this);
   }
@@ -1224,6 +1318,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return invalidResponseCode?.call(this);
   }
@@ -1243,6 +1339,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (invalidResponseCode != null) {
@@ -1338,6 +1436,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return loginError(field0);
   }
@@ -1355,6 +1455,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return loginError?.call(field0);
   }
@@ -1372,6 +1474,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (loginError != null) {
@@ -1397,6 +1501,10 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return loginError(this);
   }
@@ -1416,6 +1524,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return loginError?.call(this);
   }
@@ -1435,6 +1545,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (loginError != null) {
@@ -1529,6 +1641,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return signupError(field0);
   }
@@ -1546,6 +1660,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return signupError?.call(field0);
   }
@@ -1563,6 +1679,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (signupError != null) {
@@ -1588,6 +1706,10 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return signupError(this);
   }
@@ -1607,6 +1729,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return signupError?.call(this);
   }
@@ -1626,6 +1750,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (signupError != null) {
@@ -1694,6 +1820,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return logoutError();
   }
@@ -1711,6 +1839,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return logoutError?.call();
   }
@@ -1728,6 +1858,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (logoutError != null) {
@@ -1753,6 +1885,10 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return logoutError(this);
   }
@@ -1772,6 +1908,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return logoutError?.call(this);
   }
@@ -1791,6 +1929,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (logoutError != null) {
@@ -1881,6 +2021,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     required TResult Function(String field0) signupError,
     required TResult Function() logoutError,
     required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
   }) {
     return invalidAddress(field0);
   }
@@ -1898,6 +2040,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult? Function(String field0)? signupError,
     TResult? Function()? logoutError,
     TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
   }) {
     return invalidAddress?.call(field0);
   }
@@ -1915,6 +2059,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult Function(String field0)? signupError,
     TResult Function()? logoutError,
     TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (invalidAddress != null) {
@@ -1940,6 +2086,10 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     required TResult Function(Error_SignupError value) signupError,
     required TResult Function(Error_LogoutError value) logoutError,
     required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
   }) {
     return invalidAddress(this);
   }
@@ -1959,6 +2109,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult? Function(Error_SignupError value)? signupError,
     TResult? Function(Error_LogoutError value)? logoutError,
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
   }) {
     return invalidAddress?.call(this);
   }
@@ -1978,6 +2130,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult Function(Error_SignupError value)? signupError,
     TResult Function(Error_LogoutError value)? logoutError,
     TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
     required TResult orElse(),
   }) {
     if (invalidAddress != null) {
@@ -1995,5 +2149,389 @@ abstract class Error_InvalidAddress extends Error {
   String get field0;
   @JsonKey(ignore: true)
   _$$Error_InvalidAddressImplCopyWith<_$Error_InvalidAddressImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$Error_InternalServerErrorImplCopyWith<$Res> {
+  factory _$$Error_InternalServerErrorImplCopyWith(
+          _$Error_InternalServerErrorImpl value,
+          $Res Function(_$Error_InternalServerErrorImpl) then) =
+      __$$Error_InternalServerErrorImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$Error_InternalServerErrorImplCopyWithImpl<$Res>
+    extends _$ErrorCopyWithImpl<$Res, _$Error_InternalServerErrorImpl>
+    implements _$$Error_InternalServerErrorImplCopyWith<$Res> {
+  __$$Error_InternalServerErrorImplCopyWithImpl(
+      _$Error_InternalServerErrorImpl _value,
+      $Res Function(_$Error_InternalServerErrorImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
+  const _$Error_InternalServerErrorImpl() : super._();
+
+  @override
+  String toString() {
+    return 'Error.internalServerError()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Error_InternalServerErrorImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) serverConnectionError,
+    required TResult Function(String field0) requestSerializationError,
+    required TResult Function(String field0) responseDeserializationError,
+    required TResult Function() requestTooBig,
+    required TResult Function(String field0) responseError,
+    required TResult Function(int field0) invalidResponseCode,
+    required TResult Function(String field0) loginError,
+    required TResult Function(String field0) signupError,
+    required TResult Function() logoutError,
+    required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
+  }) {
+    return internalServerError();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? serverConnectionError,
+    TResult? Function(String field0)? requestSerializationError,
+    TResult? Function(String field0)? responseDeserializationError,
+    TResult? Function()? requestTooBig,
+    TResult? Function(String field0)? responseError,
+    TResult? Function(int field0)? invalidResponseCode,
+    TResult? Function(String field0)? loginError,
+    TResult? Function(String field0)? signupError,
+    TResult? Function()? logoutError,
+    TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
+  }) {
+    return internalServerError?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? serverConnectionError,
+    TResult Function(String field0)? requestSerializationError,
+    TResult Function(String field0)? responseDeserializationError,
+    TResult Function()? requestTooBig,
+    TResult Function(String field0)? responseError,
+    TResult Function(int field0)? invalidResponseCode,
+    TResult Function(String field0)? loginError,
+    TResult Function(String field0)? signupError,
+    TResult Function()? logoutError,
+    TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
+    required TResult orElse(),
+  }) {
+    if (internalServerError != null) {
+      return internalServerError();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Error_ServerConnectionError value)
+        serverConnectionError,
+    required TResult Function(Error_RequestSerializationError value)
+        requestSerializationError,
+    required TResult Function(Error_ResponseDeserializationError value)
+        responseDeserializationError,
+    required TResult Function(Error_RequestTooBig value) requestTooBig,
+    required TResult Function(Error_ResponseError value) responseError,
+    required TResult Function(Error_InvalidResponseCode value)
+        invalidResponseCode,
+    required TResult Function(Error_LoginError value) loginError,
+    required TResult Function(Error_SignupError value) signupError,
+    required TResult Function(Error_LogoutError value) logoutError,
+    required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
+  }) {
+    return internalServerError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult? Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult? Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult? Function(Error_RequestTooBig value)? requestTooBig,
+    TResult? Function(Error_ResponseError value)? responseError,
+    TResult? Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult? Function(Error_LoginError value)? loginError,
+    TResult? Function(Error_SignupError value)? signupError,
+    TResult? Function(Error_LogoutError value)? logoutError,
+    TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+  }) {
+    return internalServerError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult Function(Error_RequestTooBig value)? requestTooBig,
+    TResult Function(Error_ResponseError value)? responseError,
+    TResult Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult Function(Error_LoginError value)? loginError,
+    TResult Function(Error_SignupError value)? signupError,
+    TResult Function(Error_LogoutError value)? logoutError,
+    TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    required TResult orElse(),
+  }) {
+    if (internalServerError != null) {
+      return internalServerError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Error_InternalServerError extends Error {
+  const factory Error_InternalServerError() = _$Error_InternalServerErrorImpl;
+  const Error_InternalServerError._() : super._();
+}
+
+/// @nodoc
+abstract class _$$Error_UpdateUserDataErrorImplCopyWith<$Res> {
+  factory _$$Error_UpdateUserDataErrorImplCopyWith(
+          _$Error_UpdateUserDataErrorImpl value,
+          $Res Function(_$Error_UpdateUserDataErrorImpl) then) =
+      __$$Error_UpdateUserDataErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String field0});
+}
+
+/// @nodoc
+class __$$Error_UpdateUserDataErrorImplCopyWithImpl<$Res>
+    extends _$ErrorCopyWithImpl<$Res, _$Error_UpdateUserDataErrorImpl>
+    implements _$$Error_UpdateUserDataErrorImplCopyWith<$Res> {
+  __$$Error_UpdateUserDataErrorImplCopyWithImpl(
+      _$Error_UpdateUserDataErrorImpl _value,
+      $Res Function(_$Error_UpdateUserDataErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$Error_UpdateUserDataErrorImpl(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
+  const _$Error_UpdateUserDataErrorImpl(this.field0) : super._();
+
+  @override
+  final String field0;
+
+  @override
+  String toString() {
+    return 'Error.updateUserDataError(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Error_UpdateUserDataErrorImpl &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Error_UpdateUserDataErrorImplCopyWith<_$Error_UpdateUserDataErrorImpl>
+      get copyWith => __$$Error_UpdateUserDataErrorImplCopyWithImpl<
+          _$Error_UpdateUserDataErrorImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) serverConnectionError,
+    required TResult Function(String field0) requestSerializationError,
+    required TResult Function(String field0) responseDeserializationError,
+    required TResult Function() requestTooBig,
+    required TResult Function(String field0) responseError,
+    required TResult Function(int field0) invalidResponseCode,
+    required TResult Function(String field0) loginError,
+    required TResult Function(String field0) signupError,
+    required TResult Function() logoutError,
+    required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
+  }) {
+    return updateUserDataError(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? serverConnectionError,
+    TResult? Function(String field0)? requestSerializationError,
+    TResult? Function(String field0)? responseDeserializationError,
+    TResult? Function()? requestTooBig,
+    TResult? Function(String field0)? responseError,
+    TResult? Function(int field0)? invalidResponseCode,
+    TResult? Function(String field0)? loginError,
+    TResult? Function(String field0)? signupError,
+    TResult? Function()? logoutError,
+    TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
+  }) {
+    return updateUserDataError?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? serverConnectionError,
+    TResult Function(String field0)? requestSerializationError,
+    TResult Function(String field0)? responseDeserializationError,
+    TResult Function()? requestTooBig,
+    TResult Function(String field0)? responseError,
+    TResult Function(int field0)? invalidResponseCode,
+    TResult Function(String field0)? loginError,
+    TResult Function(String field0)? signupError,
+    TResult Function()? logoutError,
+    TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
+    required TResult orElse(),
+  }) {
+    if (updateUserDataError != null) {
+      return updateUserDataError(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Error_ServerConnectionError value)
+        serverConnectionError,
+    required TResult Function(Error_RequestSerializationError value)
+        requestSerializationError,
+    required TResult Function(Error_ResponseDeserializationError value)
+        responseDeserializationError,
+    required TResult Function(Error_RequestTooBig value) requestTooBig,
+    required TResult Function(Error_ResponseError value) responseError,
+    required TResult Function(Error_InvalidResponseCode value)
+        invalidResponseCode,
+    required TResult Function(Error_LoginError value) loginError,
+    required TResult Function(Error_SignupError value) signupError,
+    required TResult Function(Error_LogoutError value) logoutError,
+    required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
+  }) {
+    return updateUserDataError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult? Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult? Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult? Function(Error_RequestTooBig value)? requestTooBig,
+    TResult? Function(Error_ResponseError value)? responseError,
+    TResult? Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult? Function(Error_LoginError value)? loginError,
+    TResult? Function(Error_SignupError value)? signupError,
+    TResult? Function(Error_LogoutError value)? logoutError,
+    TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+  }) {
+    return updateUserDataError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult Function(Error_RequestTooBig value)? requestTooBig,
+    TResult Function(Error_ResponseError value)? responseError,
+    TResult Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult Function(Error_LoginError value)? loginError,
+    TResult Function(Error_SignupError value)? signupError,
+    TResult Function(Error_LogoutError value)? logoutError,
+    TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    required TResult orElse(),
+  }) {
+    if (updateUserDataError != null) {
+      return updateUserDataError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Error_UpdateUserDataError extends Error {
+  const factory Error_UpdateUserDataError(final String field0) =
+      _$Error_UpdateUserDataErrorImpl;
+  const Error_UpdateUserDataError._() : super._();
+
+  String get field0;
+  @JsonKey(ignore: true)
+  _$$Error_UpdateUserDataErrorImplCopyWith<_$Error_UpdateUserDataErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

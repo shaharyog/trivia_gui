@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/Objects/user_score.dart';
+import 'package:trivia/objects/user_score.dart';
+
+import '../../../utils/user_data.dart';
 
 Widget buildTopThreePlayer(
     {required BuildContext context,
@@ -139,14 +141,3 @@ Widget buildTopThreePlayer(
   });
 }
 
-String getInitials(String name) {
-  if (name.isEmpty) return '';
-  List<String> words = name.split(' ');
-  String initials = '';
-  for (var word in words) {
-    if (initials.length < 2) {
-      initials += word[0].toUpperCase();
-    }
-  }
-  return initials;
-}

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/Objects/user_score.dart';
+import 'package:trivia/objects/user_score.dart';
 import 'package:trivia/screens/leaderboard/leaderboard_components/top_three_player.dart';
 
 class TopThree extends StatelessWidget {

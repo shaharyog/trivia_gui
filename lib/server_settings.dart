@@ -12,16 +12,14 @@ class SettingsDialog extends StatefulWidget {
 }
 
 class _SettingsDialogState extends State<SettingsDialog> {
-  late TextEditingController serverIpController;
+  TextEditingController? serverIpController;
   String? serverIpErrorText;
-  late TextEditingController serverPortController;
+  TextEditingController? serverPortController;
   String? serverPortErrorText;
 
   @override
   void initState() {
     super.initState();
-    serverIpController = TextEditingController();
-    serverPortController = TextEditingController();
     initializeControllers();
   }
 
@@ -29,16 +27,17 @@ class _SettingsDialogState extends State<SettingsDialog> {
     final prefs = await SharedPreferences.getInstance();
     final ip = prefs.getString(serverIpKey) ?? defaultServerIp;
     final port = prefs.getString(serverPortKey) ?? defaultPort;
-    serverIpController.text = ip;
-    serverPortController.text = port;
-    setState(() {}); // Trigger a rebuild after the controllers are initialized.
+    setState(() {
+      serverIpController = TextEditingController(text: ip);
+      serverPortController = TextEditingController(text: port);
+    });
   }
 
 
   @override
   void dispose() {
-    serverIpController.dispose();
-    serverPortController.dispose();
+    serverIpController?.dispose();
+    serverPortController?.dispose();
     super.dispose();
   }
 
@@ -87,14 +86,15 @@ class _SettingsDialogState extends State<SettingsDialog> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: FilledButton(
-                  onPressed: isAllFieldsValid()
+                  onPressed: serverIpController != null && serverPortController != null && isAllFieldsValid()
                       ? () async {
                           final prefs = await SharedPreferences.getInstance();
 
                           prefs.setString(
-                              'serverIpKey', serverIpController.text);
+                              'serverIpKey', serverIpController!.text);
                           prefs.setString(
-                              'serverPortKey', serverPortController.text);
+                              'serverPortKey', serverPortController!.text);
+                          if (!context.mounted) return;
                           Navigator.pop(context);
                         }
                       : null,
@@ -118,18 +118,17 @@ class _SettingsDialogState extends State<SettingsDialog> {
           ]),
         )
       ],
-      content: SingleChildScrollView(
+      content: serverIpController != null && serverPortController != null ? SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          // This ensures the column takes up only the necessary height
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: InputField(
                 inputType: TextInputType.number,
-                controller: serverIpController,
+                controller: serverIpController!,
                 errorText: serverIpErrorText,
                 validate: (String value) {
                   setState(() {
@@ -143,8 +142,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
                     icon: const Icon(Icons.refresh),
                     onPressed: () {
                       setState(() {
-                        serverIpController.text = "127.0.0.1";
-                        validateIP(serverIpController.text);
+                        serverIpController!.text = "127.0.0.1";
+                        validateIP(serverIpController!.text);
                       });
                     },
                   ),
@@ -155,7 +154,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: InputField(
                 inputType: TextInputType.number,
-                controller: serverPortController,
+                controller: serverPortController!,
                 errorText: serverPortErrorText,
                 validate: (String value) {
                   setState(() {
@@ -175,8 +174,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
                     icon: const Icon(Icons.refresh),
                     onPressed: () {
                       setState(() {
-                        serverPortController.text = defaultPort.toString();
-                        validatePort(serverPortController.text);
+                        serverPortController!.text = defaultPort.toString();
+                        validatePort(serverPortController!.text);
                       });
                     },
                   ),
@@ -185,6 +184,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
             ),
           ],
         ),
+      ) : const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
@@ -192,7 +193,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
   bool isAllFieldsValid() {
     return serverIpErrorText == null &&
         serverPortErrorText == null &&
-        serverPortController.text.isNotEmpty &&
-        serverIpController.text.isNotEmpty;
+        serverPortController!.text.isNotEmpty &&
+        serverIpController!.text.isNotEmpty;
   }
 }
