@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } on Error_LoginError catch (_) {
       setState(() {
-        loginError = "• Invalid username or password, or user already logged in from another device";
+        loginError = "• Invalid username or password, or user already logged in";
       });
       return;
     } on Error_ServerConnectionError catch (e) {
