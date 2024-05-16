@@ -29,7 +29,7 @@ const defaultLightColorScheme = ColorScheme.light();
 const defaultDarkColorScheme = ColorScheme.dark();
 
 // // avatar colors:
-List<Color> avatarColors = [
+List<ColorSwatch>? avatarColors = [
   Colors.blue,
   Colors.red,
   Colors.green,

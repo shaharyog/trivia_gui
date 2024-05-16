@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:trivia/screens/profile/profile_contents.dart';
 import 'package:trivia/src/rust/api/error.dart';
+import 'package:trivia/src/rust/api/request/get_user_data.dart';
 import '../../providers/session_provider.dart';
 
 
@@ -22,7 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return FutureBuilder(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          final UserData fakeUserData = UserData(username: "username", email: "username@gmail.com", address: "Street, 123, City", phoneNumber: "0555555555", birthday: "01/01/2000", avatarColor: "Blue", memberSince: DateTime(2000, 1, 1));
+          return Skeletonizer(child: ProfilePageContent(userData: fakeUserData));
         }
         if (snapshot.hasError) {
           if (snapshot.error is Error_ServerConnectionError) {
@@ -50,9 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
         final userData = snapshot.data!;
         return ProfilePageContent(userData: userData);
       },
-      future: Provider.of<SessionProvider>(context, listen: false)
-          .session!
-          .getUserData(),
+      future: Provider.of<SessionProvider>(context, listen: false).session!.getUserData(),
     );
   }
 }

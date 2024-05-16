@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:trivia/providers/session_provider.dart';
@@ -9,7 +10,6 @@ import '../../consts.dart';
 import '../../utils/error_dialog.dart';
 import '../../utils/input_field.dart';
 import '../../utils/user_data.dart';
-import 'color_picker.dart';
 
 class ProfilePageContent extends StatefulWidget {
   final UserData userData;
@@ -21,8 +21,10 @@ class ProfilePageContent extends StatefulWidget {
 }
 
 class _ProfilePageContentState extends State<ProfilePageContent> {
+  late UserData lastUserData;
   bool first = true;
   late Color avatarColor;
+  ColorSwatch? tmpSelectedColor;
   TextEditingController passwordController = TextEditingController();
   String? passwordErrorText;
   bool _showPassword = false;
@@ -37,6 +39,17 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
   String? _errorText;
 
   @override
+  void initState() {
+    lastUserData = widget.userData;
+    avatarColor = avatarColorsMap[widget.userData.avatarColor]!;
+    emailController.text = widget.userData.email;
+    addressController.text = widget.userData.address;
+    phoneNumberController.text = widget.userData.phoneNumber;
+    birthdateController.text = widget.userData.birthday;
+    super.initState();
+  }
+
+  @override
   void dispose() {
     passwordController.dispose();
     emailController.dispose();
@@ -47,14 +60,6 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
 
   @override
   Widget build(BuildContext context) {
-    if (first) {
-      first = false;
-      avatarColor = avatarColorsMap[widget.userData.avatarColor]!;
-      emailController.text = widget.userData.email;
-      addressController.text = widget.userData.address;
-      phoneNumberController.text = widget.userData.phoneNumber;
-      birthdateController.text = widget.userData.birthday;
-    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: SingleChildScrollView(
@@ -237,7 +242,10 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                 style: FilledButton.styleFrom(
                   minimumSize: signInAndUpButtonSize,
                 ),
-                onPressed: isAllFieldsValid() && isSomethingChanged() && !_isLoading ? _save : null,
+                onPressed:
+                    isAllFieldsValid() && isSomethingChanged() && !_isLoading
+                        ? _save
+                        : null,
                 child: _isLoading
                     ? const CircularProgressIndicator()
                     : const Text(
@@ -294,7 +302,9 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
         _isLoading = false;
       });
     }
-
+    setState(() {
+      lastUserData = UserData(username: widget.userData.username, email: emailController.text, address: addressController.text, phoneNumber: phoneNumberController.text, birthday: widget.userData.birthday, avatarColor: avatarColorsMapReversed[avatarColor]!, memberSince: widget.userData.memberSince);
+    });
     passwordController.text = '';
   }
 
@@ -310,26 +320,42 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
   }
 
   bool isSomethingChanged() {
-    return emailController.text != widget.userData.email ||
-        addressController.text != widget.userData.address ||
-        phoneNumberController.text != widget.userData.phoneNumber ||
-        avatarColorsMap[widget.userData.avatarColor] != avatarColor ||
+    return emailController.text != lastUserData.email ||
+        addressController.text !=  lastUserData.address ||
+        phoneNumberController.text !=  lastUserData.phoneNumber ||
+        avatarColorsMap[lastUserData.avatarColor] != avatarColor ||
         passwordController.text.isNotEmpty;
   }
 
   // Method to show color picker dialog
   void _showColorPicker() async {
-
+    tmpSelectedColor = avatarColor as ColorSwatch?;
     await showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return ColorPickerDialog(
-          initialColor: avatarColor,
-          onColorSave: (Color newColor) {
-            setState(() {
-              avatarColor = newColor;
-            });
-          },
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(16.0),
+          title: const Text("Select Avatar Color"),
+          content: MaterialColorPicker(
+            selectedColor: tmpSelectedColor,
+            allowShades: false,
+            onMainColorChange: (color) =>
+                setState(() => tmpSelectedColor = color),
+            colors: avatarColors,
+          ),
+          actions: [
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() => avatarColor = tmpSelectedColor!);
+              },
+              child: const Text('Submit'),
+            ),
+          ],
         );
       },
     );
