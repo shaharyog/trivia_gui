@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trivia/objects/user_score.dart';
 
-import '../../../utils/user_data.dart';
+import '../../../utils/common_functionalities/user_data_validation.dart';
 
 Widget buildTopThreePlayer(
     {required BuildContext context,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../objects/room.dart';
-import '../../../utils/seconds_to_readable.dart';
+import '../../../utils/common_functionalities/seconds_to_readable.dart';
 import 'blinking_circle.dart';
 
 class RoomCard extends StatelessWidget {

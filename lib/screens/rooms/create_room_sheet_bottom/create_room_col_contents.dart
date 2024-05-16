@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/seconds_to_readable.dart';
+import '../../../utils/common_functionalities/seconds_to_readable.dart';
 
 class CreateRoomSheetColContents extends StatefulWidget {
   final Function roomNameCallback;

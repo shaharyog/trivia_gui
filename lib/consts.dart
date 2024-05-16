@@ -23,7 +23,7 @@ const bool defaultIsReversedSort = false;
 
 // screen size related consts:
 const minScreenSize = Size(500, 700);
-const maxScreenSize = Size(10000000, 10000000);
+const defaultScreenSize = Size(800, 600);
 
 // animations durations:
 const int defaultBlinkingCircleDuration = 550;

@@ -9,12 +9,11 @@ import '../rooms_filter_sheet/rooms_filter_side_sheet.dart';
 
 Future<void> launchFilterSheet(
     BuildContext context,
-    FiltersProvider filtersProvider,
-    ScreenSizeProvider screenSizeProvider) async {
+    FiltersProvider filtersProvider) async {
   Filters tempFilters = filtersProvider.filters;
   bool isConfirmed = false;
 
-  if (screenSizeProvider.screenSize == ScreenSize.small) {
+  if (getScreenSize(context) == ScreenSize.small) {
     await showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,

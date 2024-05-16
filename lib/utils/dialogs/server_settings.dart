@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:trivia/utils/input_field.dart';
-import 'consts.dart';
+import 'package:trivia/utils/common_widgets/input_field.dart';
+import '../../consts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsDialog extends StatefulWidget {
@@ -72,7 +72,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text("Server Settings"),
-      icon: const Icon(Icons.settings_sharp),
+      icon: const Icon(Icons.settings_sharp, size: 32.0),
       contentPadding:
           const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       actionsPadding:

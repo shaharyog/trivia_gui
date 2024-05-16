@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:trivia/providers/session_provider.dart';
 import 'package:trivia/src/rust/api/error.dart';
 import 'package:trivia/src/rust/api/request/get_user_data.dart';
 import 'package:trivia/src/rust/api/request/update_user_data.dart';
 import '../../consts.dart';
-import '../../utils/error_dialog.dart';
-import '../../utils/input_field.dart';
-import '../../utils/reset_providers.dart';
-import '../../utils/user_data.dart';
+import '../../src/rust/api/session.dart';
+import '../../utils/dialogs/error_dialog.dart';
+import '../../utils/common_widgets/input_field.dart';
+import '../../utils/common_functionalities/reset_providers.dart';
+import '../../utils/common_functionalities/user_data_validation.dart';
 
 class ProfilePageContent extends StatefulWidget {
   final UserData userData;
+  final bool isSkeletonLoading;
+  final Session session;
 
-  const ProfilePageContent({super.key, required this.userData});
+  const ProfilePageContent({
+    super.key,
+    required this.userData,
+    this.isSkeletonLoading = false,
+    required this.session,
+  });
 
   @override
   State<ProfilePageContent> createState() => _ProfilePageContentState();
@@ -30,10 +36,13 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
   bool _showPassword = false;
   TextEditingController emailController = TextEditingController();
   String? emailErrorText;
+  FocusNode emailFocusNode = FocusNode();
   TextEditingController addressController = TextEditingController();
   String? addressErrorText;
+  FocusNode addressFocusNode = FocusNode();
   TextEditingController phoneNumberController = TextEditingController();
   String? phoneNumberErrorText;
+  FocusNode phoneNumberFocusNode = FocusNode();
   TextEditingController birthdateController = TextEditingController();
   bool _isLoading = false;
   String? _errorText;
@@ -55,6 +64,10 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
     emailController.dispose();
     addressController.dispose();
     phoneNumberController.dispose();
+    birthdateController.dispose();
+    emailFocusNode.dispose();
+    addressFocusNode.dispose();
+    phoneNumberFocusNode.dispose();
     super.dispose();
   }
 
@@ -64,43 +77,43 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  _showColorPicker();
-                },
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      const SizedBox(
-                        width: 128,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                _showColorPicker();
+              },
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 128,
+                    ),
+                    CircleAvatar(
+                      radius: 64,
+                      backgroundColor: avatarColor,
+                      child: Text(
+                        getInitials(widget.userData.username),
+                        style:
+                            Theme.of(context).textTheme.displaySmall!.copyWith(
+                                  color: Colors.white,
+                                ),
                       ),
-                      CircleAvatar(
-                        radius: 64,
-                        backgroundColor: avatarColor,
-                        child: Text(
-                          getInitials(widget.userData.username),
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall!
-                              .copyWith(
-                                color: Colors.white,
-                              ),
-                        ),
-                      ),
+                    ),
+                    if (!widget.isSkeletonLoading)
                       Positioned(
                         bottom: 0,
                         right: 0,
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Theme.of(context).colorScheme.inversePrimary,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHigh,
                           ),
                           child: IconButton(
                             onPressed: _showColorPicker,
@@ -110,150 +123,169 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
-              Text(
-                widget.userData.username,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                "Member since: ${DateFormat("dd/MM/yyyy").format(widget.userData.memberSince.toLocal())}",
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: InputField(
-                  enabled: !_isLoading,
-                  label: "Password",
-                  inputType: TextInputType.visiblePassword,
-                  controller: passwordController,
-                  errorText: passwordErrorText,
-                  showPassword: _showPassword,
-                  isPassword: true,
-                  validate: (String value) {
-                    setState(() {
-                      _errorText = null;
-                      passwordErrorText = getPasswordErrorText(value);
-                    });
-                  },
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _showPassword = !_showPassword;
-                        });
-                      },
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Icon(
-                          _showPassword
-                              ? Icons.visibility_rounded
-                              : Icons.visibility_off_rounded,
-                        ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Text(
+              widget.userData.username,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              "Member since: ${DateFormat("dd/MM/yyyy").format(widget.userData.memberSince.toLocal())}",
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: InputField(
+                enabled: !_isLoading,
+                label: "Password",
+                inputType: TextInputType.visiblePassword,
+                controller: passwordController,
+                errorText: passwordErrorText,
+                showPassword: _showPassword,
+                isPassword: true,
+                onFieldSubmitted: (value) {
+                  // move focus to next field (email)
+                  FocusScope.of(context).requestFocus(emailFocusNode);
+                },
+                validate: (String value) {
+                  setState(() {
+                    _errorText = null;
+                    passwordErrorText = getPasswordErrorText(value);
+                  });
+                },
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _showPassword = !_showPassword;
+                      });
+                    },
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Icon(
+                        _showPassword
+                            ? Icons.visibility_rounded
+                            : Icons.visibility_off_rounded,
                       ),
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: InputField(
-                  suffixIcon: const Icon(Icons.email_outlined),
-                  enabled: !_isLoading,
-                  label: "Email",
-                  inputType: TextInputType.emailAddress,
-                  controller: emailController,
-                  errorText: emailErrorText,
-                  validate: (String value) {
-                    setState(() {
-                      _errorText = null;
-                      emailErrorText = getEmailErrorText(value);
-                    });
-                  },
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: InputField(
+                focusNode: emailFocusNode,
+                suffixIcon: const Icon(Icons.email_outlined),
+                enabled: !_isLoading,
+                label: "Email",
+                inputType: TextInputType.emailAddress,
+                onFieldSubmitted: (value) {
+                  // move focus to next field (address)
+                  FocusScope.of(context).requestFocus(addressFocusNode);
+                },
+                controller: emailController,
+                errorText: emailErrorText,
+                validate: (String value) {
+                  setState(() {
+                    _errorText = null;
+                    emailErrorText = getEmailErrorText(value);
+                  });
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: InputField(
-                  suffixIcon: const Icon(Icons.home_work_outlined),
-                  enabled: !_isLoading,
-                  controller: addressController,
-                  label: "Address",
-                  errorText: addressErrorText,
-                  validate: (String value) {
-                    setState(() {
-                      _errorText = null;
-                      addressErrorText = getAddressErrorText(value);
-                    });
-                  },
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: InputField(
+                focusNode: addressFocusNode,
+                suffixIcon: const Icon(Icons.home_work_outlined),
+                enabled: !_isLoading,
+                controller: addressController,
+                inputType: TextInputType.streetAddress,
+                onFieldSubmitted: (value) {
+                  // move focus to next field (phone number)
+                  FocusScope.of(context).requestFocus(phoneNumberFocusNode);
+                },
+                label: "Address",
+                errorText: addressErrorText,
+                validate: (String value) {
+                  setState(() {
+                    _errorText = null;
+                    addressErrorText = getAddressErrorText(value);
+                  });
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: InputField(
-                  suffixIcon: const Icon(Icons.phone_outlined),
-                  enabled: !_isLoading,
-                  inputType: TextInputType.phone,
-                  controller: phoneNumberController,
-                  label: "Phone number",
-                  errorText: phoneNumberErrorText,
-                  validate: (String value) {
-                    setState(() {
-                      _errorText = null;
-                      phoneNumberErrorText = getPhoneNumberErrorText(value);
-                    });
-                  },
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: InputField(
+                focusNode: phoneNumberFocusNode,
+                suffixIcon: const Icon(Icons.phone_outlined),
+                enabled: !_isLoading,
+                inputType: TextInputType.phone,
+                controller: phoneNumberController,
+                label: "Phone number",
+                errorText: phoneNumberErrorText,
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (value) {
+                  if (isAllFieldsValid() && isSomethingChanged()) _save();
+                },
+                validate: (String value) {
+                  setState(() {
+                    _errorText = null;
+                    phoneNumberErrorText = getPhoneNumberErrorText(value);
+                  });
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: InputField(
-                  suffixIcon: const Icon(Icons.calendar_today_outlined),
-                  enabled: false,
-                  controller: birthdateController,
-                  label: "Birthday",
-                  errorText: null,
-                  validate: null,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: InputField(
+                suffixIcon: const Icon(Icons.calendar_today_outlined),
+                enabled: false,
+                controller: birthdateController,
+                label: "Birthday",
+                errorText: null,
+                validate: null,
               ),
-              if (_errorText != null)
-                Text(
-                  _errorText!,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                ),
-              const SizedBox(height: 16),
-              FilledButton(
-                style: FilledButton.styleFrom(
-                  minimumSize: signInAndUpButtonSize,
-                ),
-                onPressed:
-                    isAllFieldsValid() && isSomethingChanged() && !_isLoading
-                        ? _save
-                        : null,
-                child: _isLoading
-                    ? const CircularProgressIndicator()
-                    : const Text(
-                        "Save",
-                      ),
+            ),
+            if (_errorText != null)
+              Text(
+                _errorText!,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
               ),
-            ],
-          ),
+            const SizedBox(height: 16),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                minimumSize: signInAndUpButtonSize,
+              ),
+              onPressed:
+                  isAllFieldsValid() && isSomethingChanged() && !_isLoading
+                      ? _save
+                      : null,
+              child: _isLoading
+                  ? const CircularProgressIndicator()
+                  : const Text(
+                      "Save",
+                    ),
+            ),
+          ],
         ),
       ),
     );
@@ -265,29 +297,26 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
       _isLoading = true;
     });
     try {
-      await Provider.of<SessionProvider>(context, listen: false)
-          .session!
-          .updateUserData(
-              updateUserDataRequest: UpdateUserDataRequest(
-                  password: passwordController.text.isEmpty
-                      ? null
-                      : passwordController.text,
-                  email: emailController.text,
-                  address: addressController.text,
-                  phoneNumber: phoneNumberController.text,
-                  avatarColor: avatarColorsMapReversed[avatarColor]!));
+      await widget.session.updateUserData(
+          updateUserDataRequest: UpdateUserDataRequest(
+              password: passwordController.text.isEmpty
+                  ? null
+                  : passwordController.text,
+              email: emailController.text,
+              address: addressController.text,
+              phoneNumber: phoneNumberController.text,
+              avatarColor: avatarColorsMapReversed[avatarColor]!));
     } on Error_ServerConnectionError catch (e) {
       if (!mounted) return;
-      Provider.of<SessionProvider>(context, listen: false).reset();
       resetProviders(context);
+      Navigator.of(context).pushReplacementNamed('/login');
       showDialog(
         barrierDismissible: false,
         context: context,
         builder: (context) {
           return ErrorDialog(
               title: "Server Connection Error",
-              message:
-              "${e.format()}, Returning to login page...");
+              message: "${e.format()}, Returning to login page...");
         },
       );
     } on Error_UpdateUserDataError catch (e) {
@@ -314,7 +343,14 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
       });
     }
     setState(() {
-      lastUserData = UserData(username: widget.userData.username, email: emailController.text, address: addressController.text, phoneNumber: phoneNumberController.text, birthday: widget.userData.birthday, avatarColor: avatarColorsMapReversed[avatarColor]!, memberSince: widget.userData.memberSince);
+      lastUserData = UserData(
+          username: widget.userData.username,
+          email: emailController.text,
+          address: addressController.text,
+          phoneNumber: phoneNumberController.text,
+          birthday: widget.userData.birthday,
+          avatarColor: avatarColorsMapReversed[avatarColor]!,
+          memberSince: widget.userData.memberSince);
     });
     passwordController.text = '';
   }
@@ -332,8 +368,8 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
 
   bool isSomethingChanged() {
     return emailController.text != lastUserData.email ||
-        addressController.text !=  lastUserData.address ||
-        phoneNumberController.text !=  lastUserData.phoneNumber ||
+        addressController.text != lastUserData.address ||
+        phoneNumberController.text != lastUserData.phoneNumber ||
         avatarColorsMap[lastUserData.avatarColor] != avatarColor ||
         passwordController.text.isNotEmpty;
   }
@@ -349,9 +385,10 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
           title: const Text("Select Avatar Color"),
           content: MaterialColorPicker(
             colors: avatarColors,
-            selectedColor: avatarColor,
+            selectedColor: tempAvatarColor,
             allowShades: false,
-            onMainColorChange: (color) => setState(() => tempAvatarColor = color),
+            onMainColorChange: (color) =>
+                setState(() => tempAvatarColor = color),
           ),
           actions: [
             TextButton(
@@ -365,7 +402,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                   setState(() => avatarColor = tempAvatarColor!);
                 }
               },
-              child: const Text('Submit'),
+              child: const Text('Select'),
             ),
           ],
         );

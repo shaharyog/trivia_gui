@@ -21,7 +21,7 @@ String? getPasswordErrorText(String value) {
     bool doesPasswordContainLowercase = value.contains(RegExp(r'[a-z]'));
     bool doesPasswordContainNumber = value.contains(RegExp(r'[0-9]'));
     bool doesPasswordContainSpecialCharacter =
-    value.contains(RegExp(r'[*&^%$#@!]'));
+        value.contains(RegExp(r'[*&^%$#@!]'));
 
     String tempErrorText = "";
     if (isPasswordTooShort) {
@@ -29,18 +29,18 @@ String? getPasswordErrorText(String value) {
     }
     if (!doesPasswordContainUppercase) {
       tempErrorText +=
-      "• Password must contain at least one uppercase letter\n";
+          "• Password must contain at least one uppercase letter\n";
     }
     if (!doesPasswordContainLowercase) {
       tempErrorText +=
-      "• Password must contain at least one lowercase letter\n";
+          "• Password must contain at least one lowercase letter\n";
     }
     if (!doesPasswordContainNumber) {
       tempErrorText += "• Password must contain at least one number\n";
     }
     if (!doesPasswordContainSpecialCharacter) {
       tempErrorText +=
-      "• Password must contain at least one special character\n";
+          "• Password must contain at least one special character\n";
     }
     if (tempErrorText.isNotEmpty) {
       tempErrorText = tempErrorText.substring(0, tempErrorText.length - 1);
@@ -87,7 +87,7 @@ bool isValidPassword(String pass) {
   bool doesPasswordContainLowercase = pass.contains(RegExp(r'[a-z]'));
   bool doesPasswordContainNumber = pass.contains(RegExp(r'[0-9]'));
   bool doesPasswordContainSpecialCharacter =
-  pass.contains(RegExp(r'[*&^%$#@!]'));
+      pass.contains(RegExp(r'[*&^%$#@!]'));
   // R"((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[*&^%$#@!])[A-Za-z0-9*&^%$#@!]{8,})";
   return !isPasswordTooShort &&
       doesPasswordContainUppercase &&
@@ -114,7 +114,7 @@ bool isValidAddress(String address) {
 
 bool isValidPhoneNumber(String phoneNumber) {
   return RegExp(
-      r'^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0[23489]{1})|(0[57]{1}[0-9]))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$')
+          r'^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0[23489]{1})|(0[57]{1}[0-9]))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$')
       .hasMatch(phoneNumber);
 }
 
@@ -123,8 +123,8 @@ DateTime? parseDate(String date) {
     return DateFormat("dd-MM-yyyy").tryParseStrict(date) != null
         ? DateFormat("dd-MM-yyyy").parseStrict(date)
         : DateFormat("dd/MM/yyyy").tryParseStrict(date) != null
-        ? DateFormat("dd/MM/yyyy").parseStrict(date)
-        : DateFormat("dd.mm.yyyy").parse(date);
+            ? DateFormat("dd/MM/yyyy").parseStrict(date)
+            : DateFormat("dd.mm.yyyy").parse(date);
   } catch (e) {
     return null;
   }
@@ -137,21 +137,22 @@ String? getBirthdateErrorText(String value) {
     DateTime? date = parseDate(value);
     if (date == null) {
       return "• Invalid birthdate format";
-    }
-
-    else {
+    } else if (date
+        .isAfter(DateTime.now().subtract(const Duration(days: 365 * 16)))) {
+      return "• Must be at least 16 years old";
+    } else if (date
+        .isBefore(DateTime.now().subtract(const Duration(days: 365 * 150)))) {
+      return "• Must be at most 150 years old";
+    } else {
       return null;
     }
   }
 }
 
-
 String? getUsernameErrorText(String value) {
-
   if (value.length < 4 && value.isNotEmpty) {
     return "• Username must be at least 4 characters long";
   }
 
   return null;
-
 }

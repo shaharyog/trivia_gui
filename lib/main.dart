@@ -2,67 +2,72 @@ import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:trivia/providers/leaderboard_provider.dart';
-import 'package:window_size/window_size.dart' as window_size;
+import 'package:window_manager/window_manager.dart';
 import 'consts.dart';
-import 'homepage/homepage.dart';
-import 'auth/login.dart';
-import 'providers/navigation_provider.dart';
-import 'auth/signup.dart';
+import 'screens/auth/login.dart';
+import 'screens/auth/signup.dart';
 import 'package:provider/provider.dart';
 import 'providers/filters_providers/rooms_filters_provider.dart';
 import 'providers/rooms_provider.dart';
-import 'providers/screen_size_provider.dart';
-import 'providers/session_provider.dart';
 import 'providers/theme_provider.dart';
 import 'package:trivia/src/rust/frb_generated.dart';
 
+import 'utils/common_functionalities/window_management.dart';
+
 void main() async {
   await RustLib.init();
-
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     WidgetsFlutterBinding.ensureInitialized();
-    window_size.getWindowInfo().then(
-      (window) {
-        final screen = window.screen;
-
-        if (screen != null) {
-          window_size.setWindowMinSize(minScreenSize);
-          window_size.setWindowMaxSize(maxScreenSize);
-          window_size.setWindowTitle('Trivia');
-        }
-      },
-    );
+    await windowManager.ensureInitialized();
+    await windowManager.setTitle("Trivia");
+    await windowManager.setSize(defaultScreenSize);
+    await windowManager.setMinimumSize(minScreenSize);
   }
+
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => NavigationState()),
         ChangeNotifierProvider(create: (context) => FiltersProvider()),
-        ChangeNotifierProvider(create: (context) => ScreenSizeProvider()),
         ChangeNotifierProvider(
             create: (context) =>
                 RoomsProvider(context.read<FiltersProvider>())),
         ChangeNotifierProvider(create: (context) => LeaderboardProvider()),
-        ChangeNotifierProvider(create: (context) => SessionProvider()),
       ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+  State<MyApp> createState() => _MyAppState();
+}
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ScreenSizeProvider>(context, listen: false)
-          .setScreenSize(screenWidth);
-    });
+class _MyAppState extends State<MyApp> with WindowListener {
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      windowManager.addListener(this);  // add window listener
+    }
+  }
+
+  // always enforce the minimum screen size
+  // because the window manager doesn't enforce it after minimize/maximize
+  @override
+  void onWindowEvent(String eventName) {
+    super.onWindowEvent(eventName);
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      enforceMinScreenSize();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return DynamicColorBuilder(
       builder: (lightColorScheme, darkColorScheme) {
         return MaterialApp(
@@ -81,7 +86,6 @@ class MyApp extends StatelessWidget {
           routes: {
             '/login': (context) => const LoginPage(),
             '/signup': (context) => const SignupPage(),
-            '/home': (context) => const HomePage(),
           },
         );
       },

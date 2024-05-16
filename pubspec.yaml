@@ -24,12 +24,10 @@ dependencies:
   ffi: ^2.1.2
   shared_preferences: ^2.2.3
   bitsdojo_window: ^0.1.6
-  window_size:
-    git:
-      url: https://github.com/google/flutter-desktop-embedding
-      path: plugins/window_size
   flutter_material_color_picker: ^1.2.0
   skeletonizer: ^1.1.2+1
+  flutter_gradient_animation_text: ^1.0.2
+  window_manager: ^0.3.8
 
 dev_dependencies:
   flutter_test:

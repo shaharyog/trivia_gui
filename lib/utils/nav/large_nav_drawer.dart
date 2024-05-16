@@ -1,42 +1,47 @@
 import 'package:flutter/material.dart';
+import '../../homepage/homepage_appbar.dart';
+import '../../src/rust/api/session.dart';
 
-import '../../providers/navigation_provider.dart';
+class HomePageNavRail extends StatelessWidget {
+  final int navigationIndex;
+  final ValueChanged<int> onDestinationSelected;
+  final Session session;
 
-Widget homePageLargeNavDrawer({
-  required NavigationState navigationState,
-  required GlobalKey<ScaffoldState> scaffoldKey,
-}) {
-  return NavigationDrawer(
-    selectedIndex: navigationState.selectedIndex,
-    onDestinationSelected: (int index) {
-      navigationState.selectedIndex = index;
-      scaffoldKey.currentState!.closeDrawer();
-    },
-    children: const <Widget>[
-      Padding(
-        padding: EdgeInsets.fromLTRB(28, 16, 16, 10),
+  const HomePageNavRail({
+    super.key,
+    required this.navigationIndex,
+    required this.onDestinationSelected,
+    required this.session,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return NavigationRail(
+      selectedIndex: navigationIndex,
+      onDestinationSelected: onDestinationSelected,
+      leading: Column(
+        children: getActions(context, session).reversed.toList(),
       ),
-      NavigationDrawerDestination(
-        selectedIcon: Icon(Icons.leaderboard),
-        icon: Icon(Icons.leaderboard_outlined),
-        label: Text('Leaderboard'),
-      ),
-      SizedBox(height: 8),
-      NavigationDrawerDestination(
-        selectedIcon: Icon(Icons.holiday_village),
-        icon: Icon(Icons.holiday_village_outlined),
-        label: Text('Rooms'),
-      ),
-      SizedBox(height: 8),
-      NavigationDrawerDestination(
-        selectedIcon: Icon(Icons.person),
-        icon: Icon(Icons.person_outline),
-        label: Text('Profile'),
-      ),
-      Padding(
-        padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
-        child: Divider(),
-      ),
-    ],
-  );
+      groupAlignment: 0,
+      // Center the items
+      labelType: NavigationRailLabelType.selected,
+      destinations: const [
+        NavigationRailDestination(
+          selectedIcon: Icon(Icons.leaderboard),
+          icon: Icon(Icons.leaderboard_outlined),
+          label: Text('Leaderboard'),
+        ),
+        NavigationRailDestination(
+          selectedIcon: Icon(Icons.holiday_village),
+          icon: Icon(Icons.holiday_village_outlined),
+          label: Text('Rooms'),
+        ),
+        NavigationRailDestination(
+          selectedIcon: Icon(Icons.person),
+          icon: Icon(Icons.person_outline),
+          label: Text('Profile'),
+        ),
+      ],
+    );
+  }
 }

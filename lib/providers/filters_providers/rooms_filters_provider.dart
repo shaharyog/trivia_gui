@@ -67,7 +67,6 @@ class FiltersProvider with ChangeNotifier {
 
   void reset() {
     _filters.reset();
-    notifyListeners();
   }
 
   void resetFilters() {

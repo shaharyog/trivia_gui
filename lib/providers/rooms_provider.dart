@@ -84,6 +84,5 @@ class RoomsProvider with ChangeNotifier {
   void reset() {
     _rooms.clear();
     _filteredRooms.clear();
-    notifyListeners();
   }
 }

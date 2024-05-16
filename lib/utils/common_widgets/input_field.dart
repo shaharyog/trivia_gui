@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../consts.dart';
+import '../../consts.dart';
 
 class InputField extends StatefulWidget {
   final String label;
@@ -9,17 +9,20 @@ class InputField extends StatefulWidget {
   final TextInputAction textInputAction;
   final List<TextInputFormatter>? formatters;
   final Function(String)? validate;
+  final Function(String)? onFieldSubmitted;
   final String? errorText;
   final TextEditingController controller;
   final String? initialValue;
   final bool showPassword;
   final Widget? suffixIcon;
   final bool enabled;
+  final FocusNode? focusNode;
 
   const InputField({
     required this.controller,
     required this.errorText,
     required this.validate,
+    this.onFieldSubmitted,
     required this.label,
     this.suffixIcon,
     this.initialValue,
@@ -29,6 +32,7 @@ class InputField extends StatefulWidget {
     this.inputType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
     this.formatters,
+    this.focusNode,
     super.key,
   });
 
@@ -42,6 +46,8 @@ class _InputFieldState extends State<InputField> {
     return Container(
       constraints: const BoxConstraints(maxWidth: maxTextFieldWidth),
       child: TextFormField(
+        focusNode: widget.focusNode,
+        onFieldSubmitted: widget.onFieldSubmitted,
         enabled: widget.enabled,
         initialValue: widget.initialValue,
         onChanged: widget.validate,

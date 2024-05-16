@@ -3,12 +3,14 @@ import 'package:provider/provider.dart';
 import '../../consts.dart';
 import '../../providers/filters_providers/rooms_filters_provider.dart';
 import '../../providers/rooms_provider.dart';
-import '../../providers/screen_size_provider.dart';
+import '../../src/rust/api/session.dart';
 import 'rooms_components/launch_filter_sheet.dart';
 import 'rooms_components/room_card.dart';
+import 'search_bar.dart';
 
 class RoomsWidget extends StatefulWidget {
-  const RoomsWidget({super.key});
+  final Session session;
+  const RoomsWidget({super.key, required this.session});
 
   @override
   State<RoomsWidget> createState() => _RoomsWidgetState();
@@ -37,7 +39,6 @@ class _RoomsWidgetState extends State<RoomsWidget>
   Widget build(BuildContext context) {
     final roomsProvider = Provider.of<RoomsProvider>(context);
     final filtersProvider = Provider.of<FiltersProvider>(context);
-    final screenSizeProvider = Provider.of<ScreenSizeProvider>(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -50,51 +51,30 @@ class _RoomsWidgetState extends State<RoomsWidget>
             child: Row(
               children: [
                 Expanded(
-                  child: SearchBar(
-                    surfaceTintColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
-                      return Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.05);
-                    }),
+                  child: SearchBarCustom(
                     onChanged: (value) {
                       filtersProvider.updateSearchText(value);
                     },
                     hintText: 'Search rooms',
-                    hintStyle: WidgetStateProperty.resolveWith<TextStyle?>(
-                      (Set<WidgetState> states) {
-                        if (states.contains(WidgetState.focused)) {
-                          return TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          );
-                        } else {
-                          return const TextStyle();
-                        }
-                      },
-                    ),
                     leading: const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Icon(Icons.search_sharp),
                     ),
                     trailing: <Widget>[
-                      GestureDetector(
-                        onLongPress: () {
-                          filtersProvider.resetSortDirection();
-                        },
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
+                      IconButton(
+                        onPressed: () {
+                          setState(
+                            () {
                               filtersProvider.setIsReversedSort(
                                   !filtersProvider.isReversedSort);
-                            });
-                          },
-                          icon: Icon(
-                            filtersProvider.isReversedSort
-                                ? Icons.arrow_downward_sharp
-                                : Icons.arrow_upward_sharp,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                            },
+                          );
+                        },
+                        icon: Icon(
+                          filtersProvider.isReversedSort
+                              ? Icons.arrow_downward_sharp
+                              : Icons.arrow_upward_sharp,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                       GestureDetector(
@@ -243,8 +223,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
                         },
                         child: IconButton(
                           onPressed: () async {
-                            await launchFilterSheet(
-                                context, filtersProvider, screenSizeProvider);
+                            await launchFilterSheet(context, filtersProvider);
                           },
                           icon: Icon(
                             Icons.tune_sharp,

@@ -4,10 +4,12 @@ import 'package:trivia/screens/leaderboard/leaderboard_components/top_three.dart
 import '../../objects/user_score.dart';
 import '../../providers/leaderboard_provider.dart';
 import '../../providers/screen_size_provider.dart';
-import '../../utils/user_data.dart';
+import '../../src/rust/api/session.dart';
+import '../../utils/common_functionalities/user_data_validation.dart';
 
 class Leaderboard extends StatefulWidget {
-  const Leaderboard({super.key});
+  final Session session;
+  const Leaderboard({super.key, required this.session});
 
   @override
   State<Leaderboard> createState() => _LeaderboardState();
@@ -17,12 +19,12 @@ class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
     final leaderboardProvider = Provider.of<LeaderboardProvider>(context);
-    final screenSizeProvider = Provider.of<ScreenSizeProvider>(context);
+
     return leaderboardProvider.topUsers.isNotEmpty
         ? Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-            child: screenSizeProvider.screenSize == ScreenSize.small
+            child: getScreenSize(context) == ScreenSize.small
                 ? _buildSmallScreen(context, leaderboardProvider.topUsers)
                 : _buildLargeScreen(context, leaderboardProvider.topUsers),
           )
