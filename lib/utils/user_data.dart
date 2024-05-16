@@ -139,9 +139,7 @@ String? getBirthdateErrorText(String value) {
       return "• Invalid birthdate format";
     }
 
-    if (date.isBefore(DateTime(1900, 1, 1)) || date.isAfter(DateTime.now())) {
-      return "• Invalid birthdate";
-    } else {
+    else {
       return null;
     }
   }

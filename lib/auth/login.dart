@@ -10,6 +10,7 @@ import '../providers/session_provider.dart';
 import '../server_settings.dart';
 import '../src/rust/api/session.dart';
 import '../utils/error_dialog.dart';
+import '../utils/set_page_title.dart';
 import '../utils/toggle_theme_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -25,6 +26,12 @@ class _LoginPageState extends State<LoginPage> {
   String? loginError;
   bool _isLoading = false;
   bool _showPassword = false;
+
+  @override
+  void initState() {
+    setPageTitle('Login');
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -60,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
     } on Error_ServerConnectionError catch (e) {
       if (!mounted) return;
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return ErrorDialog(
@@ -72,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
     } on Error catch (e) {
       if (!mounted) return;
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return ErrorDialog(
@@ -88,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     if (!mounted) return;
+    setPageTitle(usernameController.text);
     Navigator.pushReplacementNamed(context, '/home');
   }
 

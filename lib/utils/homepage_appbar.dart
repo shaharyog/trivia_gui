@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trivia/providers/session_provider.dart';
+import 'package:trivia/utils/reset_providers.dart';
 import '../providers/navigation_provider.dart';
 import '../src/rust/api/error.dart';
 import 'error_dialog.dart';
@@ -35,40 +36,55 @@ AppBar homePageAppBar({
         child: IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () async {
-            Navigator.of(context).pushReplacementNamed('/login');
             final sessionProvider =
                 Provider.of<SessionProvider>(context, listen: false);
             try {
-              sessionProvider.session!.logout();
+              await sessionProvider.session!.logout();
             } on Error_LogoutError catch (e) {
-              await showDialog(
+              if (context.mounted) {
+                await showDialog(
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext context) {
                     return ErrorDialog(
                       title: "Logout Error",
-                      message: e.format(),
+                      message: "${e.format()}, Returning to login page...",
                     );
-                  });
+                  },
+                );
+              }
             } on Error_ServerConnectionError catch (e) {
-              await showDialog(
+              if (context.mounted) {
+                await showDialog(
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext context) {
                     return ErrorDialog(
                       title: "Server Connection Error",
-                      message: e.format(),
+                      message: "${e.format()}, Returning to login page...",
                     );
-                  });
+                  },
+                );
+              }
             } on Error catch (e) {
-              await showDialog(
+              if (context.mounted) {
+                await showDialog(
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext context) {
                     return ErrorDialog(
                       title: "Error",
-                      message: e.format(),
+                      message: "${e.format()}, Returning to login page...",
                     );
-                  });
+                  },
+                );
+              }
             } finally {
-              sessionProvider.session = null;
+              if (context.mounted) {
+                Navigator.of(context).pushReplacementNamed('/login');
+                resetProviders(context);
+                sessionProvider.reset();
+              }
             }
           },
         ),

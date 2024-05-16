@@ -4,8 +4,9 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:trivia/screens/profile/profile_contents.dart';
 import 'package:trivia/src/rust/api/error.dart';
 import 'package:trivia/src/rust/api/request/get_user_data.dart';
+import 'package:trivia/utils/reset_providers.dart';
 import '../../providers/session_provider.dart';
-
+import '../../utils/error_dialog.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,21 +16,37 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          final UserData fakeUserData = UserData(username: "username", email: "username@gmail.com", address: "Street, 123, City", phoneNumber: "0555555555", birthday: "01/01/2000", avatarColor: "Blue", memberSince: DateTime(2000, 1, 1));
-          return Skeletonizer(child: ProfilePageContent(userData: fakeUserData));
+          final UserData fakeUserData = UserData(
+              username: "username",
+              email: "username@gmail.com",
+              address: "Street, 123, City",
+              phoneNumber: "0555555555",
+              birthday: "01/01/2000",
+              avatarColor: "Blue",
+              memberSince: DateTime(2000, 1, 1));
+          return Skeletonizer(
+              child: ProfilePageContent(userData: fakeUserData));
         }
         if (snapshot.hasError) {
+          // logout when server connection error occurred
           if (snapshot.error is Error_ServerConnectionError) {
-            Provider.of<SessionProvider>(context, listen: false).session = null;
+            Provider.of<SessionProvider>(context, listen: false).reset();
+            resetProviders(context);
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return ErrorDialog(
+                    title: "Server Connection Error",
+                    message:
+                        "${(snapshot.error as Error).format()}, Returning to login page...");
+              },
+            );
             Future.microtask(
                 () => Navigator.of(context).pushReplacementNamed('/login'));
           }
@@ -53,9 +70,9 @@ class _ProfilePageState extends State<ProfilePage> {
         final userData = snapshot.data!;
         return ProfilePageContent(userData: userData);
       },
-      future: Provider.of<SessionProvider>(context, listen: false).session!.getUserData(),
+      future: Provider.of<SessionProvider>(context, listen: false)
+          .session!
+          .getUserData(),
     );
   }
 }
-
-

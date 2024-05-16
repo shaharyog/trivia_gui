@@ -9,6 +9,7 @@ import 'package:trivia/src/rust/api/request/update_user_data.dart';
 import '../../consts.dart';
 import '../../utils/error_dialog.dart';
 import '../../utils/input_field.dart';
+import '../../utils/reset_providers.dart';
 import '../../utils/user_data.dart';
 
 class ProfilePageContent extends StatefulWidget {
@@ -24,7 +25,6 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
   late UserData lastUserData;
   bool first = true;
   late Color avatarColor;
-  ColorSwatch? tmpSelectedColor;
   TextEditingController passwordController = TextEditingController();
   String? passwordErrorText;
   bool _showPassword = false;
@@ -276,10 +276,20 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                   address: addressController.text,
                   phoneNumber: phoneNumberController.text,
                   avatarColor: avatarColorsMapReversed[avatarColor]!));
-    } on Error_ServerConnectionError catch (_) {
+    } on Error_ServerConnectionError catch (e) {
       if (!mounted) return;
-      Provider.of<SessionProvider>(context, listen: false).session = null;
-      Navigator.of(context).pushReplacementNamed('/login');
+      Provider.of<SessionProvider>(context, listen: false).reset();
+      resetProviders(context);
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return ErrorDialog(
+              title: "Server Connection Error",
+              message:
+              "${e.format()}, Returning to login page...");
+        },
+      );
     } on Error_UpdateUserDataError catch (e) {
       setState(() {
         _errorText = "• ${e.format()}";
@@ -288,6 +298,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
     } on Error catch (e) {
       if (!mounted) return;
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return ErrorDialog(
@@ -329,29 +340,30 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
 
   // Method to show color picker dialog
   void _showColorPicker() async {
-    tmpSelectedColor = avatarColor as ColorSwatch?;
-    await showDialog(
+    Color? tempAvatarColor = avatarColor;
+    showDialog(
       context: context,
-      builder: (context) {
+      builder: (_) {
         return AlertDialog(
-          contentPadding: const EdgeInsets.all(16.0),
+          contentPadding: const EdgeInsets.all(18.0),
           title: const Text("Select Avatar Color"),
           content: MaterialColorPicker(
-            selectedColor: tmpSelectedColor,
-            allowShades: false,
-            onMainColorChange: (color) =>
-                setState(() => tmpSelectedColor = color),
             colors: avatarColors,
+            selectedColor: avatarColor,
+            allowShades: false,
+            onMainColorChange: (color) => setState(() => tempAvatarColor = color),
           ),
           actions: [
             TextButton(
               onPressed: Navigator.of(context).pop,
               child: const Text('Cancel'),
             ),
-            TextButton(
+            FilledButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                setState(() => avatarColor = tmpSelectedColor!);
+                if (tempAvatarColor != null) {
+                  setState(() => avatarColor = tempAvatarColor!);
+                }
               },
               child: const Text('Submit'),
             ),

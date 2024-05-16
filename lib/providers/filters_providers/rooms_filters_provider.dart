@@ -89,4 +89,6 @@ class FiltersProvider with ChangeNotifier {
     _filters.resetSearch();
     notifyListeners();
   }
+
+
 }

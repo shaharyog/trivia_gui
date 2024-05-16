@@ -21,6 +21,10 @@ const SortBy defaultSortBy = SortBy.isActive;
 const bool defaultPutActiveRoomsFirst = false;
 const bool defaultIsReversedSort = false;
 
+// screen size related consts:
+const minScreenSize = Size(500, 700);
+const maxScreenSize = Size(10000000, 10000000);
+
 // animations durations:
 const int defaultBlinkingCircleDuration = 550;
 

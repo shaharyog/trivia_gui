@@ -35,7 +35,7 @@ class LeaderboardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearTopUsers() {
+  void reset() {
     _topUsers.clear();
     notifyListeners();
   }

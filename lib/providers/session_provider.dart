@@ -3,4 +3,9 @@ import '../src/rust/api/session.dart';
 
 class SessionProvider extends ChangeNotifier {
   Session? session;
+
+  void reset() {
+    session = null;
+    notifyListeners();
+  }
 }

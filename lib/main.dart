@@ -21,16 +21,17 @@ void main() async {
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     WidgetsFlutterBinding.ensureInitialized();
-    window_size.getWindowInfo().then((window) {
-      final screen = window.screen;
+    window_size.getWindowInfo().then(
+      (window) {
+        final screen = window.screen;
 
-      if (screen != null) {
-        window_size.setWindowMinSize(const Size(500, 700));
-        window_size.setWindowMaxSize(const Size(10000000, 10000000));
-        window_size
-            .setWindowTitle('Trivia');
-      }
-    });
+        if (screen != null) {
+          window_size.setWindowMinSize(minScreenSize);
+          window_size.setWindowMaxSize(maxScreenSize);
+          window_size.setWindowTitle('Trivia');
+        }
+      },
+    );
   }
 
   runApp(
@@ -56,30 +57,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
-      builder: (context, themeProvider, child) {
-        return DynamicColorBuilder(
-            builder: (lightColorScheme, darkColorScheme) {
-          return MaterialApp(
-            theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: lightColorScheme ?? defaultLightColorScheme,
-            ),
-            darkTheme: ThemeData(
-              useMaterial3: true,
-              colorScheme: darkColorScheme ?? defaultDarkColorScheme,
-            ),
-            themeMode: themeProvider.themeMode,
-            debugShowCheckedModeBanner: false,
-            title: 'Trivia - Shahar & Yuval',
-            initialRoute: '/login',
-            routes: {
-              '/login': (context) => const LoginPage(),
-              '/signup': (context) => const SignupPage(),
-              '/home': (context) => const Homepage(),
-            },
-          );
-        });
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ScreenSizeProvider>(context, listen: false)
+          .setScreenSize(screenWidth);
+    });
+    return DynamicColorBuilder(
+      builder: (lightColorScheme, darkColorScheme) {
+        return MaterialApp(
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme ?? defaultLightColorScheme,
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme ?? defaultDarkColorScheme,
+          ),
+          themeMode: Provider.of<ThemeProvider>(context).themeMode,
+          debugShowCheckedModeBanner: false,
+          title: 'Trivia',
+          initialRoute: '/login',
+          routes: {
+            '/login': (context) => const LoginPage(),
+            '/signup': (context) => const SignupPage(),
+            '/home': (context) => const HomePage(),
+          },
+        );
       },
     );
   }

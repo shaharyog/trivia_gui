@@ -9,6 +9,7 @@ import '../src/rust/api/request/signup.dart';
 import '../src/rust/api/session.dart';
 import '../utils/error_dialog.dart';
 import '../utils/input_field.dart';
+import '../utils/set_page_title.dart';
 import '../utils/toggle_theme_button.dart';
 import '../utils/user_data.dart';
 
@@ -36,6 +37,11 @@ class _SignupPageState extends State<SignupPage> {
   bool _isLoading = false;
   String? _errorText;
 
+  @override
+  void initState() {
+    setPageTitle('Signup');
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -102,6 +108,7 @@ class _SignupPageState extends State<SignupPage> {
     } on Error_ServerConnectionError catch (e) {
       if (!mounted) return;
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return ErrorDialog(
@@ -114,6 +121,7 @@ class _SignupPageState extends State<SignupPage> {
     } on Error catch (e) {
       if (!mounted) return;
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return ErrorDialog(
@@ -130,6 +138,7 @@ class _SignupPageState extends State<SignupPage> {
     }
 
     if (!mounted) return;
+    setPageTitle(usernameController.text);
     Navigator.pop(context);
     Navigator.pushReplacementNamed(context, '/home');
   }
@@ -141,6 +150,7 @@ class _SignupPageState extends State<SignupPage> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
+            setPageTitle('Login');
             Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back_sharp),
@@ -359,7 +369,7 @@ class _SignupPageState extends State<SignupPage> {
                         GestureDetector(
                           onTap: !_isLoading
                               ? () {
-
+                                  setPageTitle('Login');
                                   Navigator.pop(context);
                                 }
                               : null,
