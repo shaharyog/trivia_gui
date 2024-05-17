@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trivia/consts.dart';
-import '../rooms_provider.dart';
 import 'filters.dart';
 
 class FiltersProvider with ChangeNotifier {

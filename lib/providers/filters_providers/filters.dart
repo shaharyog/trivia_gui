@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../consts.dart';
-import '../rooms_provider.dart';
 
 enum SortBy { isActive, playersCount, questionsCount, timePerQuestion }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/providers/filters_providers/filters.dart';
 import 'package:trivia/screens/rooms/rooms_components/room_card.dart';
 
 import '../../src/rust/api/request/get_rooms.dart';

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trivia/providers/filters_providers/filters.dart';
-import 'package:trivia/providers/rooms_provider.dart';
-
 import 'src/rust/api/request/create_room.dart';
 import 'src/rust/api/request/get_rooms.dart';
 import 'src/rust/api/request/get_user_data.dart';

@@ -12,7 +12,7 @@ class AnimatedGradientText extends StatefulWidget {
   final List<Color> colors;
 
   @override
-  _AnimatedGradientTextState createState() => _AnimatedGradientTextState();
+  State<AnimatedGradientText> createState() => _AnimatedGradientTextState();
 }
 
 class _AnimatedGradientTextState extends State<AnimatedGradientText>
