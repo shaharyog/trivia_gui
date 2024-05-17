@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../providers/filters_providers/filters.dart';
 import '../../../providers/filters_providers/rooms_filters_provider.dart';
 import 'rooms_filter_sheet_col_contents.dart';
 
 class FilterSideSheet extends StatelessWidget {
-  final Function updateFiltersCallback;
-  final Function isFiltersApplyConfirmed;
+  final ValueChanged<Filters> updateFiltersCallback;
+  final ValueChanged<bool> isFiltersApplyConfirmed;
 
   const FilterSideSheet({
     super.key,

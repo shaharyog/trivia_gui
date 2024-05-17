@@ -1,9 +1,8 @@
-use std::fmt::{Debug};
+use std::fmt::Debug;
 use thiserror::Error;
 
-
-
 #[derive(Error, Debug)]
+#[allow(clippy::enum_variant_names)]
 pub enum Error {
     #[error("Could not connect to server: {0}")]
     ServerConnectionError(String),
@@ -29,9 +28,13 @@ pub enum Error {
     InternalServerError,
     #[error("Update user data failed: {0}")]
     UpdateUserDataError(String),
+    #[error("Invalid room id: {0}")]
+    InvalidRoomId(String),
+    #[error("Could not create room")]
+    CouldNotCreateRoom,
 }
 
-impl Error{
+impl Error {
     #[flutter_rust_bridge::frb(sync)]
     pub fn format(&self) -> String {
         format!("{}", self)

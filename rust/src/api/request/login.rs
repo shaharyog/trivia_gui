@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use crate::api::request::Request;
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize)]
 pub struct LoginRequest {

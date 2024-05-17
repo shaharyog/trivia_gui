@@ -8,7 +8,6 @@ import 'screens/auth/login.dart';
 import 'screens/auth/signup.dart';
 import 'package:provider/provider.dart';
 import 'providers/filters_providers/rooms_filters_provider.dart';
-import 'providers/rooms_provider.dart';
 import 'providers/theme_provider.dart';
 import 'package:trivia/src/rust/frb_generated.dart';
 
@@ -30,9 +29,6 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => FiltersProvider()),
-        ChangeNotifierProvider(
-            create: (context) =>
-                RoomsProvider(context.read<FiltersProvider>())),
         ChangeNotifierProvider(create: (context) => LeaderboardProvider()),
       ],
       child: const MyApp(),

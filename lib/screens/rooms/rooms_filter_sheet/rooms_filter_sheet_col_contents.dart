@@ -3,13 +3,14 @@ import 'package:trivia/consts.dart';
 import '../../../providers/filters_providers/filters.dart';
 
 class RoomFilterSheetColContents extends StatefulWidget {
-  final Function updateFiltersCallback;
+  final ValueChanged<Filters> updateFiltersCallback;
   final Filters tempFilters;
 
-  const RoomFilterSheetColContents(
-      {super.key,
-      required this.updateFiltersCallback,
-      required this.tempFilters});
+  const RoomFilterSheetColContents({
+    super.key,
+    required this.updateFiltersCallback,
+    required this.tempFilters,
+  });
 
   @override
   State<RoomFilterSheetColContents> createState() =>
@@ -127,7 +128,7 @@ class _RoomFilterSheetColContentsState
 }
 
 class RoomsFiltersSheetActions extends StatelessWidget {
-  final Function isFiltersApplyConfirmed;
+  final ValueChanged<bool> isFiltersApplyConfirmed;
 
   const RoomsFiltersSheetActions({
     super.key,

@@ -30,6 +30,8 @@ mixin _$Error {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -46,6 +48,8 @@ mixin _$Error {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,6 +66,8 @@ mixin _$Error {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -85,6 +91,9 @@ mixin _$Error {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -103,6 +112,8 @@ mixin _$Error {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -121,6 +132,8 @@ mixin _$Error {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -222,6 +235,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return serverConnectionError(field0);
   }
@@ -241,6 +256,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return serverConnectionError?.call(field0);
   }
@@ -260,6 +277,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (serverConnectionError != null) {
@@ -289,6 +308,9 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return serverConnectionError(this);
   }
@@ -310,6 +332,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return serverConnectionError?.call(this);
   }
@@ -331,6 +355,8 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (serverConnectionError != null) {
@@ -432,6 +458,8 @@ class _$Error_RequestSerializationErrorImpl
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return requestSerializationError(field0);
   }
@@ -451,6 +479,8 @@ class _$Error_RequestSerializationErrorImpl
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return requestSerializationError?.call(field0);
   }
@@ -470,6 +500,8 @@ class _$Error_RequestSerializationErrorImpl
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (requestSerializationError != null) {
@@ -499,6 +531,9 @@ class _$Error_RequestSerializationErrorImpl
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return requestSerializationError(this);
   }
@@ -520,6 +555,8 @@ class _$Error_RequestSerializationErrorImpl
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return requestSerializationError?.call(this);
   }
@@ -541,6 +578,8 @@ class _$Error_RequestSerializationErrorImpl
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (requestSerializationError != null) {
@@ -643,6 +682,8 @@ class _$Error_ResponseDeserializationErrorImpl
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return responseDeserializationError(field0);
   }
@@ -662,6 +703,8 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return responseDeserializationError?.call(field0);
   }
@@ -681,6 +724,8 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (responseDeserializationError != null) {
@@ -710,6 +755,9 @@ class _$Error_ResponseDeserializationErrorImpl
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return responseDeserializationError(this);
   }
@@ -731,6 +779,8 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return responseDeserializationError?.call(this);
   }
@@ -752,6 +802,8 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (responseDeserializationError != null) {
@@ -824,6 +876,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return requestTooBig();
   }
@@ -843,6 +897,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return requestTooBig?.call();
   }
@@ -862,6 +918,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (requestTooBig != null) {
@@ -891,6 +949,9 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return requestTooBig(this);
   }
@@ -912,6 +973,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return requestTooBig?.call(this);
   }
@@ -933,6 +996,8 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (requestTooBig != null) {
@@ -1024,6 +1089,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return responseError(field0);
   }
@@ -1043,6 +1110,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return responseError?.call(field0);
   }
@@ -1062,6 +1131,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (responseError != null) {
@@ -1091,6 +1162,9 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return responseError(this);
   }
@@ -1112,6 +1186,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return responseError?.call(this);
   }
@@ -1133,6 +1209,8 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (responseError != null) {
@@ -1232,6 +1310,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return invalidResponseCode(field0);
   }
@@ -1251,6 +1331,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return invalidResponseCode?.call(field0);
   }
@@ -1270,6 +1352,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (invalidResponseCode != null) {
@@ -1299,6 +1383,9 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return invalidResponseCode(this);
   }
@@ -1320,6 +1407,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return invalidResponseCode?.call(this);
   }
@@ -1341,6 +1430,8 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (invalidResponseCode != null) {
@@ -1438,6 +1529,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return loginError(field0);
   }
@@ -1457,6 +1550,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return loginError?.call(field0);
   }
@@ -1476,6 +1571,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (loginError != null) {
@@ -1505,6 +1602,9 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return loginError(this);
   }
@@ -1526,6 +1626,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return loginError?.call(this);
   }
@@ -1547,6 +1649,8 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (loginError != null) {
@@ -1643,6 +1747,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return signupError(field0);
   }
@@ -1662,6 +1768,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return signupError?.call(field0);
   }
@@ -1681,6 +1789,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (signupError != null) {
@@ -1710,6 +1820,9 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return signupError(this);
   }
@@ -1731,6 +1844,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return signupError?.call(this);
   }
@@ -1752,6 +1867,8 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (signupError != null) {
@@ -1822,6 +1939,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return logoutError();
   }
@@ -1841,6 +1960,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return logoutError?.call();
   }
@@ -1860,6 +1981,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (logoutError != null) {
@@ -1889,6 +2012,9 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return logoutError(this);
   }
@@ -1910,6 +2036,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return logoutError?.call(this);
   }
@@ -1931,6 +2059,8 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (logoutError != null) {
@@ -2023,6 +2153,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return invalidAddress(field0);
   }
@@ -2042,6 +2174,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return invalidAddress?.call(field0);
   }
@@ -2061,6 +2195,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (invalidAddress != null) {
@@ -2090,6 +2226,9 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return invalidAddress(this);
   }
@@ -2111,6 +2250,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return invalidAddress?.call(this);
   }
@@ -2132,6 +2273,8 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (invalidAddress != null) {
@@ -2205,6 +2348,8 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return internalServerError();
   }
@@ -2224,6 +2369,8 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return internalServerError?.call();
   }
@@ -2243,6 +2390,8 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (internalServerError != null) {
@@ -2272,6 +2421,9 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return internalServerError(this);
   }
@@ -2293,6 +2445,8 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return internalServerError?.call(this);
   }
@@ -2314,6 +2468,8 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (internalServerError != null) {
@@ -2407,6 +2563,8 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     required TResult Function(String field0) invalidAddress,
     required TResult Function() internalServerError,
     required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
   }) {
     return updateUserDataError(field0);
   }
@@ -2426,6 +2584,8 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     TResult? Function(String field0)? invalidAddress,
     TResult? Function()? internalServerError,
     TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
   }) {
     return updateUserDataError?.call(field0);
   }
@@ -2445,6 +2605,8 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     TResult Function(String field0)? invalidAddress,
     TResult Function()? internalServerError,
     TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (updateUserDataError != null) {
@@ -2474,6 +2636,9 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
         internalServerError,
     required TResult Function(Error_UpdateUserDataError value)
         updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
   }) {
     return updateUserDataError(this);
   }
@@ -2495,6 +2660,8 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     TResult? Function(Error_InvalidAddress value)? invalidAddress,
     TResult? Function(Error_InternalServerError value)? internalServerError,
     TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
   }) {
     return updateUserDataError?.call(this);
   }
@@ -2516,6 +2683,8 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     TResult Function(Error_InvalidAddress value)? invalidAddress,
     TResult Function(Error_InternalServerError value)? internalServerError,
     TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     required TResult orElse(),
   }) {
     if (updateUserDataError != null) {
@@ -2534,4 +2703,412 @@ abstract class Error_UpdateUserDataError extends Error {
   @JsonKey(ignore: true)
   _$$Error_UpdateUserDataErrorImplCopyWith<_$Error_UpdateUserDataErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$Error_InvalidRoomIdImplCopyWith<$Res> {
+  factory _$$Error_InvalidRoomIdImplCopyWith(_$Error_InvalidRoomIdImpl value,
+          $Res Function(_$Error_InvalidRoomIdImpl) then) =
+      __$$Error_InvalidRoomIdImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String field0});
+}
+
+/// @nodoc
+class __$$Error_InvalidRoomIdImplCopyWithImpl<$Res>
+    extends _$ErrorCopyWithImpl<$Res, _$Error_InvalidRoomIdImpl>
+    implements _$$Error_InvalidRoomIdImplCopyWith<$Res> {
+  __$$Error_InvalidRoomIdImplCopyWithImpl(_$Error_InvalidRoomIdImpl _value,
+      $Res Function(_$Error_InvalidRoomIdImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? field0 = null,
+  }) {
+    return _then(_$Error_InvalidRoomIdImpl(
+      null == field0
+          ? _value.field0
+          : field0 // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Error_InvalidRoomIdImpl extends Error_InvalidRoomId {
+  const _$Error_InvalidRoomIdImpl(this.field0) : super._();
+
+  @override
+  final String field0;
+
+  @override
+  String toString() {
+    return 'Error.invalidRoomId(field0: $field0)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Error_InvalidRoomIdImpl &&
+            (identical(other.field0, field0) || other.field0 == field0));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, field0);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Error_InvalidRoomIdImplCopyWith<_$Error_InvalidRoomIdImpl> get copyWith =>
+      __$$Error_InvalidRoomIdImplCopyWithImpl<_$Error_InvalidRoomIdImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) serverConnectionError,
+    required TResult Function(String field0) requestSerializationError,
+    required TResult Function(String field0) responseDeserializationError,
+    required TResult Function() requestTooBig,
+    required TResult Function(String field0) responseError,
+    required TResult Function(int field0) invalidResponseCode,
+    required TResult Function(String field0) loginError,
+    required TResult Function(String field0) signupError,
+    required TResult Function() logoutError,
+    required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
+  }) {
+    return invalidRoomId(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? serverConnectionError,
+    TResult? Function(String field0)? requestSerializationError,
+    TResult? Function(String field0)? responseDeserializationError,
+    TResult? Function()? requestTooBig,
+    TResult? Function(String field0)? responseError,
+    TResult? Function(int field0)? invalidResponseCode,
+    TResult? Function(String field0)? loginError,
+    TResult? Function(String field0)? signupError,
+    TResult? Function()? logoutError,
+    TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
+  }) {
+    return invalidRoomId?.call(field0);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? serverConnectionError,
+    TResult Function(String field0)? requestSerializationError,
+    TResult Function(String field0)? responseDeserializationError,
+    TResult Function()? requestTooBig,
+    TResult Function(String field0)? responseError,
+    TResult Function(int field0)? invalidResponseCode,
+    TResult Function(String field0)? loginError,
+    TResult Function(String field0)? signupError,
+    TResult Function()? logoutError,
+    TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
+    required TResult orElse(),
+  }) {
+    if (invalidRoomId != null) {
+      return invalidRoomId(field0);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Error_ServerConnectionError value)
+        serverConnectionError,
+    required TResult Function(Error_RequestSerializationError value)
+        requestSerializationError,
+    required TResult Function(Error_ResponseDeserializationError value)
+        responseDeserializationError,
+    required TResult Function(Error_RequestTooBig value) requestTooBig,
+    required TResult Function(Error_ResponseError value) responseError,
+    required TResult Function(Error_InvalidResponseCode value)
+        invalidResponseCode,
+    required TResult Function(Error_LoginError value) loginError,
+    required TResult Function(Error_SignupError value) signupError,
+    required TResult Function(Error_LogoutError value) logoutError,
+    required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
+  }) {
+    return invalidRoomId(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult? Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult? Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult? Function(Error_RequestTooBig value)? requestTooBig,
+    TResult? Function(Error_ResponseError value)? responseError,
+    TResult? Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult? Function(Error_LoginError value)? loginError,
+    TResult? Function(Error_SignupError value)? signupError,
+    TResult? Function(Error_LogoutError value)? logoutError,
+    TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
+  }) {
+    return invalidRoomId?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult Function(Error_RequestTooBig value)? requestTooBig,
+    TResult Function(Error_ResponseError value)? responseError,
+    TResult Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult Function(Error_LoginError value)? loginError,
+    TResult Function(Error_SignupError value)? signupError,
+    TResult Function(Error_LogoutError value)? logoutError,
+    TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
+    required TResult orElse(),
+  }) {
+    if (invalidRoomId != null) {
+      return invalidRoomId(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Error_InvalidRoomId extends Error {
+  const factory Error_InvalidRoomId(final String field0) =
+      _$Error_InvalidRoomIdImpl;
+  const Error_InvalidRoomId._() : super._();
+
+  String get field0;
+  @JsonKey(ignore: true)
+  _$$Error_InvalidRoomIdImplCopyWith<_$Error_InvalidRoomIdImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$Error_CouldNotCreateRoomImplCopyWith<$Res> {
+  factory _$$Error_CouldNotCreateRoomImplCopyWith(
+          _$Error_CouldNotCreateRoomImpl value,
+          $Res Function(_$Error_CouldNotCreateRoomImpl) then) =
+      __$$Error_CouldNotCreateRoomImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$Error_CouldNotCreateRoomImplCopyWithImpl<$Res>
+    extends _$ErrorCopyWithImpl<$Res, _$Error_CouldNotCreateRoomImpl>
+    implements _$$Error_CouldNotCreateRoomImplCopyWith<$Res> {
+  __$$Error_CouldNotCreateRoomImplCopyWithImpl(
+      _$Error_CouldNotCreateRoomImpl _value,
+      $Res Function(_$Error_CouldNotCreateRoomImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$Error_CouldNotCreateRoomImpl extends Error_CouldNotCreateRoom {
+  const _$Error_CouldNotCreateRoomImpl() : super._();
+
+  @override
+  String toString() {
+    return 'Error.couldNotCreateRoom()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Error_CouldNotCreateRoomImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) serverConnectionError,
+    required TResult Function(String field0) requestSerializationError,
+    required TResult Function(String field0) responseDeserializationError,
+    required TResult Function() requestTooBig,
+    required TResult Function(String field0) responseError,
+    required TResult Function(int field0) invalidResponseCode,
+    required TResult Function(String field0) loginError,
+    required TResult Function(String field0) signupError,
+    required TResult Function() logoutError,
+    required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
+  }) {
+    return couldNotCreateRoom();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? serverConnectionError,
+    TResult? Function(String field0)? requestSerializationError,
+    TResult? Function(String field0)? responseDeserializationError,
+    TResult? Function()? requestTooBig,
+    TResult? Function(String field0)? responseError,
+    TResult? Function(int field0)? invalidResponseCode,
+    TResult? Function(String field0)? loginError,
+    TResult? Function(String field0)? signupError,
+    TResult? Function()? logoutError,
+    TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
+  }) {
+    return couldNotCreateRoom?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? serverConnectionError,
+    TResult Function(String field0)? requestSerializationError,
+    TResult Function(String field0)? responseDeserializationError,
+    TResult Function()? requestTooBig,
+    TResult Function(String field0)? responseError,
+    TResult Function(int field0)? invalidResponseCode,
+    TResult Function(String field0)? loginError,
+    TResult Function(String field0)? signupError,
+    TResult Function()? logoutError,
+    TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
+    required TResult orElse(),
+  }) {
+    if (couldNotCreateRoom != null) {
+      return couldNotCreateRoom();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Error_ServerConnectionError value)
+        serverConnectionError,
+    required TResult Function(Error_RequestSerializationError value)
+        requestSerializationError,
+    required TResult Function(Error_ResponseDeserializationError value)
+        responseDeserializationError,
+    required TResult Function(Error_RequestTooBig value) requestTooBig,
+    required TResult Function(Error_ResponseError value) responseError,
+    required TResult Function(Error_InvalidResponseCode value)
+        invalidResponseCode,
+    required TResult Function(Error_LoginError value) loginError,
+    required TResult Function(Error_SignupError value) signupError,
+    required TResult Function(Error_LogoutError value) logoutError,
+    required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
+  }) {
+    return couldNotCreateRoom(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult? Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult? Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult? Function(Error_RequestTooBig value)? requestTooBig,
+    TResult? Function(Error_ResponseError value)? responseError,
+    TResult? Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult? Function(Error_LoginError value)? loginError,
+    TResult? Function(Error_SignupError value)? signupError,
+    TResult? Function(Error_LogoutError value)? logoutError,
+    TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
+  }) {
+    return couldNotCreateRoom?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult Function(Error_RequestTooBig value)? requestTooBig,
+    TResult Function(Error_ResponseError value)? responseError,
+    TResult Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult Function(Error_LoginError value)? loginError,
+    TResult Function(Error_SignupError value)? signupError,
+    TResult Function(Error_LogoutError value)? logoutError,
+    TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
+    required TResult orElse(),
+  }) {
+    if (couldNotCreateRoom != null) {
+      return couldNotCreateRoom(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Error_CouldNotCreateRoom extends Error {
+  const factory Error_CouldNotCreateRoom() = _$Error_CouldNotCreateRoomImpl;
+  const Error_CouldNotCreateRoom._() : super._();
 }

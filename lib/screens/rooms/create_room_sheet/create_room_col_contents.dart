@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/common_functionalities/seconds_to_readable.dart';
 
-class CreateRoomSheetColContents extends StatefulWidget {
-  final Function roomNameCallback;
-  final Function roomMaxPlayersCallback;
-  final Function roomQuestionsCountCallback;
-  final Function roomTimePerQuestionCallback;
+class CreateRoomSheetColContents extends StatelessWidget {
+  final ValueChanged<String> roomNameCallback;
+  final ValueChanged<double> roomMaxPlayersCallback;
+  final ValueChanged<double> roomQuestionsCountCallback;
+  final ValueChanged<double> roomTimePerQuestionCallback;
+  final String name;
+  final int maxPlayers;
+  final int questionsCount;
+  final int timePerQuestion;
+  final bool isLoading;
+  final String? errorText;
 
   const CreateRoomSheetColContents({
     super.key,
@@ -14,19 +20,13 @@ class CreateRoomSheetColContents extends StatefulWidget {
     required this.roomMaxPlayersCallback,
     required this.roomQuestionsCountCallback,
     required this.roomTimePerQuestionCallback,
+    required this.name,
+    required this.maxPlayers,
+    required this.questionsCount,
+    required this.timePerQuestion,
+    required this.isLoading,
+    this.errorText,
   });
-
-  @override
-  State<CreateRoomSheetColContents> createState() =>
-      _CreateRoomSheetColContentsState();
-}
-
-class _CreateRoomSheetColContentsState
-    extends State<CreateRoomSheetColContents> {
-  String name = '';
-  int maxPlayers = 2;
-  int questionsCount = 2;
-  int timePerQuestion = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +35,9 @@ class _CreateRoomSheetColContentsState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
+          enabled: !isLoading,
           onChanged: (value) {
-            setState(() {
-              name = value;
-              widget.roomNameCallback(name);
-            });
+            roomNameCallback(value);
           },
           decoration: const InputDecoration(
             labelText: 'Name',
@@ -64,12 +62,11 @@ class _CreateRoomSheetColContentsState
             max: 50,
             divisions: 48,
             label: maxPlayers.toString(),
-            onChanged: (value) {
-              setState(() {
-                maxPlayers = value.toInt();
-                widget.roomMaxPlayersCallback(maxPlayers);
-              });
-            },
+            onChanged: !isLoading
+                ? (value) {
+                    roomMaxPlayersCallback(value);
+                  }
+                : null,
           ),
         ),
         Text(
@@ -89,12 +86,11 @@ class _CreateRoomSheetColContentsState
             max: 50,
             divisions: 49,
             label: questionsCount.toString(),
-            onChanged: (value) {
-              setState(() {
-                questionsCount = value.toInt();
-                widget.roomQuestionsCountCallback(questionsCount);
-              });
-            },
+            onChanged: !isLoading
+                ? (value) {
+                    roomQuestionsCountCallback(value);
+                  }
+                : null,
           ),
         ),
         Text(
@@ -114,25 +110,38 @@ class _CreateRoomSheetColContentsState
             max: 180,
             divisions: 179,
             label: ' ${secondsToReadableTime(timePerQuestion)} ',
-            onChanged: (value) {
-              setState(() {
-                timePerQuestion = value.toInt();
-                widget.roomTimePerQuestionCallback(timePerQuestion);
-              });
-            },
+            onChanged: !isLoading
+                ? (value) {
+                    roomTimePerQuestionCallback(value);
+                  }
+                : null,
           ),
         ),
+        if (errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              errorText!,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+            ),
+          ),
       ],
     );
   }
 }
 
 class CreateRoomSheetActions extends StatelessWidget {
-  final Function isCreationConfirmed;
-  final String name;
+  final Function() onSave;
+  final bool saveEnabled;
+  final bool isLoading;
 
   const CreateRoomSheetActions(
-      {super.key, required this.isCreationConfirmed, required this.name});
+      {super.key,
+      required this.onSave,
+      required this.saveEnabled,
+      required this.isLoading});
 
   @override
   Widget build(BuildContext context) {
@@ -150,13 +159,10 @@ class CreateRoomSheetActions extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: FilledButton(
-                    onPressed: name.isEmpty
-                        ? null
-                        : () {
-                            isCreationConfirmed(true);
-                            Navigator.of(context).pop();
-                          },
-                    child: const Text('Create'),
+                    onPressed: !isLoading && saveEnabled ? onSave : null,
+                    child: isLoading
+                        ? const CircularProgressIndicator()
+                        : const Text('Create'),
                   ),
                 ),
               ),
@@ -164,9 +170,11 @@ class CreateRoomSheetActions extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: !isLoading
+                        ? () {
+                            Navigator.of(context).pop();
+                          }
+                        : null,
                     child: const Text('Cancel'),
                   ),
                 ),

@@ -1,6 +1,6 @@
+use crate::api::request::Request;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
-use crate::api::request::Request;
 #[derive(Serialize)]
 pub struct GetUserDataRequest;
 
@@ -17,7 +17,6 @@ pub struct UserData {
     #[serde(rename = "memberSince", with = "chrono::naive::serde::ts_seconds")]
     pub member_since: NaiveDateTime,
 }
-
 
 #[derive(Deserialize)]
 pub struct GetUserDataResponse {

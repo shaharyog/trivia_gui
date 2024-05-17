@@ -42,6 +42,10 @@ sealed class Error with _$Error {
   const factory Error.updateUserDataError(
     String field0,
   ) = Error_UpdateUserDataError;
+  const factory Error.invalidRoomId(
+    String field0,
+  ) = Error_InvalidRoomId;
+  const factory Error.couldNotCreateRoom() = Error_CouldNotCreateRoom;
 
   String format({dynamic hint}) =>
       RustLib.instance.api.errorFormat(that: this, hint: hint);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trivia/providers/screen_size_provider.dart';
+import '../providers/filters_providers/filters.dart';
 import '../src/rust/api/session.dart';
 import '../utils/common_widgets/floating_action_button.dart';
 import 'homepage_appbar.dart';
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentNavIndex = 0;
+  Filters filters = Filters();
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +52,17 @@ class _HomePageState extends State<HomePage> {
             child: HomePageBody(
               navigationIndex: _currentNavIndex,
               session: widget.session,
+              filters: filters,
+              onFiltersChanged: updateFilters,
             ),
           ),
         ],
       ),
       floatingActionButton: _currentNavIndex == 1
-          ? HomePageFloatingActionButton(navigationIndex: _currentNavIndex)
+          ? HomePageFloatingActionButton(
+              navigationIndex: _currentNavIndex,
+              session: widget.session,
+            )
           : null,
     );
   }
@@ -66,6 +73,13 @@ class _HomePageState extends State<HomePage> {
     }
     setState(() {
       _currentNavIndex = index;
+    });
+  }
+
+
+  void updateFilters(Filters newFilters) {
+    setState(() {
+      filters = newFilters;
     });
   }
 }

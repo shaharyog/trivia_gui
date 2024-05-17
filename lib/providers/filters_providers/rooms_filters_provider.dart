@@ -79,10 +79,6 @@ class FiltersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void resetSortDirection() {
-    _filters.resetSortDirection();
-    notifyListeners();
-  }
 
   void resetSearch() {
     _filters.resetSearch();

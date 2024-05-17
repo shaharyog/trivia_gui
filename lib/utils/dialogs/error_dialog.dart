@@ -8,6 +8,8 @@ class ErrorDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FocusNode dismissButtonFocs = FocusNode();
+    dismissButtonFocs.requestFocus();
     return AlertDialog(
       icon: const Icon(
         Icons.warning_amber,
@@ -24,6 +26,7 @@ class ErrorDialog extends StatelessWidget {
       ),
       actions: <Widget>[
         TextButton(
+          focusNode: dismissButtonFocs,
           child: const Text('OK'),
           onPressed: () {
             Navigator.of(context).pop();

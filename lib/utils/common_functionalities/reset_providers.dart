@@ -6,6 +6,5 @@ import '../../providers/rooms_provider.dart';
 
 void resetProviders(BuildContext context) {
   Provider.of<FiltersProvider>(context, listen: false).reset();
-  Provider.of<RoomsProvider>(context, listen: false).reset();
   Provider.of<LeaderboardProvider>(context, listen: false).reset();
 }

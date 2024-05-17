@@ -6,6 +6,9 @@
 import '../frb_generated.dart';
 import 'error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'request/create_room.dart';
+import 'request/get_room_players.dart';
+import 'request/get_rooms.dart';
 import 'request/get_user_data.dart';
 import 'request/login.dart';
 import 'request/signup.dart';
@@ -27,6 +30,17 @@ class Session extends RustOpaque {
     rustArcDecrementStrongCountPtr:
         RustLib.instance.api.rust_arc_decrement_strong_count_SessionPtr,
   );
+
+  Future<void> createRoom({required RoomData roomData, dynamic hint}) =>
+      RustLib.instance.api
+          .sessionCreateRoom(that: this, roomData: roomData, hint: hint);
+
+  Future<List<Player>> getRoomPlayers({required String roomId, dynamic hint}) =>
+      RustLib.instance.api
+          .sessionGetRoomPlayers(that: this, roomId: roomId, hint: hint);
+
+  Future<List<Room>> getRooms({dynamic hint}) =>
+      RustLib.instance.api.sessionGetRooms(that: this, hint: hint);
 
   Future<UserData> getUserData({dynamic hint}) =>
       RustLib.instance.api.sessionGetUserData(that: this, hint: hint);

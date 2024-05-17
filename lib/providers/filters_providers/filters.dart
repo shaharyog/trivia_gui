@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../consts.dart';
 import '../rooms_provider.dart';
 
+enum SortBy { isActive, playersCount, questionsCount, timePerQuestion }
+
 class Filters {
   String searchText = defaultSearchText;
   RangeValues questionCountRange = const RangeValues(
@@ -35,11 +37,22 @@ class Filters {
     sortBy = defaultSortBy;
   }
 
-  void resetSortDirection() {
-    isReversedSort = defaultIsReversedSort;
-  }
 
   void resetSearch() {
     searchText = defaultSearchText;
+  }
+
+  bool isFiltering() {
+    return showOnlyActive != defaultShowOnlyActive;
+  }
+
+
+  void updateFrom(Filters other) {
+    searchText = other.searchText;
+    questionCountRange = other.questionCountRange;
+    playersCountRange = other.playersCountRange;
+    showOnlyActive = other.showOnlyActive;
+    sortBy = other.sortBy;
+    isReversedSort = other.isReversedSort;
   }
 }

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:trivia/providers/filters_providers/filters.dart';
 import 'package:trivia/providers/rooms_provider.dart';
+
+import 'src/rust/api/request/create_room.dart';
+import 'src/rust/api/request/get_rooms.dart';
+import 'src/rust/api/request/get_user_data.dart';
 
 const Size signInAndUpButtonSize = Size(200, 60);
 const double maxTextFieldWidth = 400;
@@ -65,3 +70,49 @@ Map<Color, String> avatarColorsMapReversed = {
   Colors.teal: "Teal",
   Colors.pink: "Pink"
 };
+
+
+// show skeleton while loading, create fake data in order to show skeleton in the right shape
+final List<Room> fakeRooms = [
+  const Room(
+    id: '',
+    isActive: false,
+    roomData: RoomData(
+      name: 'room',
+      maxPlayers: 100,
+      questionCount: 0,
+      timePerQuestion: 10,
+    ),
+  ),
+  const Room(
+    id: '',
+    roomData: RoomData(
+      name: 'roomRoomRo',
+      maxPlayers: 10,
+      questionCount: 45,
+      timePerQuestion: 0,
+    ),
+    isActive: false,
+  ),
+  const Room(
+    id: '',
+    roomData: RoomData(
+      name: 'roomRoom',
+      maxPlayers: 0,
+      questionCount: 100,
+      timePerQuestion: 10,
+    ),
+    isActive: false,
+  )
+];
+
+// show skeleton while loading, create fake data in order to show skeleton in the right shape
+final UserData fakeUserData = UserData(
+  username: "username",
+  email: "username@gmail.com",
+  address: "Street, 123, City",
+  phoneNumber: "0555555555",
+  birthday: "01/01/2000",
+  avatarColor: "Blue",
+  memberSince: DateTime(2000, 1, 1),
+);

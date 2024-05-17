@@ -4,6 +4,9 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/error.dart';
+import 'api/request/create_room.dart';
+import 'api/request/get_room_players.dart';
+import 'api/request/get_rooms.dart';
 import 'api/request/get_user_data.dart';
 import 'api/request/login.dart';
 import 'api/request/signup.dart';
@@ -47,10 +50,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  bool dco_decode_bool(dynamic raw);
+
+  @protected
   Error dco_decode_box_autoadd_error(dynamic raw);
 
   @protected
   LoginRequest dco_decode_box_autoadd_login_request(dynamic raw);
+
+  @protected
+  RoomData dco_decode_box_autoadd_room_data(dynamic raw);
 
   @protected
   SignupRequest dco_decode_box_autoadd_signup_request(dynamic raw);
@@ -66,7 +75,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int dco_decode_i_64(dynamic raw);
 
   @protected
+  List<Player> dco_decode_list_player(dynamic raw);
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
+
+  @protected
+  List<Room> dco_decode_list_room(dynamic raw);
 
   @protected
   LoginRequest dco_decode_login_request(dynamic raw);
@@ -75,7 +90,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String? dco_decode_opt_String(dynamic raw);
 
   @protected
+  Player dco_decode_player(dynamic raw);
+
+  @protected
+  Room dco_decode_room(dynamic raw);
+
+  @protected
+  RoomData dco_decode_room_data(dynamic raw);
+
+  @protected
   SignupRequest dco_decode_signup_request(dynamic raw);
+
+  @protected
+  int dco_decode_u_32(dynamic raw);
 
   @protected
   int dco_decode_u_8(dynamic raw);
@@ -114,11 +141,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
+  bool sse_decode_bool(SseDeserializer deserializer);
+
+  @protected
   Error sse_decode_box_autoadd_error(SseDeserializer deserializer);
 
   @protected
   LoginRequest sse_decode_box_autoadd_login_request(
       SseDeserializer deserializer);
+
+  @protected
+  RoomData sse_decode_box_autoadd_room_data(SseDeserializer deserializer);
 
   @protected
   SignupRequest sse_decode_box_autoadd_signup_request(
@@ -135,7 +168,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int sse_decode_i_64(SseDeserializer deserializer);
 
   @protected
+  List<Player> sse_decode_list_player(SseDeserializer deserializer);
+
+  @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
+
+  @protected
+  List<Room> sse_decode_list_room(SseDeserializer deserializer);
 
   @protected
   LoginRequest sse_decode_login_request(SseDeserializer deserializer);
@@ -144,7 +183,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
+  Player sse_decode_player(SseDeserializer deserializer);
+
+  @protected
+  Room sse_decode_room(SseDeserializer deserializer);
+
+  @protected
+  RoomData sse_decode_room_data(SseDeserializer deserializer);
+
+  @protected
   SignupRequest sse_decode_signup_request(SseDeserializer deserializer);
+
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_8(SseDeserializer deserializer);
@@ -164,9 +215,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int sse_decode_i_32(SseDeserializer deserializer);
-
-  @protected
-  bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
   void
@@ -190,11 +238,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
+  void sse_encode_bool(bool self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_error(Error self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_login_request(
       LoginRequest self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_room_data(
+      RoomData self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_signup_request(
@@ -211,8 +266,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_i_64(int self, SseSerializer serializer);
 
   @protected
+  void sse_encode_list_player(List<Player> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_prim_u_8_strict(
       Uint8List self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_room(List<Room> self, SseSerializer serializer);
 
   @protected
   void sse_encode_login_request(LoginRequest self, SseSerializer serializer);
@@ -221,7 +282,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_String(String? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_player(Player self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_room(Room self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_room_data(RoomData self, SseSerializer serializer);
+
+  @protected
   void sse_encode_signup_request(SignupRequest self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_8(int self, SseSerializer serializer);
@@ -241,9 +314,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_bool(bool self, SseSerializer serializer);
 }
 
 // Section: wire_class

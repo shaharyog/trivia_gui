@@ -1,20 +1,23 @@
 use std::net::{SocketAddr, TcpStream};
 use std::str::FromStr;
 use std::time::Duration;
-use crate::api::error::{Error};
-use crate::api::request::{Request};
+
+use crate::api::error::Error;
+use crate::api::request::create_room::{CreateRoomRequest, RoomData};
+use crate::api::request::get_room_players::{GetRoomPlayersRequest, Player};
+use crate::api::request::get_rooms::{GetRoomsRequest, Room};
 use crate::api::request::get_user_data::{GetUserDataRequest, UserData};
 use crate::api::request::login::LoginRequest;
-use crate::api::request::signup::SignupRequest;
 use crate::api::request::logout::LogoutRequest;
+use crate::api::request::signup::SignupRequest;
 use crate::api::request::update_user_data::UpdateUserDataRequest;
+use crate::api::request::Request;
 
 #[flutter_rust_bridge::frb(opaque)]
 pub struct Session {
     #[allow(dead_code)]
     socket: TcpStream,
 }
-
 
 impl Session {
     #[flutter_rust_bridge::frb]
@@ -38,7 +41,11 @@ impl Session {
     }
 
     fn connect(address: String) -> Result<TcpStream, Error> {
-        let socket = TcpStream::connect_timeout(&SocketAddr::from_str(&address).map_err(|_| Error::InvalidAddress(address))?, Duration::from_secs(1)).map_err(|err| Error::ServerConnectionError(err.to_string()))?;
+        let socket = TcpStream::connect_timeout(
+            &SocketAddr::from_str(&address).map_err(|_| Error::InvalidAddress(address))?,
+            Duration::from_secs(1),
+        )
+        .map_err(|err| Error::ServerConnectionError(err.to_string()))?;
         Ok(socket)
     }
 
@@ -64,10 +71,49 @@ impl Session {
     }
 
     #[flutter_rust_bridge::frb]
-    pub fn update_user_data(&mut self, update_user_data_request: UpdateUserDataRequest) -> Result<(), Error> {
+    pub fn update_user_data(
+        &mut self,
+        update_user_data_request: UpdateUserDataRequest,
+    ) -> Result<(), Error> {
         let response = update_user_data_request.write_and_read(&mut self.socket)?;
         if !response.status {
             return Err(Error::UpdateUserDataError(response.message));
+        }
+
+        Ok(())
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn get_rooms(&mut self) -> Result<Vec<Room>, Error> {
+        let response = GetRoomsRequest.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(response.rooms)
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn get_room_players(&mut self, room_id: String) -> Result<Vec<Player>, Error> {
+        let response = GetRoomPlayersRequest {
+            room_id: room_id.clone(),
+        }
+        .write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InvalidRoomId(room_id));
+        }
+
+        Ok(response.players)
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn create_room(&mut self, room_data: RoomData) -> Result<(), Error> {
+        let response = CreateRoomRequest {
+            room_data
+        }
+            .write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::CouldNotCreateRoom);
         }
 
         Ok(())

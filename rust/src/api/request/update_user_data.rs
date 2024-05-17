@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::api::request::Request;
+use serde::{Deserialize, Serialize};
 #[derive(Serialize)]
-pub struct UpdateUserDataRequest{
+pub struct UpdateUserDataRequest {
     pub password: Option<String>,
     pub email: String,
     pub address: String,
@@ -9,9 +9,7 @@ pub struct UpdateUserDataRequest{
     pub phone_number: String,
     #[serde(rename = "avatarColor")]
     pub avatar_color: String,
-
 }
-
 
 #[derive(Deserialize)]
 pub struct UpdateUserDataResponse {
