@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:side_sheet_material3/side_sheet_material3.dart';
 import '../../../providers/filters_providers/filters.dart';
-import '../../../providers/screen_size_provider.dart';
+import '../../../utils/common_functionalities/screen_size.dart';
 import '../rooms_filter_sheet/rooms_filter_bottom_sheet.dart';
 import '../rooms_filter_sheet/rooms_filter_side_sheet.dart';
 

@@ -8,8 +8,8 @@ import '../../consts.dart';
 import '../../src/rust/api/session.dart';
 import '../../utils/dialogs/error_dialog.dart';
 import '../../utils/common_widgets/input_field.dart';
-import '../../utils/common_functionalities/reset_providers.dart';
 import '../../utils/common_functionalities/user_data_validation.dart';
+import '../auth/login.dart';
 
 class ProfilePageContent extends StatefulWidget {
   final UserData userData;
@@ -308,16 +308,16 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
               avatarColor: avatarColorsMapReversed[avatarColor]!));
     } on Error_ServerConnectionError catch (e) {
       if (!mounted) return;
-      resetProviders(context);
-      Navigator.of(context).pushReplacementNamed('/login');
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return ErrorDialog(
-              title: "Server Connection Error",
-              message: "${e.format()}, Returning to login page...");
-        },
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(
+            errorDialogData: ErrorDialogData(
+              title: serverConnErrorText,
+              message: e.format(),
+            ),
+          ),
+        ),
       );
     } on Error_UpdateUserDataError catch (e) {
       setState(() {
@@ -326,16 +326,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
       return;
     } on Error catch (e) {
       if (!mounted) return;
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return ErrorDialog(
-            title: "Error",
-            message: e.format(),
-          );
-        },
-      );
+      showErrorDialog(context, 'Error', e.format());
       return;
     } finally {
       setState(() {

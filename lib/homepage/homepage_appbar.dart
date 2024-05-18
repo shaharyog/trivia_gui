@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/utils/common_functionalities/reset_providers.dart';
 import '../src/rust/api/error.dart';
 import '../src/rust/api/session.dart';
 import '../utils/dialogs/error_dialog.dart';
@@ -84,7 +83,6 @@ List<Widget> getActions(BuildContext context, final Session session) {
           } finally {
             if (context.mounted) {
               Navigator.of(context).pushReplacementNamed('/login');
-              resetProviders(context);
             }
           }
         },

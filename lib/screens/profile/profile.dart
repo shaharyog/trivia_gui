@@ -3,10 +3,10 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:trivia/screens/profile/profile_contents.dart';
 import 'package:trivia/src/rust/api/error.dart';
 import 'package:trivia/src/rust/api/request/get_user_data.dart';
-import 'package:trivia/utils/common_functionalities/reset_providers.dart';
 import '../../consts.dart';
 import '../../src/rust/api/session.dart';
 import '../../utils/dialogs/error_dialog.dart';
+import '../auth/login.dart';
 
 class ProfilePage extends StatefulWidget {
   final Session session;
@@ -72,26 +72,22 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<UserData> getUserData(BuildContext context) {
-    return widget.session
-        .getUserData()
-        .onError((Error_ServerConnectionError error, stackTrace) {
-      // logout when server connection error occurred
-      resetProviders(context);
-      Future.microtask(
-        () {
-          Navigator.of(context).pushReplacementNamed('/login');
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return ErrorDialog(
-                  title: "Server Connection Error",
-                  message: "${error.format()}, Returning to login page...");
-            },
-          );
-        },
-      );
-      return fakeUserData;
-    });
+    return widget.session.getUserData().onError(
+      (Error_ServerConnectionError error, stackTrace) {
+        // logout when server connection error occurred
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(
+              errorDialogData: ErrorDialogData(
+                title: serverConnErrorText,
+                message: error.format(),
+              ),
+            ),
+          ),
+        );
+        return fakeUserData;
+      },
+    );
   }
 }

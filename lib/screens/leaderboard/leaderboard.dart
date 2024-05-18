@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:trivia/screens/leaderboard/leaderboard_components/top_three.dart';
 import '../../objects/user_score.dart';
 import '../../providers/leaderboard_provider.dart';
-import '../../providers/screen_size_provider.dart';
 import '../../src/rust/api/session.dart';
+import '../../utils/common_functionalities/screen_size.dart';
 import '../../utils/common_functionalities/user_data_validation.dart';
 
 class Leaderboard extends StatefulWidget {

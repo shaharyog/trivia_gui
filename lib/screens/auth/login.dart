@@ -14,7 +14,9 @@ import '../../utils/dialogs/error_dialog.dart';
 import '../../utils/common_widgets/toggle_theme_button.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final ErrorDialogData? errorDialogData;
+
+  const LoginPage({super.key, this.errorDialogData});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -31,6 +33,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     setWindowTitle("Trivia - Login");
+    if (widget.errorDialogData != null) {
+      showErrorDialog(
+        context,
+        widget.errorDialogData!.title,
+        widget.errorDialogData!.message,
+      );
+    }
     super.initState();
   }
 
@@ -50,61 +59,40 @@ class _LoginPageState extends State<LoginPage> {
     final prefs = await SharedPreferences.getInstance();
     final serverIp = prefs.getString(serverIpKey) ?? defaultServerIp;
     final serverPort = prefs.getString(serverPortKey) ?? defaultPort;
-    Session newSession;
+
     try {
-      newSession = await Session.login(
+      Session newSession = await Session.login(
         loginRequest: LoginRequest(
           username: usernameController.text,
           password: passwordController.text,
         ),
         address: "$serverIp:$serverPort",
       );
+
+      if (!mounted) return;
+      setWindowTitle("Trivia - ${usernameController.text}");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(session: newSession),
+        ),
+      );
     } on Error_LoginError catch (_) {
       setState(() {
         loginError =
             "• Invalid username or password, or user already logged in";
       });
-      return;
     } on Error_ServerConnectionError catch (e) {
       if (!mounted) return;
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return ErrorDialog(
-            title: "Server Connection Error",
-            message: e.format(),
-          );
-        },
-      );
-      return;
+      showErrorDialog(context, serverConnErrorText, e.format());
     } on Error catch (e) {
       if (!mounted) return;
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return ErrorDialog(
-            title: "Error",
-            message: e.format(),
-          );
-        },
-      );
-      return;
+      showErrorDialog(context, 'Error', e.format());
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
-
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(session: newSession),
-      ),
-    );
-    setWindowTitle("Trivia - ${usernameController.text}");
   }
 
   @override

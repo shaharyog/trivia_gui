@@ -36,3 +36,22 @@ class ErrorDialog extends StatelessWidget {
     );
   }
 }
+
+
+void showErrorDialog(BuildContext context, String title, String message) {
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) {
+      return ErrorDialog(title: title, message: message);
+    },
+  );
+}
+
+
+class ErrorDialogData {
+  final String title;
+  final String message;
+
+  ErrorDialogData({required this.title, required this.message});
+}

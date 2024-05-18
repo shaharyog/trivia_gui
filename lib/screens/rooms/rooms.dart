@@ -7,7 +7,6 @@ import '../../providers/filters_providers/filters.dart';
 import '../../src/rust/api/error.dart';
 import '../../src/rust/api/request/get_rooms.dart';
 import '../../src/rust/api/session.dart';
-import '../../utils/common_functionalities/reset_providers.dart';
 import '../../utils/dialogs/error_dialog.dart';
 import 'rooms_components/launch_filter_sheet.dart';
 import 'search_bar.dart';
@@ -343,7 +342,6 @@ class _RoomsWidgetState extends State<RoomsWidget>
         .getRooms()
         .onError((Error_ServerConnectionError error, stackTrace) {
       // logout when server connection error occurred
-      resetProviders(context);
       Future.microtask(
         () {
           Navigator.of(context).pushReplacementNamed('/login');

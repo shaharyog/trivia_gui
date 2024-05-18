@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../utils/common_functionalities/reset_providers.dart';
 import '../../../utils/dialogs/error_dialog.dart';
 import 'create_room_col_contents.dart';
 import 'package:trivia/src/rust/api/error.dart';
@@ -44,7 +43,6 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
           Navigator.of(context).pop();
         } on Error_ServerConnectionError catch (e) {
           if (!context.mounted) return;
-          resetProviders(context);
           Navigator.of(context).pop();
           Navigator.of(context).pushReplacementNamed('/login');
           showDialog(

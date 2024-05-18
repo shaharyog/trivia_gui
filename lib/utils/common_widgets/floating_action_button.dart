@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:side_sheet_material3/side_sheet_material3.dart';
-import '../../providers/screen_size_provider.dart';
 import '../../screens/rooms/create_room_sheet/create_room_adaptive_sheet.dart';
 import '../../src/rust/api/request/create_room.dart';
 import '../../src/rust/api/session.dart';
+import '../common_functionalities/screen_size.dart';
 
 class HomePageFloatingActionButton extends StatelessWidget {
   final int navigationIndex;

@@ -13,6 +13,9 @@ const String serverPortKey = 'serverPortKey';
 const String defaultServerIp = "127.0.0.1";
 const String serverIpKey = 'serverIpKey';
 
+
+const String serverConnErrorText = 'Server Connection Error';
+
 // filters related defaults:
 const String defaultSearchText = "";
 const double defaultQuestionCountRangeStart = 0;

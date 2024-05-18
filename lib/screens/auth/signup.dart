@@ -94,9 +94,9 @@ class _SignupPageState extends State<SignupPage> {
     final prefs = await SharedPreferences.getInstance();
     final serverIp = prefs.getString(serverIpKey) ?? defaultServerIp;
     final serverPort = prefs.getString(serverPortKey) ?? defaultPort;
-    Session newSession;
+
     try {
-      newSession = await Session.signup(
+      Session newSession = await Session.signup(
         address: "$serverIp:$serverPort",
         signupRequest: SignupRequest(
             username: usernameController.text,
@@ -106,52 +106,31 @@ class _SignupPageState extends State<SignupPage> {
             birthday: birthdateController.text,
             phoneNumber: phoneNumberController.text),
       );
+      if (!mounted) return;
+      setWindowTitle("Trivia - @${usernameController.text}");
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(session: newSession),
+        ),
+      );
     } on Error_SignupError catch (e) {
       setState(() {
         _errorText = "• ${e.format()}";
       });
-      return;
     } on Error_ServerConnectionError catch (e) {
       if (!mounted) return;
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return ErrorDialog(
-            title: "Server Connection Error",
-            message: e.format(),
-          );
-        },
-      );
-      return;
+      showErrorDialog(context, serverConnErrorText, e.format());
     } on Error catch (e) {
       if (!mounted) return;
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return ErrorDialog(
-            title: "Error",
-            message: e.format(),
-          );
-        },
-      );
-      return;
+      showErrorDialog(context, "Error", e.format());
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
-
-    if (!mounted) return;
-    Navigator.pop(context);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(session: newSession),
-      ),
-    );
-    setWindowTitle("Trivia - ${usernameController.text}");
+ 
   }
 
   @override

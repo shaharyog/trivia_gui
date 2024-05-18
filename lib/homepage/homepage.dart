@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/providers/screen_size_provider.dart';
 import '../providers/filters_providers/filters.dart';
 import '../src/rust/api/session.dart';
+import '../utils/common_functionalities/screen_size.dart';
 import '../utils/common_widgets/floating_action_button.dart';
 import 'homepage_appbar.dart';
 import 'homepage_body.dart';
