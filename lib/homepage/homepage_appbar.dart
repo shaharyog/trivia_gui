@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../consts.dart';
+import '../screens/auth/login.dart';
 import '../src/rust/api/error.dart';
 import '../src/rust/api/session.dart';
 import '../utils/dialogs/error_dialog.dart';
@@ -32,57 +34,41 @@ List<Widget> getActions(BuildContext context, final Session session) {
   return [
     Padding(
       padding: const EdgeInsets.only(right: 4.0),
-      child: themeToggleButton(),
+      child: themeToggleButton(context),
     ),
     Padding(
       padding: const EdgeInsets.only(right: 4.0),
       child: IconButton(
         icon: const Icon(Icons.logout),
         onPressed: () async {
+          ErrorDialogData? errorDialogData;
           try {
             await session.logout();
           } on Error_LogoutError catch (e) {
-            if (context.mounted) {
-              await showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) {
-                  return ErrorDialog(
-                    title: "Logout Error",
-                    message: "${e.format()}, Returning to login page...",
-                  );
-                },
-              );
-            }
+            errorDialogData = ErrorDialogData(
+              title: logoutErrorText,
+              message: e.format(),
+            );
           } on Error_ServerConnectionError catch (e) {
-            if (context.mounted) {
-              await showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) {
-                  return ErrorDialog(
-                    title: "Server Connection Error",
-                    message: "${e.format()}, Returning to login page...",
-                  );
-                },
-              );
-            }
+            errorDialogData = ErrorDialogData(
+              title: serverConnErrorText,
+              message: e.format(),
+            );
           } on Error catch (e) {
-            if (context.mounted) {
-              await showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) {
-                  return ErrorDialog(
-                    title: "Error",
-                    message: "${e.format()}, Returning to login page...",
-                  );
-                },
-              );
-            }
+            errorDialogData = ErrorDialogData(
+              title: unknownErrorText,
+              message: e.format(),
+            );
           } finally {
             if (context.mounted) {
-              Navigator.of(context).pushReplacementNamed('/login');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(
+                    errorDialogData: errorDialogData,
+                  ),
+                ),
+              );
             }
           }
         },

@@ -19,10 +19,33 @@ pub struct UserData {
 }
 
 #[derive(Deserialize)]
-pub struct GetUserDataResponse {
-    pub status: bool,
+pub struct UserStatistics {
+    #[serde(rename = "averageAnswerTime")]
+    pub average_answer_time: Option<u32>,
+    #[serde(rename = "correctAnswers")]
+    pub correct_answers: u32,
+    #[serde(rename = "wrongAnswers")]
+    pub wrong_answers: u32,
+    #[serde(rename = "totalAnswers")]
+    pub total_answers: u32,
+    #[serde(rename = "totalGames")]
+    pub total_games: u32,
+    #[serde(rename = "score")]
+    pub score: u32,
+}
+
+#[derive(Deserialize)]
+pub struct UserDataAndStatistics {
     #[serde(rename = "userData")]
     pub user_data: UserData,
+    #[serde(rename = "userStatistics")]
+    pub user_statistics: UserStatistics,
+}
+#[derive(Deserialize)]
+pub struct GetUserDataResponse {
+    pub status: bool,
+    #[serde(flatten)]
+    pub user_data_and_statistics: UserDataAndStatistics,
 }
 
 impl Request for GetUserDataRequest {

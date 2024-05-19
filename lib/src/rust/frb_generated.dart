@@ -83,7 +83,8 @@ abstract class RustLibApi extends BaseApi {
 
   Future<List<Room>> sessionGetRooms({required Session that, dynamic hint});
 
-  Future<UserData> sessionGetUserData({required Session that, dynamic hint});
+  Future<UserDataAndStatistics> sessionGetUserData(
+      {required Session that, dynamic hint});
 
   Future<Session> sessionLogin(
       {required LoginRequest loginRequest,
@@ -224,7 +225,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<UserData> sessionGetUserData({required Session that, dynamic hint}) {
+  Future<UserDataAndStatistics> sessionGetUserData(
+      {required Session that, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
@@ -234,7 +236,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             funcId: 5, port: port_);
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_user_data,
+        decodeSuccessData: sse_decode_user_data_and_statistics,
         decodeErrorData: sse_decode_error,
       ),
       constMeta: kSessionGetUserDataConstMeta,
@@ -441,6 +443,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
   UpdateUserDataRequest dco_decode_box_autoadd_update_user_data_request(
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -544,6 +552,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   String? dco_decode_opt_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_String(raw);
+  }
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_u_32(raw);
   }
 
   @protected
@@ -653,6 +667,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  UserDataAndStatistics dco_decode_user_data_and_statistics(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return UserDataAndStatistics(
+      userData: dco_decode_user_data(arr[0]),
+      userStatistics: dco_decode_user_statistics(arr[1]),
+    );
+  }
+
+  @protected
+  UserStatistics dco_decode_user_statistics(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return UserStatistics(
+      averageAnswerTime: dco_decode_opt_box_autoadd_u_32(arr[0]),
+      correctAnswers: dco_decode_u_32(arr[1]),
+      wrongAnswers: dco_decode_u_32(arr[2]),
+      totalAnswers: dco_decode_u_32(arr[3]),
+      totalGames: dco_decode_u_32(arr[4]),
+      score: dco_decode_u_32(arr[5]),
+    );
+  }
+
+  @protected
   int dco_decode_usize(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeI64OrU64(raw);
@@ -729,6 +771,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_signup_request(deserializer));
+  }
+
+  @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_u_32(deserializer));
   }
 
   @protected
@@ -844,6 +892,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_u_32(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   Player sse_decode_player(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_username = sse_decode_String(deserializer);
@@ -949,6 +1008,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  UserDataAndStatistics sse_decode_user_data_and_statistics(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_userData = sse_decode_user_data(deserializer);
+    var var_userStatistics = sse_decode_user_statistics(deserializer);
+    return UserDataAndStatistics(
+        userData: var_userData, userStatistics: var_userStatistics);
+  }
+
+  @protected
+  UserStatistics sse_decode_user_statistics(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_averageAnswerTime = sse_decode_opt_box_autoadd_u_32(deserializer);
+    var var_correctAnswers = sse_decode_u_32(deserializer);
+    var var_wrongAnswers = sse_decode_u_32(deserializer);
+    var var_totalAnswers = sse_decode_u_32(deserializer);
+    var var_totalGames = sse_decode_u_32(deserializer);
+    var var_score = sse_decode_u_32(deserializer);
+    return UserStatistics(
+        averageAnswerTime: var_averageAnswerTime,
+        correctAnswers: var_correctAnswers,
+        wrongAnswers: var_wrongAnswers,
+        totalAnswers: var_totalAnswers,
+        totalGames: var_totalGames,
+        score: var_score);
+  }
+
+  @protected
   int sse_decode_usize(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint64();
@@ -1027,6 +1114,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SignupRequest self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_signup_request(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self, serializer);
   }
 
   @protected
@@ -1131,6 +1224,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_u_32(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_player(Player self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.username, serializer);
@@ -1204,6 +1307,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_String(self.birthday, serializer);
     sse_encode_String(self.avatarColor, serializer);
     sse_encode_Chrono_Naive(self.memberSince, serializer);
+  }
+
+  @protected
+  void sse_encode_user_data_and_statistics(
+      UserDataAndStatistics self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_user_data(self.userData, serializer);
+    sse_encode_user_statistics(self.userStatistics, serializer);
+  }
+
+  @protected
+  void sse_encode_user_statistics(
+      UserStatistics self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_box_autoadd_u_32(self.averageAnswerTime, serializer);
+    sse_encode_u_32(self.correctAnswers, serializer);
+    sse_encode_u_32(self.wrongAnswers, serializer);
+    sse_encode_u_32(self.totalAnswers, serializer);
+    sse_encode_u_32(self.totalGames, serializer);
+    sse_encode_u_32(self.score, serializer);
   }
 
   @protected

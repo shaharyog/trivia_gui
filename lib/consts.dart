@@ -13,8 +13,9 @@ const String serverPortKey = 'serverPortKey';
 const String defaultServerIp = "127.0.0.1";
 const String serverIpKey = 'serverIpKey';
 
-
 const String serverConnErrorText = 'Server Connection Error';
+const String logoutErrorText = 'Logout Error';
+const String unknownErrorText = "Error";
 
 // filters related defaults:
 const String defaultSearchText = "";
@@ -72,7 +73,6 @@ Map<Color, String> avatarColorsMapReversed = {
   Colors.pink: "Pink"
 };
 
-
 // show skeleton while loading, create fake data in order to show skeleton in the right shape
 final List<Room> fakeRooms = [
   const Room(
@@ -108,12 +108,21 @@ final List<Room> fakeRooms = [
 ];
 
 // show skeleton while loading, create fake data in order to show skeleton in the right shape
-final UserData fakeUserData = UserData(
-  username: "username",
-  email: "username@gmail.com",
-  address: "Street, 123, City",
-  phoneNumber: "0555555555",
-  birthday: "01/01/2000",
-  avatarColor: "Blue",
-  memberSince: DateTime(2000, 1, 1),
+final UserDataAndStatistics fakeUserDataAndStats = UserDataAndStatistics(
+  userData: UserData(
+    username: "username",
+    email: "username@gmail.com",
+    address: "Street, 123, City",
+    phoneNumber: "0555555555",
+    birthday: "01/01/2000",
+    avatarColor: "Blue",
+    memberSince: DateTime(2000, 1, 1),
+  ),
+  userStatistics: const UserStatistics(
+      averageAnswerTime: 0,
+      correctAnswers: 0,
+      wrongAnswers: 0,
+      totalAnswers: 0,
+      totalGames: 0,
+      score: 0),
 );

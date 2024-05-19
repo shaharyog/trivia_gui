@@ -5,13 +5,16 @@ import '../utils/common_functionalities/screen_size.dart';
 import '../utils/common_widgets/floating_action_button.dart';
 import 'homepage_appbar.dart';
 import 'homepage_body.dart';
-import '../utils/nav/large_nav_drawer.dart';
-import '../utils/nav/small_medium_nav_bar.dart';
+import '../utils/nav/nav_rail.dart';
+import '../utils/nav/nav_bar.dart';
 
 class HomePage extends StatefulWidget {
   final Session session;
 
-  const HomePage({super.key, required this.session});
+  const HomePage({
+    super.key,
+    required this.session,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -28,15 +31,16 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: screenSize == ScreenSize.small
           ? getHomePageAppbar(
-              navigationIndex: _currentNavIndex,
-              session: widget.session,
-              context: context,
-            )
+        navigationIndex: _currentNavIndex,
+        session: widget.session,
+        context: context,
+      )
           : null,
       bottomNavigationBar: screenSize == ScreenSize.small
           ? HomePageBottomNavBar(
-              navigationIndex: _currentNavIndex,
-              onDestinationSelected: destinationSelected)
+        navigationIndex: _currentNavIndex,
+        onDestinationSelected: destinationSelected,
+      )
           : null,
       body: Row(
         children: [
@@ -53,16 +57,15 @@ class _HomePageState extends State<HomePage> {
               navigationIndex: _currentNavIndex,
               session: widget.session,
               filters: filters,
-              onFiltersChanged: updateFilters,
             ),
           ),
         ],
       ),
       floatingActionButton: _currentNavIndex == 1
           ? HomePageFloatingActionButton(
-              navigationIndex: _currentNavIndex,
-              session: widget.session,
-            )
+        navigationIndex: _currentNavIndex,
+        session: widget.session,
+      )
           : null,
     );
   }
@@ -73,13 +76,6 @@ class _HomePageState extends State<HomePage> {
     }
     setState(() {
       _currentNavIndex = index;
-    });
-  }
-
-
-  void updateFilters(Filters newFilters) {
-    setState(() {
-      filters = newFilters;
     });
   }
 }

@@ -607,6 +607,17 @@ impl SseDecode for Option<String> {
     }
 }
 
+impl SseDecode for Option<u32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<u32>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for crate::api::request::get_room_players::Player {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -727,6 +738,40 @@ impl SseDecode for crate::api::request::get_user_data::UserData {
             birthday: var_birthday,
             avatar_color: var_avatarColor,
             member_since: var_memberSince,
+        };
+    }
+}
+
+impl SseDecode for crate::api::request::get_user_data::UserDataAndStatistics {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_userData =
+            <crate::api::request::get_user_data::UserData>::sse_decode(deserializer);
+        let mut var_userStatistics =
+            <crate::api::request::get_user_data::UserStatistics>::sse_decode(deserializer);
+        return crate::api::request::get_user_data::UserDataAndStatistics {
+            user_data: var_userData,
+            user_statistics: var_userStatistics,
+        };
+    }
+}
+
+impl SseDecode for crate::api::request::get_user_data::UserStatistics {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_averageAnswerTime = <Option<u32>>::sse_decode(deserializer);
+        let mut var_correctAnswers = <u32>::sse_decode(deserializer);
+        let mut var_wrongAnswers = <u32>::sse_decode(deserializer);
+        let mut var_totalAnswers = <u32>::sse_decode(deserializer);
+        let mut var_totalGames = <u32>::sse_decode(deserializer);
+        let mut var_score = <u32>::sse_decode(deserializer);
+        return crate::api::request::get_user_data::UserStatistics {
+            average_answer_time: var_averageAnswerTime,
+            correct_answers: var_correctAnswers,
+            wrong_answers: var_wrongAnswers,
+            total_answers: var_totalAnswers,
+            total_games: var_totalGames,
+            score: var_score,
         };
     }
 }
@@ -1008,6 +1053,52 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_user_data::UserD
         self
     }
 }
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_user_data::UserDataAndStatistics {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.user_data.into_into_dart().into_dart(),
+            self.user_statistics.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_user_data::UserDataAndStatistics
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_user_data::UserDataAndStatistics>
+    for crate::api::request::get_user_data::UserDataAndStatistics
+{
+    fn into_into_dart(self) -> crate::api::request::get_user_data::UserDataAndStatistics {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_user_data::UserStatistics {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.average_answer_time.into_into_dart().into_dart(),
+            self.correct_answers.into_into_dart().into_dart(),
+            self.wrong_answers.into_into_dart().into_dart(),
+            self.total_answers.into_into_dart().into_dart(),
+            self.total_games.into_into_dart().into_dart(),
+            self.score.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_user_data::UserStatistics
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_user_data::UserStatistics>
+    for crate::api::request::get_user_data::UserStatistics
+{
+    fn into_into_dart(self) -> crate::api::request::get_user_data::UserStatistics {
+        self
+    }
+}
 
 impl SseEncode for Session {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1161,6 +1252,16 @@ impl SseEncode for Option<String> {
     }
 }
 
+impl SseEncode for Option<u32> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <u32>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for crate::api::request::get_room_players::Player {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1241,6 +1342,29 @@ impl SseEncode for crate::api::request::get_user_data::UserData {
         <String>::sse_encode(self.birthday, serializer);
         <String>::sse_encode(self.avatar_color, serializer);
         <chrono::NaiveDateTime>::sse_encode(self.member_since, serializer);
+    }
+}
+
+impl SseEncode for crate::api::request::get_user_data::UserDataAndStatistics {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::request::get_user_data::UserData>::sse_encode(self.user_data, serializer);
+        <crate::api::request::get_user_data::UserStatistics>::sse_encode(
+            self.user_statistics,
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::api::request::get_user_data::UserStatistics {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<u32>>::sse_encode(self.average_answer_time, serializer);
+        <u32>::sse_encode(self.correct_answers, serializer);
+        <u32>::sse_encode(self.wrong_answers, serializer);
+        <u32>::sse_encode(self.total_answers, serializer);
+        <u32>::sse_encode(self.total_games, serializer);
+        <u32>::sse_encode(self.score, serializer);
     }
 }
 

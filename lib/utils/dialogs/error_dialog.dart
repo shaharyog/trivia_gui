@@ -38,8 +38,8 @@ class ErrorDialog extends StatelessWidget {
 }
 
 
-void showErrorDialog(BuildContext context, String title, String message) {
-  showDialog(
+void showErrorDialog(BuildContext context, String title, String message) async {
+  await showDialog(
     barrierDismissible: false,
     context: context,
     builder: (context) {

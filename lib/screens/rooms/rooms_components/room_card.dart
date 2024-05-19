@@ -15,7 +15,7 @@ class RoomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shadowColor: Colors.transparent,
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.015),
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
       child: ListTile(
         title: Text(
           room.roomData.name,

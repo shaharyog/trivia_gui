@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trivia/src/rust/api/error.dart';
 import 'package:trivia/src/rust/api/request/login.dart';
@@ -32,15 +34,17 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    super.initState();
     setWindowTitle("Trivia - Login");
     if (widget.errorDialogData != null) {
-      showErrorDialog(
-        context,
-        widget.errorDialogData!.title,
-        widget.errorDialogData!.message,
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) => showErrorDialog(
+          context,
+          widget.errorDialogData!.title,
+          widget.errorDialogData!.message,
+        ),
       );
     }
-    super.initState();
   }
 
   @override
@@ -70,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       if (!mounted) return;
-      setWindowTitle("Trivia - ${usernameController.text}");
+      setWindowTitle("Trivia - @${usernameController.text}");
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -87,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
       showErrorDialog(context, serverConnErrorText, e.format());
     } on Error catch (e) {
       if (!mounted) return;
-      showErrorDialog(context, 'Error', e.format());
+      showErrorDialog(context, unknownErrorText, e.format());
     } finally {
       setState(() {
         _isLoading = false;
@@ -103,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
-            child: themeToggleButton(),
+            child: themeToggleButton(context),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
@@ -228,46 +232,46 @@ class _LoginPageState extends State<LoginPage> {
                             "Login",
                           ),
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
+                  Padding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 32.0,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text("Don't have an account? "),
-                          GestureDetector(
-                            onTap: !_isLoading
-                                ? () {
-                                    Navigator.pushNamed(context, '/signup');
-                                  }
-                                : null,
-                            child: MouseRegion(
-                              cursor: !_isLoading
+                      child: Text.rich(
+                        TextSpan(
+                          text: "Don't have an account? ",
+                          children: [
+                            TextSpan(
+                              text: "Sign up",
+                              style: !_isLoading
+                                  ? Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      )
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: Theme.of(context).disabledColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = !_isLoading
+                                    ? () {
+                                        Navigator.pushNamed(context, '/signup');
+                                      }
+                                    : null,
+                              mouseCursor: !_isLoading
                                   ? SystemMouseCursors.click
                                   : MouseCursor.defer,
-                              child: Text(
-                                "Sign up",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: !_isLoading
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .primary
-                                          : Theme.of(context).disabledColor,
-                                    ),
-                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                          ],
+                        ),
+                      )),
                 ],
               ),
             ),

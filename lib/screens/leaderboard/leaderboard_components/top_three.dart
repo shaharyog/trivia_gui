@@ -23,7 +23,7 @@ class TopThree extends StatelessWidget {
             user: user2,
             containerRatio: 0.65,
             containerColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.08),
+                Theme.of(context).colorScheme.primary.withOpacity(0.15),
             placeColor: const Color.fromRGBO(179, 179, 179, 1),
             containerBorderRadius: const BorderRadius.only(
               topLeft: Radius.circular(16),
@@ -37,7 +37,7 @@ class TopThree extends StatelessWidget {
             user: user1,
             containerRatio: 0.78,
             containerColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.12),
+                Theme.of(context).colorScheme.primary.withOpacity(0.25),
             placeColor: const Color.fromRGBO(206, 151, 3, 1.0),
             containerBorderRadius: const BorderRadius.only(
               topLeft: Radius.circular(16),
@@ -51,7 +51,7 @@ class TopThree extends StatelessWidget {
             user: user3,
             containerRatio: 0.5,
             containerColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.08),
+                Theme.of(context).colorScheme.primary.withOpacity(0.15),
             placeColor: const Color.fromRGBO(208, 125, 43, 1.0),
             containerBorderRadius: const BorderRadius.only(
               topRight: Radius.circular(16),

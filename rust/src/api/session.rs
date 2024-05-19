@@ -6,7 +6,7 @@ use crate::api::error::Error;
 use crate::api::request::create_room::{CreateRoomRequest, RoomData};
 use crate::api::request::get_room_players::{GetRoomPlayersRequest, Player};
 use crate::api::request::get_rooms::{GetRoomsRequest, Room};
-use crate::api::request::get_user_data::{GetUserDataRequest, UserData};
+use crate::api::request::get_user_data::{GetUserDataRequest, UserData, UserDataAndStatistics};
 use crate::api::request::login::LoginRequest;
 use crate::api::request::logout::LogoutRequest;
 use crate::api::request::signup::SignupRequest;
@@ -60,14 +60,14 @@ impl Session {
     }
 
     #[flutter_rust_bridge::frb]
-    pub fn get_user_data(&mut self) -> Result<UserData, Error> {
+    pub fn get_user_data(&mut self) -> Result<UserDataAndStatistics, Error> {
         let get_user_data_request = GetUserDataRequest;
         let response = get_user_data_request.write_and_read(&mut self.socket)?;
         if !response.status {
             return Err(Error::InternalServerError);
         }
 
-        Ok(response.user_data)
+        Ok(response.user_data_and_statistics)
     }
 
     #[flutter_rust_bridge::frb]

@@ -17,20 +17,23 @@ class HomePageBottomNavBar extends StatelessWidget {
       selectedIndex: navigationIndex,
       destinations: const <NavigationDestination>[
         NavigationDestination(
-            selectedIcon: Icon(Icons.leaderboard),
-            icon: Icon(Icons.leaderboard_outlined),
-            label: 'Leaderboard',
-            tooltip: ''),
+          selectedIcon: Icon(Icons.leaderboard),
+          icon: Icon(Icons.leaderboard_outlined),
+          label: 'Leaderboard',
+          tooltip: '',
+        ),
         NavigationDestination(
-            selectedIcon: Icon(Icons.holiday_village),
-            icon: Icon(Icons.holiday_village_outlined),
-            label: 'Rooms',
-            tooltip: ''),
+          selectedIcon: Icon(Icons.holiday_village),
+          icon: Icon(Icons.holiday_village_outlined),
+          label: 'Rooms',
+          tooltip: '',
+        ),
         NavigationDestination(
-            selectedIcon: Icon(Icons.person),
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-            tooltip: ''),
+          selectedIcon: Icon(Icons.person),
+          icon: Icon(Icons.person_outline),
+          label: 'Profile',
+          tooltip: '',
+        ),
       ],
     );
   }

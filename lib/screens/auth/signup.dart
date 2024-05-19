@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../consts.dart';
@@ -99,16 +100,17 @@ class _SignupPageState extends State<SignupPage> {
       Session newSession = await Session.signup(
         address: "$serverIp:$serverPort",
         signupRequest: SignupRequest(
-            username: usernameController.text,
-            password: passwordController.text,
-            email: emailController.text.toLowerCase(),
-            address: addressController.text,
-            birthday: birthdateController.text,
-            phoneNumber: phoneNumberController.text),
+          username: usernameController.text,
+          password: passwordController.text,
+          email: emailController.text.toLowerCase(),
+          address: addressController.text,
+          birthday: birthdateController.text,
+          phoneNumber: phoneNumberController.text,
+        ),
       );
       if (!mounted) return;
       setWindowTitle("Trivia - @${usernameController.text}");
-      Navigator.pop(context);
+      Navigator.pop(context); // remove signup page from stack
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -130,7 +132,6 @@ class _SignupPageState extends State<SignupPage> {
         _isLoading = false;
       });
     }
- 
   }
 
   @override
@@ -148,7 +149,7 @@ class _SignupPageState extends State<SignupPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
-            child: themeToggleButton(),
+            child: themeToggleButton(context),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
@@ -392,47 +393,46 @@ class _SignupPageState extends State<SignupPage> {
                             "Sign up",
                           ),
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 32.0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text("Already have an account? "),
-                          GestureDetector(
-                            onTap: !_isLoading
-                                ? () {
-                                    Navigator.pop(context);
-                                    setWindowTitle("Trivia - Login");
-                                  }
-                                : null,
-                            child: MouseRegion(
-                              cursor: !_isLoading
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 32.0),
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: "Already have an account? ",
+                            ),
+                            TextSpan(
+                              text: "Login",
+                              style: !_isLoading
+                                  ? Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      )
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: Theme.of(context).disabledColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = !_isLoading
+                                    ? () {
+                                        Navigator.of(context).pop();
+                                      }
+                                    : null,
+                              mouseCursor: !_isLoading
                                   ? SystemMouseCursors.click
                                   : MouseCursor.defer,
-                              child: Text(
-                                "Login",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: !_isLoading
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .primary
-                                          : Theme.of(context).disabledColor,
-                                    ),
-                              ),
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                          ],
+                        ),
+                      )),
                 ],
               ),
             ),

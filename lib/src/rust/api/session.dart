@@ -42,7 +42,7 @@ class Session extends RustOpaque {
   Future<List<Room>> getRooms({dynamic hint}) =>
       RustLib.instance.api.sessionGetRooms(that: this, hint: hint);
 
-  Future<UserData> getUserData({dynamic hint}) =>
+  Future<UserDataAndStatistics> getUserData({dynamic hint}) =>
       RustLib.instance.api.sessionGetUserData(that: this, hint: hint);
 
   static Future<Session> login(

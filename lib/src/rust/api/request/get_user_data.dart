@@ -48,3 +48,63 @@ class UserData {
           avatarColor == other.avatarColor &&
           memberSince == other.memberSince;
 }
+
+class UserDataAndStatistics {
+  final UserData userData;
+  final UserStatistics userStatistics;
+
+  const UserDataAndStatistics({
+    required this.userData,
+    required this.userStatistics,
+  });
+
+  @override
+  int get hashCode => userData.hashCode ^ userStatistics.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserDataAndStatistics &&
+          runtimeType == other.runtimeType &&
+          userData == other.userData &&
+          userStatistics == other.userStatistics;
+}
+
+class UserStatistics {
+  final int? averageAnswerTime;
+  final int correctAnswers;
+  final int wrongAnswers;
+  final int totalAnswers;
+  final int totalGames;
+  final int score;
+
+  const UserStatistics({
+    this.averageAnswerTime,
+    required this.correctAnswers,
+    required this.wrongAnswers,
+    required this.totalAnswers,
+    required this.totalGames,
+    required this.score,
+  });
+
+  @override
+  int get hashCode =>
+      averageAnswerTime.hashCode ^
+      correctAnswers.hashCode ^
+      wrongAnswers.hashCode ^
+      totalAnswers.hashCode ^
+      totalGames.hashCode ^
+      score.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserStatistics &&
+          runtimeType == other.runtimeType &&
+          averageAnswerTime == other.averageAnswerTime &&
+          correctAnswers == other.correctAnswers &&
+          wrongAnswers == other.wrongAnswers &&
+          totalAnswers == other.totalAnswers &&
+          totalGames == other.totalGames &&
+          score == other.score;
+}

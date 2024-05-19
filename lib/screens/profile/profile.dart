@@ -18,11 +18,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late Future<UserData> future;
+  late Future<UserDataAndStatistics> future;
 
   @override
   void initState() {
-    future = getUserData(context);
+    future = getUserDataAndStats(context);
     super.initState();
   }
 
@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Skeletonizer(
             child: ProfilePageContent(
-              userData: fakeUserData,
+              userDataAndStats: fakeUserDataAndStats,
               isSkeletonLoading: true,
               session: widget.session,
             ),
@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 OutlinedButton(
                   onPressed: () {
                     setState(() {
-                      future = getUserData(context);
+                      future = getUserDataAndStats(context);
                     });
                   },
                   child: const Text("Try Again"),
@@ -63,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
         }
         final userData = snapshot.data!;
         return ProfilePageContent(
-          userData: userData,
+          userDataAndStats: userData,
           session: widget.session,
         );
       },
@@ -71,10 +71,9 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future<UserData> getUserData(BuildContext context) {
+  Future<UserDataAndStatistics> getUserDataAndStats(BuildContext context) {
     return widget.session.getUserData().onError(
       (Error_ServerConnectionError error, stackTrace) {
-        // logout when server connection error occurred
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -86,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         );
-        return fakeUserData;
+        return fakeUserDataAndStats;
       },
     );
   }

@@ -8,19 +8,18 @@ import '../../src/rust/api/error.dart';
 import '../../src/rust/api/request/get_rooms.dart';
 import '../../src/rust/api/session.dart';
 import '../../utils/dialogs/error_dialog.dart';
+import '../auth/login.dart';
 import 'rooms_components/launch_filter_sheet.dart';
 import 'search_bar.dart';
 
 class RoomsWidget extends StatefulWidget {
   final Session session;
   final Filters filters;
-  final ValueChanged<Filters> onFiltersChanged;
 
   const RoomsWidget({
     super.key,
     required this.session,
     required this.filters,
-    required this.onFiltersChanged,
   });
 
   @override
@@ -46,14 +45,17 @@ class _RoomsWidgetState extends State<RoomsWidget>
     )..repeat(reverse: true);
 
     future = getRooms(context);
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (futureDone && currData != null) {
-        setState(() {
-          futureDone = false;
-          future = getRooms(context);
-        });
-      }
-    });
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (futureDone && currData != null) {
+          setState(() {
+            futureDone = false;
+            future = getRooms(context);
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -84,6 +86,9 @@ class _RoomsWidgetState extends State<RoomsWidget>
                         widget.filters.searchText = value;
                       });
                     },
+                    surfaceTintColor: WidgetStateColor.resolveWith(
+                      (states) => Theme.of(context).colorScheme.primary,
+                    ),
                     hintText: 'Search rooms',
                     leading: const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -338,26 +343,22 @@ class _RoomsWidgetState extends State<RoomsWidget>
   }
 
   Future<List<Room>> getRooms(BuildContext context) {
-    return widget.session
-        .getRooms()
-        .onError((Error_ServerConnectionError error, stackTrace) {
-      // logout when server connection error occurred
-      Future.microtask(
-        () {
-          Navigator.of(context).pushReplacementNamed('/login');
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return ErrorDialog(
-                  title: "Server Connection Error",
-                  message: "${error.format()}, Returning to login page...");
-            },
-          );
-        },
-      );
-      return [];
-    });
+    return widget.session.getRooms().onError(
+      (Error_ServerConnectionError error, stackTrace) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(
+              errorDialogData: ErrorDialogData(
+                title: serverConnErrorText,
+                message: error.format(),
+              ),
+            ),
+          ),
+        );
+        return [];
+      },
+    );
   }
 
   List<Room> filterAndSortRooms(List<Room> rooms, Filters filters) {
@@ -386,21 +387,23 @@ class _RoomsWidgetState extends State<RoomsWidget>
 
   List<Room> sortRooms(List<Room> rooms, Filters filters) {
     List<Room> sortedRooms = List.from(rooms);
-    sortedRooms.sort((a, b) {
-      switch (filters.sortBy) {
-        case SortBy.isActive:
-          return b.isActive ? 1 : -1;
-        // case SortBy.playersCount:
-        //   return b.roomData.playersCount.compareTo(a.roomData.playersCount);
-        case SortBy.questionsCount:
-          return b.roomData.questionCount.compareTo(a.roomData.questionCount);
-        case SortBy.timePerQuestion:
-          return b.roomData.timePerQuestion
-              .compareTo(a.roomData.timePerQuestion);
-        default:
-          return 0; // No sorting
-      }
-    });
+    sortedRooms.sort(
+      (a, b) {
+        switch (filters.sortBy) {
+          case SortBy.isActive:
+            return b.isActive ? 1 : -1;
+          // case SortBy.playersCount:
+          //   return b.roomData.playersCount.compareTo(a.roomData.playersCount);
+          case SortBy.questionsCount:
+            return b.roomData.questionCount.compareTo(a.roomData.questionCount);
+          case SortBy.timePerQuestion:
+            return b.roomData.timePerQuestion
+                .compareTo(a.roomData.timePerQuestion);
+          default:
+            return 0; // No sorting
+        }
+      },
+    );
 
     // reverse the list if the sort direction is reversed
     return filters.isReversedSort ? sortedRooms.reversed.toList() : sortedRooms;

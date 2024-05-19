@@ -65,6 +65,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   SignupRequest dco_decode_box_autoadd_signup_request(dynamic raw);
 
   @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw);
+
+  @protected
   UpdateUserDataRequest dco_decode_box_autoadd_update_user_data_request(
       dynamic raw);
 
@@ -88,6 +91,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String? dco_decode_opt_String(dynamic raw);
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
 
   @protected
   Player dco_decode_player(dynamic raw);
@@ -115,6 +121,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   UserData dco_decode_user_data(dynamic raw);
+
+  @protected
+  UserDataAndStatistics dco_decode_user_data_and_statistics(dynamic raw);
+
+  @protected
+  UserStatistics dco_decode_user_statistics(dynamic raw);
 
   @protected
   int dco_decode_usize(dynamic raw);
@@ -158,6 +170,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
+
+  @protected
   UpdateUserDataRequest sse_decode_box_autoadd_update_user_data_request(
       SseDeserializer deserializer);
 
@@ -181,6 +196,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
+
+  @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
 
   @protected
   Player sse_decode_player(SseDeserializer deserializer);
@@ -209,6 +227,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   UserData sse_decode_user_data(SseDeserializer deserializer);
+
+  @protected
+  UserDataAndStatistics sse_decode_user_data_and_statistics(
+      SseDeserializer deserializer);
+
+  @protected
+  UserStatistics sse_decode_user_statistics(SseDeserializer deserializer);
 
   @protected
   int sse_decode_usize(SseDeserializer deserializer);
@@ -256,6 +281,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SignupRequest self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_update_user_data_request(
       UpdateUserDataRequest self, SseSerializer serializer);
 
@@ -280,6 +308,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
 
   @protected
   void sse_encode_player(Player self, SseSerializer serializer);
@@ -308,6 +339,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_user_data(UserData self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_user_data_and_statistics(
+      UserDataAndStatistics self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_user_statistics(
+      UserStatistics self, SseSerializer serializer);
 
   @protected
   void sse_encode_usize(int self, SseSerializer serializer);

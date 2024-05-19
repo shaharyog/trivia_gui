@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../consts.dart';
 import '../../../utils/dialogs/error_dialog.dart';
+import '../../auth/login.dart';
 import 'create_room_col_contents.dart';
 import 'package:trivia/src/rust/api/error.dart';
 
@@ -13,7 +15,8 @@ class CreateRoomAdaptiveSheet extends StatefulWidget {
       {super.key, required this.onSave, required this.isSideSheet});
 
   @override
-  State<CreateRoomAdaptiveSheet> createState() => _CreateRoomAdaptiveSheetState();
+  State<CreateRoomAdaptiveSheet> createState() =>
+      _CreateRoomAdaptiveSheetState();
 }
 
 class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
@@ -40,19 +43,20 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
             timePerQuestion,
           );
           if (!context.mounted) return;
-          Navigator.of(context).pop();
+          Navigator.pop(context);
         } on Error_ServerConnectionError catch (e) {
           if (!context.mounted) return;
-          Navigator.of(context).pop();
-          Navigator.of(context).pushReplacementNamed('/login');
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return ErrorDialog(
-                  title: "Server Connection Error",
-                  message: "${e.format()}, Returning to login page...");
-            },
+          Navigator.pop(context);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginPage(
+                errorDialogData: ErrorDialogData(
+                  title: serverConnErrorText,
+                  message: e.format(),
+                ),
+              ),
+            ),
           );
         } on Error catch (e) {
           if (!context.mounted) return;

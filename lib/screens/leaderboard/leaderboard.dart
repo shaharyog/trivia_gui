@@ -128,7 +128,7 @@ Widget _buildListView(
     required int startIndex}) {
   return Container(
     decoration: BoxDecoration(
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.069),
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
       borderRadius: const BorderRadius.all(
         Radius.circular(16),
       ),

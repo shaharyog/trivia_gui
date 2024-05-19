@@ -12,13 +12,13 @@ import '../../utils/common_functionalities/user_data_validation.dart';
 import '../auth/login.dart';
 
 class ProfilePageContent extends StatefulWidget {
-  final UserData userData;
+  final UserDataAndStatistics userDataAndStats;
   final bool isSkeletonLoading;
   final Session session;
 
   const ProfilePageContent({
     super.key,
-    required this.userData,
+    required this.userDataAndStats,
     this.isSkeletonLoading = false,
     required this.session,
   });
@@ -49,12 +49,13 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
 
   @override
   void initState() {
-    lastUserData = widget.userData;
-    avatarColor = avatarColorsMap[widget.userData.avatarColor]!;
-    emailController.text = widget.userData.email;
-    addressController.text = widget.userData.address;
-    phoneNumberController.text = widget.userData.phoneNumber;
-    birthdateController.text = widget.userData.birthday;
+    lastUserData = widget.userDataAndStats.userData;
+    avatarColor =
+        avatarColorsMap[widget.userDataAndStats.userData.avatarColor]!;
+    emailController.text = widget.userDataAndStats.userData.email;
+    addressController.text = widget.userDataAndStats.userData.address;
+    phoneNumberController.text = widget.userDataAndStats.userData.phoneNumber;
+    birthdateController.text = widget.userDataAndStats.userData.birthday;
     super.initState();
   }
 
@@ -97,7 +98,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                       radius: 64,
                       backgroundColor: avatarColor,
                       child: Text(
-                        getInitials(widget.userData.username),
+                        getInitials(widget.userDataAndStats.userData.username),
                         style:
                             Theme.of(context).textTheme.displaySmall!.copyWith(
                                   color: Colors.white,
@@ -111,9 +112,8 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHigh,
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
                           ),
                           child: IconButton(
                             onPressed: _showColorPicker,
@@ -131,7 +131,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
               height: 16,
             ),
             Text(
-              widget.userData.username,
+              widget.userDataAndStats.userData.username,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
@@ -139,12 +139,14 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
               height: 8,
             ),
             Text(
-              "Member since: ${DateFormat("dd/MM/yyyy").format(widget.userData.memberSince.toLocal())}",
+              "Member since: ${DateFormat("dd/MM/yyyy").format(widget.userDataAndStats.userData.memberSince.toLocal())}",
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.titleSmall,
             ),
-            const SizedBox(
-              height: 8,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _buildStatistics(
+                  context, widget.userDataAndStats.userStatistics),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -298,14 +300,27 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
     });
     try {
       await widget.session.updateUserData(
-          updateUserDataRequest: UpdateUserDataRequest(
-              password: passwordController.text.isEmpty
-                  ? null
-                  : passwordController.text,
-              email: emailController.text,
-              address: addressController.text,
-              phoneNumber: phoneNumberController.text,
-              avatarColor: avatarColorsMapReversed[avatarColor]!));
+        updateUserDataRequest: UpdateUserDataRequest(
+          password:
+              passwordController.text.isEmpty ? null : passwordController.text,
+          email: emailController.text,
+          address: addressController.text,
+          phoneNumber: phoneNumberController.text,
+          avatarColor: avatarColorsMapReversed[avatarColor]!,
+        ),
+      );
+
+      setState(() {
+        lastUserData = UserData(
+            username: widget.userDataAndStats.userData.username,
+            email: emailController.text,
+            address: addressController.text,
+            phoneNumber: phoneNumberController.text,
+            birthday: widget.userDataAndStats.userData.birthday,
+            avatarColor: avatarColorsMapReversed[avatarColor]!,
+            memberSince: widget.userDataAndStats.userData.memberSince);
+      });
+      passwordController.text = '';
     } on Error_ServerConnectionError catch (e) {
       if (!mounted) return;
       Navigator.pushReplacement(
@@ -323,27 +338,14 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
       setState(() {
         _errorText = "• ${e.format()}";
       });
-      return;
     } on Error catch (e) {
       if (!mounted) return;
-      showErrorDialog(context, 'Error', e.format());
-      return;
+      showErrorDialog(context, unknownErrorText, e.format());
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
-    setState(() {
-      lastUserData = UserData(
-          username: widget.userData.username,
-          email: emailController.text,
-          address: addressController.text,
-          phoneNumber: phoneNumberController.text,
-          birthday: widget.userData.birthday,
-          avatarColor: avatarColorsMapReversed[avatarColor]!,
-          memberSince: widget.userData.memberSince);
-    });
-    passwordController.text = '';
   }
 
   bool isAllFieldsValid() {
@@ -400,4 +402,17 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
       },
     );
   }
+}
+
+Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
+  if (userStats.totalGames == 0) {
+    return const Text(
+      "No Games Yet",
+      textAlign: TextAlign.center,
+    );
+  }
+  return Text(
+    "Correct Answers: ${userStats.correctAnswers} • Wrong Answers: ${userStats.wrongAnswers}${userStats.totalAnswers == 0 ? "" : " • Accuracy: ${(userStats.correctAnswers / userStats.totalAnswers * 100).toStringAsFixed(2)}%"}\nTotal Games Played: ${userStats.totalGames} • Score: ${userStats.score}${userStats.averageAnswerTime == null ? "" : " • Average Answer Time: ${userStats.averageAnswerTime} seconds"}",
+    textAlign: TextAlign.center,
+  );
 }
