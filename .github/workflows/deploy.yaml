@@ -36,7 +36,8 @@ jobs:
           name: android-and-linux
           path: |
             ./build/app/outputs/apk/release/app-release.apk
-            ./build/linux/x64/release/bundle/trivia          if-no-files-found: error
+            ./build/linux/x64/release/bundle/trivia
+          if-no-files-found: error
           retention-days: 1 # delete artifacts after 1 day
 #  windows:
 #    runs-on: windows-latest
