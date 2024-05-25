@@ -69,6 +69,6 @@ jobs:
       - name: Create a Release in GitHub
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "artifacts/*"
+          artifacts: "artifacts/app/outputs/apk/release/app-release.apk,artifacts/linux/x64/release/bundle/trivia"
           token: ${{ secrets.TOKEN }}
           commit: ${{ github.sha }}
