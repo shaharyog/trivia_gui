@@ -1,40 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/screen_size_provider.dart';
-import 'homepage_large.dart';
-import 'homepage_medium.dart';
-import 'homepage_small.dart';
+import '../utils/filters.dart';
+import '../src/rust/api/session.dart';
+import '../utils/common_functionalities/screen_size.dart';
+import '../utils/common_widgets/floating_action_button.dart';
+import 'homepage_appbar.dart';
+import 'homepage_body.dart';
+import '../utils/nav/nav_rail.dart';
+import '../utils/nav/nav_bar.dart';
 
-class Homepage extends StatelessWidget {
-  const Homepage({super.key});
+class HomePage extends StatefulWidget {
+  final Session session;
+
+  const HomePage({
+    super.key,
+    required this.session,
+  });
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentNavIndex = 0;
+  Filters filters = Filters();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ScreenSizeProvider>(
-      builder: (context, screenSizeProvider, _) {
-        final screenWidth = MediaQuery.of(context).size.width;
+    final screenSize = getScreenSize(context);
 
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          screenSizeProvider.setScreenSize(screenWidth);
-        });
-
-        Widget homePage;
-
-        switch (screenSizeProvider.screenSize) {
-          case ScreenSize.large:
-            homePage = const HomePageLarge();
-            break;
-          case ScreenSize.medium:
-            homePage = const HomePageMedium();
-            break;
-          case ScreenSize.small:
-          default:
-            homePage = const HomePageSmall();
-            break;
-        }
-
-        return homePage;
-      },
+    return Scaffold(
+      appBar: screenSize == ScreenSize.small
+          ? getHomePageAppbar(
+        navigationIndex: _currentNavIndex,
+        session: widget.session,
+        context: context,
+      )
+          : null,
+      bottomNavigationBar: screenSize == ScreenSize.small
+          ? HomePageBottomNavBar(
+        navigationIndex: _currentNavIndex,
+        onDestinationSelected: destinationSelected,
+      )
+          : null,
+      body: Row(
+        children: [
+          if (screenSize != ScreenSize.small)
+            HomePageNavRail(
+              navigationIndex: _currentNavIndex,
+              onDestinationSelected: destinationSelected,
+              session: widget.session,
+            ),
+          if (screenSize != ScreenSize.small)
+            const VerticalDivider(thickness: 1, width: 1),
+          Expanded(
+            child: HomePageBody(
+              navigationIndex: _currentNavIndex,
+              session: widget.session,
+              filters: filters,
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: _currentNavIndex == 1
+          ? HomePageFloatingActionButton(
+        navigationIndex: _currentNavIndex,
+        session: widget.session,
+      )
+          : null,
     );
+  }
+
+  void destinationSelected(int index) {
+    if (_currentNavIndex == index) {
+      return;
+    }
+    setState(() {
+      _currentNavIndex = index;
+    });
   }
 }

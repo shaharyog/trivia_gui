@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  android-and-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+      - run: cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml # path to pubspec.yaml
+
+      - run: flutter_rust_bridge_codegen generate
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build libgtk-3-dev
+      - run: flutter build linux --release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-and-linux
+          path: build/app/outputs/apk/release/app-release.apk,build/linux/x64/release/bundle/trivia
+          if-no-files-found: error
+          retention-days: 1 # delete artifacts after 1 day
+#  windows:
+#    runs-on: windows-latest
+#    steps:
+#      - name: Clone repository
+#        uses: actions/checkout@v4
+#      - name: Set up Rust
+#        uses: actions-rust-lang/setup-rust-toolchain@v1
+#      - run: cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0'
+#      - name: Set up Flutter
+#        uses: subosito/flutter-action@v2
+#        with:
+#          channel: stable
+#          flutter-version-file: pubspec.yaml # path to pubspec.yaml
+#      - run: flutter_rust_bridge_codegen generate
+#      - run: flutter pub get
+#      - run: flutter build windows --release
+  release:
+    needs: [android-and-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: android-and-linux
+          path: artifacts
+          github_token: ${{ secrets.TOKEN }}
+      - name: Create a Release in GitHub
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "artifacts/build/app/outputs/apk/release/*.apk,artifacts/build/app/outputs/bundle/release/app-release.aab"
+          token: ${{ secrets.TOKEN }}
+          commit: ${{ github.sha }}

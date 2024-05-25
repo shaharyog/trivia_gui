@@ -3,83 +3,83 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'consts.dart';
-import 'homepage/homepage.dart';
-import 'auth/login.dart';
-import 'providers/navigation_provider.dart';
-import 'auth/signup.dart';
+import 'screens/auth/login.dart';
+import 'screens/auth/signup.dart';
 import 'package:provider/provider.dart';
-import 'providers/filters_providers/rooms_filters_provider.dart';
-import 'providers/rooms_provider.dart';
-import 'providers/screen_size_provider.dart';
-import 'providers/server_endpoint_provider.dart';
 import 'providers/theme_provider.dart';
+import 'package:trivia/src/rust/frb_generated.dart';
+
+import 'utils/common_functionalities/window_management.dart';
 
 void main() async {
-  // check if the platform is windows, linux or mac
+  await RustLib.init();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
-
-    WindowOptions windowOptions = const WindowOptions(
-      size: initialScreenSize,
-      center: true,
-      backgroundColor: Colors.transparent,
-      skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.normal,
-    );
-    windowManager.setMinimumSize(minScreenSize);
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
-    });
+    await windowManager.setTitle("Trivia");
+    await windowManager.setSize(defaultScreenSize);
+    await windowManager.setMinimumSize(minScreenSize);
   }
+
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => NavigationState()),
-        ChangeNotifierProvider(create: (context) => FiltersProvider()),
-        ChangeNotifierProvider(create: (context) => ScreenSizeProvider()),
-        ChangeNotifierProvider(
-            create: (context) =>
-                RoomsProvider(context.read<FiltersProvider>())),
-        ChangeNotifierProvider(create: (context) => ServerEndpointProvider()),
       ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WindowListener {
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      windowManager.addListener(this);  // add window listener
+    }
+  }
+
+  // always enforce the minimum screen size
+  // because the window manager doesn't enforce it after minimize/maximize
+  @override
+  void onWindowEvent(String eventName) {
+    super.onWindowEvent(eventName);
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      enforceMinScreenSize();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
-      builder: (context, themeProvider, child) {
-        return DynamicColorBuilder(
-            builder: (lightColorScheme, darkColorScheme) {
-          return MaterialApp(
-            theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: lightColorScheme ?? defaultLightColorScheme,
-            ),
-            darkTheme: ThemeData(
-              useMaterial3: true,
-              colorScheme: darkColorScheme ?? defaultDarkColorScheme,
-            ),
-            themeMode: themeProvider.themeMode,
-            debugShowCheckedModeBanner: false,
-            title: 'Trivia - Shahar & Yuval',
-            initialRoute: '/login',
-            routes: {
-              '/login': (context) => const LoginPage(),
-              '/signup': (context) => const SignupPage(),
-              '/home': (context) => const Homepage(),
-            },
-          );
-        });
+    return DynamicColorBuilder(
+      builder: (lightColorScheme, darkColorScheme) {
+        return MaterialApp(
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme ?? defaultLightColorScheme,
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme ?? defaultDarkColorScheme,
+          ),
+          themeMode: Provider.of<ThemeProvider>(context).themeMode,
+          debugShowCheckedModeBanner: false,
+          title: 'Trivia',
+          initialRoute: '/login',
+          routes: {
+            '/login': (context) => const LoginPage(),
+            '/signup': (context) => const SignupPage(),
+          },
+        );
       },
     );
   }

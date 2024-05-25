@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../providers/filters_providers/rooms_filters_provider.dart';
+import '../../../utils/filters.dart';
 import 'rooms_filter_sheet_col_contents.dart';
 
 class FilterSideSheet extends StatelessWidget {
-  final Function updateFiltersCallback;
-  final Function isFiltersApplyConfirmed;
+  final ValueChanged<Filters> updateFiltersCallback;
+  final ValueChanged<bool> isFiltersApplyConfirmed;
+  final Filters oldFilters;
 
   const FilterSideSheet({
     super.key,
     required this.updateFiltersCallback,
     required this.isFiltersApplyConfirmed,
+    required this.oldFilters,
   });
 
   @override
@@ -20,9 +21,11 @@ class FilterSideSheet extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: RoomFilterSheetColContents(
-              tempFilters: Provider.of<FiltersProvider>(context).filters,
-              updateFiltersCallback: updateFiltersCallback,
+            child: SingleChildScrollView(
+              child: RoomFilterSheetColContents(
+                tempFilters: oldFilters,
+                updateFiltersCallback: updateFiltersCallback,
+              ),
             ),
           ),
           RoomsFiltersSheetActions(
