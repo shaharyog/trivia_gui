@@ -34,7 +34,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-and-linux
-          path: build/app/outputs/flutter-apk/app-release.apk,build/linux/x64/release/bundle/trivia
+          path: |
+            ./build/app/outputs/apk/release/app-release.apk
+            ./build/linux/x64/release/bundle/trivia
           if-no-files-found: error
           retention-days: 1 # delete artifacts after 1 day
 #  windows:
