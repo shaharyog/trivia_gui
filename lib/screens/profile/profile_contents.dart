@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:trivia/src/rust/api/error.dart';
 import 'package:trivia/src/rust/api/request/get_user_data.dart';
 import 'package:trivia/src/rust/api/request/update_user_data.dart';
+import 'package:trivia/utils/common_functionalities/seconds_to_readable.dart';
 import '../../consts.dart';
 import '../../src/rust/api/session.dart';
 import '../../utils/dialogs/error_dialog.dart';
@@ -13,13 +15,11 @@ import '../auth/login.dart';
 
 class ProfilePageContent extends StatefulWidget {
   final UserDataAndStatistics userDataAndStats;
-  final bool isSkeletonLoading;
   final Session session;
 
   const ProfilePageContent({
     super.key,
     required this.userDataAndStats,
-    this.isSkeletonLoading = false,
     required this.session,
   });
 
@@ -49,14 +49,15 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
 
   @override
   void initState() {
+    super.initState();
     lastUserData = widget.userDataAndStats.userData;
     avatarColor =
-        avatarColorsMap[widget.userDataAndStats.userData.avatarColor]!;
+        avatarColorsMap[widget.userDataAndStats.userData.avatarColor] ??
+            Colors.blue;
     emailController.text = widget.userDataAndStats.userData.email;
     addressController.text = widget.userDataAndStats.userData.address;
     phoneNumberController.text = widget.userDataAndStats.userData.phoneNumber;
     birthdateController.text = widget.userDataAndStats.userData.birthday;
-    super.initState();
   }
 
   @override
@@ -75,13 +76,14 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            const SizedBox(height: 16),
             GestureDetector(
               onTap: () {
                 _showColorPicker();
@@ -94,21 +96,26 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                     const SizedBox(
                       width: 128,
                     ),
-                    CircleAvatar(
-                      radius: 64,
-                      backgroundColor: avatarColor,
-                      child: Text(
-                        getInitials(widget.userDataAndStats.userData.username),
-                        style:
-                            Theme.of(context).textTheme.displaySmall!.copyWith(
-                                  color: Colors.white,
-                                ),
+                    Skeleton.shade(
+                      child: CircleAvatar(
+                        radius: 64,
+                        backgroundColor: avatarColor,
+                        child: Text(
+                          getInitials(
+                              widget.userDataAndStats.userData.username),
+                          style: Theme.of(context)
+                              .textTheme
+                              .displaySmall!
+                              .copyWith(
+                                color: Colors.white,
+                              ),
+                        ),
                       ),
                     ),
-                    if (!widget.isSkeletonLoading)
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Skeleton.ignore(
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -123,6 +130,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                           ),
                         ),
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -133,23 +141,26 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
             Text(
               widget.userDataAndStats.userData.username,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.displayMedium,
             ),
             const SizedBox(
               height: 8,
             ),
-            Text(
-              "Member since: ${DateFormat("dd/MM/yyyy").format(widget.userDataAndStats.userData.memberSince.toLocal())}",
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleSmall,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Text(
+                "Member since: ${DateFormat("dd/MM/yyyy").format(widget.userDataAndStats.userData.memberSince.toLocal())}",
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: _buildStatistics(
                   context, widget.userDataAndStats.userStatistics),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
               child: InputField(
                 enabled: !_isLoading,
                 label: "Password",
@@ -287,6 +298,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                       "Save",
                     ),
             ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -406,13 +418,111 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
 
 Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
   if (userStats.totalGames == 0) {
-    return const Text(
-      "No Games Yet",
+    return Text(
+      "No Games Played Yet",
       textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.error
+          ),
     );
   }
-  return Text(
-    "Correct Answers: ${userStats.correctAnswers} • Wrong Answers: ${userStats.wrongAnswers}${userStats.totalAnswers == 0 ? "" : " • Accuracy: ${(userStats.correctAnswers / userStats.totalAnswers * 100).toStringAsFixed(2)}%"}\nTotal Games Played: ${userStats.totalGames} • Score: ${userStats.score}${userStats.averageAnswerTime == null ? "" : " • Average Answer Time: ${userStats.averageAnswerTime} seconds"}",
+
+  return Text.rich(
     textAlign: TextAlign.center,
+    style: Theme.of(context).textTheme.titleMedium,
+    TextSpan(
+      children: [
+        if (userStats.totalAnswers != 0)
+        TextSpan(
+          text: "Accuracy:  ",
+          children: [
+            TextSpan(
+              text: "${((userStats.correctAnswers / userStats.totalAnswers) * 100).round()}%\n",
+              style: TextStyle(
+                color: accuracyToColor(((userStats.correctAnswers / userStats.totalAnswers) * 100)),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextSpan(
+              text: "Correct Answers:  ",
+              children: [
+                TextSpan(
+                  text: "${userStats.correctAnswers}",
+                  style: const TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              ],
+            ),
+            const TextSpan(
+              text: "    •    ",
+            ),
+            TextSpan(
+              text: "Wrong Answers:  ",
+              children: [
+                TextSpan(
+                  text: "${userStats.wrongAnswers}\n",
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+
+        TextSpan(
+          text: "Total Games Played:  ",
+          children: [
+            TextSpan(
+              text: "${userStats.totalGames}",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const TextSpan(
+          text: "    •    ",
+        ),
+        TextSpan(
+          text: "Score:  ",
+          children: [
+            TextSpan(
+              text: "${userStats.score}",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        if (userStats.averageAnswerTime != null)
+          TextSpan(
+            text:
+                "\nAverage Answer Time:  ",
+            children: [
+              TextSpan(
+                text: secondsToReadableTime(userStats.averageAnswerTime!),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ]
+          )
+      ],
+    ),
+  );
+}
+
+Color accuracyToColor(double accuracy) {
+  double factor = accuracy / 100;
+  return Color.fromRGBO(
+    255 - (factor * 255).toInt(),
+    (factor * 255).toInt(),
+    0,
+    1,
   );
 }

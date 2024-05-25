@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:trivia/screens/rooms/room_list.dart';
 import '../../consts.dart';
-import '../../providers/filters_providers/filters.dart';
+import '../../utils/filters.dart';
 import '../../src/rust/api/error.dart';
 import '../../src/rust/api/request/get_rooms.dart';
 import '../../src/rust/api/session.dart';
@@ -264,7 +264,9 @@ class _RoomsWidgetState extends State<RoomsWidget>
                         child: IconButton(
                           onPressed: () async {
                             Filters? newFilters = await launchFilterSheet(
-                                context, widget.filters);
+                              context,
+                              widget.filters,
+                            );
                             if (newFilters != null) {
                               setState(() {
                                 widget.filters.updateFrom(newFilters);
@@ -287,55 +289,56 @@ class _RoomsWidgetState extends State<RoomsWidget>
           ),
           Expanded(
             child: FutureBuilder(
-                future: future,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting &&
-                      currData == null) {
-                    return Skeletonizer(
-                      child: RoomList(
-                        rooms: fakeRooms,
-                        blinkingController: _blinkingController,
-                      ),
-                    );
-                  }
-
-                  if (snapshot.hasError) {
-                    currData = null;
-                    futureDone = true;
-
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text((snapshot.error as Error).format()),
-                          const SizedBox(
-                            height: 16.0,
-                          ),
-                          OutlinedButton(
-                            onPressed: () {
-                              setState(() {
-                                futureDone = false;
-                                future = getRooms(context);
-                              });
-                            },
-                            child: const Text("Try Again"),
-                          )
-                        ],
-                      ),
-                    );
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    currData = snapshot.data;
-                    futureDone = true;
-                  }
-
-                  return RoomList(
-                    rooms: filterAndSortRooms(currData!, widget.filters),
-                    blinkingController: _blinkingController,
+              future: future,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting &&
+                    currData == null) {
+                  return Skeletonizer(
+                    child: RoomList(
+                      rooms: fakeRooms,
+                      blinkingController: _blinkingController,
+                    ),
                   );
-                }),
+                }
+
+                if (snapshot.hasError) {
+                  currData = null;
+                  futureDone = true;
+
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text((snapshot.error as Error).format()),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              futureDone = false;
+                              future = getRooms(context);
+                            });
+                          },
+                          child: const Text("Try Again"),
+                        )
+                      ],
+                    ),
+                  );
+                }
+
+                if (snapshot.connectionState == ConnectionState.done) {
+                  currData = snapshot.data;
+                  futureDone = true;
+                }
+
+                return RoomList(
+                  rooms: filterAndSortRooms(currData!, widget.filters),
+                  blinkingController: _blinkingController,
+                );
+              },
+            ),
           ),
         ],
       ),

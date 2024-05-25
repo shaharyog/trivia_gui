@@ -4,9 +4,10 @@ use std::time::Duration;
 
 use crate::api::error::Error;
 use crate::api::request::create_room::{CreateRoomRequest, RoomData};
+use crate::api::request::get_highscores::GetHighScoresRequest;
 use crate::api::request::get_room_players::{GetRoomPlayersRequest, Player};
 use crate::api::request::get_rooms::{GetRoomsRequest, Room};
-use crate::api::request::get_user_data::{GetUserDataRequest, UserData, UserDataAndStatistics};
+use crate::api::request::get_user_data::{GetUserDataRequest, UserDataAndStatistics};
 use crate::api::request::login::LoginRequest;
 use crate::api::request::logout::LogoutRequest;
 use crate::api::request::signup::SignupRequest;
@@ -117,5 +118,15 @@ impl Session {
         }
 
         Ok(())
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn get_highscores(&mut self) -> Result<Vec<Player>, Error> {
+        let response = GetHighScoresRequest.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(response.players)
     }
 }

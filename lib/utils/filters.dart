@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../consts.dart';
+import '../consts.dart';
 
 enum SortBy { isActive, playersCount, questionsCount, timePerQuestion }
 
@@ -12,6 +12,12 @@ class Filters {
   bool showOnlyActive = defaultShowOnlyActive;
   SortBy sortBy = defaultSortBy;
   bool isReversedSort = defaultIsReversedSort;
+
+  Filters();
+
+  Filters.fromFilters(Filters other) {
+    updateFrom(other);
+  }
 
   void reset() {
     searchText = defaultSearchText;

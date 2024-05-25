@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trivia/consts.dart';
-import '../../../providers/filters_providers/filters.dart';
+import '../../../utils/filters.dart';
 
 class RoomFilterSheetColContents extends StatefulWidget {
   final ValueChanged<Filters> updateFiltersCallback;

@@ -1,13 +1,11 @@
 import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:trivia/providers/leaderboard_provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'consts.dart';
 import 'screens/auth/login.dart';
 import 'screens/auth/signup.dart';
 import 'package:provider/provider.dart';
-import 'providers/filters_providers/rooms_filters_provider.dart';
 import 'providers/theme_provider.dart';
 import 'package:trivia/src/rust/frb_generated.dart';
 
@@ -28,8 +26,6 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => FiltersProvider()),
-        ChangeNotifierProvider(create: (context) => LeaderboardProvider()),
       ],
       child: const MyApp(),
     ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:side_sheet_material3/side_sheet_material3.dart';
-import '../../../providers/filters_providers/filters.dart';
+import '../../../utils/filters.dart';
 import '../../../utils/common_functionalities/screen_size.dart';
 import '../rooms_filter_sheet/rooms_filter_bottom_sheet.dart';
 import '../rooms_filter_sheet/rooms_filter_side_sheet.dart';
@@ -16,6 +16,7 @@ Future<Filters?> launchFilterSheet(
       isScrollControlled: true,
       context: context,
       builder: (context) => FilterBottomSheet(
+        oldFilters: filters,
         updateFiltersCallback: (newFilters) {
           filters = newFilters;
         },
@@ -33,6 +34,7 @@ Future<Filters?> launchFilterSheet(
       barrierDismissible: true,
       context,
       body: FilterSideSheet(
+        oldFilters: Filters.fromFilters(filters),
         updateFiltersCallback: (newFilters) {
           filters = newFilters;
         },

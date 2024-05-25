@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/objects/user_score.dart';
-
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:trivia/consts.dart';
+import '../../../src/rust/api/request/get_room_players.dart';
 import '../../../utils/common_functionalities/user_data_validation.dart';
 
 Widget buildTopThreePlayer(
     {required BuildContext context,
-    required UserScore? user,
+    required Player? user,
     required double containerRatio,
     required Color containerColor,
     required Color placeColor,
@@ -67,44 +68,54 @@ Widget buildTopThreePlayer(
                       ),
                     )
                   : Column(
+                      mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
-                            user.name,
+                            user.username,
+                            textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
                                   fontSize: width / 8,
                                 ),
-                            overflow: TextOverflow.ellipsis,
+                            overflow: Skeletonizer.of(context).enabled ? TextOverflow.clip : TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${user.score}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .copyWith(
-                                      color: placeColor,
-                                      fontSize: width / 10,
-                                    ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Icon(
-                                Icons.star_border_sharp,
-                                size: width / 8,
-                                color: placeColor,
-                              ),
-                            ],
+                          child: Skeleton.unite(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '${user.score}',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        color: placeColor,
+                                        fontSize: width / 10,
+                                      ),
+                                  overflow: Skeletonizer.of(context).enabled ? TextOverflow.clip : TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                                Icon(
+                                  Icons.star_border_sharp,
+                                  size: width / 8,
+                                  color: placeColor,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -115,23 +126,26 @@ Widget buildTopThreePlayer(
         if (user != null)
           Positioned(
             bottom: containerHeight - avatarRadius / 1.5,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: placeColor,
-                  width: width / 40,
+            child: Skeleton.shade(
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: placeColor,
+                    width: width / 40,
+                  ),
                 ),
-              ),
-              child: CircleAvatar(
-                backgroundColor: user.avatarColor,
-                radius: avatarRadius,
-                child: Text(
-                  getInitials(user.name),
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: avatarRadius,
-                        color: Colors.white,
-                      ),
+                child: CircleAvatar(
+                  backgroundColor:
+                      avatarColorsMap[user.avatarColor] ?? Colors.blue,
+                  radius: avatarRadius,
+                  child: Text(
+                    getInitials(user.username),
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontSize: avatarRadius,
+                          color: Colors.white,
+                        ),
+                  ),
                 ),
               ),
             ),
@@ -140,4 +154,3 @@ Widget buildTopThreePlayer(
     );
   });
 }
-

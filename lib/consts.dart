@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/providers/filters_providers/filters.dart';
+import 'package:trivia/utils/filters.dart';
+import 'package:trivia/src/rust/api/request/get_room_players.dart';
 import 'src/rust/api/request/create_room.dart';
 import 'src/rust/api/request/get_rooms.dart';
 import 'src/rust/api/request/get_user_data.dart';
@@ -126,3 +127,12 @@ final UserDataAndStatistics fakeUserDataAndStats = UserDataAndStatistics(
       totalGames: 0,
       score: 0),
 );
+
+const List<Player> fakeHighScoresPlayers = [
+  Player(username: "John Doe", score: 100, avatarColor: "Blue"),
+  Player(username: "Shahar Yogev", score: 77, avatarColor: "Blue"),
+  Player(username: "Yuval Bar", score: 90, avatarColor: "Orange"),
+  Player(username: "Itay Hadas", score: 123, avatarColor: "Purple"),
+  Player(username: "Ohad Green", score: 12, avatarColor: "Green"),
+  Player(username: "Ron Altman", score: 45, avatarColor: "Teal"),
+];

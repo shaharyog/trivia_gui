@@ -62,7 +62,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.0.0-dev.33';
 
   @override
-  int get rustContentHash => 1826036653;
+  int get rustContentHash => 422255802;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -77,6 +77,9 @@ abstract class RustLibApi extends BaseApi {
 
   Future<void> sessionCreateRoom(
       {required Session that, required RoomData roomData, dynamic hint});
+
+  Future<List<Player>> sessionGetHighscores(
+      {required Session that, dynamic hint});
 
   Future<List<Player>> sessionGetRoomPlayers(
       {required Session that, required String roomId, dynamic hint});
@@ -168,6 +171,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kSessionCreateRoomConstMeta => const TaskConstMeta(
         debugName: "Session_create_room",
         argNames: ["that", "roomData"],
+      );
+
+  @override
+  Future<List<Player>> sessionGetHighscores(
+      {required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 10, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_player,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetHighscoresConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetHighscoresConstMeta => const TaskConstMeta(
+        debugName: "Session_get_highscores",
+        argNames: ["that"],
       );
 
   @override

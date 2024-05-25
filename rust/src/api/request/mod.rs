@@ -6,6 +6,7 @@ pub mod logout;
 pub mod signup;
 pub mod update_user_data;
 pub mod create_room;
+pub mod get_highscores;
 
 use crate::api::error::Error;
 use serde::{Deserialize, Serialize};

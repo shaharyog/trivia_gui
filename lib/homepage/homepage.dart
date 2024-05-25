@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../providers/filters_providers/filters.dart';
+import '../utils/filters.dart';
 import '../src/rust/api/session.dart';
 import '../utils/common_functionalities/screen_size.dart';
 import '../utils/common_widgets/floating_action_button.dart';

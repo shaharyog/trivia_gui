@@ -34,7 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
           return Skeletonizer(
             child: ProfilePageContent(
               userDataAndStats: fakeUserDataAndStats,
-              isSkeletonLoading: true,
               session: widget.session,
             ),
           );
@@ -62,9 +61,12 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         }
         final userData = snapshot.data!;
-        return ProfilePageContent(
-          userDataAndStats: userData,
-          session: widget.session,
+        return Skeletonizer(
+          enabled: false,
+          child: ProfilePageContent(
+            userDataAndStats: userData,
+            session: widget.session,
+          ),
         );
       },
       future: future,

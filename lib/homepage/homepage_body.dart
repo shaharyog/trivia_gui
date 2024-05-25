@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trivia/screens/profile/profile.dart';
-import '../providers/filters_providers/filters.dart';
+import '../utils/filters.dart';
 import '../screens/leaderboard/leaderboard.dart';
 import '../screens/rooms/rooms.dart';
 import '../src/rust/api/session.dart';
