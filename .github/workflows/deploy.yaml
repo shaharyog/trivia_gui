@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-and-linux
-          path: build/app/outputs/apk/release/app-release.apk,build/linux/x64/release/bundle/trivia
+          path: build/app/outputs/flutter-apk/app-release.apk,build/linux/x64/release/bundle/trivia
           if-no-files-found: error
           retention-days: 1 # delete artifacts after 1 day
 #  windows:
@@ -65,6 +65,6 @@ jobs:
       - name: Create a Release in GitHub
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "artifacts/build/app/outputs/apk/release/*.apk,artifacts/build/app/outputs/bundle/release/app-release.aab"
+          artifacts: "artifacts/*"
           token: ${{ secrets.TOKEN }}
           commit: ${{ github.sha }}
