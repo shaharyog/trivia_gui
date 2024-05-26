@@ -57,12 +57,12 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: pubspec.yaml # path to pubspec.yaml
       - run: flutter_rust_bridge_codegen generate
       - run: flutter pub get
       - run: dart pub global activate flutter_distributor
       - run: flutter_distributor release --name=dev --jobs=release-windows
       - run: flutter build windows --release
+      - run: ls -la -R dist
   release:
     needs: [android-and-linux]
     runs-on: ubuntu-latest
