@@ -26,18 +26,21 @@ jobs:
 
       - run: flutter_rust_bridge_codegen generate
       - run: flutter pub get
-      - run: flutter build apk --release
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
-      - run: flutter build linux --release
+          sudo apt install rpm patchelf
+      - run: dart pub global activate flutter_distributor
+      - run: flutter_distributor release --name=dev --jobs=release-linux-rpm
+      - run: flutter_distributor release --name=dev --jobs=release-android
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: android-and-linux
+          name: apk-and-rpm
+          # every artifact that ends with .apk and .rpm
           path: |
-            ./build/app/outputs/apk/release/app-release.apk
-            ./build/linux/x64/release/bundle/trivia
+            ./dist/**/*.apk
+            ./dist/**/*.rpm
           if-no-files-found: error
           retention-days: 1 # delete artifacts after 1 day
 #  windows:
@@ -63,12 +66,12 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: android-and-linux
+          name: apk-and-rpm
           path: artifacts
           github_token: ${{ secrets.TOKEN }}
       - name: Create a Release in GitHub
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "artifacts/app/outputs/apk/release/app-release.apk,artifacts/linux/x64/release/bundle/trivia"
+          artifacts: "artifacts/**/*.apk,artifacts/**/*.rpm"
           token: ${{ secrets.TOKEN }}
           commit: ${{ github.sha }}

@@ -105,7 +105,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                               widget.userDataAndStats.userData.username),
                           style: Theme.of(context)
                               .textTheme
-                              .displaySmall!
+                              .displayLarge!
                               .copyWith(
                                 color: Colors.white,
                               ),

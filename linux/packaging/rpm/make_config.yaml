@@ -1,0 +1,22 @@
+display_name: Trivia
+icon: linux/assets/trivia_logo.png
+summary: A great trivia game developed in flutter
+group: Applications/Games
+vendor: Shahar Yogev
+packager: Shahar Yogev
+license: GPLv3
+packagerEmail: shahar.yogev47@gmail.com
+url: https://github.com/Shahar-Yogev/trivia_gui # private repository
+
+keywords:
+  - Trivia
+  - Trivia Game
+  - Quiz
+
+generic_name: Trivia
+
+categories:
+  - Quiz
+  - Games
+
+startup_notify: true

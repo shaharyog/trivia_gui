@@ -1,0 +1,35 @@
+display_name: Trivia
+package_name: trivia-magshimim
+
+maintainer:
+  name: Shahar Yogev
+  email: shahar.yogev47@gmail.com
+co_authors:
+  - name: Yuval Bar
+    email: yuvalbar2007@gmail.com
+
+priority: optional
+
+section: x11
+
+installed_size: 15700
+
+essential: false
+
+icon: linux/assets/trivia_logo.png
+
+postuninstall_scripts:
+  - echo "Sorry to see you go."
+
+keywords:
+  - Trivia
+  - Trivia Game
+  - Quiz
+
+generic_name: Trivia
+
+categories:
+  - Quiz
+  - Games
+
+startup_notify: true
