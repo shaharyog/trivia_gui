@@ -45,23 +45,6 @@ jobs:
             ./dist/**/*.deb
           if-no-files-found: error
           retention-days: 1 # delete artifacts after 1 day
-  windows:
-    runs-on: windows-latest
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-      - name: Set up Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
-      - run: cargo install cargo-expand # needed for flutter_rust_bridge_codegen
-      - run: cargo install 'flutter_rust_bridge_codegen@^2.0.0-dev.0'
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-      - run: flutter_rust_bridge_codegen generate
-      - run: flutter pub get
-      - run: dart pub global activate flutter_distributor
-      - run: flutter_distributor release --name=dev --jobs=release-windows-msix
   release:
     needs: [android-and-linux]
     runs-on: ubuntu-latest

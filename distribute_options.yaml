@@ -25,8 +25,3 @@ releases:
         package:
           platform: linux
           target: rpm
-
-      - name: release-windows-msix
-        package:
-          platform: windows
-          target: msix
