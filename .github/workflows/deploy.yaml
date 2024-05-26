@@ -60,9 +60,7 @@ jobs:
       - run: flutter_rust_bridge_codegen generate
       - run: flutter pub get
       - run: dart pub global activate flutter_distributor
-      - run: flutter_distributor release --name=dev --jobs=release-windows
-      - run: flutter build windows --release
-      - run: ls -la -R dist
+      - run: flutter_distributor release --name=dev --jobs=release-windows-msix
   release:
     needs: [android-and-linux]
     runs-on: ubuntu-latest
