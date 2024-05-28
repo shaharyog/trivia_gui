@@ -17,8 +17,8 @@ import '../../utils/common_widgets/toggle_theme_button.dart';
 
 class LoginPage extends StatefulWidget {
   final ErrorDialogData? errorDialogData;
-
-  const LoginPage({super.key, this.errorDialogData});
+  final Session? previousSession; // in order to logout
+  const LoginPage({super.key, this.errorDialogData, this.previousSession});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -34,14 +34,39 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    var errorDialogData = widget.errorDialogData;
     super.initState();
     setWindowTitle("Trivia - Login");
-    if (widget.errorDialogData != null) {
+    if (widget.previousSession != null && widget.errorDialogData == null) {
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) async {
+          try {
+            await widget.previousSession!.logout();
+          } on Error_LogoutError catch (e) {
+            errorDialogData = ErrorDialogData(
+              title: logoutErrorText,
+              message: e.format(),
+            );
+          } on Error_ServerConnectionError catch (e) {
+            errorDialogData = ErrorDialogData(
+              title: serverConnErrorText,
+              message: e.format(),
+            );
+          } on Error catch (e) {
+            errorDialogData = ErrorDialogData(
+              title: unknownErrorText,
+              message: e.format(),
+            );
+          }
+        }
+      );
+    }
+    if (errorDialogData != null) {
       SchedulerBinding.instance.addPostFrameCallback(
         (_) => showErrorDialog(
           context,
-          widget.errorDialogData!.title,
-          widget.errorDialogData!.message,
+          errorDialogData!.title,
+          errorDialogData!.message,
         ),
       );
     }

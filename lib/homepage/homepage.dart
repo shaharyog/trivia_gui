@@ -28,45 +28,48 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final screenSize = getScreenSize(context);
 
-    return Scaffold(
-      appBar: screenSize == ScreenSize.small
-          ? getHomePageAppbar(
-        navigationIndex: _currentNavIndex,
-        session: widget.session,
-        context: context,
-      )
-          : null,
-      bottomNavigationBar: screenSize == ScreenSize.small
-          ? HomePageBottomNavBar(
-        navigationIndex: _currentNavIndex,
-        onDestinationSelected: destinationSelected,
-      )
-          : null,
-      body: Row(
-        children: [
-          if (screenSize != ScreenSize.small)
-            HomePageNavRail(
-              navigationIndex: _currentNavIndex,
-              onDestinationSelected: destinationSelected,
-              session: widget.session,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: screenSize == ScreenSize.small
+            ? getHomePageAppbar(
+          navigationIndex: _currentNavIndex,
+          session: widget.session,
+          context: context,
+        )
+            : null,
+        bottomNavigationBar: screenSize == ScreenSize.small
+            ? HomePageBottomNavBar(
+          navigationIndex: _currentNavIndex,
+          onDestinationSelected: destinationSelected,
+        )
+            : null,
+        body: Row(
+          children: [
+            if (screenSize != ScreenSize.small)
+              HomePageNavRail(
+                navigationIndex: _currentNavIndex,
+                onDestinationSelected: destinationSelected,
+                session: widget.session,
+              ),
+            if (screenSize != ScreenSize.small)
+              const VerticalDivider(thickness: 1, width: 1),
+            Expanded(
+              child: HomePageBody(
+                navigationIndex: _currentNavIndex,
+                session: widget.session,
+                filters: filters,
+              ),
             ),
-          if (screenSize != ScreenSize.small)
-            const VerticalDivider(thickness: 1, width: 1),
-          Expanded(
-            child: HomePageBody(
-              navigationIndex: _currentNavIndex,
-              session: widget.session,
-              filters: filters,
-            ),
-          ),
-        ],
+          ],
+        ),
+        floatingActionButton: _currentNavIndex == 1
+            ? HomePageFloatingActionButton(
+          navigationIndex: _currentNavIndex,
+          session: widget.session,
+        )
+            : null,
       ),
-      floatingActionButton: _currentNavIndex == 1
-          ? HomePageFloatingActionButton(
-        navigationIndex: _currentNavIndex,
-        session: widget.session,
-      )
-          : null,
     );
   }
 

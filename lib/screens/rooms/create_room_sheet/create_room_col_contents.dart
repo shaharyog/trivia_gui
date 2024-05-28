@@ -43,6 +43,7 @@ class CreateRoomSheetColContents extends StatelessWidget {
             labelText: 'Name',
             border: OutlineInputBorder(),
           ),
+          keyboardType: TextInputType.text,
         ),
         const SizedBox(height: 16),
         Text(
@@ -84,7 +85,7 @@ class CreateRoomSheetColContents extends StatelessWidget {
             value: questionsCount.toDouble(),
             min: 2,
             max: 50,
-            divisions: 49,
+            divisions: 48,
             label: questionsCount.toString(),
             onChanged: !isLoading
                 ? (value) {

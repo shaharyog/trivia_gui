@@ -4,13 +4,13 @@ class AnimatedGradientText extends StatefulWidget {
   const AnimatedGradientText(this.text,{
     super.key,
     required this.colors,
-    this.style,
+    this.style, this.duration,
   });
 
   final String text;
   final TextStyle? style;
   final List<Color> colors;
-
+  final Duration? duration;
   @override
   State<AnimatedGradientText> createState() => _AnimatedGradientTextState();
 }
@@ -23,7 +23,7 @@ class _AnimatedGradientTextState extends State<AnimatedGradientText>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: widget.duration ?? const Duration(seconds: 1),
       vsync: this,
     )..forward()..addListener((){if (_controller.isCompleted)_controller.repeat();});
   }

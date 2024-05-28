@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:side_sheet_material3/side_sheet_material3.dart';
 import '../../../utils/filters.dart';
 import '../../../utils/common_functionalities/screen_size.dart';
-import '../rooms_filter_sheet/rooms_filter_bottom_sheet.dart';
-import '../rooms_filter_sheet/rooms_filter_side_sheet.dart';
+import '../rooms_filter_sheet/rooms_filter_adaptive_sheet.dart';
 
 Future<Filters?> launchFilterSheet(
   BuildContext context,
@@ -15,8 +14,8 @@ Future<Filters?> launchFilterSheet(
     await showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,
-      builder: (context) => FilterBottomSheet(
-        oldFilters: filters,
+      builder: (context) => RoomsFilterAdaptiveSheet(
+        oldFilters: Filters.fromFilters(filters),
         updateFiltersCallback: (newFilters) {
           filters = newFilters;
         },
@@ -33,7 +32,7 @@ Future<Filters?> launchFilterSheet(
       addCloseIconButton: false,
       barrierDismissible: true,
       context,
-      body: FilterSideSheet(
+      body: RoomsFilterAdaptiveSheet(
         oldFilters: Filters.fromFilters(filters),
         updateFiltersCallback: (newFilters) {
           filters = newFilters;
@@ -41,8 +40,9 @@ Future<Filters?> launchFilterSheet(
         isFiltersApplyConfirmed: (confirmed) {
           isConfirmed = confirmed;
         },
+        isSideSheet: true,
       ),
-      header: "Filters",
+      header: "",
     );
   }
 

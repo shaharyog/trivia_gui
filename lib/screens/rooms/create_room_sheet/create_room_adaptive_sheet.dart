@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../consts.dart';
+import '../../../utils/common_widgets/gradient_text.dart';
 import '../../../utils/dialogs/error_dialog.dart';
 import '../../auth/login.dart';
 import 'create_room_col_contents.dart';
@@ -99,43 +100,53 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
         });
       },
     );
-    return !widget.isSideSheet
-        ? Wrap(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Text(
-                        'Create Room',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: content,
-                    ),
-                    actions,
-                  ],
-                ),
-              ),
-            ],
-          )
-        : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: content,
+    final header = AnimatedGradientText(
+      "Create Room",
+      style: Theme.of(context).textTheme.displayMedium!.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+      colors: const [
+        Color(0xffdff2cb),
+        Color(0xfff0a13a),
+        Color(0xffee609a),
+      ],
+    );
+
+    return PopScope(
+      canPop: !_isLoading,
+      child: !widget.isSideSheet
+          ? Padding(
+              padding: MediaQuery.of(context).viewInsets.copyWith(
+                    left: 16.0,
+                    right: 16.0,
                   ),
-                ),
-                actions,
-              ],
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Center(child: header),
+                  ),
+                  content,
+                  actions,
+                ],
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Center(child: header),
+                  ),
+                  content,
+                  actions,
+                ],
+              ),
             ),
-          );
+    );
   }
 }

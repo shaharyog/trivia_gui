@@ -21,6 +21,7 @@ class HomePageFloatingActionButton extends StatelessWidget {
       onPressed: () async {
         if (getScreenSize(context) == ScreenSize.small) {
           await showModalBottomSheet<dynamic>(
+            isDismissible: false,
             isScrollControlled: true,
             context: context,
             builder: (context) => CreateRoomAdaptiveSheet(
@@ -34,13 +35,13 @@ class HomePageFloatingActionButton extends StatelessWidget {
             addBackIconButton: false,
             addDivider: false,
             addCloseIconButton: false,
-            barrierDismissible: true,
+            barrierDismissible: false,
             context,
             body: CreateRoomAdaptiveSheet(
               onSave: save,
               isSideSheet: true,
             ),
-            header: 'Create Room',
+            header: '',
           );
         }
       },

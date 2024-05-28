@@ -29,6 +29,14 @@ class _RoomFilterSheetColContentsState
 
   @override
   Widget build(BuildContext context) {
+    final sliderTheme = SliderThemeData(
+      rangeValueIndicatorShape: const PaddleRangeSliderValueIndicatorShape(),
+      inactiveTrackColor:
+          Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      activeTickMarkColor: Colors.transparent,
+      inactiveTickMarkColor: Colors.transparent,
+    );
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,14 +46,7 @@ class _RoomFilterSheetColContentsState
           style: Theme.of(context).textTheme.titleMedium,
         ),
         SliderTheme(
-          data: SliderThemeData(
-            rangeValueIndicatorShape:
-                const PaddleRangeSliderValueIndicatorShape(),
-            inactiveTrackColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.2),
-            activeTickMarkColor: Colors.transparent,
-            inactiveTickMarkColor: Colors.transparent,
-          ),
+          data: sliderTheme,
           child: RangeSlider(
             values: tempFilters.questionCountRange,
             min: defaultQuestionCountRangeStart,
@@ -56,6 +57,9 @@ class _RoomFilterSheetColContentsState
               tempFilters.questionCountRange.end.round().toString(),
             ),
             onChanged: (values) {
+              if (values.end - values.start < 5) {
+                return; // do not allow the range to be less than 5
+              }
               setState(() {
                 tempFilters.questionCountRange = values;
                 widget.updateFiltersCallback(tempFilters);
@@ -71,14 +75,7 @@ class _RoomFilterSheetColContentsState
           ),
         ),
         SliderTheme(
-          data: SliderThemeData(
-            rangeValueIndicatorShape:
-                const PaddleRangeSliderValueIndicatorShape(),
-            inactiveTrackColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.2),
-            activeTickMarkColor: Colors.transparent,
-            inactiveTickMarkColor: Colors.transparent,
-          ),
+          data: sliderTheme,
           child: RangeSlider(
             values: tempFilters.playersCountRange,
             min: defaultPlayersCountRangeStart,
@@ -89,6 +86,9 @@ class _RoomFilterSheetColContentsState
               tempFilters.playersCountRange.end.round().toString(),
             ),
             onChanged: (values) {
+              if (values.end - values.start < 5) {
+                return; // do not allow the range to be less than 5
+              }
               setState(() {
                 tempFilters.playersCountRange = values;
                 widget.updateFiltersCallback(tempFilters);

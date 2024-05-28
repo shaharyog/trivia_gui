@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import '../consts.dart';
 import '../screens/auth/login.dart';
-import '../src/rust/api/error.dart';
 import '../src/rust/api/session.dart';
-import '../utils/dialogs/error_dialog.dart';
 import '../utils/common_widgets/toggle_theme_button.dart';
 
 AppBar getHomePageAppbar({
@@ -41,36 +38,18 @@ List<Widget> getActions(BuildContext context, final Session session) {
       child: IconButton(
         icon: const Icon(Icons.logout),
         onPressed: () async {
-          ErrorDialogData? errorDialogData;
-          try {
-            await session.logout();
-          } on Error_LogoutError catch (e) {
-            errorDialogData = ErrorDialogData(
-              title: logoutErrorText,
-              message: e.format(),
-            );
-          } on Error_ServerConnectionError catch (e) {
-            errorDialogData = ErrorDialogData(
-              title: serverConnErrorText,
-              message: e.format(),
-            );
-          } on Error catch (e) {
-            errorDialogData = ErrorDialogData(
-              title: unknownErrorText,
-              message: e.format(),
-            );
-          } finally {
-            if (context.mounted) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginPage(
-                    errorDialogData: errorDialogData,
-                  ),
-                ),
-              );
-            }
-          }
+          // logout when entering the login page, otherwise,
+          // widgets in the homepage might access the session after logout
+          // the logout will execute immediately when initializing the login page
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginPage(
+                errorDialogData: null,
+                previousSession: session,
+              ),
+            ),
+          );
         },
       ),
     ),
