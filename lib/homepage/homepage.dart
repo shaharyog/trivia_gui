@@ -23,6 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentNavIndex = 0;
   Filters filters = Filters();
+  bool isInCreateRoomSheet = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +34,19 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: screenSize == ScreenSize.small
             ? getHomePageAppbar(
-          navigationIndex: _currentNavIndex,
-          session: widget.session,
-          context: context,
-        )
+                navigationIndex: _currentNavIndex,
+                session: widget.session,
+                context: context,
+              )
             : null,
         bottomNavigationBar: screenSize == ScreenSize.small
             ? HomePageBottomNavBar(
-          navigationIndex: _currentNavIndex,
-          onDestinationSelected: destinationSelected,
-        )
+                navigationIndex: _currentNavIndex,
+                onDestinationSelected: destinationSelected,
+              )
             : null,
         body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (screenSize != ScreenSize.small)
               HomePageNavRail(
@@ -59,15 +61,21 @@ class _HomePageState extends State<HomePage> {
                 navigationIndex: _currentNavIndex,
                 session: widget.session,
                 filters: filters,
+                isInCreateRoomSheet: isInCreateRoomSheet,
               ),
             ),
           ],
         ),
         floatingActionButton: _currentNavIndex == 1
             ? HomePageFloatingActionButton(
-          navigationIndex: _currentNavIndex,
-          session: widget.session,
-        )
+                inCreateRoomSheetChanged: (value) {
+                  setState(() {
+                    isInCreateRoomSheet = value;
+                  });
+                },
+                navigationIndex: _currentNavIndex,
+                session: widget.session,
+              )
             : null,
       ),
     );

@@ -8,7 +8,7 @@ ScreenSize getScreenSize(BuildContext context) {
   final screenWidth = MediaQuery.sizeOf(context).width;
   if (screenWidth >= 1350) {
     return ScreenSize.large;
-  } else if (screenWidth >= 700) {
+  } else if (screenWidth >= 800) {
     return ScreenSize.medium;
   } else {
     return ScreenSize.small;

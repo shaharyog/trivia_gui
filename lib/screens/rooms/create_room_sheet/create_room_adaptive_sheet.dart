@@ -6,10 +6,14 @@ import '../../auth/login.dart';
 import 'create_room_col_contents.dart';
 import 'package:trivia/src/rust/api/error.dart';
 
+
 class CreateRoomAdaptiveSheet extends StatefulWidget {
   final Future<void> Function(
-          String name, int maxPlayers, int questionsCount, int timePerQuestion)
-      onSave;
+    String name,
+    int maxPlayers,
+    int questionsCount,
+    int timePerQuestion,
+  ) onSave;
   final bool isSideSheet;
 
   const CreateRoomAdaptiveSheet(
@@ -137,12 +141,19 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: Center(child: header),
                   ),
-                  content,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: content,
+                    ),
+                  ),
                   actions,
                 ],
               ),

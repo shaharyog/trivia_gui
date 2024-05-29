@@ -9,12 +9,14 @@ class HomePageBody extends StatelessWidget {
   final int navigationIndex;
   final Session session;
   final Filters filters;
+  final bool isInCreateRoomSheet;
 
   const HomePageBody({
     super.key,
     required this.navigationIndex,
     required this.session,
     required this.filters,
+    required this.isInCreateRoomSheet,
   });
 
   @override
@@ -26,6 +28,7 @@ class HomePageBody extends StatelessWidget {
         return RoomsWidget(
           session: session,
           filters: filters,
+          isInCreateRoomSheet: isInCreateRoomSheet,
         );
       case 2:
         return ProfilePage(session: session);

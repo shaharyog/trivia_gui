@@ -687,10 +687,13 @@ impl SseDecode for crate::api::request::get_rooms::Room {
         let mut var_id = <String>::sse_decode(deserializer);
         let mut var_roomData =
             <crate::api::request::create_room::RoomData>::sse_decode(deserializer);
+        let mut var_players =
+            <Vec<crate::api::request::get_room_players::Player>>::sse_decode(deserializer);
         let mut var_isActive = <bool>::sse_decode(deserializer);
         return crate::api::request::get_rooms::Room {
             id: var_id,
             room_data: var_roomData,
+            players: var_players,
             is_active: var_isActive,
         };
     }
@@ -987,6 +990,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::request::get_rooms::Room {
         [
             self.id.into_into_dart().into_dart(),
             self.room_data.into_into_dart().into_dart(),
+            self.players.into_into_dart().into_dart(),
             self.is_active.into_into_dart().into_dart(),
         ]
         .into_dart()
@@ -1326,6 +1330,7 @@ impl SseEncode for crate::api::request::get_rooms::Room {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.id, serializer);
         <crate::api::request::create_room::RoomData>::sse_encode(self.room_data, serializer);
+        <Vec<crate::api::request::get_room_players::Player>>::sse_encode(self.players, serializer);
         <bool>::sse_encode(self.is_active, serializer);
     }
 }

@@ -13,6 +13,8 @@ Future<Filters?> launchFilterSheet(
   if (getScreenSize(context) == ScreenSize.small) {
     await showModalBottomSheet<dynamic>(
       isScrollControlled: true,
+      enableDrag: true,
+      showDragHandle: true,
       context: context,
       builder: (context) => RoomsFilterAdaptiveSheet(
         oldFilters: Filters.fromFilters(filters),
@@ -26,6 +28,7 @@ Future<Filters?> launchFilterSheet(
     );
   } else {
     await showModalSideSheet(
+      safeAreaTop: false,
       addDivider: false,
       addBackIconButton: false,
       addActions: false,

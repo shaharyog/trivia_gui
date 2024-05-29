@@ -85,6 +85,9 @@ final List<Room> fakeRooms = [
       questionCount: 0,
       timePerQuestion: 10,
     ),
+    players: [
+      Player(username: "Bob Doe", avatarColor: "Blue", score: 130)
+    ],
   ),
   const Room(
     id: '',
@@ -94,6 +97,9 @@ final List<Room> fakeRooms = [
       questionCount: 45,
       timePerQuestion: 0,
     ),
+    players: [
+      Player(username: "Robert Doe", avatarColor: "Orange", score: 90)
+    ],
     isActive: false,
   ),
   const Room(
@@ -104,6 +110,9 @@ final List<Room> fakeRooms = [
       questionCount: 100,
       timePerQuestion: 10,
     ),
+    players: [
+      Player(username: "John Doe", avatarColor: "Blue", score: 100)
+    ],
     isActive: false,
   )
 ];

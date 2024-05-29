@@ -7,41 +7,54 @@ import 'blinking_circle.dart';
 class RoomCard extends StatelessWidget {
   final Room room;
   final AnimationController blinkingController;
+  final ValueChanged<String>? onRoomSelected;
+  final String? selectedRoomId;
 
-  const RoomCard(
-      {super.key, required this.room, required this.blinkingController});
+  const RoomCard({
+    super.key,
+    required this.room,
+    required this.blinkingController,
+    this.onRoomSelected,
+    this.selectedRoomId,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shadowColor: Colors.transparent,
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
-      child: ListTile(
-        title: Text(
-          room.roomData.name,
-          style: Theme.of(context).textTheme.titleMedium,
-          overflow: TextOverflow.ellipsis,
-        ),
-        leading: roomLeadingStatus(
-          context: context,
-          room: room,
-          blinkingController: blinkingController,
-        ),
-        subtitle: roomSubtitleInfo(room: room),
-        trailing: room.isActive
+    return ListTile(
+      selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.25),
+      tileColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      onTap: () {
+        onRoomSelected?.call(room.id);
+      },
+      selected: room.id == selectedRoomId,
+      title: Text(
+        room.roomData.name,
+        overflow: TextOverflow.ellipsis,
+      ),
+      leading: roomLeadingStatus(
+        context: context,
+        room: room,
+        blinkingController: blinkingController,
+      ),
+      subtitle: roomSubtitleInfo(context: context, room: room),
+      trailing: IconButton(
+        onPressed: room.isActive
             ? null
-            : IconButton(
-                onPressed: () {
-                  // Join Room In The Future...
-                },
-                icon: const Icon(Icons.login_sharp),
-              ),
+            : () {
+                // Join Room In The Future...
+              },
+        icon: const Icon(
+          Icons.login_sharp,
+        ),
       ),
     );
   }
 }
 
-Widget roomSubtitleInfo({required Room room}) {
+Widget roomSubtitleInfo({required BuildContext context, required Room room}) {
   return SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: Skeleton.unite(
@@ -49,25 +62,28 @@ Widget roomSubtitleInfo({required Room room}) {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Icon(Icons.group_sharp, size: 16),
+          const Icon(
+            Icons.group_sharp,
+            size: 16,
+          ),
           const SizedBox(width: 4),
-          Text('${room.roomData.maxPlayers}'),
+          Text('${room.players.length}/${room.roomData.maxPlayers}'),
           const SizedBox(
             width: 12,
           ),
-          const Icon(Icons.question_mark_sharp, size: 16),
+          const Icon(
+            Icons.question_mark_sharp,
+            size: 16,
+          ),
           const SizedBox(width: 2),
           Text('${room.roomData.questionCount}'),
           const SizedBox(
             width: 12,
           ),
-          // const Icon(Icons.groups_sharp, size: 16),
-          // const SizedBox(width: 4),
-          // Text(room.playersCount.toString()),
-          // const SizedBox(
-          //   width: 12,
-          // ),
-          const Icon(Icons.timer_sharp, size: 16),
+          const Icon(
+            Icons.timer_sharp,
+            size: 16,
+          ),
           const SizedBox(width: 4),
           Text(secondsToReadableTime(room.roomData.timePerQuestion)),
         ],

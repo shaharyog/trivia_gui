@@ -52,6 +52,8 @@ class _LeaderboardState extends State<Leaderboard> {
   Future<List<Player>> getHighScores(BuildContext context) {
     return widget.session.getHighscores().onError(
       (Error_ServerConnectionError error, stackTrace) {
+        timer.cancel();
+        future.ignore();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

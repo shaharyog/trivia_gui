@@ -49,7 +49,7 @@ class RoomsFilterAdaptiveSheet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0, top: 16.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: header,
                   ),
                   contents,

@@ -42,15 +42,17 @@ class Filters {
     sortBy = defaultSortBy;
   }
 
-
   void resetSearch() {
     searchText = defaultSearchText;
   }
 
   bool isFiltering() {
-    return showOnlyActive != defaultShowOnlyActive;
+    return showOnlyActive != defaultShowOnlyActive ||
+        questionCountRange.start != defaultQuestionCountRangeStart ||
+        questionCountRange.end != defaultQuestionCountRangeEnd ||
+        playersCountRange.start != defaultPlayersCountRangeStart ||
+        playersCountRange.end != defaultPlayersCountRangeEnd;
   }
-
 
   void updateFrom(Filters other) {
     searchText = other.searchText;
