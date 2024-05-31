@@ -27,8 +27,8 @@ class CreateRoomAdaptiveSheet extends StatefulWidget {
 class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
   String name = '';
   int maxPlayers = 2;
-  int questionsCount = 2;
-  int timePerQuestion = 2;
+  int questionsCount = 1;
+  int timePerQuestion = 5;
   bool _isLoading = false;
   String? errorText;
 

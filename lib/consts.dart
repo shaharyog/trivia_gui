@@ -20,9 +20,9 @@ const String unknownErrorText = "Error";
 
 // filters related defaults:
 const String defaultSearchText = "";
-const double defaultQuestionCountRangeStart = 0;
-const double defaultQuestionCountRangeEnd = 100;
-const double defaultPlayersCountRangeStart = 0;
+const double defaultQuestionCountRangeStart = 1;
+const double defaultQuestionCountRangeEnd = 50;
+const double defaultPlayersCountRangeStart = 1;
 const double defaultPlayersCountRangeEnd = 50;
 const bool defaultShowOnlyActive = false;
 const SortBy defaultSortBy = SortBy.isActive;

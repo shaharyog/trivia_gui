@@ -20,12 +20,11 @@ class RoomsWidget extends StatefulWidget {
   final Filters filters;
   final bool isInCreateRoomSheet;
 
-  const RoomsWidget({
-    super.key,
-    required this.session,
-    required this.filters,
-    required this.isInCreateRoomSheet
-  });
+  const RoomsWidget(
+      {super.key,
+      required this.session,
+      required this.filters,
+      required this.isInCreateRoomSheet});
 
   @override
   State<RoomsWidget> createState() => _RoomsWidgetState();
@@ -82,11 +81,17 @@ class _RoomsWidgetState extends State<RoomsWidget>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!isInRoomDetailsBottomSheet &&
           selectedRoomId != null &&
-          getScreenSize(context) == ScreenSize.small) {
+          getScreenSize(context) == ScreenSize.small &&
+          currData != null &&
+          filterRooms(currData!, widget.filters).any(
+            (room) => room.id == selectedRoomId,
+          )) {
         if (!isInFilterSheet && !widget.isInCreateRoomSheet) {
           launchRoomDetailsBottomSheet(context, selectedRoomId!);
         } else {
-          selectedRoomId = null;
+          setState(() {
+            selectedRoomId = null;
+          });
         }
       }
     });
@@ -110,223 +115,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
                   children: [
                     SizedBox(
                       width: double.infinity,
-                      child: SearchBarCustom(
-                        backgroundColor: WidgetStateColor.resolveWith(
-                          (states) => Theme.of(context).colorScheme.surface,
-                        ),
-                        controller: searchController,
-                        onChanged: (value) {
-                          setState(() {
-                            widget.filters.searchText = value;
-                          });
-                        },
-                        surfaceTintColor: WidgetStateColor.resolveWith(
-                          (states) => Theme.of(context).colorScheme.primary,
-                        ),
-                        hintText: 'Search rooms',
-                        leading: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Icon(Icons.search_sharp),
-                        ),
-                        trailing: <Widget>[
-                          IconButton(
-                            onPressed: () {
-                              setState(
-                                () {
-                                  setState(() {
-                                    widget.filters.isReversedSort =
-                                        !widget.filters.isReversedSort;
-                                  });
-                                },
-                              );
-                            },
-                            icon: Icon(
-                              widget.filters.isReversedSort
-                                  ? Icons.arrow_downward_sharp
-                                  : Icons.arrow_upward_sharp,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                          GestureDetector(
-                            onLongPress: () {
-                              setState(() {
-                                widget.filters.resetSort();
-                              });
-                            },
-                            child: PopupMenuButton<SortBy>(
-                              tooltip: '',
-                              icon: Icon(
-                                Icons.sort_sharp,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              onSelected: (SortBy selectedSortBy) {
-                                setState(() {
-                                  widget.filters.sortBy = selectedSortBy;
-                                });
-                              },
-                              itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<SortBy>>[
-                                PopupMenuItem<SortBy>(
-                                  value: SortBy.isActive,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Icon(
-                                          Icons.check_circle_sharp,
-                                          color: widget.filters.sortBy ==
-                                                  SortBy.isActive
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : null,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Sort by Active Status',
-                                        style: TextStyle(
-                                          color: widget.filters.sortBy ==
-                                                  SortBy.isActive
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : null,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem<SortBy>(
-                                  value: SortBy.playersCount,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Icon(
-                                          Icons.people_sharp,
-                                          color: widget.filters.sortBy ==
-                                                  SortBy.playersCount
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : null,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Sort by Number of Online Players',
-                                        style: TextStyle(
-                                          color: widget.filters.sortBy ==
-                                                  SortBy.playersCount
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : null,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem<SortBy>(
-                                  value: SortBy.questionsCount,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Icon(
-                                          Icons.question_mark_sharp,
-                                          color: widget.filters.sortBy ==
-                                                  SortBy.questionsCount
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : null,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Sort by Number of Questions',
-                                        style: TextStyle(
-                                          color: widget.filters.sortBy ==
-                                                  SortBy.questionsCount
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : null,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem<SortBy>(
-                                  value: SortBy.timePerQuestion,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Icon(
-                                          Icons.timer_sharp,
-                                          color: widget.filters.sortBy ==
-                                                  SortBy.timePerQuestion
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : null,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Sort by Time Per Question',
-                                        style: TextStyle(
-                                          color: widget.filters.sortBy ==
-                                                  SortBy.timePerQuestion
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : null,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onLongPress: () {
-                              setState(() {
-                                widget.filters.resetFilters();
-                              });
-                            },
-                            child: IconButton(
-                              onPressed: () async {
-                                setState(() {
-                                  isInFilterSheet = true;
-                                });
-                                Filters? newFilters = await launchFilterSheet(
-                                  context,
-                                  widget.filters,
-                                );
-                                if (newFilters != null) {
-                                  setState(() {
-                                    widget.filters.updateFrom(newFilters);
-                                  });
-                                }
-                                setState(() {
-                                  isInFilterSheet = false;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.tune_sharp,
-                                color: widget.filters.isFiltering()
-                                    ? Theme.of(context).colorScheme.primary
-                                    : null,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: buildSearchBar(context),
                     ),
                     FutureBuilder(
                       future: future,
@@ -345,8 +134,16 @@ class _RoomsWidgetState extends State<RoomsWidget>
                         if (snapshot.hasError) {
                           currData = null;
                           futureDone = true;
-
-                          return Center(
+                          double height;
+                          if (getScreenSize(context) == ScreenSize.small) {
+                            height = MediaQuery.of(context).size.height -
+                                208; // screen height - (app bar, search bar, navbar)
+                          } else {
+                            height = MediaQuery.of(context).size.height -
+                                72; // screen height - (search bar)
+                          }
+                          return SizedBox(
+                            height: height,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -375,7 +172,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
                         }
                         // check if selectedRoomId is still in the list
                         if (selectedRoomId != null &&
-                            !currData!.any(
+                            !filterRooms(currData!, widget.filters).any(
                               (room) => room.id == selectedRoomId,
                             )) {
                           selectedRoomId = null;
@@ -413,7 +210,11 @@ class _RoomsWidgetState extends State<RoomsWidget>
             ),
           ),
           if (getScreenSize(context) != ScreenSize.small &&
-              selectedRoomId != null)
+              selectedRoomId != null &&
+              currData != null &&
+              filterRooms(currData!, widget.filters).any(
+                (room) => room.id == selectedRoomId,
+              ))
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(right: 8.0),
@@ -461,19 +262,17 @@ class _RoomsWidgetState extends State<RoomsWidget>
     return rooms
         .where(
           (room) =>
-              room.id == selectedRoomId ||
+              // room.id == selectedRoomId ||
               room.roomData.name.toLowerCase().contains(
-                        filters.searchText.toLowerCase(),
-                      ) &&
-                  room.roomData.questionCount >=
-                      filters.questionCountRange.start.round() &&
-                  room.roomData.questionCount <=
-                      filters.questionCountRange.end.round() &&
-                  room.players.length >=
-                      filters.playersCountRange.start.round() &&
-                  room.players.length <=
-                      filters.playersCountRange.end.round() &&
-                  (filters.showOnlyActive ? room.isActive : true),
+                    filters.searchText.toLowerCase(),
+                  ) &&
+              room.roomData.questionCount >=
+                  filters.questionCountRange.start.round() &&
+              room.roomData.questionCount <=
+                  filters.questionCountRange.end.round() &&
+              room.players.length >= filters.playersCountRange.start.round() &&
+              room.players.length <= filters.playersCountRange.end.round() &&
+              (filters.showOnlyActive ? room.isActive : true),
         )
         .toList();
   }
@@ -538,7 +337,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
       builder: (context) {
         return RoomDetailsContents(
           onSwitchToLargeScreen: () {
-              selectedRoomId = roomId;
+            selectedRoomId = roomId;
           },
           isBottomSheet: true,
           room: currData!.singleWhere(
@@ -550,5 +349,196 @@ class _RoomsWidgetState extends State<RoomsWidget>
     setState(() {
       isInRoomDetailsBottomSheet = false;
     });
+  }
+
+  Widget buildSearchBar(context) {
+    return SearchBarCustom(
+      backgroundColor: WidgetStateColor.resolveWith(
+        (states) => Theme.of(context).colorScheme.surface,
+      ),
+      controller: searchController,
+      onChanged: (value) {
+        setState(() {
+          widget.filters.searchText = value;
+        });
+      },
+      surfaceTintColor: WidgetStateColor.resolveWith(
+        (states) => Theme.of(context).colorScheme.primary,
+      ),
+      hintText: 'Search rooms',
+      leading: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        child: Icon(Icons.search_sharp),
+      ),
+      trailing: <Widget>[
+        IconButton(
+          onPressed: () {
+            setState(
+              () {
+                setState(() {
+                  widget.filters.isReversedSort =
+                      !widget.filters.isReversedSort;
+                });
+              },
+            );
+          },
+          icon: Icon(
+            widget.filters.isReversedSort
+                ? Icons.arrow_downward_sharp
+                : Icons.arrow_upward_sharp,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        GestureDetector(
+          onLongPress: () {
+            setState(() {
+              widget.filters.resetSort();
+            });
+          },
+          child: PopupMenuButton<SortBy>(
+            tooltip: '',
+            icon: Icon(
+              Icons.sort_sharp,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            onSelected: (SortBy selectedSortBy) {
+              setState(() {
+                widget.filters.sortBy = selectedSortBy;
+              });
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<SortBy>>[
+              PopupMenuItem<SortBy>(
+                value: SortBy.isActive,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Icon(
+                        Icons.check_circle_sharp,
+                        color: widget.filters.sortBy == SortBy.isActive
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
+                      ),
+                    ),
+                    Text(
+                      'Sort by Active Status',
+                      style: TextStyle(
+                        color: widget.filters.sortBy == SortBy.isActive
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem<SortBy>(
+                value: SortBy.playersCount,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Icon(
+                        Icons.people_sharp,
+                        color: widget.filters.sortBy == SortBy.playersCount
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
+                      ),
+                    ),
+                    Text(
+                      'Sort by Number of Online Players',
+                      style: TextStyle(
+                        color: widget.filters.sortBy == SortBy.playersCount
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem<SortBy>(
+                value: SortBy.questionsCount,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Icon(
+                        Icons.question_mark_sharp,
+                        color: widget.filters.sortBy == SortBy.questionsCount
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
+                      ),
+                    ),
+                    Text(
+                      'Sort by Number of Questions',
+                      style: TextStyle(
+                        color: widget.filters.sortBy == SortBy.questionsCount
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem<SortBy>(
+                value: SortBy.timePerQuestion,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Icon(
+                        Icons.timer_sharp,
+                        color: widget.filters.sortBy == SortBy.timePerQuestion
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
+                      ),
+                    ),
+                    Text(
+                      'Sort by Time Per Question',
+                      style: TextStyle(
+                        color: widget.filters.sortBy == SortBy.timePerQuestion
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        GestureDetector(
+          onLongPress: () {
+            setState(() {
+              widget.filters.resetFilters();
+            });
+          },
+          child: IconButton(
+            onPressed: () async {
+              setState(() {
+                isInFilterSheet = true;
+              });
+              Filters? newFilters = await launchFilterSheet(
+                context,
+                widget.filters,
+              );
+              if (newFilters != null) {
+                setState(() {
+                  widget.filters.updateFrom(newFilters);
+                });
+              }
+              setState(() {
+                isInFilterSheet = false;
+              });
+            },
+            icon: Icon(
+              Icons.tune_sharp,
+              color: widget.filters.isFiltering()
+                  ? Theme.of(context).colorScheme.primary
+                  : null,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

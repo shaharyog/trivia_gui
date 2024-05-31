@@ -79,9 +79,9 @@ class CreateRoomSheetColContents extends StatelessWidget {
           data: sliderTheme,
           child: Slider(
             value: questionsCount.toDouble(),
-            min: 2,
+            min: 1,
             max: 50,
-            divisions: 48,
+            divisions: 49,
             label: questionsCount.toString(),
             onChanged: !isLoading
                 ? (value) {
@@ -98,9 +98,9 @@ class CreateRoomSheetColContents extends StatelessWidget {
           data: sliderTheme,
           child: Slider(
             value: timePerQuestion.toDouble(),
-            min: 1,
+            min: 5,
             max: 180,
-            divisions: 179,
+            divisions: 174,
             label: ' ${secondsToReadableTime(timePerQuestion)} ',
             onChanged: !isLoading
                 ? (value) {
@@ -112,11 +112,13 @@ class CreateRoomSheetColContents extends StatelessWidget {
         if (errorText != null)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              errorText!,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+            child: Center(
+              child: Text(
+                errorText!,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+              ),
             ),
           ),
       ],

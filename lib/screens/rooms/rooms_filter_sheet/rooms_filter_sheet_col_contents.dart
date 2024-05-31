@@ -51,7 +51,7 @@ class _RoomFilterSheetColContentsState
             values: tempFilters.questionCountRange,
             min: defaultQuestionCountRangeStart,
             max: defaultQuestionCountRangeEnd,
-            divisions: defaultQuestionCountRangeEnd.toInt(),
+            divisions: defaultQuestionCountRangeEnd.toInt() - 1,
             labels: RangeLabels(
               tempFilters.questionCountRange.start.round().toString(),
               tempFilters.questionCountRange.end.round().toString(),
@@ -80,7 +80,7 @@ class _RoomFilterSheetColContentsState
             values: tempFilters.playersCountRange,
             min: defaultPlayersCountRangeStart,
             max: defaultPlayersCountRangeEnd,
-            divisions: defaultPlayersCountRangeEnd.toInt(),
+            divisions: defaultPlayersCountRangeEnd.toInt() - 1,
             labels: RangeLabels(
               tempFilters.playersCountRange.start.round().toString(),
               tempFilters.playersCountRange.end.round().toString(),
