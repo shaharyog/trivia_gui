@@ -7,9 +7,9 @@ pub mod signup;
 pub mod update_user_data;
 pub mod create_room;
 pub mod get_highscores;
-mod get_room_state;
-mod join_room;
-mod leave_room;
+pub mod get_room_state;
+pub mod join_room;
+pub mod leave_room;
 
 use crate::api::error::Error;
 use serde::{Deserialize, Serialize};

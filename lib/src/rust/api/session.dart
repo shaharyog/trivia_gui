@@ -8,6 +8,7 @@ import 'error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'request/create_room.dart';
 import 'request/get_room_players.dart';
+import 'request/get_room_state.dart';
 import 'request/get_rooms.dart';
 import 'request/get_user_data.dart';
 import 'request/login.dart';
@@ -42,11 +43,21 @@ class Session extends RustOpaque {
       RustLib.instance.api
           .sessionGetRoomPlayers(that: this, roomId: roomId, hint: hint);
 
+  Future<GetRoomStateResponse> getRoomState({dynamic hint}) =>
+      RustLib.instance.api.sessionGetRoomState(that: this, hint: hint);
+
   Future<List<Room>> getRooms({dynamic hint}) =>
       RustLib.instance.api.sessionGetRooms(that: this, hint: hint);
 
   Future<UserDataAndStatistics> getUserData({dynamic hint}) =>
       RustLib.instance.api.sessionGetUserData(that: this, hint: hint);
+
+  Future<void> joinRoom({required String roomId, dynamic hint}) =>
+      RustLib.instance.api
+          .sessionJoinRoom(that: this, roomId: roomId, hint: hint);
+
+  Future<void> leaveRoom({dynamic hint}) =>
+      RustLib.instance.api.sessionLeaveRoom(that: this, hint: hint);
 
   static Future<Session> login(
           {required LoginRequest loginRequest,

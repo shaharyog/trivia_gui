@@ -6,6 +6,7 @@
 import 'api/error.dart';
 import 'api/request/create_room.dart';
 import 'api/request/get_room_players.dart';
+import 'api/request/get_room_state.dart';
 import 'api/request/get_rooms.dart';
 import 'api/request/get_user_data.dart';
 import 'api/request/login.dart';
@@ -74,6 +75,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Error dco_decode_error(dynamic raw);
+
+  @protected
+  GetRoomStateResponse dco_decode_get_room_state_response(dynamic raw);
 
   @protected
   int dco_decode_i_64(dynamic raw);
@@ -179,6 +183,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Error sse_decode_error(SseDeserializer deserializer);
+
+  @protected
+  GetRoomStateResponse sse_decode_get_room_state_response(
+      SseDeserializer deserializer);
 
   @protected
   int sse_decode_i_64(SseDeserializer deserializer);
@@ -290,6 +298,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_error(Error self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_get_room_state_response(
+      GetRoomStateResponse self, SseSerializer serializer);
 
   @protected
   void sse_encode_i_64(int self, SseSerializer serializer);
