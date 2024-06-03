@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:trivia/screens/lobby/lobby.dart';
 import 'package:trivia/screens/rooms/room_list.dart';
 import 'package:trivia/utils/common_functionalities/screen_size.dart';
 import '../../consts.dart';
@@ -125,6 +126,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
                             currData == null) {
                           return Skeletonizer(
                             child: RoomList(
+                              onRoomJoin: (_, __) {},
                               rooms: fakeRooms,
                               blinkingController: _blinkingController,
                             ),
@@ -179,6 +181,43 @@ class _RoomsWidgetState extends State<RoomsWidget>
                         }
 
                         return RoomList(
+                          onRoomJoin: (roomId, roomName) async {
+                            try {
+                              await widget.session.joinRoom(roomId: roomId);
+                              if (!context.mounted) return;
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Lobby(
+                                      session: widget.session,
+                                      id: roomId,
+                                      roomName: roomName,
+                                    );
+                                  },
+                                ),
+                              );
+                            } on Error_ServerConnectionError catch (e) {
+                              timer.cancel();
+                              future.ignore();
+                              if (!context.mounted) return;
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginPage(
+                                    errorDialogData: ErrorDialogData(
+                                      title: serverConnErrorText,
+                                      message: e.format(),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            } on Error catch (e) {
+                              if (!context.mounted) return;
+                              showErrorDialog(
+                                  context, "Failed to join room", e.format());
+                            }
+                          },
                           onRoomSelected: (roomId) {
                             if (getScreenSize(context) == ScreenSize.small) {
                               launchRoomDetailsBottomSheet(

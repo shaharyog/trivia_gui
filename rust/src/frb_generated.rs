@@ -869,14 +869,14 @@ impl SseDecode for crate::api::request::get_room_state::RoomState {
         let mut var_hasGameBegun = <bool>::sse_decode(deserializer);
         let mut var_players =
             <Vec<crate::api::request::get_room_players::Player>>::sse_decode(deserializer);
-        let mut var_questionsCount = <u32>::sse_decode(deserializer);
+        let mut var_questionCount = <u32>::sse_decode(deserializer);
         let mut var_answerTimeout = <u32>::sse_decode(deserializer);
         let mut var_maxPlayers = <u32>::sse_decode(deserializer);
         let mut var_isClosed = <bool>::sse_decode(deserializer);
         return crate::api::request::get_room_state::RoomState {
             has_game_begun: var_hasGameBegun,
             players: var_players,
-            questions_count: var_questionsCount,
+            question_count: var_questionCount,
             answer_timeout: var_answerTimeout,
             max_players: var_maxPlayers,
             is_closed: var_isClosed,
@@ -1208,7 +1208,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::request::get_room_state::Room
         [
             self.has_game_begun.into_into_dart().into_dart(),
             self.players.into_into_dart().into_dart(),
-            self.questions_count.into_into_dart().into_dart(),
+            self.question_count.into_into_dart().into_dart(),
             self.answer_timeout.into_into_dart().into_dart(),
             self.max_players.into_into_dart().into_dart(),
             self.is_closed.into_into_dart().into_dart(),
@@ -1547,7 +1547,7 @@ impl SseEncode for crate::api::request::get_room_state::RoomState {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.has_game_begun, serializer);
         <Vec<crate::api::request::get_room_players::Player>>::sse_encode(self.players, serializer);
-        <u32>::sse_encode(self.questions_count, serializer);
+        <u32>::sse_encode(self.question_count, serializer);
         <u32>::sse_encode(self.answer_timeout, serializer);
         <u32>::sse_encode(self.max_players, serializer);
         <bool>::sse_encode(self.is_closed, serializer);

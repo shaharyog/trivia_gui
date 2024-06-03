@@ -11,8 +11,8 @@ pub struct RoomState {
     #[serde(rename = "hasGameBegun")]
     pub has_game_begun: bool,
     pub players: Vec<Player>,
-    #[serde(rename = "questionsCount")]
-    pub questions_count: u32,
+    #[serde(rename = "questionCount")]
+    pub question_count: u32,
     #[serde(rename = "answerTimeout")]
     pub answer_timeout: u32,
     #[serde(rename = "maxPlayers")]

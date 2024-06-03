@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../consts.dart';
+import '../../../src/rust/api/session.dart';
 import '../../../utils/common_widgets/gradient_text.dart';
 import '../../../utils/dialogs/error_dialog.dart';
 import '../../auth/login.dart';
+import '../../lobby/lobby.dart';
 import 'create_room_col_contents.dart';
 import 'package:trivia/src/rust/api/error.dart';
 
@@ -15,9 +17,9 @@ class CreateRoomAdaptiveSheet extends StatefulWidget {
     int timePerQuestion,
   ) onSave;
   final bool isSideSheet;
-
+  final Session session;
   const CreateRoomAdaptiveSheet(
-      {super.key, required this.onSave, required this.isSideSheet});
+      {super.key, required this.onSave, required this.isSideSheet, required this.session});
 
   @override
   State<CreateRoomAdaptiveSheet> createState() =>
@@ -49,6 +51,18 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
           );
           if (!context.mounted) return;
           Navigator.pop(context);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return Lobby(
+                  session: widget.session,
+                  id: "", // id does not matter in this case
+                  roomName: name,
+                );
+              },
+            ),
+          );
         } on Error_ServerConnectionError catch (e) {
           if (!context.mounted) return;
           Navigator.pop(context);

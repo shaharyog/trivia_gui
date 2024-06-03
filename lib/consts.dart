@@ -31,7 +31,7 @@ const bool defaultPutActiveRoomsFirst = false;
 const bool defaultIsReversedSort = false;
 
 // screen size related consts:
-const minScreenSize = Size(500, 700);
+const minScreenSize = Size(500, 100);
 const defaultScreenSize = Size(800, 600);
 
 // animations durations:
@@ -150,7 +150,7 @@ const List<Player> fakeHighScoresPlayers = [
 const RoomState fakeRoomState = RoomState(
   hasGameBegun: false,
   players: fakeHighScoresPlayers,
-  questionsCount: 12,
+  questionCount: 12,
   answerTimeout: 30,
   maxPlayers: 10,
   isClosed: false,

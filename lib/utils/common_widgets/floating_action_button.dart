@@ -29,6 +29,7 @@ class HomePageFloatingActionButton extends StatelessWidget {
             enableDrag: false,
             context: context,
             builder: (context) => CreateRoomAdaptiveSheet(
+              session: session,
               onSave: save,
               isSideSheet: false,
             ),
@@ -43,6 +44,7 @@ class HomePageFloatingActionButton extends StatelessWidget {
             barrierDismissible: false,
             context,
             body: CreateRoomAdaptiveSheet(
+              session: session,
               onSave: save,
               isSideSheet: true,
             ),

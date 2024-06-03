@@ -9,6 +9,7 @@ class RoomList extends StatelessWidget {
   final AnimationController blinkingController;
   final ValueChanged<String>? onRoomSelected;
   final String? selectedRoomId;
+  final Function(String, String) onRoomJoin;
 
   const RoomList({
     super.key,
@@ -16,6 +17,7 @@ class RoomList extends StatelessWidget {
     required this.blinkingController,
     this.onRoomSelected,
     this.selectedRoomId,
+    required this.onRoomJoin,
   });
 
   @override
@@ -43,6 +45,7 @@ class RoomList extends StatelessWidget {
               }
               final room = rooms[index];
               return RoomCard(
+                onRoomJoin: onRoomJoin,
                 selectedRoomId: selectedRoomId,
                 onRoomSelected: onRoomSelected,
                 room: room,

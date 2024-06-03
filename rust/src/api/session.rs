@@ -6,7 +6,7 @@ use crate::api::error::Error;
 use crate::api::request::create_room::{CreateRoomRequest, RoomData};
 use crate::api::request::get_highscores::GetHighScoresRequest;
 use crate::api::request::get_room_players::{GetRoomPlayersRequest, Player};
-use crate::api::request::get_room_state::{GetRoomStateRequest, GetRoomStateResponse};
+use crate::api::request::get_room_state::{GetRoomStateRequest, RoomState};
 use crate::api::request::get_rooms::{GetRoomsRequest, Room};
 use crate::api::request::get_user_data::{GetUserDataRequest, UserDataAndStatistics};
 use crate::api::request::join_room::JoinRoomRequest;

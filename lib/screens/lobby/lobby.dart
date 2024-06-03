@@ -8,7 +8,6 @@ import 'package:trivia/src/rust/api/request/get_rooms.dart';
 
 import '../../consts.dart';
 import '../../src/rust/api/error.dart';
-import '../../src/rust/api/request/get_room_players.dart';
 import '../../src/rust/api/request/get_room_state.dart';
 import '../../src/rust/api/session.dart';
 import '../../utils/dialogs/error_dialog.dart';
@@ -61,6 +60,7 @@ class _LobbyState extends State<Lobby> {
   }
 
   Future<RoomState> getRoomState(BuildContext context) {
+    print("Getting room state...");
     return widget.session.getRoomState().onError(
       (Error_ServerConnectionError error, stackTrace) {
         timer.cancel();
@@ -79,7 +79,7 @@ class _LobbyState extends State<Lobby> {
         return const RoomState(
             hasGameBegun: false,
             players: [],
-            questionsCount: 0,
+            questionCount: 0,
             answerTimeout: 0,
             maxPlayers: 0,
             isClosed: false);
@@ -93,7 +93,7 @@ class _LobbyState extends State<Lobby> {
       roomData: RoomData(
         name: widget.roomName,
         maxPlayers: roomState.maxPlayers,
-        questionCount: roomState.questionsCount,
+        questionCount: roomState.questionCount,
         timePerQuestion: roomState.answerTimeout,
       ),
       players: roomState.players,
@@ -103,6 +103,13 @@ class _LobbyState extends State<Lobby> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: roomLobbyContent(context),
+    );
+  }
+
+
+  Widget roomLobbyContent(context) {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {

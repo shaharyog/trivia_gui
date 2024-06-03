@@ -10,6 +10,7 @@ class RoomCard extends StatelessWidget {
   final AnimationController blinkingController;
   final ValueChanged<String>? onRoomSelected;
   final String? selectedRoomId;
+  final Function(String, String) onRoomJoin;
 
   const RoomCard({
     super.key,
@@ -17,12 +18,14 @@ class RoomCard extends StatelessWidget {
     required this.blinkingController,
     this.onRoomSelected,
     this.selectedRoomId,
+    required this.onRoomJoin,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.25),
+      selectedTileColor:
+          Theme.of(context).colorScheme.primary.withOpacity(0.25),
       tileColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -45,7 +48,7 @@ class RoomCard extends StatelessWidget {
         onPressed: room.isActive
             ? null
             : () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Lobby(id: room.id, session: , roomName: room.roomData.name,)));
+                onRoomJoin(room.id, room.roomData.name);
               },
         icon: const Icon(
           Icons.login_sharp,
