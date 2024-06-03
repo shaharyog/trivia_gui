@@ -193,6 +193,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
                                       session: widget.session,
                                       id: roomId,
                                       roomName: roomName,
+                                      isAdmin: false,
                                     );
                                   },
                                 ),

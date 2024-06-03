@@ -18,11 +18,14 @@ class Lobby extends StatefulWidget {
   final Session session;
   final String id;
   final String roomName;
+  final bool isAdmin;
 
-  const Lobby({super.key,
-    required this.session,
-    required this.id,
-    required this.roomName});
+  const Lobby(
+      {super.key,
+      required this.session,
+      required this.id,
+      required this.roomName,
+      required this.isAdmin});
 
   @override
   State<Lobby> createState() => _LobbyState();
@@ -33,6 +36,7 @@ class _LobbyState extends State<Lobby> {
   bool futureDone = false;
   RoomState? currData;
   late Timer timer;
+  late bool confirmRoomExit;
 
   @override
   void initState() {
@@ -41,7 +45,7 @@ class _LobbyState extends State<Lobby> {
     future = getRoomState(context);
     timer = Timer.periodic(
       const Duration(seconds: 1),
-          (timer) {
+      (timer) {
         if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
@@ -59,22 +63,20 @@ class _LobbyState extends State<Lobby> {
     super.dispose();
   }
 
-  Future<RoomState> getRoomState(BuildContext context) {
-    print("Getting room state...");
-    return widget.session.getRoomState().onError(
-          (Error_ServerConnectionError error, stackTrace) {
+  Future<RoomState> getRoomState(BuildContext context) async {
+    RoomState roomState = await widget.session.getRoomState().onError(
+      (Error_ServerConnectionError error, stackTrace) {
         timer.cancel();
         future.ignore();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                LoginPage(
-                  errorDialogData: ErrorDialogData(
-                    title: serverConnErrorText,
-                    message: error.format(),
-                  ),
-                ),
+            builder: (context) => LoginPage(
+              errorDialogData: ErrorDialogData(
+                title: serverConnErrorText,
+                message: error.format(),
+              ),
+            ),
           ),
         );
         return const RoomState(
@@ -86,6 +88,10 @@ class _LobbyState extends State<Lobby> {
             isClosed: false);
       },
     );
+    if (roomState.isClosed && context.mounted) {
+      returnToHomepage(context);
+    }
+    return roomState;
   }
 
   Room roomStateToRoom(RoomState roomState) {
@@ -105,47 +111,60 @@ class _LobbyState extends State<Lobby> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Lobby"),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                try {
+      appBar: AppBar(
+        title: const Text("Lobby"),
+        actions: [
+          IconButton(
+            icon: Icon(
+              widget.isAdmin ? Icons.close_sharp : Icons.exit_to_app_sharp,
+            ),
+            onPressed: () async {
+              confirmRoomExit = false;
+              await launchExitConfirmationDialog(context);
+              if (!confirmRoomExit) return;
+              try {
+                if (widget.isAdmin) {
+                  widget.session.closeRoom();
+                } else {
                   widget.session.leaveRoom();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(session: widget.session),
-                    ),
-                  );
-                } on Error_ServerConnectionError catch (e) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(
-                        errorDialogData: ErrorDialogData(
-                          title: serverConnErrorText,
-                          message: e.format(),
-                        ),
+                }
+
+                if (!context.mounted) return;
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(session: widget.session),
+                  ),
+                );
+              } on Error_ServerConnectionError catch (e) {
+                if (!context.mounted) return;
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(
+                      errorDialogData: ErrorDialogData(
+                        title: serverConnErrorText,
+                        message: e.format(),
                       ),
                     ),
-                  );
-                } catch (e) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(session: widget.session),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
-        body: roomLobbyContent(context),);
+                  ),
+                );
+              } catch (e) {
+                if (!context.mounted) return;
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(session: widget.session),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+      body: roomLobbyContent(context),
+    );
   }
-
 
   Widget roomLobbyContent(context) {
     return FutureBuilder(
@@ -199,6 +218,48 @@ class _LobbyState extends State<Lobby> {
           ),
         );
       },
+    );
+  }
+
+  Future<void> launchExitConfirmationDialog(context) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            widget.isAdmin ? "Close Room" : "Exit Room",
+          ),
+          content: Text(
+            widget.isAdmin
+                ? "Are you sure you want to close this room?"
+                : "Are you sure you want to leave this room?",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                confirmRoomExit = true;
+                Navigator.pop(context);
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void returnToHomepage(context) async {
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(session: widget.session),
+      ),
     );
   }
 }

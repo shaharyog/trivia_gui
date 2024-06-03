@@ -10,6 +10,7 @@ pub mod get_highscores;
 pub mod get_room_state;
 pub mod join_room;
 pub mod leave_room;
+pub mod close_room;
 
 use crate::api::error::Error;
 use serde::{Deserialize, Serialize};

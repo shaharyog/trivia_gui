@@ -3,6 +3,7 @@ use std::str::FromStr;
 use std::time::Duration;
 
 use crate::api::error::Error;
+use crate::api::request::close_room::CloseRoomRequest;
 use crate::api::request::create_room::{CreateRoomRequest, RoomData};
 use crate::api::request::get_highscores::GetHighScoresRequest;
 use crate::api::request::get_room_players::{GetRoomPlayersRequest, Player};
@@ -133,15 +134,15 @@ impl Session {
         Ok(response.players)
     }
 
-   #[flutter_rust_bridge::frb]
-   pub fn get_room_state(&mut self) -> Result<RoomState, Error> {
-       let response = GetRoomStateRequest.write_and_read(&mut self.socket)?;
-       if !response.status {
-           return Err(Error::InternalServerError);
-       }
+    #[flutter_rust_bridge::frb]
+    pub fn get_room_state(&mut self) -> Result<RoomState, Error> {
+        let response = GetRoomStateRequest.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
 
-       Ok(response.room_state)
-   }
+        Ok(response.room_state)
+    }
 
     #[flutter_rust_bridge::frb]
     pub fn join_room(&mut self, room_id: String) -> Result<(), Error> {
@@ -158,6 +159,16 @@ impl Session {
     #[flutter_rust_bridge::frb]
     pub fn leave_room(&mut self) -> Result<(), Error> {
         let response = LeaveRoomRequest.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(())
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn close_room(&mut self) -> Result<(), Error> {
+        let response = CloseRoomRequest.write_and_read(&mut self.socket)?;
         if !response.status {
             return Err(Error::InternalServerError);
         }

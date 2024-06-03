@@ -56,6 +56,7 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
             MaterialPageRoute(
               builder: (context) {
                 return Lobby(
+                  isAdmin: true,
                   session: widget.session,
                   id: "", // id does not matter in this case
                   roomName: name,
