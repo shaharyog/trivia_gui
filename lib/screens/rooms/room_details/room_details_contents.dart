@@ -33,6 +33,7 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
       widget.onSwitchToLargeScreen?.call();
       Navigator.pop(context);
     }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
@@ -44,16 +45,23 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
           Center(
             child: Text(
               widget.room.roomData.name,
-              style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .displayMedium!
+                  .copyWith(
+                fontWeight: FontWeight.bold,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text("List of players:",
-                style: Theme.of(context).textTheme.titleLarge),
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .titleLarge),
           ),
           // players list
           ListView.separated(
@@ -66,43 +74,55 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
                 ),
                 leading: CircleAvatar(
                   backgroundColor:
-                      avatarColorsMap[widget.room.players[index].avatarColor] ??
-                          Colors.blue,
+                  avatarColorsMap[widget.room.players[index].avatarColor] ??
+                      Colors.blue,
                   radius: 20,
                   child: Text(
                     getInitials(widget.room.players[index].username),
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Colors.white,
-                        ),
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-                trailing: (index == widget.room.players.length - 1)
+                trailing: (index == 0 && !widget.room
+                    .isActive) // admin matters only when the room is not active
                     ? ClipRect(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.manage_accounts_sharp,
-                              // size: 16,
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              "Admin",
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
-                          ],
-                        ),
-                      )
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.manage_accounts_sharp,
+                        // size: 16,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        "Admin",
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleSmall,
+                      ),
+                    ],
+                  ),
+                )
                     : null,
                 title: Text(
                   widget.room.players[index].username,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: (index == widget.room.players.length - 1)
-                            ? FontWeight.w500
-                            : FontWeight.normal,
-                      ),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(
+                    fontWeight: (index == widget.room.players.length - 1)
+                        ? FontWeight.w500
+                        : FontWeight.normal,
+                  ),
                 ),
                 subtitle: ClipRect(
                   child: Row(
