@@ -4,6 +4,7 @@ import 'package:trivia/utils/common_functionalities/screen_size.dart';
 import '../../../consts.dart';
 import '../../../src/rust/api/request/get_rooms.dart';
 import '../../../utils/common_functionalities/user_data_validation.dart';
+import '../../../utils/common_widgets/gradient_text.dart';
 
 class RoomDetailsContents extends StatefulWidget {
   final Room room;
@@ -43,7 +44,7 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
         children: [
           // room name
           Center(
-            child: Text(
+            child: AnimatedGradientText(
               widget.room.roomData.name,
               style: Theme
                   .of(context)
@@ -51,8 +52,13 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
                   .displayMedium!
                   .copyWith(
                 fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis,
               ),
-              overflow: TextOverflow.ellipsis,
+              colors: const [
+                Color(0xff9dd769),
+                Color(0xfff0a13a),
+                Color(0xffee609a),
+              ],
             ),
           ),
           Padding(
