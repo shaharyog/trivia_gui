@@ -723,13 +723,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Room dco_decode_room(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
     return Room(
       id: dco_decode_String(arr[0]),
       roomData: dco_decode_room_data(arr[1]),
       players: dco_decode_list_player(arr[2]),
       isActive: dco_decode_bool(arr[3]),
+      isFinished: dco_decode_bool(arr[4]),
     );
   }
 
@@ -1082,11 +1083,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_roomData = sse_decode_room_data(deserializer);
     var var_players = sse_decode_list_player(deserializer);
     var var_isActive = sse_decode_bool(deserializer);
+    var var_isFinished = sse_decode_bool(deserializer);
     return Room(
         id: var_id,
         roomData: var_roomData,
         players: var_players,
-        isActive: var_isActive);
+        isActive: var_isActive,
+        isFinished: var_isFinished);
   }
 
   @protected
@@ -1434,6 +1437,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_room_data(self.roomData, serializer);
     sse_encode_list_player(self.players, serializer);
     sse_encode_bool(self.isActive, serializer);
+    sse_encode_bool(self.isFinished, serializer);
   }
 
   @protected

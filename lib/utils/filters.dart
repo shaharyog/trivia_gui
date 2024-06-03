@@ -9,7 +9,9 @@ class Filters {
       defaultQuestionCountRangeStart, defaultQuestionCountRangeEnd);
   RangeValues playersCountRange = const RangeValues(
       defaultPlayersCountRangeStart, defaultPlayersCountRangeEnd);
-  bool showOnlyActive = defaultShowOnlyActive;
+  bool showActiveRooms = defaultShowActive;
+  bool showInactiveRooms = defaultShowInactive;
+  bool showFinishedRooms = defaultShowFinished;
   SortBy sortBy = defaultSortBy;
   bool isReversedSort = defaultIsReversedSort;
 
@@ -25,7 +27,9 @@ class Filters {
         defaultQuestionCountRangeStart, defaultQuestionCountRangeEnd);
     playersCountRange = const RangeValues(
         defaultPlayersCountRangeStart, defaultPlayersCountRangeEnd);
-    showOnlyActive = defaultShowOnlyActive;
+    showActiveRooms = defaultShowActive;
+    showInactiveRooms = defaultShowInactive;
+    showFinishedRooms = defaultShowFinished;
     sortBy = defaultSortBy;
     isReversedSort = defaultIsReversedSort;
   }
@@ -35,7 +39,9 @@ class Filters {
         defaultQuestionCountRangeStart, defaultQuestionCountRangeEnd);
     playersCountRange = const RangeValues(
         defaultPlayersCountRangeStart, defaultPlayersCountRangeEnd);
-    showOnlyActive = defaultShowOnlyActive;
+    showActiveRooms = defaultShowActive;
+    showInactiveRooms = defaultShowInactive;
+    showFinishedRooms = defaultShowFinished;
   }
 
   void resetSort() {
@@ -47,7 +53,9 @@ class Filters {
   }
 
   bool isFiltering() {
-    return showOnlyActive != defaultShowOnlyActive ||
+    return showActiveRooms != defaultShowActive ||
+        showInactiveRooms != defaultShowInactive ||
+        showFinishedRooms != defaultShowFinished ||
         questionCountRange.start != defaultQuestionCountRangeStart ||
         questionCountRange.end != defaultQuestionCountRangeEnd ||
         playersCountRange.start != defaultPlayersCountRangeStart ||
@@ -58,7 +66,9 @@ class Filters {
     searchText = other.searchText;
     questionCountRange = other.questionCountRange;
     playersCountRange = other.playersCountRange;
-    showOnlyActive = other.showOnlyActive;
+    showActiveRooms = other.showActiveRooms;
+    showInactiveRooms = other.showInactiveRooms;
+    showFinishedRooms = other.showFinishedRooms;
     sortBy = other.sortBy;
     isReversedSort = other.isReversedSort;
   }

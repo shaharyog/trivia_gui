@@ -25,7 +25,9 @@ const double defaultQuestionCountRangeStart = 1;
 const double defaultQuestionCountRangeEnd = 50;
 const double defaultPlayersCountRangeStart = 1;
 const double defaultPlayersCountRangeEnd = 50;
-const bool defaultShowOnlyActive = false;
+const bool defaultShowActive = true;
+const bool defaultShowInactive = true;
+const bool defaultShowFinished = true;
 const SortBy defaultSortBy = SortBy.isActive;
 const bool defaultPutActiveRoomsFirst = false;
 const bool defaultIsReversedSort = false;
@@ -78,8 +80,9 @@ Map<Color, String> avatarColorsMapReversed = {
 // show skeleton while loading, create fake data in order to show skeleton in the right shape
 final List<Room> fakeRooms = [
   const Room(
+    isFinished: true,
     id: '',
-    isActive: false,
+    isActive: true,
     roomData: RoomData(
       name: 'room',
       maxPlayers: 100,
@@ -91,6 +94,7 @@ final List<Room> fakeRooms = [
     ],
   ),
   const Room(
+    isFinished: false,
     id: '',
     roomData: RoomData(
       name: 'roomRoomRo',
@@ -104,6 +108,7 @@ final List<Room> fakeRooms = [
     isActive: false,
   ),
   const Room(
+    isFinished: false,
     id: '',
     roomData: RoomData(
       name: 'roomRoom',
@@ -114,7 +119,7 @@ final List<Room> fakeRooms = [
     players: [
       Player(username: "John Doe", avatarColor: "Blue", score: 100)
     ],
-    isActive: false,
+    isActive: true,
   )
 ];
 

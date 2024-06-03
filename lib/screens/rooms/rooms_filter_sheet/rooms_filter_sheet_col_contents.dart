@@ -98,27 +98,62 @@ class _RoomFilterSheetColContentsState
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Text(
-                    'Show Only Active Rooms',
-                    style: Theme.of(context).textTheme.titleMedium,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        'Show rooms in which:',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-              Switch(
-                value: tempFilters.showOnlyActive,
-                onChanged: (value) {
-                  setState(() {
-                    tempFilters.showOnlyActive = value;
-                    widget.updateFiltersCallback(tempFilters);
-                  });
-                },
-              )
+              const SizedBox(height: 8.0),
+              Wrap(
+                alignment: WrapAlignment.center,
+                runSpacing: 5.0,
+                spacing: 5.0,
+                children: [
+                  FilterChip(
+                    label: const Text("game is running"),
+                    selected: tempFilters.showActiveRooms,
+                    onSelected: (bool selected) {
+                      setState(() {
+                        tempFilters.showActiveRooms = selected;
+                        widget.updateFiltersCallback(tempFilters);
+                      });
+                    },
+                  ),
+                  FilterChip(
+                    label: const Text("game is waiting to start"),
+                    selected: tempFilters.showInactiveRooms,
+                    onSelected: (bool selected) {
+                      setState(() {
+                        tempFilters.showInactiveRooms = selected;
+                        widget.updateFiltersCallback(tempFilters);
+                      });
+                    },
+                  ),
+                  FilterChip(
+                    label: const Text("game has ended"),
+                    selected: tempFilters.showFinishedRooms,
+                    onSelected: (bool selected) {
+                      setState(() {
+                        tempFilters.showFinishedRooms = selected;
+                        widget.updateFiltersCallback(tempFilters);
+                      });
+                    },
+                  ),
+                ],
+              ),
             ],
           ),
         ),

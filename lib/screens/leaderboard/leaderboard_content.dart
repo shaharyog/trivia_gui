@@ -31,7 +31,7 @@ class LeaderboardContent extends StatelessWidget {
                   size: 64,
                 ),
                 Text(
-                  "No users found",
+                  "No players in the leaderboard.",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],

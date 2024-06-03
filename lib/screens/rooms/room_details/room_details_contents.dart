@@ -46,21 +46,36 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
           children: [
             // room name
             Center(
-              child: AnimatedGradientText(
-                widget.room.roomData.name,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .displayMedium!
-                    .copyWith(
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: AnimatedGradientText(
+                  widget.room.roomData.name,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .displayMedium!
+                      .copyWith(
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  colors: const [
+                    Color(0xff9dd769),
+                    Color(0xfff0a13a),
+                    Color(0xffee609a),
+                  ],
                 ),
-                colors: const [
-                  Color(0xff9dd769),
-                  Color(0xfff0a13a),
-                  Color(0xffee609a),
-                ],
+              ),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(
+                  widget.room.isFinished ? "Game has ended..." : widget.room.isActive ? "Game is running..." : "Game is waiting to start...",
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleLarge,
+                ),
               ),
             ),
             Padding(
@@ -150,7 +165,7 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Divider(),
                 );
               },

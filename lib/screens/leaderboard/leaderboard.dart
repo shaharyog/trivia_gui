@@ -114,7 +114,7 @@ class _LeaderboardState extends State<Leaderboard> {
           futureDone = true;
         }
 
-        return Skeletonizer(enabled: false, child: LeaderboardContent(players: currData!));
+        return Skeletonizer(enabled: false, child: LeaderboardContent(players: currData!.where((e) => e.score > 0).toList()));
       },
     );
   }

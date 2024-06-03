@@ -105,6 +105,7 @@ class _LobbyState extends State<Lobby> {
       ),
       players: roomState.players,
       isActive: roomState.hasGameBegun,
+      isFinished: false,
     );
   }
 

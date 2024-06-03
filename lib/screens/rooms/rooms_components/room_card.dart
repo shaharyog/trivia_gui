@@ -44,7 +44,7 @@ class RoomCard extends StatelessWidget {
       ),
       subtitle: roomSubtitleInfo(context: context, room: room),
       trailing: IconButton(
-        onPressed: room.isActive || room.players.length >= room.roomData.maxPlayers
+        onPressed: room.isActive || room.isFinished || room.players.length >= room.roomData.maxPlayers
             ? null
             : () {
                 onRoomJoin(room.id, room.roomData.name);
@@ -107,8 +107,8 @@ Widget roomLeadingStatus(
             child: Container(
               width: 12.0,
               height: 12.0,
-              decoration: const BoxDecoration(
-                color: Colors.green,
+              decoration: BoxDecoration(
+                color: room.isFinished ? Colors.grey : Colors.green,
                 shape: BoxShape.circle,
               ),
             ),

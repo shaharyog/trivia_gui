@@ -14,6 +14,8 @@ pub struct Room {
     pub players: Vec<Player>,
     #[serde(rename = "isActive")]
     pub is_active: bool,
+    #[serde(rename = "isFinished")]
+    pub is_finished: bool,
 }
 
 #[derive(Deserialize)]

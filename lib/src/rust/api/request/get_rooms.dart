@@ -13,17 +13,23 @@ class Room {
   final RoomData roomData;
   final List<Player> players;
   final bool isActive;
+  final bool isFinished;
 
   const Room({
     required this.id,
     required this.roomData,
     required this.players,
     required this.isActive,
+    required this.isFinished,
   });
 
   @override
   int get hashCode =>
-      id.hashCode ^ roomData.hashCode ^ players.hashCode ^ isActive.hashCode;
+      id.hashCode ^
+      roomData.hashCode ^
+      players.hashCode ^
+      isActive.hashCode ^
+      isFinished.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -33,5 +39,6 @@ class Room {
           id == other.id &&
           roomData == other.roomData &&
           players == other.players &&
-          isActive == other.isActive;
+          isActive == other.isActive &&
+          isFinished == other.isFinished;
 }

@@ -127,7 +127,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
                           return Skeletonizer(
                             child: RoomList(
                               onRoomJoin: (_, __) {},
-                              rooms: fakeRooms,
+                              rooms: sortRooms(fakeRooms, widget.filters),
                               blinkingController: _blinkingController,
                             ),
                           );
@@ -312,7 +312,11 @@ class _RoomsWidgetState extends State<RoomsWidget>
                   filters.questionCountRange.end.round() &&
               room.players.length >= filters.playersCountRange.start.round() &&
               room.players.length <= filters.playersCountRange.end.round() &&
-              (filters.showOnlyActive ? room.isActive : true),
+              ((room.isActive && !room.isFinished && filters.showActiveRooms) ||
+                  (!room.isActive &&
+                      !room.isFinished &&
+                      filters.showInactiveRooms) ||
+                  (room.isFinished && filters.showFinishedRooms)),
         )
         .toList();
   }
@@ -323,7 +327,27 @@ class _RoomsWidgetState extends State<RoomsWidget>
       (a, b) {
         switch (filters.sortBy) {
           case SortBy.isActive:
-            return b.isActive ? 1 : -1;
+            {
+              // sort by active status
+              // put inactive rooms first
+              // active rooms second
+              // finished rooms last (ignore the isActive if the room is finished).
+              if (a.isFinished && !b.isFinished) {
+                return 1; // 1 means a comes after b
+              } else if (!a.isFinished && b.isFinished) {
+                return -1; // -1 means a comes before b
+              } else if (a.isFinished && b.isFinished) {
+                return 0; // 0 means a and b are equal, and the order doesn't matter
+              } else if (a.isActive && !b.isActive) {
+                return 1; // 1 means a comes after b
+              } else if (!a.isActive && b.isActive) {
+                return -1; // -1 means a comes before b
+              } else if (a.isActive && b.isActive) {
+                return 0; // 0 means a and b are equal, and the order doesn't matter
+              } else {
+                return 0; // 0 means a and b are equal, and the order doesn't matter
+              }
+            }
           case SortBy.playersCount:
             return b.players.length.compareTo(a.players.length);
           case SortBy.questionsCount:
