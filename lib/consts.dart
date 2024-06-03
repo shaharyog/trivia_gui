@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trivia/src/rust/api/request/get_room_state.dart';
 import 'package:trivia/utils/filters.dart';
 import 'package:trivia/src/rust/api/request/get_room_players.dart';
 import 'src/rust/api/request/create_room.dart';
@@ -145,3 +146,12 @@ const List<Player> fakeHighScoresPlayers = [
   Player(username: "Ohad Green", score: 12, avatarColor: "Green"),
   Player(username: "Ron Altman", score: 45, avatarColor: "Teal"),
 ];
+
+const RoomState fakeRoomState = RoomState(
+  hasGameBegun: false,
+  players: fakeHighScoresPlayers,
+  questionsCount: 12,
+  answerTimeout: 30,
+  maxPlayers: 10,
+  isClosed: false,
+);

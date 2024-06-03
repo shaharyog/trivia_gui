@@ -734,29 +734,6 @@ impl SseDecode for crate::api::error::Error {
     }
 }
 
-impl SseDecode for crate::api::request::get_room_state::GetRoomStateResponse {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_status = <bool>::sse_decode(deserializer);
-        let mut var_hasGameBegun = <bool>::sse_decode(deserializer);
-        let mut var_players =
-            <Vec<crate::api::request::get_room_players::Player>>::sse_decode(deserializer);
-        let mut var_questionsCount = <u32>::sse_decode(deserializer);
-        let mut var_answerTimeout = <u32>::sse_decode(deserializer);
-        let mut var_maxPlayers = <u32>::sse_decode(deserializer);
-        let mut var_isClosed = <bool>::sse_decode(deserializer);
-        return crate::api::request::get_room_state::GetRoomStateResponse {
-            status: var_status,
-            has_game_begun: var_hasGameBegun,
-            players: var_players,
-            questions_count: var_questionsCount,
-            answer_timeout: var_answerTimeout,
-            max_players: var_maxPlayers,
-            is_closed: var_isClosed,
-        };
-    }
-}
-
 impl SseDecode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -882,6 +859,27 @@ impl SseDecode for crate::api::request::create_room::RoomData {
             max_players: var_maxPlayers,
             question_count: var_questionCount,
             time_per_question: var_timePerQuestion,
+        };
+    }
+}
+
+impl SseDecode for crate::api::request::get_room_state::RoomState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_hasGameBegun = <bool>::sse_decode(deserializer);
+        let mut var_players =
+            <Vec<crate::api::request::get_room_players::Player>>::sse_decode(deserializer);
+        let mut var_questionsCount = <u32>::sse_decode(deserializer);
+        let mut var_answerTimeout = <u32>::sse_decode(deserializer);
+        let mut var_maxPlayers = <u32>::sse_decode(deserializer);
+        let mut var_isClosed = <bool>::sse_decode(deserializer);
+        return crate::api::request::get_room_state::RoomState {
+            has_game_begun: var_hasGameBegun,
+            players: var_players,
+            questions_count: var_questionsCount,
+            answer_timeout: var_answerTimeout,
+            max_players: var_maxPlayers,
+            is_closed: var_isClosed,
         };
     }
 }
@@ -1116,32 +1114,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::error::Error> for crate::api:
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::request::get_room_state::GetRoomStateResponse {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.status.into_into_dart().into_dart(),
-            self.has_game_begun.into_into_dart().into_dart(),
-            self.players.into_into_dart().into_dart(),
-            self.questions_count.into_into_dart().into_dart(),
-            self.answer_timeout.into_into_dart().into_dart(),
-            self.max_players.into_into_dart().into_dart(),
-            self.is_closed.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::request::get_room_state::GetRoomStateResponse
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_room_state::GetRoomStateResponse>
-    for crate::api::request::get_room_state::GetRoomStateResponse
-{
-    fn into_into_dart(self) -> crate::api::request::get_room_state::GetRoomStateResponse {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::request::login::LoginRequest {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -1227,6 +1199,31 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::request::create_room::RoomDat
     for crate::api::request::create_room::RoomData
 {
     fn into_into_dart(self) -> crate::api::request::create_room::RoomData {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_room_state::RoomState {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.has_game_begun.into_into_dart().into_dart(),
+            self.players.into_into_dart().into_dart(),
+            self.questions_count.into_into_dart().into_dart(),
+            self.answer_timeout.into_into_dart().into_dart(),
+            self.max_players.into_into_dart().into_dart(),
+            self.is_closed.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_room_state::RoomState
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_room_state::RoomState>
+    for crate::api::request::get_room_state::RoomState
+{
+    fn into_into_dart(self) -> crate::api::request::get_room_state::RoomState {
         self
     }
 }
@@ -1451,19 +1448,6 @@ impl SseEncode for crate::api::error::Error {
     }
 }
 
-impl SseEncode for crate::api::request::get_room_state::GetRoomStateResponse {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.status, serializer);
-        <bool>::sse_encode(self.has_game_begun, serializer);
-        <Vec<crate::api::request::get_room_players::Player>>::sse_encode(self.players, serializer);
-        <u32>::sse_encode(self.questions_count, serializer);
-        <u32>::sse_encode(self.answer_timeout, serializer);
-        <u32>::sse_encode(self.max_players, serializer);
-        <bool>::sse_encode(self.is_closed, serializer);
-    }
-}
-
 impl SseEncode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1555,6 +1539,18 @@ impl SseEncode for crate::api::request::create_room::RoomData {
         <u32>::sse_encode(self.max_players, serializer);
         <u32>::sse_encode(self.question_count, serializer);
         <u32>::sse_encode(self.time_per_question, serializer);
+    }
+}
+
+impl SseEncode for crate::api::request::get_room_state::RoomState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.has_game_begun, serializer);
+        <Vec<crate::api::request::get_room_players::Player>>::sse_encode(self.players, serializer);
+        <u32>::sse_encode(self.questions_count, serializer);
+        <u32>::sse_encode(self.answer_timeout, serializer);
+        <u32>::sse_encode(self.max_players, serializer);
+        <bool>::sse_encode(self.is_closed, serializer);
     }
 }
 

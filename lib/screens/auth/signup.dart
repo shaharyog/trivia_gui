@@ -100,12 +100,12 @@ class _SignupPageState extends State<SignupPage> {
       Session newSession = await Session.signup(
         address: "$serverIp:$serverPort",
         signupRequest: SignupRequest(
-          username: usernameController.text,
-          password: passwordController.text,
-          email: emailController.text.toLowerCase(),
-          address: addressController.text,
-          birthday: birthdateController.text,
-          phoneNumber: phoneNumberController.text,
+          username: usernameController.text.trim(),
+          password: passwordController.text.trim(),
+          email: emailController.text.toLowerCase().trim(),
+          address: addressController.text.trim(),
+          birthday: birthdateController.text.trim(),
+          phoneNumber: phoneNumberController.text.trim(),
         ),
       );
       if (!mounted) return;

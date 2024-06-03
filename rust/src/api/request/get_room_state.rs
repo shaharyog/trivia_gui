@@ -7,8 +7,7 @@ use crate::api::request::Request;
 pub struct GetRoomStateRequest;
 
 #[derive(Deserialize)]
-pub struct GetRoomStateResponse {
-    pub status: bool,
+pub struct RoomState {
     #[serde(rename = "hasGameBegun")]
     pub has_game_begun: bool,
     pub players: Vec<Player>,
@@ -20,6 +19,13 @@ pub struct GetRoomStateResponse {
     pub max_players: u32,
     #[serde(rename = "isClosed")]
     pub is_closed: bool,
+}
+
+#[derive(Deserialize)]
+pub struct GetRoomStateResponse {
+    pub status: bool,
+    #[serde(flatten)]
+    pub room_state: RoomState,
 }
 
 impl Request for GetRoomStateRequest {

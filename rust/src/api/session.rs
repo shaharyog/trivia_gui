@@ -133,15 +133,15 @@ impl Session {
         Ok(response.players)
     }
 
-    #[flutter_rust_bridge::frb]
-    pub fn get_room_state(&mut self) -> Result<GetRoomStateResponse, Error> {
-        let response = GetRoomStateRequest.write_and_read(&mut self.socket)?;
-        if !response.status {
-            return Err(Error::InternalServerError);
-        }
+   #[flutter_rust_bridge::frb]
+   pub fn get_room_state(&mut self) -> Result<RoomState, Error> {
+       let response = GetRoomStateRequest.write_and_read(&mut self.socket)?;
+       if !response.status {
+           return Err(Error::InternalServerError);
+       }
 
-        Ok(response)
-    }
+       Ok(response.room_state)
+   }
 
     #[flutter_rust_bridge::frb]
     pub fn join_room(&mut self, room_id: String) -> Result<(), Error> {

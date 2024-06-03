@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../src/rust/api/request/get_rooms.dart';
 import '../../../utils/common_functionalities/seconds_to_readable.dart';
+import '../../lobby/lobby.dart';
 import 'blinking_circle.dart';
 
 class RoomCard extends StatelessWidget {
@@ -44,7 +45,7 @@ class RoomCard extends StatelessWidget {
         onPressed: room.isActive
             ? null
             : () {
-                // Join Room In The Future...
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Lobby(id: room.id, session: , roomName: room.roomData.name,)));
               },
         icon: const Icon(
           Icons.login_sharp,

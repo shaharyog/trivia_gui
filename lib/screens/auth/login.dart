@@ -92,8 +92,8 @@ class _LoginPageState extends State<LoginPage> {
     try {
       Session newSession = await Session.login(
         loginRequest: LoginRequest(
-          username: usernameController.text,
-          password: passwordController.text,
+          username: usernameController.text.trim(),
+          password: passwordController.text.trim(),
         ),
         address: "$serverIp:$serverPort",
       );
