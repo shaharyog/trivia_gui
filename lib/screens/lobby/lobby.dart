@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:trivia/homepage/homepage.dart';
 import 'package:trivia/screens/rooms/room_details/room_details_contents.dart';
 import 'package:trivia/src/rust/api/request/create_room.dart';
 import 'package:trivia/src/rust/api/request/get_rooms.dart';
@@ -18,11 +19,10 @@ class Lobby extends StatefulWidget {
   final String id;
   final String roomName;
 
-  const Lobby(
-      {super.key,
-      required this.session,
-      required this.id,
-      required this.roomName});
+  const Lobby({super.key,
+    required this.session,
+    required this.id,
+    required this.roomName});
 
   @override
   State<Lobby> createState() => _LobbyState();
@@ -41,7 +41,7 @@ class _LobbyState extends State<Lobby> {
     future = getRoomState(context);
     timer = Timer.periodic(
       const Duration(seconds: 1),
-      (timer) {
+          (timer) {
         if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
@@ -62,18 +62,19 @@ class _LobbyState extends State<Lobby> {
   Future<RoomState> getRoomState(BuildContext context) {
     print("Getting room state...");
     return widget.session.getRoomState().onError(
-      (Error_ServerConnectionError error, stackTrace) {
+          (Error_ServerConnectionError error, stackTrace) {
         timer.cancel();
         future.ignore();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => LoginPage(
-              errorDialogData: ErrorDialogData(
-                title: serverConnErrorText,
-                message: error.format(),
-              ),
-            ),
+            builder: (context) =>
+                LoginPage(
+                  errorDialogData: ErrorDialogData(
+                    title: serverConnErrorText,
+                    message: error.format(),
+                  ),
+                ),
           ),
         );
         return const RoomState(
@@ -104,8 +105,45 @@ class _LobbyState extends State<Lobby> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: roomLobbyContent(context),
-    );
+        appBar: AppBar(
+          title: const Text("Lobby"),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                try {
+                  widget.session.leaveRoom();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(session: widget.session),
+                    ),
+                  );
+                } on Error_ServerConnectionError catch (e) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(
+                        errorDialogData: ErrorDialogData(
+                          title: serverConnErrorText,
+                          message: e.format(),
+                        ),
+                      ),
+                    ),
+                  );
+                } catch (e) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(session: widget.session),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+        body: roomLobbyContent(context),);
   }
 
 

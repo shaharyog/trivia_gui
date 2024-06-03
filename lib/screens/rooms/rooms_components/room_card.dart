@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../src/rust/api/request/get_rooms.dart';
 import '../../../utils/common_functionalities/seconds_to_readable.dart';
-import '../../lobby/lobby.dart';
 import 'blinking_circle.dart';
 
 class RoomCard extends StatelessWidget {
@@ -45,7 +44,7 @@ class RoomCard extends StatelessWidget {
       ),
       subtitle: roomSubtitleInfo(context: context, room: room),
       trailing: IconButton(
-        onPressed: room.isActive
+        onPressed: room.isActive || room.players.length >= room.roomData.maxPlayers
             ? null
             : () {
                 onRoomJoin(room.id, room.roomData.name);
