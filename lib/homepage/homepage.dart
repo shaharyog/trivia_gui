@@ -10,10 +10,12 @@ import '../utils/nav/nav_bar.dart';
 
 class HomePage extends StatefulWidget {
   final Session session;
+  final String username;
 
   const HomePage({
     super.key,
     required this.session,
+    required this.username,
   });
 
   @override
@@ -58,6 +60,7 @@ class _HomePageState extends State<HomePage> {
               const VerticalDivider(thickness: 1, width: 1),
             Expanded(
               child: HomePageBody(
+                username: widget.username,
                 navigationIndex: _currentNavIndex,
                 session: widget.session,
                 filters: filters,
@@ -68,6 +71,7 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: _currentNavIndex == 1
             ? HomePageFloatingActionButton(
+                username: widget.username,
                 inCreateRoomSheetChanged: (value) {
                   setState(() {
                     isInCreateRoomSheet = value;

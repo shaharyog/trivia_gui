@@ -8,7 +8,6 @@ import '../../lobby/lobby.dart';
 import 'create_room_col_contents.dart';
 import 'package:trivia/src/rust/api/error.dart';
 
-
 class CreateRoomAdaptiveSheet extends StatefulWidget {
   final Future<void> Function(
     String name,
@@ -18,8 +17,14 @@ class CreateRoomAdaptiveSheet extends StatefulWidget {
   ) onSave;
   final bool isSideSheet;
   final Session session;
+  final String username;
+
   const CreateRoomAdaptiveSheet(
-      {super.key, required this.onSave, required this.isSideSheet, required this.session});
+      {super.key,
+      required this.onSave,
+      required this.isSideSheet,
+      required this.session,
+      required this.username});
 
   @override
   State<CreateRoomAdaptiveSheet> createState() =>
@@ -56,6 +61,7 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
             MaterialPageRoute(
               builder: (context) {
                 return Lobby(
+                  username: widget.username,
                   isAdmin: true,
                   session: widget.session,
                   id: "", // id does not matter in this case

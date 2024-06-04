@@ -6,6 +6,7 @@ import 'package:trivia/homepage/homepage.dart';
 import 'package:trivia/screens/rooms/room_details/room_details_contents.dart';
 import 'package:trivia/src/rust/api/request/create_room.dart';
 import 'package:trivia/src/rust/api/request/get_rooms.dart';
+import 'package:trivia/utils/common_widgets/toggle_theme_button.dart';
 
 import '../../consts.dart';
 import '../../src/rust/api/error.dart';
@@ -19,13 +20,15 @@ class Lobby extends StatefulWidget {
   final String id;
   final String roomName;
   final bool isAdmin;
+  final String username;
 
   const Lobby(
       {super.key,
       required this.session,
       required this.id,
       required this.roomName,
-      required this.isAdmin});
+      required this.isAdmin,
+      required this.username});
 
   @override
   State<Lobby> createState() => _LobbyState();
@@ -112,54 +115,73 @@ class _LobbyState extends State<Lobby> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: widget.isAdmin && currData != null && currData!.players.length > 1
+          ? FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(Icons.play_arrow_sharp),
+            )
+          : null,
       appBar: AppBar(
         title: const Text("Lobby"),
         actions: [
-          IconButton(
-            icon: Icon(
-              widget.isAdmin ? Icons.close_sharp : Icons.exit_to_app_sharp,
-            ),
-            onPressed: () async {
-              confirmRoomExit = false;
-              await launchExitConfirmationDialog(context);
-              if (!confirmRoomExit) return;
-              try {
-                if (widget.isAdmin) {
-                  widget.session.closeRoom();
-                } else {
-                  widget.session.leaveRoom();
-                }
+          Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: themeToggleButton(context),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: IconButton(
+              icon: Icon(
+                widget.isAdmin ? Icons.close_sharp : Icons.exit_to_app_sharp,
+              ),
+              onPressed: () async {
+                confirmRoomExit = false;
+                await launchExitConfirmationDialog(context);
+                if (!confirmRoomExit) return;
+                try {
+                  if (widget.isAdmin) {
+                    widget.session.closeRoom();
+                  } else {
+                    widget.session.leaveRoom();
+                  }
 
-                if (!context.mounted) return;
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(session: widget.session),
-                  ),
-                );
-              } on Error_ServerConnectionError catch (e) {
-                if (!context.mounted) return;
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(
-                      errorDialogData: ErrorDialogData(
-                        title: serverConnErrorText,
-                        message: e.format(),
+                  if (!context.mounted) return;
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(
+                        session: widget.session,
+                        username: widget.username,
                       ),
                     ),
-                  ),
-                );
-              } catch (e) {
-                if (!context.mounted) return;
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(session: widget.session),
-                  ),
-                );
-              }
-            },
+                  );
+                } on Error_ServerConnectionError catch (e) {
+                  if (!context.mounted) return;
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(
+                        errorDialogData: ErrorDialogData(
+                          title: serverConnErrorText,
+                          message: e.format(),
+                        ),
+                      ),
+                    ),
+                  );
+                } catch (e) {
+                  if (!context.mounted) return;
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(
+                        session: widget.session,
+                        username: widget.username,
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -175,6 +197,7 @@ class _LobbyState extends State<Lobby> {
             currData == null) {
           return Skeletonizer(
             child: RoomDetailsContents(
+              username: widget.username,
               room: roomStateToRoom(fakeRoomState),
             ),
           );
@@ -215,6 +238,7 @@ class _LobbyState extends State<Lobby> {
         return Skeletonizer(
           enabled: false,
           child: RoomDetailsContents(
+            username: widget.username,
             room: roomStateToRoom(currData!),
           ),
         );
@@ -259,7 +283,10 @@ class _LobbyState extends State<Lobby> {
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => HomePage(session: widget.session),
+        builder: (context) => HomePage(
+          session: widget.session,
+          username: widget.username,
+        ),
       ),
     );
   }

@@ -20,12 +20,14 @@ class RoomsWidget extends StatefulWidget {
   final Session session;
   final Filters filters;
   final bool isInCreateRoomSheet;
+  final String username;
 
   const RoomsWidget(
       {super.key,
       required this.session,
       required this.filters,
-      required this.isInCreateRoomSheet});
+      required this.isInCreateRoomSheet,
+      required this.username});
 
   @override
   State<RoomsWidget> createState() => _RoomsWidgetState();
@@ -190,6 +192,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
                                 MaterialPageRoute(
                                   builder: (context) {
                                     return Lobby(
+                                      username: widget.username,
                                       session: widget.session,
                                       id: roomId,
                                       roomName: roomName,
@@ -260,6 +263,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
                 padding: const EdgeInsets.only(right: 8.0),
                 child: SingleChildScrollView(
                   child: RoomDetailsContents(
+                    username: widget.username,
                     onSwitchToLargeScreen: null,
                     room: currData!.singleWhere(
                       (room) => room.id == selectedRoomId,
@@ -400,6 +404,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
       context: context,
       builder: (context) {
         return RoomDetailsContents(
+          username: widget.username,
           onSwitchToLargeScreen: () {
             selectedRoomId = roomId;
           },

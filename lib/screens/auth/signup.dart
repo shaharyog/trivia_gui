@@ -114,7 +114,10 @@ class _SignupPageState extends State<SignupPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(session: newSession),
+          builder: (context) => HomePage(
+            session: newSession,
+            username: usernameController.text.trim(),
+          ),
         ),
       );
     } on Error_SignupError catch (e) {

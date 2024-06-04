@@ -9,12 +9,14 @@ class HomePageFloatingActionButton extends StatelessWidget {
   final int navigationIndex;
   final Session session;
   final ValueChanged<bool> inCreateRoomSheetChanged;
+  final String username;
 
   const HomePageFloatingActionButton({
     super.key,
     required this.navigationIndex,
     required this.session,
     required this.inCreateRoomSheetChanged,
+    required this.username,
   });
 
   @override
@@ -29,6 +31,7 @@ class HomePageFloatingActionButton extends StatelessWidget {
             enableDrag: false,
             context: context,
             builder: (context) => CreateRoomAdaptiveSheet(
+              username: username,
               session: session,
               onSave: save,
               isSideSheet: false,
@@ -44,6 +47,7 @@ class HomePageFloatingActionButton extends StatelessWidget {
             barrierDismissible: false,
             context,
             body: CreateRoomAdaptiveSheet(
+              username: username,
               session: session,
               onSave: save,
               isSideSheet: true,
