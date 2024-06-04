@@ -5,17 +5,22 @@ use std::time::Duration;
 use crate::api::error::Error;
 use crate::api::request::close_room::CloseRoomRequest;
 use crate::api::request::create_room::{CreateRoomRequest, RoomData};
+use crate::api::request::get_game_results::{GetGameResultsRequest, PlayerResult};
 use crate::api::request::get_highscores::GetHighScoresRequest;
+use crate::api::request::get_question::{GetCurrentQuestionRequest, Question};
 use crate::api::request::get_room_players::{GetRoomPlayersRequest, Player};
 use crate::api::request::get_room_state::{GetRoomStateRequest, RoomState};
 use crate::api::request::get_rooms::{GetRoomsRequest, Room};
 use crate::api::request::get_user_data::{GetUserDataRequest, UserDataAndStatistics};
 use crate::api::request::join_room::JoinRoomRequest;
+use crate::api::request::leave_game::LeaveGameRequest;
 use crate::api::request::leave_room::LeaveRoomRequest;
 use crate::api::request::login::LoginRequest;
 use crate::api::request::logout::LogoutRequest;
 use crate::api::request::Request;
 use crate::api::request::signup::SignupRequest;
+use crate::api::request::start_game::StartGameRequest;
+use crate::api::request::submit_answer::SubmitAnswerRequest;
 use crate::api::request::update_user_data::UpdateUserDataRequest;
 
 #[flutter_rust_bridge::frb(opaque)]
@@ -174,5 +179,58 @@ impl Session {
         }
 
         Ok(())
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn start_game(&mut self) -> Result<(), Error> {
+        let response = StartGameRequest.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(())
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn leave_game(&mut self) -> Result<(), Error> {
+        let response = LeaveGameRequest.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(())
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn get_question(&mut self) -> Result<Question, Error> {
+        let response = GetCurrentQuestionRequest.write_and_read(&mut self.socket)?;
+        if !response.status || response.question.answers.len() != 4 {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(response.question)
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn submit_answer(&mut self, answer_id: u32, question_id: u32) -> Result<(), Error> {
+        let response = SubmitAnswerRequest {
+            answer_id,
+            question_id
+        }.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(())
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn get_game_results(&mut self) -> Result<Vec<PlayerResult>, Error> {
+        let response = GetGameResultsRequest.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(response.players_results)
     }
 }

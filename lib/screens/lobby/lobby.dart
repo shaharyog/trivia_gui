@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:trivia/homepage/homepage.dart';
+import 'package:trivia/screens/game/game.dart';
 import 'package:trivia/screens/rooms/room_details/room_details_contents.dart';
 import 'package:trivia/src/rust/api/request/create_room.dart';
 import 'package:trivia/src/rust/api/request/get_rooms.dart';
@@ -40,6 +41,41 @@ class _LobbyState extends State<Lobby> {
   RoomState? currData;
   late Timer timer;
   late bool confirmRoomExit;
+
+  void startGame() async {
+    try {
+      await widget.session.startGame();
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Game(
+            session: widget.session,
+          ),
+        ),
+      );
+    } on Error_ServerConnectionError {
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(
+            errorDialogData: ErrorDialogData(
+              title: serverConnErrorText,
+              message: serverConnErrorText,
+            ),
+          ),
+        ),
+      );
+    } on Error catch (error) {
+      if (!mounted) return;
+      // show error dialog
+      showDialog(
+          context: context,
+          builder: (context) => ErrorDialog(
+              title: "Could not start game", message: error.format()));
+    }
+  }
 
   @override
   void initState() {
@@ -94,6 +130,17 @@ class _LobbyState extends State<Lobby> {
     if (roomState.isClosed && context.mounted) {
       returnToHomepage(context);
     }
+    if(roomState.hasGameBegun && context.mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Game(
+            session: widget.session,
+          ),
+        ),
+      );
+    }
+
     return roomState;
   }
 
@@ -115,12 +162,15 @@ class _LobbyState extends State<Lobby> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: widget.isAdmin && currData != null && currData!.players.length > 1
-          ? FloatingActionButton(
-              onPressed: () {},
-              child: const Icon(Icons.play_arrow_sharp),
-            )
-          : null,
+      floatingActionButton:
+          widget.isAdmin && currData != null && currData!.players.length > 1
+              ? FloatingActionButton(
+                  onPressed: () {
+                    startGame();
+                  },
+                  child: const Icon(Icons.play_arrow_sharp),
+                )
+              : null,
       appBar: AppBar(
         title: const Text("Lobby"),
         actions: [

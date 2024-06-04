@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../src/rust/api/request/get_rooms.dart';
 import '../../../utils/common_functionalities/seconds_to_readable.dart';
-import 'blinking_circle.dart';
+ import 'blinking_circle.dart';
 
 class RoomCard extends StatelessWidget {
   final Room room;

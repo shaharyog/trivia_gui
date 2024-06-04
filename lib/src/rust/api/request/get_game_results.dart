@@ -12,27 +12,29 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
         
 
-        class LoginRequest  {
+        class PlayerResult  {
                 final String username;
-final String password;
+final int correctAnswerCount;
+final int wrongAnswerCount;
+final int avgAnswerTime;
 
-                const LoginRequest({required this.username ,required this.password ,});
+                const PlayerResult({required this.username ,required this.correctAnswerCount ,required this.wrongAnswerCount ,required this.avgAnswerTime ,});
 
                 
                 
 
                 
         @override
-        int get hashCode => username.hashCode^password.hashCode;
+        int get hashCode => username.hashCode^correctAnswerCount.hashCode^wrongAnswerCount.hashCode^avgAnswerTime.hashCode;
         
 
                 
         @override
         bool operator ==(Object other) =>
             identical(this, other) ||
-            other is LoginRequest &&
+            other is PlayerResult &&
                 runtimeType == other.runtimeType
-                && username == other.username&& password == other.password;
+                && username == other.username&& correctAnswerCount == other.correctAnswerCount&& wrongAnswerCount == other.wrongAnswerCount&& avgAnswerTime == other.avgAnswerTime;
         
             }
         
