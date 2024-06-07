@@ -1174,9 +1174,11 @@ impl SseDecode for crate::api::request::get_game_results::PlayerResult {
 impl SseDecode for crate::api::request::get_question::Question {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_questionId = <u32>::sse_decode(deserializer);
         let mut var_question = <String>::sse_decode(deserializer);
         let mut var_answers = <Vec<(u32, String)>>::sse_decode(deserializer);
         return crate::api::request::get_question::Question {
+            question_id: var_questionId,
             question: var_question,
             answers: var_answers,
         };
@@ -1554,6 +1556,7 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_game_results::Pl
 impl flutter_rust_bridge::IntoDart for crate::api::request::get_question::Question {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
+            self.question_id.into_into_dart().into_dart(),
             self.question.into_into_dart().into_dart(),
             self.answers.into_into_dart().into_dart(),
         ]
@@ -1971,6 +1974,7 @@ impl SseEncode for crate::api::request::get_game_results::PlayerResult {
 impl SseEncode for crate::api::request::get_question::Question {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.question_id, serializer);
         <String>::sse_encode(self.question, serializer);
         <Vec<(u32, String)>>::sse_encode(self.answers, serializer);
     }

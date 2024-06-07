@@ -212,7 +212,7 @@ impl Session {
     }
 
     #[flutter_rust_bridge::frb]
-    pub fn submit_answer(&mut self, answer_id: u32, question_id: u32) -> Result<(), Error> {
+    pub fn submit_answer(&mut self, answer_id: u32, question_id: u32) -> Result<u32, Error> {
         let response = SubmitAnswerRequest {
             answer_id,
             question_id
@@ -221,7 +221,7 @@ impl Session {
             return Err(Error::InternalServerError);
         }
 
-        Ok(())
+        Ok(response.correct_answer_id)
     }
 
     #[flutter_rust_bridge::frb]

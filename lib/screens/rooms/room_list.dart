@@ -9,7 +9,7 @@ class RoomList extends StatelessWidget {
   final AnimationController blinkingController;
   final ValueChanged<String>? onRoomSelected;
   final String? selectedRoomId;
-  final Function(String, String) onRoomJoin;
+  final Function(Room) onRoomJoin;
 
   const RoomList({
     super.key,

@@ -9,7 +9,7 @@ class RoomCard extends StatelessWidget {
   final AnimationController blinkingController;
   final ValueChanged<String>? onRoomSelected;
   final String? selectedRoomId;
-  final Function(String, String) onRoomJoin;
+  final Function(Room) onRoomJoin;
 
   const RoomCard({
     super.key,
@@ -47,7 +47,7 @@ class RoomCard extends StatelessWidget {
         onPressed: room.isActive || room.isFinished || room.players.length >= room.roomData.maxPlayers
             ? null
             : () {
-                onRoomJoin(room.id, room.roomData.name);
+                onRoomJoin(room);
               },
         icon: const Icon(
           Icons.login_sharp,
@@ -101,7 +101,7 @@ Widget roomLeadingStatus(
     required BuildContext context}) {
   return Padding(
     padding: const EdgeInsets.only(left: 4.0),
-    child: room.isActive && !Skeletonizer.of(context).enabled
+    child: room.isActive && !room.isFinished && !Skeletonizer.of(context).enabled
         ? BlinkingCircle(animationController: blinkingController)
         : Skeleton.shade(
             child: Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trivia/src/rust/api/request/get_question.dart';
 import 'package:trivia/src/rust/api/request/get_room_state.dart';
 import 'package:trivia/utils/filters.dart';
 import 'package:trivia/src/rust/api/request/get_room_players.dart';
@@ -33,7 +34,7 @@ const bool defaultPutActiveRoomsFirst = false;
 const bool defaultIsReversedSort = false;
 
 // screen size related consts:
-const minScreenSize = Size(500, 100);
+const minScreenSize = Size(500, 800);
 const defaultScreenSize = Size(800, 600);
 
 // animations durations:
@@ -160,3 +161,5 @@ const RoomState fakeRoomState = RoomState(
   maxPlayers: 10,
   isClosed: false,
 );
+
+const Question fakeQuestion = Question(questionId: -1, question: "Aaaaa aaaaa aaaaaa, aaaa aaaaa aaaaa, aaaaa aaa \"aaaaa  aa \"?", answers: [(0, "aaa aaaaa aaaa aaa"), (3, "Aaaa aaaa aaaa aaaa"), (2, "aaa aaaa aaaa"), (1, "aaaa aaaaaaa aaaa aa aaaa aaaaaa")]);

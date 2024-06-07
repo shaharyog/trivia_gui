@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:trivia/utils/common_functionalities/screen_size.dart';
 import 'package:trivia/utils/common_functionalities/seconds_to_readable.dart';
 
@@ -50,17 +51,26 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: AnimatedGradientText(
-                  widget.room.roomData.name,
-                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                  colors: const [
-                    Color(0xff9dd769),
-                    Color(0xfff0a13a),
-                    Color(0xffee609a),
-                  ],
+                child: Skeleton.replace(
+                  replacement: Text(
+                    widget.room.roomData.name,
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                  ),
+                  child: AnimatedGradientText(
+                    widget.room.roomData.name,
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                    colors: const [
+                      Color(0xff9dd769),
+                      Color(0xfff0a13a),
+                      Color(0xffee609a),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -100,7 +110,9 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
                       ? "Game has ended..."
                       : widget.room.isActive
                           ? "Game is running..."
-                          : widget.room.players.length > 1 ? "Game is waiting to start..."  : "Waiting for players...",
+                          : widget.room.players.length > 1
+                              ? "Game is waiting to start..."
+                              : "Waiting for players...",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
@@ -127,23 +139,27 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
               itemCount: widget.room.players.length + 1,
               itemBuilder: (context, index) {
                 if (index == widget.room.players.length) {
-                  return const SizedBox(height: 84,);
+                  return const SizedBox(
+                    height: 84,
+                  );
                 }
 
                 return ListTile(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  leading: CircleAvatar(
-                    backgroundColor: avatarColorsMap[
-                            widget.room.players[index].avatarColor] ??
-                        Colors.blue,
-                    radius: 20,
-                    child: Text(
-                      getInitials(widget.room.players[index].username),
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            color: Colors.white,
-                          ),
+                  leading: Skeleton.shade(
+                    child: CircleAvatar(
+                      backgroundColor: avatarColorsMap[
+                              widget.room.players[index].avatarColor] ??
+                          Colors.blue,
+                      radius: 20,
+                      child: Text(
+                        getInitials(widget.room.players[index].username),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: Colors.white,
+                            ),
+                      ),
                     ),
                   ),
                   trailing: SizedBox(
@@ -197,17 +213,19 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
                         ),
                   ),
                   subtitle: ClipRect(
-                    child: Row(
-                      children: [
-                        Text(
-                          widget.room.players[index].score.toString(),
-                        ),
-                        const SizedBox(width: 2),
-                        const Icon(
-                          Icons.star_border_sharp,
-                          size: 16,
-                        ),
-                      ],
+                    child: Skeleton.unite(
+                      child: Row(
+                        children: [
+                          Text(
+                            widget.room.players[index].score.toString(),
+                          ),
+                          const SizedBox(width: 2),
+                          const Icon(
+                            Icons.star_border_sharp,
+                            size: 16,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

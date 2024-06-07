@@ -59,7 +59,9 @@ class _RoomsWidgetState extends State<RoomsWidget>
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if (futureDone && currData != null) {
+        if (widget.session.isDisposed) {
+          timer.cancel();
+        } else if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
             future = getRooms(context);
@@ -128,7 +130,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
                             currData == null) {
                           return Skeletonizer(
                             child: RoomList(
-                              onRoomJoin: (_, __) {},
+                              onRoomJoin: (_) {},
                               rooms: sortRooms(fakeRooms, widget.filters),
                               blinkingController: _blinkingController,
                             ),
@@ -182,68 +184,76 @@ class _RoomsWidgetState extends State<RoomsWidget>
                           selectedRoomId = null;
                         }
 
-                        return RoomList(
-                          onRoomJoin: (roomId, roomName) async {
-                            try {
-                              await widget.session.joinRoom(roomId: roomId);
-                              if (!context.mounted) return;
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return Lobby(
-                                      username: widget.username,
-                                      session: widget.session,
-                                      id: roomId,
-                                      roomName: roomName,
-                                      isAdmin: false,
-                                    );
-                                  },
-                                ),
-                              );
-                            } on Error_ServerConnectionError catch (e) {
-                              timer.cancel();
-                              future.ignore();
-                              if (!context.mounted) return;
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginPage(
-                                    errorDialogData: ErrorDialogData(
-                                      title: serverConnErrorText,
-                                      message: e.format(),
+                        return Skeletonizer(
+                          enabled: false,
+                          child: RoomList(
+                            onRoomJoin: (Room room) async {
+                              try {
+                                await widget.session.joinRoom(roomId: room.id);
+                                if (!context.mounted) return;
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Lobby(
+                                        username: widget.username,
+                                        session: widget.session,
+                                        id: room.id,
+                                        roomName: room.roomData.name,
+                                        isAdmin: false,
+                                        timePerQuestion:
+                                            room.roomData.timePerQuestion,
+                                        questionCount:
+                                            room.roomData.questionCount,
+                                      );
+                                    },
+                                  ),
+                                );
+                              } on Error_ServerConnectionError catch (e) {
+                                timer.cancel();
+                                future.ignore();
+                                if (!context.mounted) return;
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(
+                                      errorDialogData: ErrorDialogData(
+                                        title: serverConnErrorText,
+                                        message: e.format(),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            } on Error catch (e) {
-                              if (!context.mounted) return;
-                              showErrorDialog(
-                                  context, "Failed to join room", e.format());
-                            }
-                          },
-                          onRoomSelected: (roomId) {
-                            if (getScreenSize(context) == ScreenSize.small) {
-                              launchRoomDetailsBottomSheet(
-                                context,
-                                roomId,
-                              );
-                            } else {
-                              setState(() {
-                                if (selectedRoomId == roomId) {
-                                  selectedRoomId = null;
-                                } else {
-                                  selectedRoomId = roomId;
-                                }
-                              });
-                            }
-                          },
-                          selectedRoomId:
-                              getScreenSize(context) == ScreenSize.small
-                                  ? null
-                                  : selectedRoomId,
-                          rooms: filterAndSortRooms(currData!, widget.filters),
-                          blinkingController: _blinkingController,
+                                );
+                              } on Error catch (e) {
+                                if (!context.mounted) return;
+                                showErrorDialog(
+                                    context, "Failed to join room", e.format());
+                              }
+                            },
+                            onRoomSelected: (roomId) {
+                              if (getScreenSize(context) == ScreenSize.small) {
+                                launchRoomDetailsBottomSheet(
+                                  context,
+                                  roomId,
+                                );
+                              } else {
+                                setState(() {
+                                  if (selectedRoomId == roomId) {
+                                    selectedRoomId = null;
+                                  } else {
+                                    selectedRoomId = roomId;
+                                  }
+                                });
+                              }
+                            },
+                            selectedRoomId:
+                                getScreenSize(context) == ScreenSize.small
+                                    ? null
+                                    : selectedRoomId,
+                            rooms:
+                                filterAndSortRooms(currData!, widget.filters),
+                            blinkingController: _blinkingController,
+                          ),
                         );
                       },
                     ),
@@ -262,11 +272,14 @@ class _RoomsWidgetState extends State<RoomsWidget>
               child: Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: SingleChildScrollView(
-                  child: RoomDetailsContents(
-                    username: widget.username,
-                    onSwitchToLargeScreen: null,
-                    room: currData!.singleWhere(
-                      (room) => room.id == selectedRoomId,
+                  child: Skeletonizer(
+                    enabled: false,
+                    child: RoomDetailsContents(
+                      username: widget.username,
+                      onSwitchToLargeScreen: null,
+                      room: currData!.singleWhere(
+                        (room) => room.id == selectedRoomId,
+                      ),
                     ),
                   ),
                 ),
@@ -403,14 +416,17 @@ class _RoomsWidgetState extends State<RoomsWidget>
       showDragHandle: true,
       context: context,
       builder: (context) {
-        return RoomDetailsContents(
-          username: widget.username,
-          onSwitchToLargeScreen: () {
-            selectedRoomId = roomId;
-          },
-          isBottomSheet: true,
-          room: currData!.singleWhere(
-            (room) => room.id == roomId,
+        return Skeletonizer(
+          enabled: false,
+          child: RoomDetailsContents(
+            username: widget.username,
+            onSwitchToLargeScreen: () {
+              selectedRoomId = roomId;
+            },
+            isBottomSheet: true,
+            room: currData!.singleWhere(
+              (room) => room.id == roomId,
+            ),
           ),
         );
       },

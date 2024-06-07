@@ -61,6 +61,8 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
             MaterialPageRoute(
               builder: (context) {
                 return Lobby(
+                  timePerQuestion: timePerQuestion,
+                  questionCount: questionsCount,
                   username: widget.username,
                   isAdmin: true,
                   session: widget.session,
@@ -95,7 +97,7 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
           });
         }
       },
-      saveEnabled: name.isNotEmpty,
+      saveEnabled: name.length >= 4,
     );
     final content = CreateRoomSheetColContents(
       errorText: errorText,

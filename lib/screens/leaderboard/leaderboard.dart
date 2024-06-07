@@ -32,7 +32,9 @@ class _LeaderboardState extends State<Leaderboard> {
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if (futureDone && currData != null) {
+        if (widget.session.isDisposed) {
+          timer.cancel();
+        } if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
             future = getHighScores(context);

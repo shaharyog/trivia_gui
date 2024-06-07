@@ -7,6 +7,8 @@ pub struct GetCurrentQuestionRequest;
 
 #[derive(Deserialize)]
 pub struct Question {
+    #[serde(rename = "questionId")]
+    pub question_id: u32,
     pub question: String,
     pub answers: Vec<(u32, String)>,
 }

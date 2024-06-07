@@ -442,16 +442,24 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
         if (userStats.totalAnswers != 0)
         TextSpan(
           text: "Accuracy:  ",
+          style: TextStyle(
+            color: accuracyToColor((userStats.correctAnswers / userStats.totalAnswers)),
+            fontWeight: FontWeight.bold,
+          ),
           children: [
             TextSpan(
               text: "${((userStats.correctAnswers / userStats.totalAnswers) * 100).round()}%\n",
               style: TextStyle(
-                color: accuracyToColor(((userStats.correctAnswers / userStats.totalAnswers) * 100)),
+                color: accuracyToColor((userStats.correctAnswers / userStats.totalAnswers)),
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
               text: "Correct Answers:  ",
+              style: const TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+              ),
               children: [
                 TextSpan(
                   text: "${userStats.correctAnswers}",
@@ -462,11 +470,19 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
                 )
               ],
             ),
-            const TextSpan(
+            TextSpan(
               text: "    •    ",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontWeight: FontWeight.normal,
+              )
             ),
             TextSpan(
               text: "Wrong Answers:  ",
+              style: const TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
               children: [
                 TextSpan(
                   text: "${userStats.wrongAnswers}\n",
@@ -482,10 +498,15 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
 
         TextSpan(
           text: "Total Games Played:  ",
+          style: const TextStyle(
+            color: Color(0xFF43FFBD),
+            fontWeight: FontWeight.bold,
+          ),
           children: [
             TextSpan(
               text: "${userStats.totalGames}",
               style: const TextStyle(
+                color: Color(0xFF43FFBD),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -496,10 +517,15 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
         ),
         TextSpan(
           text: "Score:  ",
+          style: const TextStyle(
+            color: Color(0xFFFFB156),
+            fontWeight: FontWeight.bold,
+          ),
           children: [
             TextSpan(
               text: "${userStats.score}",
               style: const TextStyle(
+                color: Color(0xFFFFB156),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -524,11 +550,13 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
 }
 
 Color accuracyToColor(double accuracy) {
-  double factor = accuracy / 100;
-  return Color.fromRGBO(
-    255 - (factor * 255).toInt(),
-    (factor * 255).toInt(),
-    0,
-    1,
-  );
+  // Ensure accuracy is between 0 and 1
+  accuracy = accuracy.clamp(0.0, 1.0);
+
+  // Convert hue to RGB values
+  int rgbValue = (accuracy * 255).toInt();
+  int redValue = 255 - rgbValue;
+  int greenValue = rgbValue;
+
+  return Color.fromARGB(255, redValue, greenValue, 0);
 }
