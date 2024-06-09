@@ -81,10 +81,23 @@ class _GameContentState extends State<GameContent> {
     final shouldShowAnswerView =
         widget.currentMilliseconds / 1000 >= widget.timePerQuestion &&
             !Skeletonizer.of(context).enabled;
-    if (shouldShowAnswerView && _selectedAnswerId == null)
-      {
-        return Center(child: Text("Times up!"));
-      }
+    if (shouldShowAnswerView && _selectedAnswerId == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+
+          children: [
+            const Icon(Icons.timer_off_sharp, size: 64.0),
+            const SizedBox(height: 16.0),
+            Text(
+              "Times up!",
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
+          ],
+        ),
+      );
+    }
     return Column(
       children: [
         !shouldShowAnswerView
