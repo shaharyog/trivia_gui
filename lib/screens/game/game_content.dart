@@ -81,27 +81,24 @@ class _GameContentState extends State<GameContent> {
     final shouldShowAnswerView =
         widget.currentMilliseconds / 1000 >= widget.timePerQuestion &&
             !Skeletonizer.of(context).enabled;
-    if (shouldShowAnswerView) {
-      return Column(
-        children: [
-          LinearProgressIndicator(
-            value: (widget.timePerQuestion +
-                    5 -
-                    (widget.currentMilliseconds / 1000)) /
-                5,
-          ),
-          buildAnswerView(context),
-        ],
-      );
-    }
-
+    if (shouldShowAnswerView && _selectedAnswerId == null)
+      {
+        return Center(child: Text("Times up!"));
+      }
     return Column(
       children: [
-        LinearProgressIndicator(
-          value:
-              (widget.timePerQuestion - (widget.currentMilliseconds / 1000)) /
-                  widget.timePerQuestion,
-        ),
+        !shouldShowAnswerView
+            ? LinearProgressIndicator(
+                value: (widget.timePerQuestion -
+                        (widget.currentMilliseconds / 1000)) /
+                    widget.timePerQuestion,
+              )
+            : LinearProgressIndicator(
+                value: (widget.timePerQuestion +
+                        5 -
+                        (widget.currentMilliseconds / 1000)) /
+                    5,
+              ),
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 32.0,
@@ -113,7 +110,7 @@ class _GameContentState extends State<GameContent> {
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 64.0,
-              vertical: 16.0,
+              vertical: 8.0,
             ),
             child: buildAnswersList(context),
           ),
@@ -125,7 +122,7 @@ class _GameContentState extends State<GameContent> {
   Widget buildQuestionWidget(context) {
     return Text(
       widget.question.question,
-      style: Theme.of(context).textTheme.displayMedium,
+      style: Theme.of(context).textTheme.displaySmall,
       overflow: TextOverflow.visible,
       softWrap: true,
       textAlign: TextAlign.center,
@@ -137,7 +134,7 @@ class _GameContentState extends State<GameContent> {
       children: [
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.only(bottom: 8.0, top: 8),
             child: createAnswer(
               0,
               context,
@@ -164,7 +161,7 @@ class _GameContentState extends State<GameContent> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(top: 8, bottom: 8),
             child: createAnswer(
               3,
               context,
@@ -192,9 +189,11 @@ class _GameContentState extends State<GameContent> {
               ? SystemMouseCursors.click
               : SystemMouseCursors.basic,
           child: Card(
-            color: _selectedAnswerId == index
-                ? Theme.of(context).colorScheme.primary.withOpacity(0.4)
-                : Theme.of(context).colorScheme.primary.withOpacity(0.15),
+            color: getCardColor(
+                selectedIndex: _selectedAnswerId,
+                correctIndex: _correctAnswerId,
+                cardIndex: index,
+                context: context),
             child: Center(
               child: Text(
                 widget.question.answers[index].$2,
@@ -232,4 +231,22 @@ class _GameContentState extends State<GameContent> {
 double getFontSize(BuildContext context, {bool title = false}) {
   return (((MediaQuery.of(context).size.height / 2) - 32) / 4) *
       (title ? 0.4 : 0.25);
+}
+
+Color getCardColor(
+    {required int? selectedIndex,
+    int? correctIndex,
+    required int cardIndex,
+    required BuildContext context}) {
+  if (correctIndex != null) {
+    if (cardIndex == correctIndex) {
+      return Color(0xff00ab00);
+    }
+    if (selectedIndex == cardIndex) {
+      return Colors.red;
+    }
+  } else if (selectedIndex == cardIndex) {
+    return Theme.of(context).colorScheme.primary.withOpacity(0.4);
+  }
+  return Theme.of(context).colorScheme.primary.withOpacity(0.15);
 }
