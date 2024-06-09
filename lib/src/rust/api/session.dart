@@ -41,7 +41,7 @@ class Session extends RustOpaque {
       RustLib.instance.api
           .sessionCreateRoom(that: this, roomData: roomData, hint: hint);
 
-  Future<List<PlayerResult>> getGameResults({dynamic hint}) =>
+  Future<GameResults> getGameResults({dynamic hint}) =>
       RustLib.instance.api.sessionGetGameResults(that: this, hint: hint);
 
   Future<List<Player>> getHighscores({dynamic hint}) =>

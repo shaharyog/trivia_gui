@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../consts.dart';
 import '../../src/rust/api/error.dart';
 import '../../src/rust/api/request/get_question.dart';
@@ -10,14 +11,20 @@ class GameContent extends StatefulWidget {
   final Session session;
   final Question question;
   final Function onServerError;
-  final int seconds;
+  final int currentMilliseconds;
+  final int timePerQuestion;
+  final int questionCount;
+  final Function(bool, int) onAnswerReceived;
 
   const GameContent({
     super.key,
     required this.session,
     required this.question,
     required this.onServerError,
-    required this.seconds,
+    required this.currentMilliseconds,
+    required this.timePerQuestion,
+    required this.questionCount,
+    required this.onAnswerReceived,
   });
 
   @override
@@ -25,17 +32,24 @@ class GameContent extends StatefulWidget {
 }
 
 class _GameContentState extends State<GameContent> {
-  bool _isLoading = false;
+  bool _isWaitingForAnswer = false;
   int? _selectedAnswerId;
+  int? _correctAnswerId;
 
   void submitAnswer(int answerId) async {
     setState(() {
-      _isLoading = true;
+      _isWaitingForAnswer = true;
     });
     try {
-      int correctAnswer = await widget.session.submitAnswer(
-          answerId: answerId, questionId: widget.question.questionId);
+      _correctAnswerId = await widget.session.submitAnswer(
+        answerId: answerId,
+        questionId: widget.question.questionId,
+      );
+      widget.onAnswerReceived(
+          _correctAnswerId == answerId, widget.question.questionId);
+      setState(() {});
     } on Error_ServerConnectionError catch (error) {
+      _correctAnswerId = null;
       if (mounted) {
         widget.onServerError;
         Navigator.pushReplacement(
@@ -50,20 +64,13 @@ class _GameContentState extends State<GameContent> {
           ),
         );
       }
-    } on Error catch (error) {
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (context) => ErrorDialog(
-            title: "Error submitting answer",
-            message: error.format(),
-          ),
-        );
-      }
+    } on Error catch (_) {
+      _correctAnswerId = null;
+      // ignore
     } finally {
       if (mounted) {
         setState(() {
-          _isLoading = false;
+          _isWaitingForAnswer = false;
         });
       }
     }
@@ -71,59 +78,57 @@ class _GameContentState extends State<GameContent> {
 
   @override
   Widget build(BuildContext context) {
-    return !_isLoading
-        ? Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32.0,
-                    vertical: 16.0,
-                  ),
-                  child: buildQuestionWidget(context),
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 64.0,
-                    vertical: 16.0,
-                  ),
-                  child: buildAnswersList(context),
-                ),
-              ),
-            ],
-          )
-        : Row(
-            children: [
-              const Icon(Icons.timer_sharp),
-              Text("${((widget.seconds) ~/ 60).toString().padLeft(2, '0')}: ${(widget.seconds % 60).toString().padLeft(2, '0')}"),
-            ],
-          );
+    final shouldShowAnswerView =
+        widget.currentMilliseconds / 1000 >= widget.timePerQuestion &&
+            !Skeletonizer.of(context).enabled;
+    if (shouldShowAnswerView) {
+      return Column(
+        children: [
+          LinearProgressIndicator(
+            value: (widget.timePerQuestion +
+                    5 -
+                    (widget.currentMilliseconds / 1000)) /
+                5,
+          ),
+          buildAnswerView(context),
+        ],
+      );
+    }
+
+    return Column(
+      children: [
+        LinearProgressIndicator(
+          value:
+              (widget.timePerQuestion - (widget.currentMilliseconds / 1000)) /
+                  widget.timePerQuestion,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 32.0,
+            vertical: 16.0,
+          ),
+          child: buildQuestionWidget(context),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 64.0,
+              vertical: 16.0,
+            ),
+            child: buildAnswersList(context),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget buildQuestionWidget(context) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
-          border: Border.all(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-            width: 2,
-          )),
-      padding: const EdgeInsets.all(16),
-      child: Text(
-        widget.question.question,
-        style: TextStyle(
-          fontSize: MediaQuery.of(context).size.height / 30,
-        ),
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.center,
-      ),
+    return Text(
+      widget.question.question,
+      style: Theme.of(context).textTheme.displayMedium,
+      overflow: TextOverflow.visible,
+      softWrap: true,
+      textAlign: TextAlign.center,
     );
   }
 
@@ -174,7 +179,7 @@ class _GameContentState extends State<GameContent> {
     return SizedBox(
       width: double.infinity,
       child: GestureDetector(
-        onTap: !_isLoading
+        onTap: !_isWaitingForAnswer
             ? () {
                 setState(() {
                   _selectedAnswerId = widget.question.answers[index].$1;
@@ -183,25 +188,44 @@ class _GameContentState extends State<GameContent> {
               }
             : null,
         child: MouseRegion(
-          cursor:
-              !_isLoading ? SystemMouseCursors.click : SystemMouseCursors.basic,
+          cursor: !_isWaitingForAnswer
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
           child: Card(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+            color: _selectedAnswerId == index
+                ? Theme.of(context).colorScheme.primary.withOpacity(0.4)
+                : Theme.of(context).colorScheme.primary.withOpacity(0.15),
             child: Center(
               child: Text(
                 widget.question.answers[index].$2,
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: getFontSize(context),
-                    ),
+                style: TextStyle(
+                  fontSize: getFontSize(context),
+                ),
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget buildAnswerView(BuildContext context) {
+    if (_isWaitingForAnswer) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (_selectedAnswerId == null || _correctAnswerId == null) {
+      return Text("Time's up!, you better hurry next question");
+    } else if (_correctAnswerId == _selectedAnswerId) {
+      return Text(" Correct!");
+    } else {
+      return Text("Wrong");
+    }
   }
 }
 

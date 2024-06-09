@@ -1034,6 +1034,29 @@ impl SseDecode for crate::api::error::Error {
     }
 }
 
+impl SseDecode for crate::api::request::get_game_results::GameResults {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_userAnswers =
+            <Vec<crate::api::request::get_game_results::QuestionAnswered>>::sse_decode(
+                deserializer,
+            );
+        let mut var_playersResults =
+            <Vec<crate::api::request::get_game_results::PlayerResult>>::sse_decode(deserializer);
+        return crate::api::request::get_game_results::GameResults {
+            user_answers: var_userAnswers,
+            players_results: var_playersResults,
+        };
+    }
+}
+
+impl SseDecode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
+    }
+}
+
 impl SseDecode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1076,6 +1099,20 @@ impl SseDecode for Vec<u8> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<u8>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::request::get_game_results::QuestionAnswered> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(
+                <crate::api::request::get_game_results::QuestionAnswered>::sse_decode(deserializer),
+            );
         }
         return ans_;
     }
@@ -1158,12 +1195,17 @@ impl SseDecode for crate::api::request::get_room_players::Player {
 impl SseDecode for crate::api::request::get_game_results::PlayerResult {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_username = <String>::sse_decode(deserializer);
+        let mut var_player =
+            <crate::api::request::get_room_players::Player>::sse_decode(deserializer);
+        let mut var_isOnline = <bool>::sse_decode(deserializer);
+        let mut var_scoreChange = <i32>::sse_decode(deserializer);
         let mut var_correctAnswerCount = <u32>::sse_decode(deserializer);
         let mut var_wrongAnswerCount = <u32>::sse_decode(deserializer);
         let mut var_avgAnswerTime = <u32>::sse_decode(deserializer);
         return crate::api::request::get_game_results::PlayerResult {
-            username: var_username,
+            player: var_player,
+            is_online: var_isOnline,
+            score_change: var_scoreChange,
             correct_answer_count: var_correctAnswerCount,
             wrong_answer_count: var_wrongAnswerCount,
             avg_answer_time: var_avgAnswerTime,
@@ -1181,6 +1223,24 @@ impl SseDecode for crate::api::request::get_question::Question {
             question_id: var_questionId,
             question: var_question,
             answers: var_answers,
+        };
+    }
+}
+
+impl SseDecode for crate::api::request::get_game_results::QuestionAnswered {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_question = <String>::sse_decode(deserializer);
+        let mut var_answers = <Vec<(u32, String)>>::sse_decode(deserializer);
+        let mut var_correctAnswer = <u32>::sse_decode(deserializer);
+        let mut var_userAnswer = <u32>::sse_decode(deserializer);
+        let mut var_timeTaken = <u32>::sse_decode(deserializer);
+        return crate::api::request::get_game_results::QuestionAnswered {
+            question: var_question,
+            answers: var_answers,
+            correct_answer: var_correctAnswer,
+            user_answer: var_userAnswer,
+            time_taken: var_timeTaken,
         };
     }
 }
@@ -1371,13 +1431,6 @@ impl SseDecode for usize {
     }
 }
 
-impl SseDecode for i32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
-    }
-}
-
 fn pde_ffi_dispatcher_primary_impl(
     func_id: i32,
     port: flutter_rust_bridge::for_generated::MessagePort,
@@ -1487,6 +1540,27 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::error::Error> for crate::api:
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_game_results::GameResults {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.user_answers.into_into_dart().into_dart(),
+            self.players_results.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_game_results::GameResults
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_game_results::GameResults>
+    for crate::api::request::get_game_results::GameResults
+{
+    fn into_into_dart(self) -> crate::api::request::get_game_results::GameResults {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::request::login::LoginRequest {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -1533,7 +1607,9 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_room_players::Pl
 impl flutter_rust_bridge::IntoDart for crate::api::request::get_game_results::PlayerResult {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
-            self.username.into_into_dart().into_dart(),
+            self.player.into_into_dart().into_dart(),
+            self.is_online.into_into_dart().into_dart(),
+            self.score_change.into_into_dart().into_dart(),
             self.correct_answer_count.into_into_dart().into_dart(),
             self.wrong_answer_count.into_into_dart().into_dart(),
             self.avg_answer_time.into_into_dart().into_dart(),
@@ -1571,6 +1647,30 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_question::Questi
     for crate::api::request::get_question::Question
 {
     fn into_into_dart(self) -> crate::api::request::get_question::Question {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_game_results::QuestionAnswered {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.question.into_into_dart().into_dart(),
+            self.answers.into_into_dart().into_dart(),
+            self.correct_answer.into_into_dart().into_dart(),
+            self.user_answer.into_into_dart().into_dart(),
+            self.time_taken.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_game_results::QuestionAnswered
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_game_results::QuestionAnswered>
+    for crate::api::request::get_game_results::QuestionAnswered
+{
+    fn into_into_dart(self) -> crate::api::request::get_game_results::QuestionAnswered {
         self
     }
 }
@@ -1867,6 +1967,27 @@ impl SseEncode for crate::api::error::Error {
     }
 }
 
+impl SseEncode for crate::api::request::get_game_results::GameResults {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Vec<crate::api::request::get_game_results::QuestionAnswered>>::sse_encode(
+            self.user_answers,
+            serializer,
+        );
+        <Vec<crate::api::request::get_game_results::PlayerResult>>::sse_encode(
+            self.players_results,
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
+    }
+}
+
 impl SseEncode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1900,6 +2021,16 @@ impl SseEncode for Vec<u8> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <u8>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::request::get_game_results::QuestionAnswered> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::request::get_game_results::QuestionAnswered>::sse_encode(item, serializer);
         }
     }
 }
@@ -1964,7 +2095,9 @@ impl SseEncode for crate::api::request::get_room_players::Player {
 impl SseEncode for crate::api::request::get_game_results::PlayerResult {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.username, serializer);
+        <crate::api::request::get_room_players::Player>::sse_encode(self.player, serializer);
+        <bool>::sse_encode(self.is_online, serializer);
+        <i32>::sse_encode(self.score_change, serializer);
         <u32>::sse_encode(self.correct_answer_count, serializer);
         <u32>::sse_encode(self.wrong_answer_count, serializer);
         <u32>::sse_encode(self.avg_answer_time, serializer);
@@ -1977,6 +2110,17 @@ impl SseEncode for crate::api::request::get_question::Question {
         <u32>::sse_encode(self.question_id, serializer);
         <String>::sse_encode(self.question, serializer);
         <Vec<(u32, String)>>::sse_encode(self.answers, serializer);
+    }
+}
+
+impl SseEncode for crate::api::request::get_game_results::QuestionAnswered {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.question, serializer);
+        <Vec<(u32, String)>>::sse_encode(self.answers, serializer);
+        <u32>::sse_encode(self.correct_answer, serializer);
+        <u32>::sse_encode(self.user_answer, serializer);
+        <u32>::sse_encode(self.time_taken, serializer);
     }
 }
 
@@ -2106,13 +2250,6 @@ impl SseEncode for usize {
             .cursor
             .write_u64::<NativeEndian>(self as _)
             .unwrap();
-    }
-}
-
-impl SseEncode for i32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
     }
 }
 

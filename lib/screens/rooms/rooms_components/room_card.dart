@@ -102,7 +102,7 @@ Widget roomLeadingStatus(
   return Padding(
     padding: const EdgeInsets.only(left: 4.0),
     child: room.isActive && !room.isFinished && !Skeletonizer.of(context).enabled
-        ? BlinkingCircle(animationController: blinkingController)
+        ? BlinkingCircle(animationController: blinkingController, color: Colors.red,)
         : Skeleton.shade(
             child: Container(
               width: 12.0,

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:trivia/homepage/homepage.dart';
 import 'package:trivia/screens/game/game_content.dart';
+import 'package:trivia/screens/rooms/rooms_components/blinking_circle.dart';
 import 'package:trivia/src/rust/api/request/get_question.dart';
 import 'package:trivia/utils/common_widgets/toggle_theme_button.dart';
 import '../../consts.dart';
@@ -11,6 +11,12 @@ import '../../src/rust/api/session.dart';
 import '../../utils/dialogs/error_dialog.dart';
 import '../auth/login.dart';
 import 'game_results/game_results.dart';
+
+enum AnswerStatus {
+  correct,
+  incorrect,
+  notAnswered,
+}
 
 class Game extends StatefulWidget {
   final Session session;
@@ -32,13 +38,14 @@ class Game extends StatefulWidget {
   State<Game> createState() => _GameState();
 }
 
-class _GameState extends State<Game> {
+class _GameState extends State<Game> with SingleTickerProviderStateMixin {
   late Future<Question> currQuestionFuture;
   int currQuestionId = 0;
   late Timer questionsTimer;
   late Timer durationTimer;
-  int currentSeconds = 0;
-  bool startedTimer = false;
+  int currentMilliseconds = 0;
+  late List<AnswerStatus> answerStatuses;
+  late AnimationController _blinkingController;
 
   Future<Question> getQuestion(context) async {
     final question = await widget.session.getQuestion().onError(
@@ -60,35 +67,20 @@ class _GameState extends State<Game> {
         return const Question(questionId: -1, question: "", answers: []);
       },
     );
-    currQuestionId = question.questionId;
-    if (currQuestionId == widget.questionCount - 1) {
-      questionsTimer.cancel();
-      durationTimer.cancel();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GameResultsPage(
-            session: widget.session,
-            username: widget.username,
-          ),
-        ),
-      );
-    }
-    startedTimer = false;
+    setState(() {
+      currQuestionId = question.questionId;
+    });
     return question;
   }
 
-  void startTimer(context) {
+  void startQuestionTimer(context) {
     durationTimer = Timer.periodic(
-      const Duration(seconds: 1),
+      const Duration(milliseconds: 16),
       (timer) {
         if (context.mounted) {
           setState(() {
-            currentSeconds = timer.tick;
+            currentMilliseconds = timer.tick * 16;
           });
-        }
-        if (timer.tick >= widget.timePerQuestion || widget.session.isDisposed) {
-          timer.cancel();
         }
       },
     );
@@ -97,13 +89,39 @@ class _GameState extends State<Game> {
   @override
   void initState() {
     super.initState();
+    _blinkingController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: defaultBlinkingCircleDuration),
+    )..repeat(reverse: true);
+    answerStatuses =
+        List.filled(widget.questionCount, AnswerStatus.notAnswered);
+    startQuestionTimer(context);
     currQuestionFuture = getQuestion(context);
     questionsTimer = Timer.periodic(
-      Duration(seconds: widget.timePerQuestion),
+      Duration(seconds: widget.timePerQuestion + 5),
       (timer) {
+        if (currQuestionId == widget.questionCount - 1) {
+          timer.cancel();
+          durationTimer.cancel();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GameResultsPage(
+                session: widget.session,
+                username: widget.username,
+              ),
+            ),
+          );
+        }
+
         if (currQuestionId >= widget.questionCount - 1) {
           timer.cancel();
         } else if (context.mounted) {
+          durationTimer.cancel();
+          setState(() {
+            currentMilliseconds = 0;
+          });
+          startQuestionTimer(context);
           setState(() {
             currQuestionFuture = getQuestion(context);
           });
@@ -112,48 +130,12 @@ class _GameState extends State<Game> {
     );
   }
 
-  void leaveGame(context) async {
-    final isConfirmed = await launchExitConfirmationDialog(context, "Leave Game", "Are you sure you want to leave the game? (you will be punished)");
-    if (!isConfirmed) return;
-
-    try {
-      await widget.session.leaveGame();
-      if (!context.mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(
-            session: widget.session,
-            username: widget.username,
-          ),
-        ),
-      );
-    } on Error_ServerConnectionError {
-      currQuestionFuture.ignore();
-      questionsTimer.cancel();
-      durationTimer.cancel();
-      if (!context.mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginPage(
-            errorDialogData: ErrorDialogData(
-              title: serverConnErrorText,
-              message: serverConnErrorText,
-            ),
-          ),
-        ),
-      );
-    } on Error catch (error) {
-      showErrorDialog(context, "Failed to leave game", error.format());
-    }
-  }
-
   @override
   void dispose() {
     currQuestionFuture.ignore();
     questionsTimer.cancel();
     durationTimer.cancel();
+    _blinkingController.dispose();
     super.dispose();
   }
 
@@ -165,117 +147,149 @@ class _GameState extends State<Game> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
-            child: themeToggleButton(context),
+            child: Text("${currQuestionId + 1} / ${widget.questionCount}"),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
-            child: IconButton(
-              icon: const Icon(Icons.exit_to_app_sharp),
-              onPressed: () {
-                leaveGame(context);
+            child: themeToggleButton(context),
+          ),
+        ],
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: FutureBuilder(
+              future: currQuestionFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Skeletonizer(
+                    child: GameContent(
+                      onAnswerReceived: (_, __) {},
+                      currentMilliseconds: 0,
+                      onServerError: () {},
+                      question: fakeQuestion,
+                      session: widget.session,
+                      timePerQuestion: widget.timePerQuestion,
+                      questionCount: widget.questionCount,
+                      // in the future some fake data
+                    ),
+                  );
+                }
+                if (snapshot.hasError) {
+                  if (snapshot.error is Error &&
+                      (snapshot.error as Error).format() ==
+                          "Game is already finished") {
+                    questionsTimer.cancel();
+                    durationTimer.cancel();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GameResultsPage(
+                          session: widget.session,
+                          username: widget.username,
+                        ),
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text((snapshot.error as Error).format()),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              currQuestionFuture = getQuestion(context);
+                            });
+                          },
+                          child: const Text("Try Again"),
+                        )
+                      ],
+                    ),
+                  );
+                }
+
+                final question = snapshot.data!;
+                return Skeletonizer(
+                  enabled: false,
+                  child: GameContent(
+                    currentMilliseconds: currentMilliseconds,
+                    onServerError: () {
+                      // ignore timer
+                      questionsTimer.cancel();
+                      durationTimer.cancel();
+                      currQuestionFuture.ignore();
+                    },
+                    onAnswerReceived: (correct, questionId) {
+                      setState(() {
+                        answerStatuses[questionId] = correct
+                            ? AnswerStatus.correct
+                            : AnswerStatus.incorrect;
+                      });
+                    },
+                    session: widget.session,
+                    question: question,
+                    timePerQuestion: widget.timePerQuestion,
+                    questionCount: widget.questionCount,
+                  ),
+                );
               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 8.0,
+              runSpacing: 12.0,
+              children: List.generate(
+                widget.questionCount,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: (index == currQuestionId &&
+                          (currentMilliseconds / 1000) < widget.timePerQuestion)
+                      ? BlinkingCircle(
+                          animationController: _blinkingController,
+                          color: Colors.grey,
+                        )
+                      : index == currQuestionId + 1 &&
+                              currentMilliseconds / 1000 >=
+                                  widget.timePerQuestion
+                          ? BlinkingCircle(
+                              animationController: _blinkingController,
+                              color: Colors.grey,
+                            )
+                          : Container(
+                              width: 12,
+                              height: 12,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: getColorByStatus(index),
+                              ),
+                            ),
+                ),
+              ),
             ),
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: currQuestionFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Skeletonizer(
-              child: GameContent(
-                seconds: widget.timePerQuestion - currentSeconds,
-                onServerError: () {},
-                question: fakeQuestion,
-                session: widget.session,
-                // in the future some fake data
-              ),
-            );
-          }
-          if (snapshot.hasError) {
-            if (snapshot.error is Error && (snapshot.error as Error).format() == "Game is already finished") {
-              questionsTimer.cancel();
-              durationTimer.cancel();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GameResultsPage(
-                    session: widget.session,
-                    username: widget.username,
-                  ),
-                ),
-              );
-            }
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text((snapshot.error as Error).format()),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        currQuestionFuture = getQuestion(context);
-                      });
-                    },
-                    child: const Text("Try Again"),
-                  )
-                ],
-              ),
-            );
-          }
-
-          final question = snapshot.data!;
-          if (!startedTimer) {
-            startTimer(context);
-            startedTimer = true;
-          }
-          return GameContent(
-            seconds: widget.timePerQuestion - currentSeconds,
-            onServerError: () {
-              // ignore timer
-              questionsTimer.cancel();
-              durationTimer.cancel();
-              currQuestionFuture.ignore();
-            },
-            session: widget.session,
-            question: question,
-          );
-        },
-      ),
     );
   }
-}
 
-Future<bool> launchExitConfirmationDialog(context, String title, String message) async {
-  bool isConfirmed = false;
-  await showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text("Cancel"),
-          ),
-          TextButton(
-            onPressed: () {
-              isConfirmed = true;
-              Navigator.pop(context);
-            },
-            child: const Text("Confirm"),
-          ),
-        ],
-      );
-    },
-  );
-
-  return isConfirmed;
+  Color getColorByStatus(int index) {
+    if (answerStatuses[index] == AnswerStatus.correct) {
+      return Colors.green;
+    } else if (answerStatuses[index] == AnswerStatus.incorrect) {
+      return Colors.red;
+    } else {
+      return index <= currQuestionId ? Colors.blueGrey : Colors.grey;
+    }
+  }
 }

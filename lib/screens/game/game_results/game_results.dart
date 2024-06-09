@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../consts.dart';
 import '../../../homepage/homepage.dart';
 import '../../../src/rust/api/error.dart';
@@ -7,7 +6,6 @@ import '../../../src/rust/api/session.dart';
 import '../../../utils/common_widgets/toggle_theme_button.dart';
 import '../../../utils/dialogs/error_dialog.dart';
 import '../../auth/login.dart';
-import '../game.dart';
 
 class GameResultsPage extends StatefulWidget {
   final Session session;
@@ -80,4 +78,35 @@ class _GameResultsPageState extends State<GameResultsPage> {
       showErrorDialog(context, "Failed to leave game", error.format());
     }
   }
+}
+
+Future<bool> launchExitConfirmationDialog(
+    context, String title, String message) async {
+  bool isConfirmed = false;
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              isConfirmed = true;
+              Navigator.pop(context);
+            },
+            child: const Text("Confirm"),
+          ),
+        ],
+      );
+    },
+  );
+
+  return isConfirmed;
 }

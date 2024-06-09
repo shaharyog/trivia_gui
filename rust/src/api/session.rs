@@ -5,7 +5,7 @@ use std::time::Duration;
 use crate::api::error::Error;
 use crate::api::request::close_room::CloseRoomRequest;
 use crate::api::request::create_room::{CreateRoomRequest, RoomData};
-use crate::api::request::get_game_results::{GetGameResultsRequest, PlayerResult};
+use crate::api::request::get_game_results::{GameResults, GetGameResultsRequest, PlayerResult};
 use crate::api::request::get_highscores::GetHighScoresRequest;
 use crate::api::request::get_question::{GetCurrentQuestionRequest, Question};
 use crate::api::request::get_room_players::{GetRoomPlayersRequest, Player};
@@ -225,12 +225,12 @@ impl Session {
     }
 
     #[flutter_rust_bridge::frb]
-    pub fn get_game_results(&mut self) -> Result<Vec<PlayerResult>, Error> {
+    pub fn get_game_results(&mut self) -> Result<GameResults, Error> {
         let response = GetGameResultsRequest.write_and_read(&mut self.socket)?;
         if !response.status {
             return Err(Error::InternalServerError);
         }
 
-        Ok(response.players_results)
+        Ok(response.game_results)
     }
 }

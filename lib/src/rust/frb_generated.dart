@@ -83,7 +83,7 @@ abstract class RustLibApi extends BaseApi {
   Future<void> sessionCreateRoom(
       {required Session that, required RoomData roomData, dynamic hint});
 
-  Future<List<PlayerResult>> sessionGetGameResults(
+  Future<GameResults> sessionGetGameResults(
       {required Session that, dynamic hint});
 
   Future<List<Player>> sessionGetHighscores(
@@ -227,7 +227,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<List<PlayerResult>> sessionGetGameResults(
+  Future<GameResults> sessionGetGameResults(
       {required Session that, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
@@ -238,7 +238,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             funcId: 19, port: port_);
       },
       codec: SseCodec(
-        decodeSuccessData: sse_decode_list_player_result,
+        decodeSuccessData: sse_decode_game_results,
         decodeErrorData: sse_decode_error,
       ),
       constMeta: kSessionGetGameResultsConstMeta,
@@ -813,6 +813,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GameResults dco_decode_game_results(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return GameResults(
+      userAnswers: dco_decode_list_question_answered(arr[0]),
+      playersResults: dco_decode_list_player_result(arr[1]),
+    );
+  }
+
+  @protected
+  int dco_decode_i_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
   int dco_decode_i_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeI64OrU64(raw);
@@ -834,6 +852,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
+  }
+
+  @protected
+  List<QuestionAnswered> dco_decode_list_question_answered(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_question_answered).toList();
   }
 
   @protected
@@ -889,13 +913,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   PlayerResult dco_decode_player_result(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
     return PlayerResult(
-      username: dco_decode_String(arr[0]),
-      correctAnswerCount: dco_decode_u_32(arr[1]),
-      wrongAnswerCount: dco_decode_u_32(arr[2]),
-      avgAnswerTime: dco_decode_u_32(arr[3]),
+      player: dco_decode_player(arr[0]),
+      isOnline: dco_decode_bool(arr[1]),
+      scoreChange: dco_decode_i_32(arr[2]),
+      correctAnswerCount: dco_decode_u_32(arr[3]),
+      wrongAnswerCount: dco_decode_u_32(arr[4]),
+      avgAnswerTime: dco_decode_u_32(arr[5]),
     );
   }
 
@@ -909,6 +935,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       questionId: dco_decode_u_32(arr[0]),
       question: dco_decode_String(arr[1]),
       answers: dco_decode_list_record_u_32_string(arr[2]),
+    );
+  }
+
+  @protected
+  QuestionAnswered dco_decode_question_answered(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return QuestionAnswered(
+      question: dco_decode_String(arr[0]),
+      answers: dco_decode_list_record_u_32_string(arr[1]),
+      correctAnswer: dco_decode_u_32(arr[2]),
+      userAnswer: dco_decode_u_32(arr[3]),
+      timeTaken: dco_decode_u_32(arr[4]),
     );
   }
 
@@ -1206,6 +1247,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GameResults sse_decode_game_results(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_userAnswers = sse_decode_list_question_answered(deserializer);
+    var var_playersResults = sse_decode_list_player_result(deserializer);
+    return GameResults(
+        userAnswers: var_userAnswers, playersResults: var_playersResults);
+  }
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt32();
+  }
+
+  @protected
   int sse_decode_i_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getInt64();
@@ -1241,6 +1297,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  List<QuestionAnswered> sse_decode_list_question_answered(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <QuestionAnswered>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_question_answered(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -1311,12 +1380,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   PlayerResult sse_decode_player_result(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_username = sse_decode_String(deserializer);
+    var var_player = sse_decode_player(deserializer);
+    var var_isOnline = sse_decode_bool(deserializer);
+    var var_scoreChange = sse_decode_i_32(deserializer);
     var var_correctAnswerCount = sse_decode_u_32(deserializer);
     var var_wrongAnswerCount = sse_decode_u_32(deserializer);
     var var_avgAnswerTime = sse_decode_u_32(deserializer);
     return PlayerResult(
-        username: var_username,
+        player: var_player,
+        isOnline: var_isOnline,
+        scoreChange: var_scoreChange,
         correctAnswerCount: var_correctAnswerCount,
         wrongAnswerCount: var_wrongAnswerCount,
         avgAnswerTime: var_avgAnswerTime);
@@ -1332,6 +1405,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         questionId: var_questionId,
         question: var_question,
         answers: var_answers);
+  }
+
+  @protected
+  QuestionAnswered sse_decode_question_answered(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_question = sse_decode_String(deserializer);
+    var var_answers = sse_decode_list_record_u_32_string(deserializer);
+    var var_correctAnswer = sse_decode_u_32(deserializer);
+    var var_userAnswer = sse_decode_u_32(deserializer);
+    var var_timeTaken = sse_decode_u_32(deserializer);
+    return QuestionAnswered(
+        question: var_question,
+        answers: var_answers,
+        correctAnswer: var_correctAnswer,
+        userAnswer: var_userAnswer,
+        timeTaken: var_timeTaken);
   }
 
   @protected
@@ -1497,12 +1586,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int sse_decode_i_32(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getInt32();
-  }
-
-  @protected
   void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
           Session self, SseSerializer serializer) {
@@ -1630,6 +1713,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_game_results(GameResults self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_question_answered(self.userAnswers, serializer);
+    sse_encode_list_player_result(self.playersResults, serializer);
+  }
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt32(self);
+  }
+
+  @protected
   void sse_encode_i_64(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt64(self);
@@ -1660,6 +1756,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_list_question_answered(
+      List<QuestionAnswered> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_question_answered(item, serializer);
+    }
   }
 
   @protected
@@ -1719,7 +1825,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_player_result(PlayerResult self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_String(self.username, serializer);
+    sse_encode_player(self.player, serializer);
+    sse_encode_bool(self.isOnline, serializer);
+    sse_encode_i_32(self.scoreChange, serializer);
     sse_encode_u_32(self.correctAnswerCount, serializer);
     sse_encode_u_32(self.wrongAnswerCount, serializer);
     sse_encode_u_32(self.avgAnswerTime, serializer);
@@ -1731,6 +1839,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_u_32(self.questionId, serializer);
     sse_encode_String(self.question, serializer);
     sse_encode_list_record_u_32_string(self.answers, serializer);
+  }
+
+  @protected
+  void sse_encode_question_answered(
+      QuestionAnswered self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.question, serializer);
+    sse_encode_list_record_u_32_string(self.answers, serializer);
+    sse_encode_u_32(self.correctAnswer, serializer);
+    sse_encode_u_32(self.userAnswer, serializer);
+    sse_encode_u_32(self.timeTaken, serializer);
   }
 
   @protected
@@ -1846,11 +1965,5 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_usize(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint64(self);
-  }
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putInt32(self);
   }
 }

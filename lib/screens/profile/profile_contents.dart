@@ -123,8 +123,9 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                             child: Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color:
-                                    Theme.of(context).colorScheme.primaryContainer,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
                               ),
                               child: IconButton(
                                 onPressed: _showColorPicker,
@@ -428,9 +429,8 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
       "No Games Played Yet",
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.error
-          ),
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.error),
     );
   }
 
@@ -440,62 +440,63 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
     TextSpan(
       children: [
         if (userStats.totalAnswers != 0)
-        TextSpan(
-          text: "Accuracy:  ",
-          style: TextStyle(
-            color: accuracyToColor((userStats.correctAnswers / userStats.totalAnswers)),
-            fontWeight: FontWeight.bold,
-          ),
-          children: [
-            TextSpan(
-              text: "${((userStats.correctAnswers / userStats.totalAnswers) * 100).round()}%\n",
-              style: TextStyle(
-                color: accuracyToColor((userStats.correctAnswers / userStats.totalAnswers)),
-                fontWeight: FontWeight.bold,
-              ),
+          TextSpan(
+            text: "Accuracy:  ",
+            style: TextStyle(
+              color: accuracyToColor(
+                  (userStats.correctAnswers / userStats.totalAnswers)),
+              fontWeight: FontWeight.bold,
             ),
-            TextSpan(
-              text: "Correct Answers:  ",
-              style: const TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.bold,
-              ),
-              children: [
-                TextSpan(
-                  text: "${userStats.correctAnswers}",
-                  style: const TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            ),
-            TextSpan(
-              text: "    •    ",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.normal,
-              )
-            ),
-            TextSpan(
-              text: "Wrong Answers:  ",
-              style: const TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-              ),
-              children: [
-                TextSpan(
-                  text: "${userStats.wrongAnswers}\n",
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
+            children: [
+              TextSpan(
+                text:
+                    "${((userStats.correctAnswers / userStats.totalAnswers) * 100).round()}%\n",
+                style: TextStyle(
+                  color: accuracyToColor(
+                      (userStats.correctAnswers / userStats.totalAnswers)),
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
-            ),
-          ],
-        ),
-
+              ),
+              TextSpan(
+                text: "Correct Answers:  ",
+                style: const TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                ),
+                children: [
+                  TextSpan(
+                    text: "${userStats.correctAnswers}",
+                    style: const TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
+              ),
+              TextSpan(
+                  text: "    •    ",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: FontWeight.normal,
+                  )),
+              TextSpan(
+                text: "Wrong Answers:  ",
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+                children: [
+                  TextSpan(
+                    text: "${userStats.wrongAnswers}\n",
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         TextSpan(
           text: "Total Games Played:  ",
           style: const TextStyle(
@@ -532,18 +533,14 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
           ],
         ),
         if (userStats.averageAnswerTime != null)
-          TextSpan(
-            text:
-                "\nAverage Answer Time:  ",
-            children: [
-              TextSpan(
-                text: secondsToReadableTime(userStats.averageAnswerTime!),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+          TextSpan(text: "\nAverage Answer Time:  ", children: [
+            TextSpan(
+              text: secondsToReadableTime(userStats.averageAnswerTime!),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
               ),
-            ]
-          )
+            ),
+          ])
       ],
     ),
   );

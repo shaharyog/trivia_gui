@@ -79,6 +79,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Error dco_decode_error(dynamic raw);
 
   @protected
+  GameResults dco_decode_game_results(dynamic raw);
+
+  @protected
+  int dco_decode_i_32(dynamic raw);
+
+  @protected
   int dco_decode_i_64(dynamic raw);
 
   @protected
@@ -89,6 +95,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
+
+  @protected
+  List<QuestionAnswered> dco_decode_list_question_answered(dynamic raw);
 
   @protected
   List<(int, String)> dco_decode_list_record_u_32_string(dynamic raw);
@@ -113,6 +122,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Question dco_decode_question(dynamic raw);
+
+  @protected
+  QuestionAnswered dco_decode_question_answered(dynamic raw);
 
   @protected
   (int, String) dco_decode_record_u_32_string(dynamic raw);
@@ -202,6 +214,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Error sse_decode_error(SseDeserializer deserializer);
 
   @protected
+  GameResults sse_decode_game_results(SseDeserializer deserializer);
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_i_64(SseDeserializer deserializer);
 
   @protected
@@ -213,6 +231,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
+
+  @protected
+  List<QuestionAnswered> sse_decode_list_question_answered(
+      SseDeserializer deserializer);
 
   @protected
   List<(int, String)> sse_decode_list_record_u_32_string(
@@ -238,6 +260,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Question sse_decode_question(SseDeserializer deserializer);
+
+  @protected
+  QuestionAnswered sse_decode_question_answered(SseDeserializer deserializer);
 
   @protected
   (int, String) sse_decode_record_u_32_string(SseDeserializer deserializer);
@@ -279,9 +304,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int sse_decode_usize(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
   void
@@ -333,6 +355,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_error(Error self, SseSerializer serializer);
 
   @protected
+  void sse_encode_game_results(GameResults self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer);
+
+  @protected
   void sse_encode_i_64(int self, SseSerializer serializer);
 
   @protected
@@ -345,6 +373,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_prim_u_8_strict(
       Uint8List self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_question_answered(
+      List<QuestionAnswered> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_record_u_32_string(
@@ -370,6 +402,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_question(Question self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_question_answered(
+      QuestionAnswered self, SseSerializer serializer);
 
   @protected
   void sse_encode_record_u_32_string(
@@ -413,9 +449,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_usize(int self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer);
 }
 
 // Section: wire_class

@@ -79,7 +79,7 @@ class CreateRoomSheetColContents extends StatelessWidget {
           data: sliderTheme,
           child: Slider(
             value: questionsCount.toDouble(),
-            min: 1,
+            min: 2,
             max: 50,
             divisions: 49,
             label: questionsCount.toString(),
