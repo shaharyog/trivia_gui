@@ -54,7 +54,7 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
             questionsCount,
             timePerQuestion,
           );
-          if (!context.mounted) return;
+          if (!context.mounted || !mounted) return;
           Navigator.pop(context);
           Navigator.pushReplacement(
             context,
@@ -73,7 +73,7 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
             ),
           );
         } on Error_ServerConnectionError catch (e) {
-          if (!context.mounted) return;
+          if (!context.mounted  || !mounted) return;
           Navigator.pop(context);
           Navigator.pushReplacement(
             context,
@@ -87,7 +87,7 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
             ),
           );
         } on Error catch (e) {
-          if (!context.mounted) return;
+          if (!context.mounted || !mounted) return;
           setState(() {
             errorText = "• ${e.format()}";
           });

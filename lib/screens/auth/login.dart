@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
         address: "$serverIp:$serverPort",
       );
 
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       setWindowTitle("Trivia - @${usernameController.text}");
       Navigator.pushReplacement(
         context,
@@ -113,10 +113,10 @@ class _LoginPageState extends State<LoginPage> {
             "• Invalid username or password, or user already logged in";
       });
     } on Error_ServerConnectionError catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, serverConnErrorText, e.format());
     } on Error catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, unknownErrorText, e.format());
     } finally {
       setState(() {

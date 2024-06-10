@@ -73,7 +73,7 @@ class _GameResultsPageState extends State<GameResultsPage> {
 
     try {
       await widget.session.leaveGame();
-      if (!context.mounted) return;
+      if (!context.mounted || !mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -86,7 +86,7 @@ class _GameResultsPageState extends State<GameResultsPage> {
     } on Error_ServerConnectionError {
       timer.cancel();
       future.ignore();
-      if (!context.mounted) return;
+      if (!context.mounted || !mounted) return;
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(

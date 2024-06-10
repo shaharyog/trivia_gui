@@ -51,7 +51,7 @@ class _GameContentState extends State<GameContent> {
     } on Error_ServerConnectionError catch (error) {
       _selectedAnswerId = null;
       _correctAnswerId = null;
-      if (mounted) {
+      if (mounted || context.mounted) {
         widget.onServerError;
         Navigator.pushReplacement(
           context,
@@ -70,7 +70,7 @@ class _GameContentState extends State<GameContent> {
       _correctAnswerId = null;
       // ignore
     } finally {
-      if (mounted) {
+      if (mounted || context.mounted) {
         setState(() {
           _isWaitingForAnswer = false;
         });

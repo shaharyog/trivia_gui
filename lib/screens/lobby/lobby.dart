@@ -50,7 +50,7 @@ class _LobbyState extends State<Lobby> {
   void startGame() async {
     try {
       await widget.session.startGame();
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -67,7 +67,7 @@ class _LobbyState extends State<Lobby> {
     } on Error_ServerConnectionError {
       future.ignore();
       timer.cancel();
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -81,7 +81,7 @@ class _LobbyState extends State<Lobby> {
         ),
       );
     } on Error catch (error) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       // show error dialog
       showDialog(
           context: context,
@@ -143,10 +143,10 @@ class _LobbyState extends State<Lobby> {
             isClosed: false);
       },
     );
-    if (roomState.isClosed && context.mounted) {
+    if (roomState.isClosed && context.mounted  && mounted) {
       returnToHomepage(context);
     }
-    if (roomState.hasGameBegun && context.mounted) {
+    if (roomState.hasGameBegun && context.mounted && mounted) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -216,7 +216,7 @@ class _LobbyState extends State<Lobby> {
                     widget.session.leaveRoom();
                   }
 
-                  if (!context.mounted) return;
+                  if (!context.mounted || !mounted) return;
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -228,7 +228,7 @@ class _LobbyState extends State<Lobby> {
                     ),
                   );
                 } on Error_ServerConnectionError catch (e) {
-                  if (!context.mounted) return;
+                  if (!context.mounted || !mounted) return;
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -242,7 +242,7 @@ class _LobbyState extends State<Lobby> {
                     ),
                   );
                 } catch (e) {
-                  if (!context.mounted) return;
+                  if (!context.mounted || !mounted) return;
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

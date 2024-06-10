@@ -77,7 +77,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
     durationTimer = Timer.periodic(
       const Duration(milliseconds: 16),
       (timer) {
-        if (context.mounted) {
+        if (context.mounted || !context.mounted) {
           setState(() {
             currentMilliseconds = timer.tick * 16;
           });
@@ -117,7 +117,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
 
         if (currQuestionId >= widget.questionCount - 1) {
           timer.cancel();
-        } else if (context.mounted) {
+        } else if (context.mounted || mounted) {
           durationTimer.cancel();
           setState(() {
             currentMilliseconds = 0;
@@ -261,14 +261,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
                           animationController: _blinkingController,
                           color: Colors.grey,
                         )
-                      : index == currQuestionId + 1 &&
-                              currentMilliseconds / 1000 >=
-                                  widget.timePerQuestion
-                          ? BlinkingCircle(
-                              animationController: _blinkingController,
-                              color: Colors.grey,
-                            )
-                          : Container(
+                      : Container(
                               width: 12,
                               height: 12,
                               decoration: BoxDecoration(

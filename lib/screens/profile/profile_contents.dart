@@ -341,7 +341,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
       });
       passwordController.text = '';
     } on Error_ServerConnectionError catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -358,7 +358,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
         _errorText = "• ${e.format()}";
       });
     } on Error catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, unknownErrorText, e.format());
     } finally {
       setState(() {

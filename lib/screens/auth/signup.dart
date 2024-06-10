@@ -108,7 +108,7 @@ class _SignupPageState extends State<SignupPage> {
           phoneNumber: phoneNumberController.text.trim(),
         ),
       );
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       setWindowTitle("Trivia - @${usernameController.text}");
       Navigator.pop(context); // remove signup page from stack
       Navigator.pushReplacement(
@@ -125,10 +125,10 @@ class _SignupPageState extends State<SignupPage> {
         _errorText = "• ${e.format()}";
       });
     } on Error_ServerConnectionError catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, serverConnErrorText, e.format());
     } on Error catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, "Error", e.format());
     } finally {
       setState(() {
