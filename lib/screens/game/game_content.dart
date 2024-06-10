@@ -15,6 +15,7 @@ class GameContent extends StatefulWidget {
   final int timePerQuestion;
   final int questionCount;
   final Function(bool, int) onAnswerReceived;
+  final Function(int?, int) onSubmitAnswer;
 
   const GameContent({
     super.key,
@@ -24,7 +25,7 @@ class GameContent extends StatefulWidget {
     required this.currentMilliseconds,
     required this.timePerQuestion,
     required this.questionCount,
-    required this.onAnswerReceived,
+    required this.onAnswerReceived, required this.onSubmitAnswer,
   });
 
   @override
@@ -45,6 +46,7 @@ class _GameContentState extends State<GameContent> {
         answerId: answerId,
         questionId: widget.question.questionId,
       );
+      widget.onSubmitAnswer(_correctAnswerId, answerId);
       widget.onAnswerReceived(
           _correctAnswerId == answerId, widget.question.questionId);
       setState(() {});
