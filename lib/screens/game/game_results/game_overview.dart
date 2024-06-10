@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/screens/game/game_results/question_history.dart';
+import 'package:trivia/src/rust/api/request/get_game_results.dart';
+import 'package:trivia/utils/common_functionalities/seconds_to_readable.dart';
 import '../../../consts.dart';
 import '../../../homepage/homepage.dart';
 import '../../../src/rust/api/error.dart';
@@ -12,7 +13,7 @@ class GameOverview extends StatefulWidget {
   final Session session;
   final String username;
 
-  final List<QuestionHistory> questionsHistory;
+  final List<QuestionAnswered> questionsHistory;
 
   const GameOverview(
       {super.key,
@@ -24,26 +25,23 @@ class GameOverview extends StatefulWidget {
   State<GameOverview> createState() => _GameOverviewState();
 }
 
-class _GameOverviewState extends State<GameOverview>
-    with SingleTickerProviderStateMixin {
+class _GameOverviewState extends State<GameOverview> {
   int _currentQuestionIndex = 0;
-  late TabController _tabController;
-  late PageController _pageViewController;
-
-  @override
-  void initState() {
-    _pageViewController = PageController();
-    _tabController =
-        TabController(length: widget.questionsHistory.length, vsync: this);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Game Results'),
+        title: const Text('Game Overview'),
         actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: Text(
+              secondsToReadableTime(
+                  widget.questionsHistory[_currentQuestionIndex].timeTaken),
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
             child: themeToggleButton(context),
@@ -66,7 +64,6 @@ class _GameOverviewState extends State<GameOverview>
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-
             IconButton(
                 onPressed: _currentQuestionIndex > 0
                     ? () {
@@ -76,7 +73,6 @@ class _GameOverviewState extends State<GameOverview>
                       }
                     : null,
                 icon: const Icon(Icons.arrow_back_ios_sharp)),
-
             Expanded(
               child: Column(
                 children: [
@@ -99,8 +95,10 @@ class _GameOverviewState extends State<GameOverview>
                             decoration: BoxDecoration(
                               border: index == _currentQuestionIndex
                                   ? Border.all(
-                                      color:
-                                          Theme.of(context).colorScheme.onSurface, width: 1)
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      width: 1)
                                   : null,
                               shape: BoxShape.circle,
                               color: getColorByStatus(index),
@@ -153,7 +151,6 @@ class _GameOverviewState extends State<GameOverview>
         ),
       );
     } on Error_ServerConnectionError {
-      // TODO dispose
       if (!context.mounted) return;
       Navigator.pushReplacement(
         context,
@@ -173,7 +170,7 @@ class _GameOverviewState extends State<GameOverview>
 
   Widget buildQuestionWidget(context, int questionIndex) {
     return Text(
-      widget.questionsHistory[questionIndex].question.question,
+      widget.questionsHistory[questionIndex].question,
       style: Theme.of(context).textTheme.displaySmall,
       overflow: TextOverflow.visible,
       softWrap: true,
@@ -234,14 +231,14 @@ class _GameOverviewState extends State<GameOverview>
       child: MouseRegion(
         child: Card(
           color: getCardColor(
-              answerIndex: widget.questionsHistory[questionIndex].answerIndex,
+              answerIndex: widget.questionsHistory[questionIndex].userAnswer,
               correctIndex:
-                  widget.questionsHistory[questionIndex].rightAnswerIndex,
+                  widget.questionsHistory[questionIndex].correctAnswer,
               cardIndex: index,
               context: context),
           child: Center(
             child: Text(
-              widget.questionsHistory[questionIndex].question.answers[index].$2,
+              widget.questionsHistory[questionIndex].answers[index],
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -279,10 +276,10 @@ class _GameOverviewState extends State<GameOverview>
   }
 
   Color getColorByStatus(int index) {
-    if (widget.questionsHistory[index].answerIndex == null) {
+    if (widget.questionsHistory[index].userAnswer > 4) {
       return Colors.blueGrey;
-    } else if (widget.questionsHistory[index].answerIndex ==
-        widget.questionsHistory[index].rightAnswerIndex) {
+    } else if (widget.questionsHistory[index].userAnswer ==
+        widget.questionsHistory[index].correctAnswer) {
       return Colors.green;
     } else {
       return Colors.red;
@@ -331,12 +328,10 @@ Color getCardColor(
     required int correctIndex,
     required int cardIndex,
     required BuildContext context}) {
-
   if (answerIndex != null) {
     if (answerIndex == cardIndex && answerIndex != correctIndex) {
       return Colors.red;
     }
-
   }
   if (cardIndex == correctIndex) {
     return const Color(0xff00ab00);

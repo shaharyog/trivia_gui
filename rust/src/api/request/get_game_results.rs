@@ -26,7 +26,7 @@ pub struct PlayerResult {
 #[derive(Deserialize)]
 pub struct QuestionAnswered {
     pub question: String,
-    pub answers: Vec<(u32, String)>,
+    pub answers: Vec<String>,
     #[serde(rename = "correctAnswer")]
     pub correct_answer: u32,
     #[serde(rename = "userAnswer")]

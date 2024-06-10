@@ -20,296 +20,480 @@ import 'dart:convert';
 import 'frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_web.dart';
 
+abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
+  RustLibApiImplPlatform({
+    required super.handler,
+    required super.wire,
+    required super.generalizedFrbRustBinding,
+    required super.portManager,
+  });
 
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_SessionPtr => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession;
 
+  @protected
+  Session
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic raw);
 
-                abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
-                  RustLibApiImplPlatform({
-                    required super.handler,
-                    required super.wire,
-                    required super.generalizedFrbRustBinding,
-                    required super.portManager,
-                  });
+  @protected
+  Session
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic raw);
 
-                  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_SessionPtr => wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession;
+  @protected
+  DateTime dco_decode_Chrono_Naive(dynamic raw);
 
+  @protected
+  Session
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic raw);
 
+  @protected
+  String dco_decode_String(dynamic raw);
 
-                  @protected Session dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic raw);
+  @protected
+  bool dco_decode_bool(dynamic raw);
 
-@protected Session dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic raw);
+  @protected
+  Error dco_decode_box_autoadd_error(dynamic raw);
 
-@protected DateTime dco_decode_Chrono_Naive(dynamic raw);
+  @protected
+  LoginRequest dco_decode_box_autoadd_login_request(dynamic raw);
 
-@protected Session dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic raw);
+  @protected
+  RoomData dco_decode_box_autoadd_room_data(dynamic raw);
 
-@protected String dco_decode_String(dynamic raw);
+  @protected
+  SignupRequest dco_decode_box_autoadd_signup_request(dynamic raw);
 
-@protected bool dco_decode_bool(dynamic raw);
+  @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw);
 
-@protected Error dco_decode_box_autoadd_error(dynamic raw);
+  @protected
+  UpdateUserDataRequest dco_decode_box_autoadd_update_user_data_request(
+      dynamic raw);
 
-@protected LoginRequest dco_decode_box_autoadd_login_request(dynamic raw);
+  @protected
+  Error dco_decode_error(dynamic raw);
 
-@protected RoomData dco_decode_box_autoadd_room_data(dynamic raw);
+  @protected
+  GameResults dco_decode_game_results(dynamic raw);
 
-@protected SignupRequest dco_decode_box_autoadd_signup_request(dynamic raw);
+  @protected
+  int dco_decode_i_32(dynamic raw);
 
-@protected int dco_decode_box_autoadd_u_32(dynamic raw);
+  @protected
+  int dco_decode_i_64(dynamic raw);
 
-@protected UpdateUserDataRequest dco_decode_box_autoadd_update_user_data_request(dynamic raw);
+  @protected
+  List<String> dco_decode_list_String(dynamic raw);
 
-@protected Error dco_decode_error(dynamic raw);
+  @protected
+  List<Player> dco_decode_list_player(dynamic raw);
 
-@protected GameResults dco_decode_game_results(dynamic raw);
+  @protected
+  List<PlayerResult> dco_decode_list_player_result(dynamic raw);
 
-@protected int dco_decode_i_32(dynamic raw);
+  @protected
+  Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
-@protected int dco_decode_i_64(dynamic raw);
+  @protected
+  List<QuestionAnswered> dco_decode_list_question_answered(dynamic raw);
 
-@protected List<Player> dco_decode_list_player(dynamic raw);
+  @protected
+  List<(int, String)> dco_decode_list_record_u_32_string(dynamic raw);
 
-@protected List<PlayerResult> dco_decode_list_player_result(dynamic raw);
+  @protected
+  List<Room> dco_decode_list_room(dynamic raw);
 
-@protected Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
+  @protected
+  LoginRequest dco_decode_login_request(dynamic raw);
 
-@protected List<QuestionAnswered> dco_decode_list_question_answered(dynamic raw);
+  @protected
+  String? dco_decode_opt_String(dynamic raw);
 
-@protected List<(int,String)> dco_decode_list_record_u_32_string(dynamic raw);
+  @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
 
-@protected List<Room> dco_decode_list_room(dynamic raw);
+  @protected
+  Player dco_decode_player(dynamic raw);
 
-@protected LoginRequest dco_decode_login_request(dynamic raw);
+  @protected
+  PlayerResult dco_decode_player_result(dynamic raw);
 
-@protected String? dco_decode_opt_String(dynamic raw);
+  @protected
+  Question dco_decode_question(dynamic raw);
 
-@protected int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
+  @protected
+  QuestionAnswered dco_decode_question_answered(dynamic raw);
 
-@protected Player dco_decode_player(dynamic raw);
+  @protected
+  (int, String) dco_decode_record_u_32_string(dynamic raw);
 
-@protected PlayerResult dco_decode_player_result(dynamic raw);
+  @protected
+  Room dco_decode_room(dynamic raw);
 
-@protected Question dco_decode_question(dynamic raw);
+  @protected
+  RoomData dco_decode_room_data(dynamic raw);
 
-@protected QuestionAnswered dco_decode_question_answered(dynamic raw);
+  @protected
+  RoomState dco_decode_room_state(dynamic raw);
 
-@protected (int,String) dco_decode_record_u_32_string(dynamic raw);
+  @protected
+  SignupRequest dco_decode_signup_request(dynamic raw);
 
-@protected Room dco_decode_room(dynamic raw);
+  @protected
+  int dco_decode_u_32(dynamic raw);
 
-@protected RoomData dco_decode_room_data(dynamic raw);
+  @protected
+  int dco_decode_u_8(dynamic raw);
 
-@protected RoomState dco_decode_room_state(dynamic raw);
+  @protected
+  void dco_decode_unit(dynamic raw);
 
-@protected SignupRequest dco_decode_signup_request(dynamic raw);
+  @protected
+  UpdateUserDataRequest dco_decode_update_user_data_request(dynamic raw);
 
-@protected int dco_decode_u_32(dynamic raw);
+  @protected
+  UserData dco_decode_user_data(dynamic raw);
 
-@protected int dco_decode_u_8(dynamic raw);
+  @protected
+  UserDataAndStatistics dco_decode_user_data_and_statistics(dynamic raw);
 
-@protected void dco_decode_unit(dynamic raw);
+  @protected
+  UserStatistics dco_decode_user_statistics(dynamic raw);
 
-@protected UpdateUserDataRequest dco_decode_update_user_data_request(dynamic raw);
+  @protected
+  int dco_decode_usize(dynamic raw);
 
-@protected UserData dco_decode_user_data(dynamic raw);
+  @protected
+  Session
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          SseDeserializer deserializer);
 
-@protected UserDataAndStatistics dco_decode_user_data_and_statistics(dynamic raw);
+  @protected
+  Session
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          SseDeserializer deserializer);
 
-@protected UserStatistics dco_decode_user_statistics(dynamic raw);
+  @protected
+  DateTime sse_decode_Chrono_Naive(SseDeserializer deserializer);
 
-@protected int dco_decode_usize(dynamic raw);
+  @protected
+  Session
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          SseDeserializer deserializer);
 
-@protected Session sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(SseDeserializer deserializer);
+  @protected
+  String sse_decode_String(SseDeserializer deserializer);
 
-@protected Session sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(SseDeserializer deserializer);
+  @protected
+  bool sse_decode_bool(SseDeserializer deserializer);
 
-@protected DateTime sse_decode_Chrono_Naive(SseDeserializer deserializer);
+  @protected
+  Error sse_decode_box_autoadd_error(SseDeserializer deserializer);
 
-@protected Session sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(SseDeserializer deserializer);
+  @protected
+  LoginRequest sse_decode_box_autoadd_login_request(
+      SseDeserializer deserializer);
 
-@protected String sse_decode_String(SseDeserializer deserializer);
+  @protected
+  RoomData sse_decode_box_autoadd_room_data(SseDeserializer deserializer);
 
-@protected bool sse_decode_bool(SseDeserializer deserializer);
+  @protected
+  SignupRequest sse_decode_box_autoadd_signup_request(
+      SseDeserializer deserializer);
 
-@protected Error sse_decode_box_autoadd_error(SseDeserializer deserializer);
+  @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
 
-@protected LoginRequest sse_decode_box_autoadd_login_request(SseDeserializer deserializer);
+  @protected
+  UpdateUserDataRequest sse_decode_box_autoadd_update_user_data_request(
+      SseDeserializer deserializer);
 
-@protected RoomData sse_decode_box_autoadd_room_data(SseDeserializer deserializer);
+  @protected
+  Error sse_decode_error(SseDeserializer deserializer);
 
-@protected SignupRequest sse_decode_box_autoadd_signup_request(SseDeserializer deserializer);
+  @protected
+  GameResults sse_decode_game_results(SseDeserializer deserializer);
 
-@protected int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer);
 
-@protected UpdateUserDataRequest sse_decode_box_autoadd_update_user_data_request(SseDeserializer deserializer);
+  @protected
+  int sse_decode_i_64(SseDeserializer deserializer);
 
-@protected Error sse_decode_error(SseDeserializer deserializer);
+  @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer);
 
-@protected GameResults sse_decode_game_results(SseDeserializer deserializer);
+  @protected
+  List<Player> sse_decode_list_player(SseDeserializer deserializer);
 
-@protected int sse_decode_i_32(SseDeserializer deserializer);
+  @protected
+  List<PlayerResult> sse_decode_list_player_result(
+      SseDeserializer deserializer);
 
-@protected int sse_decode_i_64(SseDeserializer deserializer);
+  @protected
+  Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
-@protected List<Player> sse_decode_list_player(SseDeserializer deserializer);
+  @protected
+  List<QuestionAnswered> sse_decode_list_question_answered(
+      SseDeserializer deserializer);
 
-@protected List<PlayerResult> sse_decode_list_player_result(SseDeserializer deserializer);
+  @protected
+  List<(int, String)> sse_decode_list_record_u_32_string(
+      SseDeserializer deserializer);
 
-@protected Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
+  @protected
+  List<Room> sse_decode_list_room(SseDeserializer deserializer);
 
-@protected List<QuestionAnswered> sse_decode_list_question_answered(SseDeserializer deserializer);
+  @protected
+  LoginRequest sse_decode_login_request(SseDeserializer deserializer);
 
-@protected List<(int,String)> sse_decode_list_record_u_32_string(SseDeserializer deserializer);
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer);
 
-@protected List<Room> sse_decode_list_room(SseDeserializer deserializer);
+  @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
 
-@protected LoginRequest sse_decode_login_request(SseDeserializer deserializer);
+  @protected
+  Player sse_decode_player(SseDeserializer deserializer);
 
-@protected String? sse_decode_opt_String(SseDeserializer deserializer);
+  @protected
+  PlayerResult sse_decode_player_result(SseDeserializer deserializer);
 
-@protected int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
+  @protected
+  Question sse_decode_question(SseDeserializer deserializer);
 
-@protected Player sse_decode_player(SseDeserializer deserializer);
+  @protected
+  QuestionAnswered sse_decode_question_answered(SseDeserializer deserializer);
 
-@protected PlayerResult sse_decode_player_result(SseDeserializer deserializer);
+  @protected
+  (int, String) sse_decode_record_u_32_string(SseDeserializer deserializer);
 
-@protected Question sse_decode_question(SseDeserializer deserializer);
+  @protected
+  Room sse_decode_room(SseDeserializer deserializer);
 
-@protected QuestionAnswered sse_decode_question_answered(SseDeserializer deserializer);
+  @protected
+  RoomData sse_decode_room_data(SseDeserializer deserializer);
 
-@protected (int,String) sse_decode_record_u_32_string(SseDeserializer deserializer);
+  @protected
+  RoomState sse_decode_room_state(SseDeserializer deserializer);
 
-@protected Room sse_decode_room(SseDeserializer deserializer);
+  @protected
+  SignupRequest sse_decode_signup_request(SseDeserializer deserializer);
 
-@protected RoomData sse_decode_room_data(SseDeserializer deserializer);
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer);
 
-@protected RoomState sse_decode_room_state(SseDeserializer deserializer);
+  @protected
+  int sse_decode_u_8(SseDeserializer deserializer);
 
-@protected SignupRequest sse_decode_signup_request(SseDeserializer deserializer);
+  @protected
+  void sse_decode_unit(SseDeserializer deserializer);
 
-@protected int sse_decode_u_32(SseDeserializer deserializer);
+  @protected
+  UpdateUserDataRequest sse_decode_update_user_data_request(
+      SseDeserializer deserializer);
 
-@protected int sse_decode_u_8(SseDeserializer deserializer);
+  @protected
+  UserData sse_decode_user_data(SseDeserializer deserializer);
 
-@protected void sse_decode_unit(SseDeserializer deserializer);
+  @protected
+  UserDataAndStatistics sse_decode_user_data_and_statistics(
+      SseDeserializer deserializer);
 
-@protected UpdateUserDataRequest sse_decode_update_user_data_request(SseDeserializer deserializer);
+  @protected
+  UserStatistics sse_decode_user_statistics(SseDeserializer deserializer);
 
-@protected UserData sse_decode_user_data(SseDeserializer deserializer);
+  @protected
+  int sse_decode_usize(SseDeserializer deserializer);
 
-@protected UserDataAndStatistics sse_decode_user_data_and_statistics(SseDeserializer deserializer);
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          Session self, SseSerializer serializer);
 
-@protected UserStatistics sse_decode_user_statistics(SseDeserializer deserializer);
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          Session self, SseSerializer serializer);
 
-@protected int sse_decode_usize(SseDeserializer deserializer);
+  @protected
+  void sse_encode_Chrono_Naive(DateTime self, SseSerializer serializer);
 
-@protected void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(Session self, SseSerializer serializer);
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          Session self, SseSerializer serializer);
 
-@protected void sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(Session self, SseSerializer serializer);
+  @protected
+  void sse_encode_String(String self, SseSerializer serializer);
 
-@protected void sse_encode_Chrono_Naive(DateTime self, SseSerializer serializer);
+  @protected
+  void sse_encode_bool(bool self, SseSerializer serializer);
 
-@protected void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(Session self, SseSerializer serializer);
+  @protected
+  void sse_encode_box_autoadd_error(Error self, SseSerializer serializer);
 
-@protected void sse_encode_String(String self, SseSerializer serializer);
+  @protected
+  void sse_encode_box_autoadd_login_request(
+      LoginRequest self, SseSerializer serializer);
 
-@protected void sse_encode_bool(bool self, SseSerializer serializer);
+  @protected
+  void sse_encode_box_autoadd_room_data(
+      RoomData self, SseSerializer serializer);
 
-@protected void sse_encode_box_autoadd_error(Error self, SseSerializer serializer);
+  @protected
+  void sse_encode_box_autoadd_signup_request(
+      SignupRequest self, SseSerializer serializer);
 
-@protected void sse_encode_box_autoadd_login_request(LoginRequest self, SseSerializer serializer);
+  @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
 
-@protected void sse_encode_box_autoadd_room_data(RoomData self, SseSerializer serializer);
+  @protected
+  void sse_encode_box_autoadd_update_user_data_request(
+      UpdateUserDataRequest self, SseSerializer serializer);
 
-@protected void sse_encode_box_autoadd_signup_request(SignupRequest self, SseSerializer serializer);
+  @protected
+  void sse_encode_error(Error self, SseSerializer serializer);
 
-@protected void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
+  @protected
+  void sse_encode_game_results(GameResults self, SseSerializer serializer);
 
-@protected void sse_encode_box_autoadd_update_user_data_request(UpdateUserDataRequest self, SseSerializer serializer);
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer);
 
-@protected void sse_encode_error(Error self, SseSerializer serializer);
+  @protected
+  void sse_encode_i_64(int self, SseSerializer serializer);
 
-@protected void sse_encode_game_results(GameResults self, SseSerializer serializer);
+  @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer);
 
-@protected void sse_encode_i_32(int self, SseSerializer serializer);
+  @protected
+  void sse_encode_list_player(List<Player> self, SseSerializer serializer);
 
-@protected void sse_encode_i_64(int self, SseSerializer serializer);
+  @protected
+  void sse_encode_list_player_result(
+      List<PlayerResult> self, SseSerializer serializer);
 
-@protected void sse_encode_list_player(List<Player> self, SseSerializer serializer);
+  @protected
+  void sse_encode_list_prim_u_8_strict(
+      Uint8List self, SseSerializer serializer);
 
-@protected void sse_encode_list_player_result(List<PlayerResult> self, SseSerializer serializer);
+  @protected
+  void sse_encode_list_question_answered(
+      List<QuestionAnswered> self, SseSerializer serializer);
 
-@protected void sse_encode_list_prim_u_8_strict(Uint8List self, SseSerializer serializer);
+  @protected
+  void sse_encode_list_record_u_32_string(
+      List<(int, String)> self, SseSerializer serializer);
 
-@protected void sse_encode_list_question_answered(List<QuestionAnswered> self, SseSerializer serializer);
+  @protected
+  void sse_encode_list_room(List<Room> self, SseSerializer serializer);
 
-@protected void sse_encode_list_record_u_32_string(List<(int,String)> self, SseSerializer serializer);
+  @protected
+  void sse_encode_login_request(LoginRequest self, SseSerializer serializer);
 
-@protected void sse_encode_list_room(List<Room> self, SseSerializer serializer);
+  @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer);
 
-@protected void sse_encode_login_request(LoginRequest self, SseSerializer serializer);
+  @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
 
-@protected void sse_encode_opt_String(String? self, SseSerializer serializer);
+  @protected
+  void sse_encode_player(Player self, SseSerializer serializer);
 
-@protected void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
+  @protected
+  void sse_encode_player_result(PlayerResult self, SseSerializer serializer);
 
-@protected void sse_encode_player(Player self, SseSerializer serializer);
+  @protected
+  void sse_encode_question(Question self, SseSerializer serializer);
 
-@protected void sse_encode_player_result(PlayerResult self, SseSerializer serializer);
+  @protected
+  void sse_encode_question_answered(
+      QuestionAnswered self, SseSerializer serializer);
 
-@protected void sse_encode_question(Question self, SseSerializer serializer);
+  @protected
+  void sse_encode_record_u_32_string(
+      (int, String) self, SseSerializer serializer);
 
-@protected void sse_encode_question_answered(QuestionAnswered self, SseSerializer serializer);
+  @protected
+  void sse_encode_room(Room self, SseSerializer serializer);
 
-@protected void sse_encode_record_u_32_string((int,String) self, SseSerializer serializer);
+  @protected
+  void sse_encode_room_data(RoomData self, SseSerializer serializer);
 
-@protected void sse_encode_room(Room self, SseSerializer serializer);
+  @protected
+  void sse_encode_room_state(RoomState self, SseSerializer serializer);
 
-@protected void sse_encode_room_data(RoomData self, SseSerializer serializer);
+  @protected
+  void sse_encode_signup_request(SignupRequest self, SseSerializer serializer);
 
-@protected void sse_encode_room_state(RoomState self, SseSerializer serializer);
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer);
 
-@protected void sse_encode_signup_request(SignupRequest self, SseSerializer serializer);
+  @protected
+  void sse_encode_u_8(int self, SseSerializer serializer);
 
-@protected void sse_encode_u_32(int self, SseSerializer serializer);
+  @protected
+  void sse_encode_unit(void self, SseSerializer serializer);
 
-@protected void sse_encode_u_8(int self, SseSerializer serializer);
+  @protected
+  void sse_encode_update_user_data_request(
+      UpdateUserDataRequest self, SseSerializer serializer);
 
-@protected void sse_encode_unit(void self, SseSerializer serializer);
+  @protected
+  void sse_encode_user_data(UserData self, SseSerializer serializer);
 
-@protected void sse_encode_update_user_data_request(UpdateUserDataRequest self, SseSerializer serializer);
+  @protected
+  void sse_encode_user_data_and_statistics(
+      UserDataAndStatistics self, SseSerializer serializer);
 
-@protected void sse_encode_user_data(UserData self, SseSerializer serializer);
+  @protected
+  void sse_encode_user_statistics(
+      UserStatistics self, SseSerializer serializer);
 
-@protected void sse_encode_user_data_and_statistics(UserDataAndStatistics self, SseSerializer serializer);
-
-@protected void sse_encode_user_statistics(UserStatistics self, SseSerializer serializer);
-
-@protected void sse_encode_usize(int self, SseSerializer serializer);
-                }
-                
-
+  @protected
+  void sse_encode_usize(int self, SseSerializer serializer);
+}
 
 // Section: wire_class
 
 class RustLibWire implements BaseWire {
-            RustLibWire.fromExternalLibrary(ExternalLibrary lib);
+  RustLibWire.fromExternalLibrary(ExternalLibrary lib);
 
-            void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic ptr) => wasmModule.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(ptr);
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic ptr) =>
+      wasmModule
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+              ptr);
 
-void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic ptr) => wasmModule.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(ptr);
-        }
-        @JS('wasm_bindgen') external RustLibWasmModule get wasmModule;
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic ptr) =>
+      wasmModule
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+              ptr);
+}
 
-        @JS() @anonymous class RustLibWasmModule implements WasmModule {
-            @override
-            external Object /* Promise */ call([String? moduleName]);
+@JS('wasm_bindgen')
+external RustLibWasmModule get wasmModule;
 
-            @override
-            external RustLibWasmModule bind(dynamic thisArg, String moduleName);
+@JS()
+@anonymous
+class RustLibWasmModule implements WasmModule {
+  @override
+  external Object /* Promise */ call([String? moduleName]);
 
-            external void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic ptr);
+  @override
+  external RustLibWasmModule bind(dynamic thisArg, String moduleName);
 
-external void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic ptr);
-        }
-        
+  external void
+      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic ptr);
+
+  external void
+      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic ptr);
+}

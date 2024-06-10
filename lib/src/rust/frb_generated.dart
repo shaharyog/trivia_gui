@@ -20,1305 +20,1977 @@ import 'dart:convert';
 import 'frb_generated.io.dart' if (dart.library.html) 'frb_generated.web.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+/// Main entrypoint of the Rust API
+class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
+  @internal
+  static final instance = RustLib._();
 
-                /// Main entrypoint of the Rust API
-                class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
-                  @internal
-                  static final instance = RustLib._();
+  RustLib._();
 
-                  RustLib._();
+  /// Initialize flutter_rust_bridge
+  static Future<void> init({
+    RustLibApi? api,
+    BaseHandler? handler,
+    ExternalLibrary? externalLibrary,
+  }) async {
+    await instance.initImpl(
+      api: api,
+      handler: handler,
+      externalLibrary: externalLibrary,
+    );
+  }
 
-                  /// Initialize flutter_rust_bridge
-                  static Future<void> init({
-                    RustLibApi? api,
-                    BaseHandler? handler,
-                    ExternalLibrary? externalLibrary,
-                  }) async {
-                    await instance.initImpl(
-                      api: api,
-                      handler: handler,
-                      externalLibrary: externalLibrary,
-                    );
-                  }
-                  
-                  /// Dispose flutter_rust_bridge
-                  ///
-                  /// The call to this function is optional, since flutter_rust_bridge (and everything else)
-                  /// is automatically disposed when the app stops.
-                  static void dispose() => instance.disposeImpl();
+  /// Dispose flutter_rust_bridge
+  ///
+  /// The call to this function is optional, since flutter_rust_bridge (and everything else)
+  /// is automatically disposed when the app stops.
+  static void dispose() => instance.disposeImpl();
 
-                  @override
-                  ApiImplConstructor<RustLibApiImpl, RustLibWire> get apiImplConstructor => RustLibApiImpl.new;
+  @override
+  ApiImplConstructor<RustLibApiImpl, RustLibWire> get apiImplConstructor =>
+      RustLibApiImpl.new;
 
-                  @override
-                  WireConstructor<RustLibWire> get wireConstructor => RustLibWire.fromExternalLibrary;
-                  
-                  @override
-                  Future<void> executeRustInitializers() async {
-                    
-                  }
+  @override
+  WireConstructor<RustLibWire> get wireConstructor =>
+      RustLibWire.fromExternalLibrary;
 
-                  @override
-                  ExternalLibraryLoaderConfig get defaultExternalLibraryLoaderConfig => kDefaultExternalLibraryLoaderConfig;
+  @override
+  Future<void> executeRustInitializers() async {}
 
-                  @override
-                  String get codegenVersion => '2.0.0-dev.33';
+  @override
+  ExternalLibraryLoaderConfig get defaultExternalLibraryLoaderConfig =>
+      kDefaultExternalLibraryLoaderConfig;
 
-                  @override
-                  int get rustContentHash => 857472487;
+  @override
+  String get codegenVersion => '2.0.0-dev.33';
 
-                  static const kDefaultExternalLibraryLoaderConfig = ExternalLibraryLoaderConfig(
-                    stem: 'rust_lib_trivia',
-                    ioDirectory: 'rust/target/release/',
-                    webPrefix: 'pkg/',
-                  );
-                }
-                
+  @override
+  int get rustContentHash => 857472487;
 
-                abstract class RustLibApi extends BaseApi {
-                  String errorFormat({required Error that , dynamic hint});
+  static const kDefaultExternalLibraryLoaderConfig =
+      ExternalLibraryLoaderConfig(
+    stem: 'rust_lib_trivia',
+    ioDirectory: 'rust/target/release/',
+    webPrefix: 'pkg/',
+  );
+}
 
-Future<void> sessionCloseRoom({required Session that , dynamic hint});
+abstract class RustLibApi extends BaseApi {
+  String errorFormat({required Error that, dynamic hint});
 
-Future<void> sessionCreateRoom({required Session that , required RoomData roomData , dynamic hint});
+  Future<void> sessionCloseRoom({required Session that, dynamic hint});
 
-Future<GameResults> sessionGetGameResults({required Session that , dynamic hint});
+  Future<void> sessionCreateRoom(
+      {required Session that, required RoomData roomData, dynamic hint});
 
-Future<List<Player>> sessionGetHighscores({required Session that , dynamic hint});
+  Future<GameResults> sessionGetGameResults(
+      {required Session that, dynamic hint});
 
-Future<Question> sessionGetQuestion({required Session that , dynamic hint});
+  Future<List<Player>> sessionGetHighscores(
+      {required Session that, dynamic hint});
 
-Future<List<Player>> sessionGetRoomPlayers({required Session that , required String roomId , dynamic hint});
+  Future<Question> sessionGetQuestion({required Session that, dynamic hint});
 
-Future<RoomState> sessionGetRoomState({required Session that , dynamic hint});
+  Future<List<Player>> sessionGetRoomPlayers(
+      {required Session that, required String roomId, dynamic hint});
 
-Future<List<Room>> sessionGetRooms({required Session that , dynamic hint});
+  Future<RoomState> sessionGetRoomState({required Session that, dynamic hint});
 
-Future<UserDataAndStatistics> sessionGetUserData({required Session that , dynamic hint});
+  Future<List<Room>> sessionGetRooms({required Session that, dynamic hint});
 
-Future<void> sessionJoinRoom({required Session that , required String roomId , dynamic hint});
+  Future<UserDataAndStatistics> sessionGetUserData(
+      {required Session that, dynamic hint});
 
-Future<void> sessionLeaveGame({required Session that , dynamic hint});
+  Future<void> sessionJoinRoom(
+      {required Session that, required String roomId, dynamic hint});
 
-Future<void> sessionLeaveRoom({required Session that , dynamic hint});
+  Future<void> sessionLeaveGame({required Session that, dynamic hint});
 
-Future<Session> sessionLogin({required LoginRequest loginRequest , required String address , dynamic hint});
+  Future<void> sessionLeaveRoom({required Session that, dynamic hint});
 
-Future<void> sessionLogout({required Session that , dynamic hint});
+  Future<Session> sessionLogin(
+      {required LoginRequest loginRequest,
+      required String address,
+      dynamic hint});
 
-Future<Session> sessionSignup({required SignupRequest signupRequest , required String address , dynamic hint});
+  Future<void> sessionLogout({required Session that, dynamic hint});
 
-Future<void> sessionStartGame({required Session that , dynamic hint});
+  Future<Session> sessionSignup(
+      {required SignupRequest signupRequest,
+      required String address,
+      dynamic hint});
 
-Future<int> sessionSubmitAnswer({required Session that , required int answerId , required int questionId , dynamic hint});
+  Future<void> sessionStartGame({required Session that, dynamic hint});
 
-Future<void> sessionUpdateUserData({required Session that , required UpdateUserDataRequest updateUserDataRequest , dynamic hint});
+  Future<int> sessionSubmitAnswer(
+      {required Session that,
+      required int answerId,
+      required int questionId,
+      dynamic hint});
 
-RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Session;
+  Future<void> sessionUpdateUserData(
+      {required Session that,
+      required UpdateUserDataRequest updateUserDataRequest,
+      dynamic hint});
 
-RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Session;
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Session;
 
-CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_SessionPtr;
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Session;
 
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_SessionPtr;
+}
 
-                }
-                
+class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
+  RustLibApiImpl({
+    required super.handler,
+    required super.wire,
+    required super.generalizedFrbRustBinding,
+    required super.portManager,
+  });
 
-                class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
-                  RustLibApiImpl({
-                    required super.handler,
-                    required super.wire,
-                    required super.generalizedFrbRustBinding,
-                    required super.portManager,
-                  });
+  @override
+  String errorFormat({required Error that, dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_error(that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kErrorFormatConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
 
-                  @override String errorFormat({required Error that , dynamic hint})  { return handler.executeSync(SyncTask(
-            callFfi: () {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_box_autoadd_error(that, serializer);
-            return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_String,
-          decodeErrorData: null,
-        )
-        ,
-            constMeta: kErrorFormatConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
+  TaskConstMeta get kErrorFormatConstMeta => const TaskConstMeta(
+        debugName: "error_format",
+        argNames: ["that"],
+      );
 
+  @override
+  Future<void> sessionCloseRoom({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 14, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionCloseRoomConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
 
-        TaskConstMeta get kErrorFormatConstMeta => const TaskConstMeta(
-            debugName: "error_format",
-            argNames: ["that"],
+  TaskConstMeta get kSessionCloseRoomConstMeta => const TaskConstMeta(
+        debugName: "Session_close_room",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> sessionCreateRoom(
+      {required Session that, required RoomData roomData, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        sse_encode_box_autoadd_room_data(roomData, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 9, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionCreateRoomConstMeta,
+      argValues: [that, roomData],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionCreateRoomConstMeta => const TaskConstMeta(
+        debugName: "Session_create_room",
+        argNames: ["that", "roomData"],
+      );
+
+  @override
+  Future<GameResults> sessionGetGameResults(
+      {required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 19, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_game_results,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetGameResultsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetGameResultsConstMeta => const TaskConstMeta(
+        debugName: "Session_get_game_results",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<List<Player>> sessionGetHighscores(
+      {required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 10, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_player,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetHighscoresConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetHighscoresConstMeta => const TaskConstMeta(
+        debugName: "Session_get_highscores",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<Question> sessionGetQuestion({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 17, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_question,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetQuestionConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetQuestionConstMeta => const TaskConstMeta(
+        debugName: "Session_get_question",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<List<Player>> sessionGetRoomPlayers(
+      {required Session that, required String roomId, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        sse_encode_String(roomId, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 8, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_player,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetRoomPlayersConstMeta,
+      argValues: [that, roomId],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetRoomPlayersConstMeta => const TaskConstMeta(
+        debugName: "Session_get_room_players",
+        argNames: ["that", "roomId"],
+      );
+
+  @override
+  Future<RoomState> sessionGetRoomState({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 11, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_room_state,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetRoomStateConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetRoomStateConstMeta => const TaskConstMeta(
+        debugName: "Session_get_room_state",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<List<Room>> sessionGetRooms({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 7, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_room,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetRoomsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetRoomsConstMeta => const TaskConstMeta(
+        debugName: "Session_get_rooms",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<UserDataAndStatistics> sessionGetUserData(
+      {required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 5, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_user_data_and_statistics,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetUserDataConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetUserDataConstMeta => const TaskConstMeta(
+        debugName: "Session_get_user_data",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> sessionJoinRoom(
+      {required Session that, required String roomId, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        sse_encode_String(roomId, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 12, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionJoinRoomConstMeta,
+      argValues: [that, roomId],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionJoinRoomConstMeta => const TaskConstMeta(
+        debugName: "Session_join_room",
+        argNames: ["that", "roomId"],
+      );
+
+  @override
+  Future<void> sessionLeaveGame({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 16, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionLeaveGameConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionLeaveGameConstMeta => const TaskConstMeta(
+        debugName: "Session_leave_game",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> sessionLeaveRoom({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 13, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionLeaveRoomConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionLeaveRoomConstMeta => const TaskConstMeta(
+        debugName: "Session_leave_room",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<Session> sessionLogin(
+      {required LoginRequest loginRequest,
+      required String address,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_login_request(loginRequest, serializer);
+        sse_encode_String(address, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 2, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionLoginConstMeta,
+      argValues: [loginRequest, address],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionLoginConstMeta => const TaskConstMeta(
+        debugName: "Session_login",
+        argNames: ["loginRequest", "address"],
+      );
+
+  @override
+  Future<void> sessionLogout({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 4, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionLogoutConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionLogoutConstMeta => const TaskConstMeta(
+        debugName: "Session_logout",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<Session> sessionSignup(
+      {required SignupRequest signupRequest,
+      required String address,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_signup_request(signupRequest, serializer);
+        sse_encode_String(address, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 3, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionSignupConstMeta,
+      argValues: [signupRequest, address],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionSignupConstMeta => const TaskConstMeta(
+        debugName: "Session_signup",
+        argNames: ["signupRequest", "address"],
+      );
+
+  @override
+  Future<void> sessionStartGame({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 15, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionStartGameConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionStartGameConstMeta => const TaskConstMeta(
+        debugName: "Session_start_game",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<int> sessionSubmitAnswer(
+      {required Session that,
+      required int answerId,
+      required int questionId,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        sse_encode_u_32(answerId, serializer);
+        sse_encode_u_32(questionId, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 18, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_32,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionSubmitAnswerConstMeta,
+      argValues: [that, answerId, questionId],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionSubmitAnswerConstMeta => const TaskConstMeta(
+        debugName: "Session_submit_answer",
+        argNames: ["that", "answerId", "questionId"],
+      );
+
+  @override
+  Future<void> sessionUpdateUserData(
+      {required Session that,
+      required UpdateUserDataRequest updateUserDataRequest,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        sse_encode_box_autoadd_update_user_data_request(
+            updateUserDataRequest, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 6, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionUpdateUserDataConstMeta,
+      argValues: [that, updateUserDataRequest],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionUpdateUserDataConstMeta => const TaskConstMeta(
+        debugName: "Session_update_user_data",
+        argNames: ["that", "updateUserDataRequest"],
+      );
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_Session => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_Session => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession;
+
+  @protected
+  Session
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Session.dcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Session
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Session.dcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  DateTime dco_decode_Chrono_Naive(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeTimestamp(ts: dco_decode_i_64(raw).toInt(), isUtc: true);
+  }
+
+  @protected
+  Session
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return Session.dcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  String dco_decode_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as String;
+  }
+
+  @protected
+  bool dco_decode_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as bool;
+  }
+
+  @protected
+  Error dco_decode_box_autoadd_error(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_error(raw);
+  }
+
+  @protected
+  LoginRequest dco_decode_box_autoadd_login_request(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_login_request(raw);
+  }
+
+  @protected
+  RoomData dco_decode_box_autoadd_room_data(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_room_data(raw);
+  }
+
+  @protected
+  SignupRequest dco_decode_box_autoadd_signup_request(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_signup_request(raw);
+  }
+
+  @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  UpdateUserDataRequest dco_decode_box_autoadd_update_user_data_request(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_update_user_data_request(raw);
+  }
+
+  @protected
+  Error dco_decode_error(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return Error_ServerConnectionError(
+          dco_decode_String(raw[1]),
         );
-        
-
-@override Future<void> sessionCloseRoom({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionCloseRoomConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionCloseRoomConstMeta => const TaskConstMeta(
-            debugName: "Session_close_room",
-            argNames: ["that"],
+      case 1:
+        return Error_RequestSerializationError(
+          dco_decode_String(raw[1]),
         );
-        
-
-@override Future<void> sessionCreateRoom({required Session that , required RoomData roomData , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-sse_encode_box_autoadd_room_data(roomData, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionCreateRoomConstMeta,
-            argValues: [that, roomData],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionCreateRoomConstMeta => const TaskConstMeta(
-            debugName: "Session_create_room",
-            argNames: ["that", "roomData"],
+      case 2:
+        return Error_ResponseDeserializationError(
+          dco_decode_String(raw[1]),
         );
-        
-
-@override Future<GameResults> sessionGetGameResults({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_game_results,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionGetGameResultsConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionGetGameResultsConstMeta => const TaskConstMeta(
-            debugName: "Session_get_game_results",
-            argNames: ["that"],
+      case 3:
+        return Error_RequestTooBig();
+      case 4:
+        return Error_ResponseError(
+          dco_decode_String(raw[1]),
         );
-        
-
-@override Future<List<Player>> sessionGetHighscores({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_list_player,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionGetHighscoresConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionGetHighscoresConstMeta => const TaskConstMeta(
-            debugName: "Session_get_highscores",
-            argNames: ["that"],
+      case 5:
+        return Error_InvalidResponseCode(
+          dco_decode_u_8(raw[1]),
         );
-        
-
-@override Future<Question> sessionGetQuestion({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_question,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionGetQuestionConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionGetQuestionConstMeta => const TaskConstMeta(
-            debugName: "Session_get_question",
-            argNames: ["that"],
+      case 6:
+        return Error_LoginError(
+          dco_decode_String(raw[1]),
         );
-        
-
-@override Future<List<Player>> sessionGetRoomPlayers({required Session that , required String roomId , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-sse_encode_String(roomId, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_list_player,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionGetRoomPlayersConstMeta,
-            argValues: [that, roomId],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionGetRoomPlayersConstMeta => const TaskConstMeta(
-            debugName: "Session_get_room_players",
-            argNames: ["that", "roomId"],
+      case 7:
+        return Error_SignupError(
+          dco_decode_String(raw[1]),
         );
-        
-
-@override Future<RoomState> sessionGetRoomState({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_room_state,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionGetRoomStateConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionGetRoomStateConstMeta => const TaskConstMeta(
-            debugName: "Session_get_room_state",
-            argNames: ["that"],
+      case 8:
+        return Error_LogoutError();
+      case 9:
+        return Error_InvalidAddress(
+          dco_decode_String(raw[1]),
         );
-        
-
-@override Future<List<Room>> sessionGetRooms({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_list_room,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionGetRoomsConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionGetRoomsConstMeta => const TaskConstMeta(
-            debugName: "Session_get_rooms",
-            argNames: ["that"],
+      case 10:
+        return Error_InternalServerError();
+      case 11:
+        return Error_UpdateUserDataError(
+          dco_decode_String(raw[1]),
         );
-        
-
-@override Future<UserDataAndStatistics> sessionGetUserData({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_user_data_and_statistics,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionGetUserDataConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionGetUserDataConstMeta => const TaskConstMeta(
-            debugName: "Session_get_user_data",
-            argNames: ["that"],
+      case 12:
+        return Error_InvalidRoomId(
+          dco_decode_String(raw[1]),
         );
-        
-
-@override Future<void> sessionJoinRoom({required Session that , required String roomId , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-sse_encode_String(roomId, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionJoinRoomConstMeta,
-            argValues: [that, roomId],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionJoinRoomConstMeta => const TaskConstMeta(
-            debugName: "Session_join_room",
-            argNames: ["that", "roomId"],
-        );
-        
-
-@override Future<void> sessionLeaveGame({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionLeaveGameConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionLeaveGameConstMeta => const TaskConstMeta(
-            debugName: "Session_leave_game",
-            argNames: ["that"],
-        );
-        
-
-@override Future<void> sessionLeaveRoom({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionLeaveRoomConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionLeaveRoomConstMeta => const TaskConstMeta(
-            debugName: "Session_leave_room",
-            argNames: ["that"],
-        );
-        
-
-@override Future<Session> sessionLogin({required LoginRequest loginRequest , required String address , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_box_autoadd_login_request(loginRequest, serializer);
-sse_encode_String(address, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionLoginConstMeta,
-            argValues: [loginRequest, address],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionLoginConstMeta => const TaskConstMeta(
-            debugName: "Session_login",
-            argNames: ["loginRequest", "address"],
-        );
-        
-
-@override Future<void> sessionLogout({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionLogoutConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionLogoutConstMeta => const TaskConstMeta(
-            debugName: "Session_logout",
-            argNames: ["that"],
-        );
-        
-
-@override Future<Session> sessionSignup({required SignupRequest signupRequest , required String address , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_box_autoadd_signup_request(signupRequest, serializer);
-sse_encode_String(address, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionSignupConstMeta,
-            argValues: [signupRequest, address],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionSignupConstMeta => const TaskConstMeta(
-            debugName: "Session_signup",
-            argNames: ["signupRequest", "address"],
-        );
-        
-
-@override Future<void> sessionStartGame({required Session that , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionStartGameConstMeta,
-            argValues: [that],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionStartGameConstMeta => const TaskConstMeta(
-            debugName: "Session_start_game",
-            argNames: ["that"],
-        );
-        
-
-@override Future<int> sessionSubmitAnswer({required Session that , required int answerId , required int questionId , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-sse_encode_u_32(answerId, serializer);
-sse_encode_u_32(questionId, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_u_32,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionSubmitAnswerConstMeta,
-            argValues: [that, answerId, questionId],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionSubmitAnswerConstMeta => const TaskConstMeta(
-            debugName: "Session_submit_answer",
-            argNames: ["that", "answerId", "questionId"],
-        );
-        
-
-@override Future<void> sessionUpdateUserData({required Session that , required UpdateUserDataRequest updateUserDataRequest , dynamic hint})  { return handler.executeNormal(NormalTask(
-            callFfi: (port_) {
-              
-            final serializer = SseSerializer(generalizedFrbRustBinding);sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(that, serializer);
-sse_encode_box_autoadd_update_user_data_request(updateUserDataRequest, serializer);
-            pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6, port: port_);
-            
-            },
-            codec: 
-        SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_error,
-        )
-        ,
-            constMeta: kSessionUpdateUserDataConstMeta,
-            argValues: [that, updateUserDataRequest],
-            apiImpl: this,
-            hint: hint,
-        )); }
-
-
-        TaskConstMeta get kSessionUpdateUserDataConstMeta => const TaskConstMeta(
-            debugName: "Session_update_user_data",
-            argNames: ["that", "updateUserDataRequest"],
-        );
-        
-
-RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Session => wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession;
-
-RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Session => wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession;
-
-
-
-                  @protected Session dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return Session.dcoDecode(raw as List<dynamic>); }
-
-@protected Session dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return Session.dcoDecode(raw as List<dynamic>); }
-
-@protected DateTime dco_decode_Chrono_Naive(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return dcoDecodeTimestamp(ts: dco_decode_i_64(raw).toInt(), isUtc: true); }
-
-@protected Session dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return Session.dcoDecode(raw as List<dynamic>); }
-
-@protected String dco_decode_String(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return raw as String; }
-
-@protected bool dco_decode_bool(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return raw as bool; }
-
-@protected Error dco_decode_box_autoadd_error(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return dco_decode_error(raw); }
-
-@protected LoginRequest dco_decode_box_autoadd_login_request(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return dco_decode_login_request(raw); }
-
-@protected RoomData dco_decode_box_autoadd_room_data(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return dco_decode_room_data(raw); }
-
-@protected SignupRequest dco_decode_box_autoadd_signup_request(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return dco_decode_signup_request(raw); }
-
-@protected int dco_decode_box_autoadd_u_32(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return raw as int; }
-
-@protected UpdateUserDataRequest dco_decode_box_autoadd_update_user_data_request(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return dco_decode_update_user_data_request(raw); }
-
-@protected Error dco_decode_error(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-switch (raw[0]) {
-                case 0: return Error_ServerConnectionError(dco_decode_String(raw[1]),);
-case 1: return Error_RequestSerializationError(dco_decode_String(raw[1]),);
-case 2: return Error_ResponseDeserializationError(dco_decode_String(raw[1]),);
-case 3: return Error_RequestTooBig();
-case 4: return Error_ResponseError(dco_decode_String(raw[1]),);
-case 5: return Error_InvalidResponseCode(dco_decode_u_8(raw[1]),);
-case 6: return Error_LoginError(dco_decode_String(raw[1]),);
-case 7: return Error_SignupError(dco_decode_String(raw[1]),);
-case 8: return Error_LogoutError();
-case 9: return Error_InvalidAddress(dco_decode_String(raw[1]),);
-case 10: return Error_InternalServerError();
-case 11: return Error_UpdateUserDataError(dco_decode_String(raw[1]),);
-case 12: return Error_InvalidRoomId(dco_decode_String(raw[1]),);
-case 13: return Error_CouldNotCreateRoom();
-                default: throw Exception("unreachable");
-            } }
-
-@protected GameResults dco_decode_game_results(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
-                return GameResults(userAnswers: dco_decode_list_question_answered(arr[0]),
-playersResults: dco_decode_list_player_result(arr[1]),); }
-
-@protected int dco_decode_i_32(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return raw as int; }
-
-@protected int dco_decode_i_64(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return dcoDecodeI64OrU64(raw); }
-
-@protected List<Player> dco_decode_list_player(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return (raw as List<dynamic>).map(dco_decode_player).toList(); }
-
-@protected List<PlayerResult> dco_decode_list_player_result(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return (raw as List<dynamic>).map(dco_decode_player_result).toList(); }
-
-@protected Uint8List dco_decode_list_prim_u_8_strict(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return raw as Uint8List; }
-
-@protected List<QuestionAnswered> dco_decode_list_question_answered(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return (raw as List<dynamic>).map(dco_decode_question_answered).toList(); }
-
-@protected List<(int,String)> dco_decode_list_record_u_32_string(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return (raw as List<dynamic>).map(dco_decode_record_u_32_string).toList(); }
-
-@protected List<Room> dco_decode_list_room(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return (raw as List<dynamic>).map(dco_decode_room).toList(); }
-
-@protected LoginRequest dco_decode_login_request(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
-                return LoginRequest(username: dco_decode_String(arr[0]),
-password: dco_decode_String(arr[1]),); }
-
-@protected String? dco_decode_opt_String(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return raw == null ? null : dco_decode_String(raw); }
-
-@protected int? dco_decode_opt_box_autoadd_u_32(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return raw == null ? null : dco_decode_box_autoadd_u_32(raw); }
-
-@protected Player dco_decode_player(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 3) throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
-                return Player(username: dco_decode_String(arr[0]),
-avatarColor: dco_decode_String(arr[1]),
-score: dco_decode_u_32(arr[2]),); }
-
-@protected PlayerResult dco_decode_player_result(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 6) throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
-                return PlayerResult(player: dco_decode_player(arr[0]),
-isOnline: dco_decode_bool(arr[1]),
-scoreChange: dco_decode_i_32(arr[2]),
-correctAnswerCount: dco_decode_u_32(arr[3]),
-wrongAnswerCount: dco_decode_u_32(arr[4]),
-avgAnswerTime: dco_decode_u_32(arr[5]),); }
-
-@protected Question dco_decode_question(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 3) throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
-                return Question(questionId: dco_decode_u_32(arr[0]),
-question: dco_decode_String(arr[1]),
-answers: dco_decode_list_record_u_32_string(arr[2]),); }
-
-@protected QuestionAnswered dco_decode_question_answered(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 5) throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
-                return QuestionAnswered(question: dco_decode_String(arr[0]),
-answers: dco_decode_list_record_u_32_string(arr[1]),
-correctAnswer: dco_decode_u_32(arr[2]),
-userAnswer: dco_decode_u_32(arr[3]),
-timeTaken: dco_decode_u_32(arr[4]),); }
-
-@protected (int,String) dco_decode_record_u_32_string(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-            if (arr.length != 2) {
-                throw Exception('Expected 2 elements, got ${arr.length}');
-            }
-            return (dco_decode_u_32(arr[0]),dco_decode_String(arr[1]),); }
-
-@protected Room dco_decode_room(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 5) throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
-                return Room(id: dco_decode_String(arr[0]),
-roomData: dco_decode_room_data(arr[1]),
-players: dco_decode_list_player(arr[2]),
-isActive: dco_decode_bool(arr[3]),
-isFinished: dco_decode_bool(arr[4]),); }
-
-@protected RoomData dco_decode_room_data(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 4) throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
-                return RoomData(name: dco_decode_String(arr[0]),
-maxPlayers: dco_decode_u_32(arr[1]),
-questionCount: dco_decode_u_32(arr[2]),
-timePerQuestion: dco_decode_u_32(arr[3]),); }
-
-@protected RoomState dco_decode_room_state(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 6) throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
-                return RoomState(hasGameBegun: dco_decode_bool(arr[0]),
-players: dco_decode_list_player(arr[1]),
-questionCount: dco_decode_u_32(arr[2]),
-answerTimeout: dco_decode_u_32(arr[3]),
-maxPlayers: dco_decode_u_32(arr[4]),
-isClosed: dco_decode_bool(arr[5]),); }
-
-@protected SignupRequest dco_decode_signup_request(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 6) throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
-                return SignupRequest(username: dco_decode_String(arr[0]),
-password: dco_decode_String(arr[1]),
-email: dco_decode_String(arr[2]),
-address: dco_decode_String(arr[3]),
-phoneNumber: dco_decode_String(arr[4]),
-birthday: dco_decode_String(arr[5]),); }
-
-@protected int dco_decode_u_32(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return raw as int; }
-
-@protected int dco_decode_u_8(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return raw as int; }
-
-@protected void dco_decode_unit(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return; }
-
-@protected UpdateUserDataRequest dco_decode_update_user_data_request(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 5) throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
-                return UpdateUserDataRequest(password: dco_decode_opt_String(arr[0]),
-email: dco_decode_String(arr[1]),
-address: dco_decode_String(arr[2]),
-phoneNumber: dco_decode_String(arr[3]),
-avatarColor: dco_decode_String(arr[4]),); }
-
-@protected UserData dco_decode_user_data(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 7) throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
-                return UserData(username: dco_decode_String(arr[0]),
-email: dco_decode_String(arr[1]),
-address: dco_decode_String(arr[2]),
-phoneNumber: dco_decode_String(arr[3]),
-birthday: dco_decode_String(arr[4]),
-avatarColor: dco_decode_String(arr[5]),
-memberSince: dco_decode_Chrono_Naive(arr[6]),); }
-
-@protected UserDataAndStatistics dco_decode_user_data_and_statistics(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
-                return UserDataAndStatistics(userData: dco_decode_user_data(arr[0]),
-userStatistics: dco_decode_user_statistics(arr[1]),); }
-
-@protected UserStatistics dco_decode_user_statistics(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-final arr = raw as List<dynamic>;
-                if (arr.length != 6) throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
-                return UserStatistics(averageAnswerTime: dco_decode_opt_box_autoadd_u_32(arr[0]),
-correctAnswers: dco_decode_u_32(arr[1]),
-wrongAnswers: dco_decode_u_32(arr[2]),
-totalAnswers: dco_decode_u_32(arr[3]),
-totalGames: dco_decode_u_32(arr[4]),
-score: dco_decode_u_32(arr[5]),); }
-
-@protected int dco_decode_usize(dynamic raw){ // Codec=Dco (DartCObject based), see doc to use other codecs
-return dcoDecodeI64OrU64(raw); }
-
-@protected Session sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return Session.sseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer)); }
-
-@protected Session sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return Session.sseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer)); }
-
-@protected DateTime sse_decode_Chrono_Naive(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var inner = sse_decode_i_64(deserializer);
-        return DateTime.fromMicrosecondsSinceEpoch(inner, isUtc: true); }
-
-@protected Session sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return Session.sseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer)); }
-
-@protected String sse_decode_String(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var inner = sse_decode_list_prim_u_8_strict(deserializer);
-        return utf8.decoder.convert(inner); }
-
-@protected bool sse_decode_bool(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return deserializer.buffer.getUint8() != 0; }
-
-@protected Error sse_decode_box_autoadd_error(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return (sse_decode_error(deserializer)); }
-
-@protected LoginRequest sse_decode_box_autoadd_login_request(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return (sse_decode_login_request(deserializer)); }
-
-@protected RoomData sse_decode_box_autoadd_room_data(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return (sse_decode_room_data(deserializer)); }
-
-@protected SignupRequest sse_decode_box_autoadd_signup_request(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return (sse_decode_signup_request(deserializer)); }
-
-@protected int sse_decode_box_autoadd_u_32(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return (sse_decode_u_32(deserializer)); }
-
-@protected UpdateUserDataRequest sse_decode_box_autoadd_update_user_data_request(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return (sse_decode_update_user_data_request(deserializer)); }
-
-@protected Error sse_decode_error(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-            var tag_ = sse_decode_i_32(deserializer);
-            switch (tag_) { case 0: var var_field0 = sse_decode_String(deserializer);
-return Error_ServerConnectionError(var_field0);case 1: var var_field0 = sse_decode_String(deserializer);
-return Error_RequestSerializationError(var_field0);case 2: var var_field0 = sse_decode_String(deserializer);
-return Error_ResponseDeserializationError(var_field0);case 3: return Error_RequestTooBig();case 4: var var_field0 = sse_decode_String(deserializer);
-return Error_ResponseError(var_field0);case 5: var var_field0 = sse_decode_u_8(deserializer);
-return Error_InvalidResponseCode(var_field0);case 6: var var_field0 = sse_decode_String(deserializer);
-return Error_LoginError(var_field0);case 7: var var_field0 = sse_decode_String(deserializer);
-return Error_SignupError(var_field0);case 8: return Error_LogoutError();case 9: var var_field0 = sse_decode_String(deserializer);
-return Error_InvalidAddress(var_field0);case 10: return Error_InternalServerError();case 11: var var_field0 = sse_decode_String(deserializer);
-return Error_UpdateUserDataError(var_field0);case 12: var var_field0 = sse_decode_String(deserializer);
-return Error_InvalidRoomId(var_field0);case 13: return Error_CouldNotCreateRoom(); default: throw UnimplementedError(''); }
-             }
-
-@protected GameResults sse_decode_game_results(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_userAnswers = sse_decode_list_question_answered(deserializer);
-var var_playersResults = sse_decode_list_player_result(deserializer);
-return GameResults(userAnswers: var_userAnswers, playersResults: var_playersResults); }
-
-@protected int sse_decode_i_32(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return deserializer.buffer.getInt32(); }
-
-@protected int sse_decode_i_64(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return deserializer.buffer.getInt64(); }
-
-@protected List<Player> sse_decode_list_player(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-        var len_ = sse_decode_i_32(deserializer);
-        var ans_ = <Player>[];
-        for (var idx_ = 0; idx_ < len_; ++idx_) { ans_.add(sse_decode_player(deserializer)); }
-        return ans_;
-         }
-
-@protected List<PlayerResult> sse_decode_list_player_result(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-        var len_ = sse_decode_i_32(deserializer);
-        var ans_ = <PlayerResult>[];
-        for (var idx_ = 0; idx_ < len_; ++idx_) { ans_.add(sse_decode_player_result(deserializer)); }
-        return ans_;
-         }
-
-@protected Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var len_ = sse_decode_i_32(deserializer);
-                return deserializer.buffer.getUint8List(len_); }
-
-@protected List<QuestionAnswered> sse_decode_list_question_answered(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-        var len_ = sse_decode_i_32(deserializer);
-        var ans_ = <QuestionAnswered>[];
-        for (var idx_ = 0; idx_ < len_; ++idx_) { ans_.add(sse_decode_question_answered(deserializer)); }
-        return ans_;
-         }
-
-@protected List<(int,String)> sse_decode_list_record_u_32_string(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-        var len_ = sse_decode_i_32(deserializer);
-        var ans_ = <(int,String)>[];
-        for (var idx_ = 0; idx_ < len_; ++idx_) { ans_.add(sse_decode_record_u_32_string(deserializer)); }
-        return ans_;
-         }
-
-@protected List<Room> sse_decode_list_room(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-        var len_ = sse_decode_i_32(deserializer);
-        var ans_ = <Room>[];
-        for (var idx_ = 0; idx_ < len_; ++idx_) { ans_.add(sse_decode_room(deserializer)); }
-        return ans_;
-         }
-
-@protected LoginRequest sse_decode_login_request(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_username = sse_decode_String(deserializer);
-var var_password = sse_decode_String(deserializer);
-return LoginRequest(username: var_username, password: var_password); }
-
-@protected String? sse_decode_opt_String(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-            if (sse_decode_bool(deserializer)) {
-                return (sse_decode_String(deserializer));
-            } else {
-                return null;
-            }
-             }
-
-@protected int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-            if (sse_decode_bool(deserializer)) {
-                return (sse_decode_box_autoadd_u_32(deserializer));
-            } else {
-                return null;
-            }
-             }
-
-@protected Player sse_decode_player(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_username = sse_decode_String(deserializer);
-var var_avatarColor = sse_decode_String(deserializer);
-var var_score = sse_decode_u_32(deserializer);
-return Player(username: var_username, avatarColor: var_avatarColor, score: var_score); }
-
-@protected PlayerResult sse_decode_player_result(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_player = sse_decode_player(deserializer);
-var var_isOnline = sse_decode_bool(deserializer);
-var var_scoreChange = sse_decode_i_32(deserializer);
-var var_correctAnswerCount = sse_decode_u_32(deserializer);
-var var_wrongAnswerCount = sse_decode_u_32(deserializer);
-var var_avgAnswerTime = sse_decode_u_32(deserializer);
-return PlayerResult(player: var_player, isOnline: var_isOnline, scoreChange: var_scoreChange, correctAnswerCount: var_correctAnswerCount, wrongAnswerCount: var_wrongAnswerCount, avgAnswerTime: var_avgAnswerTime); }
-
-@protected Question sse_decode_question(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_questionId = sse_decode_u_32(deserializer);
-var var_question = sse_decode_String(deserializer);
-var var_answers = sse_decode_list_record_u_32_string(deserializer);
-return Question(questionId: var_questionId, question: var_question, answers: var_answers); }
-
-@protected QuestionAnswered sse_decode_question_answered(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_question = sse_decode_String(deserializer);
-var var_answers = sse_decode_list_record_u_32_string(deserializer);
-var var_correctAnswer = sse_decode_u_32(deserializer);
-var var_userAnswer = sse_decode_u_32(deserializer);
-var var_timeTaken = sse_decode_u_32(deserializer);
-return QuestionAnswered(question: var_question, answers: var_answers, correctAnswer: var_correctAnswer, userAnswer: var_userAnswer, timeTaken: var_timeTaken); }
-
-@protected (int,String) sse_decode_record_u_32_string(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_field0 = sse_decode_u_32(deserializer);
-var var_field1 = sse_decode_String(deserializer);
-return (var_field0, var_field1); }
-
-@protected Room sse_decode_room(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_id = sse_decode_String(deserializer);
-var var_roomData = sse_decode_room_data(deserializer);
-var var_players = sse_decode_list_player(deserializer);
-var var_isActive = sse_decode_bool(deserializer);
-var var_isFinished = sse_decode_bool(deserializer);
-return Room(id: var_id, roomData: var_roomData, players: var_players, isActive: var_isActive, isFinished: var_isFinished); }
-
-@protected RoomData sse_decode_room_data(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_name = sse_decode_String(deserializer);
-var var_maxPlayers = sse_decode_u_32(deserializer);
-var var_questionCount = sse_decode_u_32(deserializer);
-var var_timePerQuestion = sse_decode_u_32(deserializer);
-return RoomData(name: var_name, maxPlayers: var_maxPlayers, questionCount: var_questionCount, timePerQuestion: var_timePerQuestion); }
-
-@protected RoomState sse_decode_room_state(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_hasGameBegun = sse_decode_bool(deserializer);
-var var_players = sse_decode_list_player(deserializer);
-var var_questionCount = sse_decode_u_32(deserializer);
-var var_answerTimeout = sse_decode_u_32(deserializer);
-var var_maxPlayers = sse_decode_u_32(deserializer);
-var var_isClosed = sse_decode_bool(deserializer);
-return RoomState(hasGameBegun: var_hasGameBegun, players: var_players, questionCount: var_questionCount, answerTimeout: var_answerTimeout, maxPlayers: var_maxPlayers, isClosed: var_isClosed); }
-
-@protected SignupRequest sse_decode_signup_request(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_username = sse_decode_String(deserializer);
-var var_password = sse_decode_String(deserializer);
-var var_email = sse_decode_String(deserializer);
-var var_address = sse_decode_String(deserializer);
-var var_phoneNumber = sse_decode_String(deserializer);
-var var_birthday = sse_decode_String(deserializer);
-return SignupRequest(username: var_username, password: var_password, email: var_email, address: var_address, phoneNumber: var_phoneNumber, birthday: var_birthday); }
-
-@protected int sse_decode_u_32(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return deserializer.buffer.getUint32(); }
-
-@protected int sse_decode_u_8(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return deserializer.buffer.getUint8(); }
-
-@protected void sse_decode_unit(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
- }
-
-@protected UpdateUserDataRequest sse_decode_update_user_data_request(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_password = sse_decode_opt_String(deserializer);
-var var_email = sse_decode_String(deserializer);
-var var_address = sse_decode_String(deserializer);
-var var_phoneNumber = sse_decode_String(deserializer);
-var var_avatarColor = sse_decode_String(deserializer);
-return UpdateUserDataRequest(password: var_password, email: var_email, address: var_address, phoneNumber: var_phoneNumber, avatarColor: var_avatarColor); }
-
-@protected UserData sse_decode_user_data(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_username = sse_decode_String(deserializer);
-var var_email = sse_decode_String(deserializer);
-var var_address = sse_decode_String(deserializer);
-var var_phoneNumber = sse_decode_String(deserializer);
-var var_birthday = sse_decode_String(deserializer);
-var var_avatarColor = sse_decode_String(deserializer);
-var var_memberSince = sse_decode_Chrono_Naive(deserializer);
-return UserData(username: var_username, email: var_email, address: var_address, phoneNumber: var_phoneNumber, birthday: var_birthday, avatarColor: var_avatarColor, memberSince: var_memberSince); }
-
-@protected UserDataAndStatistics sse_decode_user_data_and_statistics(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_userData = sse_decode_user_data(deserializer);
-var var_userStatistics = sse_decode_user_statistics(deserializer);
-return UserDataAndStatistics(userData: var_userData, userStatistics: var_userStatistics); }
-
-@protected UserStatistics sse_decode_user_statistics(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-var var_averageAnswerTime = sse_decode_opt_box_autoadd_u_32(deserializer);
-var var_correctAnswers = sse_decode_u_32(deserializer);
-var var_wrongAnswers = sse_decode_u_32(deserializer);
-var var_totalAnswers = sse_decode_u_32(deserializer);
-var var_totalGames = sse_decode_u_32(deserializer);
-var var_score = sse_decode_u_32(deserializer);
-return UserStatistics(averageAnswerTime: var_averageAnswerTime, correctAnswers: var_correctAnswers, wrongAnswers: var_wrongAnswers, totalAnswers: var_totalAnswers, totalGames: var_totalGames, score: var_score); }
-
-@protected int sse_decode_usize(SseDeserializer deserializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-return deserializer.buffer.getUint64(); }
-
-@protected void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(Session self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_usize(self.sseEncode(move: true), serializer); }
-
-@protected void sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(Session self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_usize(self.sseEncode(move: false), serializer); }
-
-@protected void sse_encode_Chrono_Naive(DateTime self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_i_64(self.microsecondsSinceEpoch, serializer); }
-
-@protected void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(Session self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_usize(self.sseEncode(move: null), serializer); }
-
-@protected void sse_encode_String(String self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer); }
-
-@protected void sse_encode_bool(bool self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-serializer.buffer.putUint8(self ? 1 : 0); }
-
-@protected void sse_encode_box_autoadd_error(Error self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_error(self, serializer); }
-
-@protected void sse_encode_box_autoadd_login_request(LoginRequest self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_login_request(self, serializer); }
-
-@protected void sse_encode_box_autoadd_room_data(RoomData self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_room_data(self, serializer); }
-
-@protected void sse_encode_box_autoadd_signup_request(SignupRequest self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_signup_request(self, serializer); }
-
-@protected void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_u_32(self, serializer); }
-
-@protected void sse_encode_box_autoadd_update_user_data_request(UpdateUserDataRequest self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_update_user_data_request(self, serializer); }
-
-@protected void sse_encode_error(Error self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-switch (self) { case Error_ServerConnectionError(field0: final field0): sse_encode_i_32(0, serializer); sse_encode_String(field0, serializer);
-case Error_RequestSerializationError(field0: final field0): sse_encode_i_32(1, serializer); sse_encode_String(field0, serializer);
-case Error_ResponseDeserializationError(field0: final field0): sse_encode_i_32(2, serializer); sse_encode_String(field0, serializer);
-case Error_RequestTooBig(): sse_encode_i_32(3, serializer); case Error_ResponseError(field0: final field0): sse_encode_i_32(4, serializer); sse_encode_String(field0, serializer);
-case Error_InvalidResponseCode(field0: final field0): sse_encode_i_32(5, serializer); sse_encode_u_8(field0, serializer);
-case Error_LoginError(field0: final field0): sse_encode_i_32(6, serializer); sse_encode_String(field0, serializer);
-case Error_SignupError(field0: final field0): sse_encode_i_32(7, serializer); sse_encode_String(field0, serializer);
-case Error_LogoutError(): sse_encode_i_32(8, serializer); case Error_InvalidAddress(field0: final field0): sse_encode_i_32(9, serializer); sse_encode_String(field0, serializer);
-case Error_InternalServerError(): sse_encode_i_32(10, serializer); case Error_UpdateUserDataError(field0: final field0): sse_encode_i_32(11, serializer); sse_encode_String(field0, serializer);
-case Error_InvalidRoomId(field0: final field0): sse_encode_i_32(12, serializer); sse_encode_String(field0, serializer);
-case Error_CouldNotCreateRoom(): sse_encode_i_32(13, serializer);   } }
-
-@protected void sse_encode_game_results(GameResults self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_list_question_answered(self.userAnswers, serializer);
-sse_encode_list_player_result(self.playersResults, serializer);
- }
-
-@protected void sse_encode_i_32(int self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-serializer.buffer.putInt32(self); }
-
-@protected void sse_encode_i_64(int self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-serializer.buffer.putInt64(self); }
-
-@protected void sse_encode_list_player(List<Player> self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_i_32(self.length, serializer);
-        for (final item in self) { sse_encode_player(item, serializer); } }
-
-@protected void sse_encode_list_player_result(List<PlayerResult> self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_i_32(self.length, serializer);
-        for (final item in self) { sse_encode_player_result(item, serializer); } }
-
-@protected void sse_encode_list_prim_u_8_strict(Uint8List self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_i_32(self.length, serializer);
-                    serializer.buffer.putUint8List(self); }
-
-@protected void sse_encode_list_question_answered(List<QuestionAnswered> self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_i_32(self.length, serializer);
-        for (final item in self) { sse_encode_question_answered(item, serializer); } }
-
-@protected void sse_encode_list_record_u_32_string(List<(int,String)> self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_i_32(self.length, serializer);
-        for (final item in self) { sse_encode_record_u_32_string(item, serializer); } }
-
-@protected void sse_encode_list_room(List<Room> self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_i_32(self.length, serializer);
-        for (final item in self) { sse_encode_room(item, serializer); } }
-
-@protected void sse_encode_login_request(LoginRequest self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_String(self.username, serializer);
-sse_encode_String(self.password, serializer);
- }
-
-@protected void sse_encode_opt_String(String? self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-                sse_encode_bool(self != null, serializer);
-                if (self != null) {
-                    sse_encode_String(self, serializer);
-                }
-                 }
-
-@protected void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-
-                sse_encode_bool(self != null, serializer);
-                if (self != null) {
-                    sse_encode_box_autoadd_u_32(self, serializer);
-                }
-                 }
-
-@protected void sse_encode_player(Player self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_String(self.username, serializer);
-sse_encode_String(self.avatarColor, serializer);
-sse_encode_u_32(self.score, serializer);
- }
-
-@protected void sse_encode_player_result(PlayerResult self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_player(self.player, serializer);
-sse_encode_bool(self.isOnline, serializer);
-sse_encode_i_32(self.scoreChange, serializer);
-sse_encode_u_32(self.correctAnswerCount, serializer);
-sse_encode_u_32(self.wrongAnswerCount, serializer);
-sse_encode_u_32(self.avgAnswerTime, serializer);
- }
-
-@protected void sse_encode_question(Question self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_u_32(self.questionId, serializer);
-sse_encode_String(self.question, serializer);
-sse_encode_list_record_u_32_string(self.answers, serializer);
- }
-
-@protected void sse_encode_question_answered(QuestionAnswered self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_String(self.question, serializer);
-sse_encode_list_record_u_32_string(self.answers, serializer);
-sse_encode_u_32(self.correctAnswer, serializer);
-sse_encode_u_32(self.userAnswer, serializer);
-sse_encode_u_32(self.timeTaken, serializer);
- }
-
-@protected void sse_encode_record_u_32_string((int,String) self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_u_32(self.$1, serializer);
-sse_encode_String(self.$2, serializer);
- }
-
-@protected void sse_encode_room(Room self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_String(self.id, serializer);
-sse_encode_room_data(self.roomData, serializer);
-sse_encode_list_player(self.players, serializer);
-sse_encode_bool(self.isActive, serializer);
-sse_encode_bool(self.isFinished, serializer);
- }
-
-@protected void sse_encode_room_data(RoomData self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_String(self.name, serializer);
-sse_encode_u_32(self.maxPlayers, serializer);
-sse_encode_u_32(self.questionCount, serializer);
-sse_encode_u_32(self.timePerQuestion, serializer);
- }
-
-@protected void sse_encode_room_state(RoomState self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_bool(self.hasGameBegun, serializer);
-sse_encode_list_player(self.players, serializer);
-sse_encode_u_32(self.questionCount, serializer);
-sse_encode_u_32(self.answerTimeout, serializer);
-sse_encode_u_32(self.maxPlayers, serializer);
-sse_encode_bool(self.isClosed, serializer);
- }
-
-@protected void sse_encode_signup_request(SignupRequest self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_String(self.username, serializer);
-sse_encode_String(self.password, serializer);
-sse_encode_String(self.email, serializer);
-sse_encode_String(self.address, serializer);
-sse_encode_String(self.phoneNumber, serializer);
-sse_encode_String(self.birthday, serializer);
- }
-
-@protected void sse_encode_u_32(int self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-serializer.buffer.putUint32(self); }
-
-@protected void sse_encode_u_8(int self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-serializer.buffer.putUint8(self); }
-
-@protected void sse_encode_unit(void self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
- }
-
-@protected void sse_encode_update_user_data_request(UpdateUserDataRequest self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_opt_String(self.password, serializer);
-sse_encode_String(self.email, serializer);
-sse_encode_String(self.address, serializer);
-sse_encode_String(self.phoneNumber, serializer);
-sse_encode_String(self.avatarColor, serializer);
- }
-
-@protected void sse_encode_user_data(UserData self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_String(self.username, serializer);
-sse_encode_String(self.email, serializer);
-sse_encode_String(self.address, serializer);
-sse_encode_String(self.phoneNumber, serializer);
-sse_encode_String(self.birthday, serializer);
-sse_encode_String(self.avatarColor, serializer);
-sse_encode_Chrono_Naive(self.memberSince, serializer);
- }
-
-@protected void sse_encode_user_data_and_statistics(UserDataAndStatistics self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_user_data(self.userData, serializer);
-sse_encode_user_statistics(self.userStatistics, serializer);
- }
-
-@protected void sse_encode_user_statistics(UserStatistics self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-sse_encode_opt_box_autoadd_u_32(self.averageAnswerTime, serializer);
-sse_encode_u_32(self.correctAnswers, serializer);
-sse_encode_u_32(self.wrongAnswers, serializer);
-sse_encode_u_32(self.totalAnswers, serializer);
-sse_encode_u_32(self.totalGames, serializer);
-sse_encode_u_32(self.score, serializer);
- }
-
-@protected void sse_encode_usize(int self, SseSerializer serializer){ // Codec=Sse (Serialization based), see doc to use other codecs
-serializer.buffer.putUint64(self); }
-                }
-                
+      case 13:
+        return Error_CouldNotCreateRoom();
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
+  GameResults dco_decode_game_results(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return GameResults(
+      userAnswers: dco_decode_list_question_answered(arr[0]),
+      playersResults: dco_decode_list_player_result(arr[1]),
+    );
+  }
+
+  @protected
+  int dco_decode_i_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  int dco_decode_i_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeI64OrU64(raw);
+  }
+
+  @protected
+  List<String> dco_decode_list_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_String).toList();
+  }
+
+  @protected
+  List<Player> dco_decode_list_player(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_player).toList();
+  }
+
+  @protected
+  List<PlayerResult> dco_decode_list_player_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_player_result).toList();
+  }
+
+  @protected
+  Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as Uint8List;
+  }
+
+  @protected
+  List<QuestionAnswered> dco_decode_list_question_answered(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_question_answered).toList();
+  }
+
+  @protected
+  List<(int, String)> dco_decode_list_record_u_32_string(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_record_u_32_string).toList();
+  }
+
+  @protected
+  List<Room> dco_decode_list_room(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_room).toList();
+  }
+
+  @protected
+  LoginRequest dco_decode_login_request(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return LoginRequest(
+      username: dco_decode_String(arr[0]),
+      password: dco_decode_String(arr[1]),
+    );
+  }
+
+  @protected
+  String? dco_decode_opt_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_String(raw);
+  }
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_u_32(raw);
+  }
+
+  @protected
+  Player dco_decode_player(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return Player(
+      username: dco_decode_String(arr[0]),
+      avatarColor: dco_decode_String(arr[1]),
+      score: dco_decode_u_32(arr[2]),
+    );
+  }
+
+  @protected
+  PlayerResult dco_decode_player_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return PlayerResult(
+      player: dco_decode_player(arr[0]),
+      isOnline: dco_decode_bool(arr[1]),
+      scoreChange: dco_decode_i_32(arr[2]),
+      correctAnswerCount: dco_decode_u_32(arr[3]),
+      wrongAnswerCount: dco_decode_u_32(arr[4]),
+      avgAnswerTime: dco_decode_u_32(arr[5]),
+    );
+  }
+
+  @protected
+  Question dco_decode_question(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return Question(
+      questionId: dco_decode_u_32(arr[0]),
+      question: dco_decode_String(arr[1]),
+      answers: dco_decode_list_record_u_32_string(arr[2]),
+    );
+  }
+
+  @protected
+  QuestionAnswered dco_decode_question_answered(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return QuestionAnswered(
+      question: dco_decode_String(arr[0]),
+      answers: dco_decode_list_String(arr[1]),
+      correctAnswer: dco_decode_u_32(arr[2]),
+      userAnswer: dco_decode_u_32(arr[3]),
+      timeTaken: dco_decode_u_32(arr[4]),
+    );
+  }
+
+  @protected
+  (int, String) dco_decode_record_u_32_string(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) {
+      throw Exception('Expected 2 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_u_32(arr[0]),
+      dco_decode_String(arr[1]),
+    );
+  }
+
+  @protected
+  Room dco_decode_room(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return Room(
+      id: dco_decode_String(arr[0]),
+      roomData: dco_decode_room_data(arr[1]),
+      players: dco_decode_list_player(arr[2]),
+      isActive: dco_decode_bool(arr[3]),
+      isFinished: dco_decode_bool(arr[4]),
+    );
+  }
+
+  @protected
+  RoomData dco_decode_room_data(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return RoomData(
+      name: dco_decode_String(arr[0]),
+      maxPlayers: dco_decode_u_32(arr[1]),
+      questionCount: dco_decode_u_32(arr[2]),
+      timePerQuestion: dco_decode_u_32(arr[3]),
+    );
+  }
+
+  @protected
+  RoomState dco_decode_room_state(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return RoomState(
+      hasGameBegun: dco_decode_bool(arr[0]),
+      players: dco_decode_list_player(arr[1]),
+      questionCount: dco_decode_u_32(arr[2]),
+      answerTimeout: dco_decode_u_32(arr[3]),
+      maxPlayers: dco_decode_u_32(arr[4]),
+      isClosed: dco_decode_bool(arr[5]),
+    );
+  }
+
+  @protected
+  SignupRequest dco_decode_signup_request(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return SignupRequest(
+      username: dco_decode_String(arr[0]),
+      password: dco_decode_String(arr[1]),
+      email: dco_decode_String(arr[2]),
+      address: dco_decode_String(arr[3]),
+      phoneNumber: dco_decode_String(arr[4]),
+      birthday: dco_decode_String(arr[5]),
+    );
+  }
+
+  @protected
+  int dco_decode_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  int dco_decode_u_8(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  void dco_decode_unit(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return;
+  }
+
+  @protected
+  UpdateUserDataRequest dco_decode_update_user_data_request(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return UpdateUserDataRequest(
+      password: dco_decode_opt_String(arr[0]),
+      email: dco_decode_String(arr[1]),
+      address: dco_decode_String(arr[2]),
+      phoneNumber: dco_decode_String(arr[3]),
+      avatarColor: dco_decode_String(arr[4]),
+    );
+  }
+
+  @protected
+  UserData dco_decode_user_data(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 7)
+      throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
+    return UserData(
+      username: dco_decode_String(arr[0]),
+      email: dco_decode_String(arr[1]),
+      address: dco_decode_String(arr[2]),
+      phoneNumber: dco_decode_String(arr[3]),
+      birthday: dco_decode_String(arr[4]),
+      avatarColor: dco_decode_String(arr[5]),
+      memberSince: dco_decode_Chrono_Naive(arr[6]),
+    );
+  }
+
+  @protected
+  UserDataAndStatistics dco_decode_user_data_and_statistics(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return UserDataAndStatistics(
+      userData: dco_decode_user_data(arr[0]),
+      userStatistics: dco_decode_user_statistics(arr[1]),
+    );
+  }
+
+  @protected
+  UserStatistics dco_decode_user_statistics(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return UserStatistics(
+      averageAnswerTime: dco_decode_opt_box_autoadd_u_32(arr[0]),
+      correctAnswers: dco_decode_u_32(arr[1]),
+      wrongAnswers: dco_decode_u_32(arr[2]),
+      totalAnswers: dco_decode_u_32(arr[3]),
+      totalGames: dco_decode_u_32(arr[4]),
+      score: dco_decode_u_32(arr[5]),
+    );
+  }
+
+  @protected
+  int dco_decode_usize(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeI64OrU64(raw);
+  }
+
+  @protected
+  Session
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Session.sseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Session
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Session.sseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  DateTime sse_decode_Chrono_Naive(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_64(deserializer);
+    return DateTime.fromMicrosecondsSinceEpoch(inner, isUtc: true);
+  }
+
+  @protected
+  Session
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return Session.sseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  String sse_decode_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_list_prim_u_8_strict(deserializer);
+    return utf8.decoder.convert(inner);
+  }
+
+  @protected
+  bool sse_decode_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint8() != 0;
+  }
+
+  @protected
+  Error sse_decode_box_autoadd_error(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_error(deserializer));
+  }
+
+  @protected
+  LoginRequest sse_decode_box_autoadd_login_request(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_login_request(deserializer));
+  }
+
+  @protected
+  RoomData sse_decode_box_autoadd_room_data(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_room_data(deserializer));
+  }
+
+  @protected
+  SignupRequest sse_decode_box_autoadd_signup_request(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_signup_request(deserializer));
+  }
+
+  @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_u_32(deserializer));
+  }
+
+  @protected
+  UpdateUserDataRequest sse_decode_box_autoadd_update_user_data_request(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_update_user_data_request(deserializer));
+  }
+
+  @protected
+  Error sse_decode_error(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_ServerConnectionError(var_field0);
+      case 1:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_RequestSerializationError(var_field0);
+      case 2:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_ResponseDeserializationError(var_field0);
+      case 3:
+        return Error_RequestTooBig();
+      case 4:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_ResponseError(var_field0);
+      case 5:
+        var var_field0 = sse_decode_u_8(deserializer);
+        return Error_InvalidResponseCode(var_field0);
+      case 6:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_LoginError(var_field0);
+      case 7:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_SignupError(var_field0);
+      case 8:
+        return Error_LogoutError();
+      case 9:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_InvalidAddress(var_field0);
+      case 10:
+        return Error_InternalServerError();
+      case 11:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_UpdateUserDataError(var_field0);
+      case 12:
+        var var_field0 = sse_decode_String(deserializer);
+        return Error_InvalidRoomId(var_field0);
+      case 13:
+        return Error_CouldNotCreateRoom();
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  GameResults sse_decode_game_results(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_userAnswers = sse_decode_list_question_answered(deserializer);
+    var var_playersResults = sse_decode_list_player_result(deserializer);
+    return GameResults(
+        userAnswers: var_userAnswers, playersResults: var_playersResults);
+  }
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt32();
+  }
+
+  @protected
+  int sse_decode_i_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt64();
+  }
+
+  @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <String>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_String(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<Player> sse_decode_list_player(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <Player>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_player(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<PlayerResult> sse_decode_list_player_result(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <PlayerResult>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_player_result(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  List<QuestionAnswered> sse_decode_list_question_answered(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <QuestionAnswered>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_question_answered(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<(int, String)> sse_decode_list_record_u_32_string(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <(int, String)>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_record_u_32_string(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<Room> sse_decode_list_room(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <Room>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_room(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  LoginRequest sse_decode_login_request(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_username = sse_decode_String(deserializer);
+    var var_password = sse_decode_String(deserializer);
+    return LoginRequest(username: var_username, password: var_password);
+  }
+
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_String(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_u_32(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  Player sse_decode_player(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_username = sse_decode_String(deserializer);
+    var var_avatarColor = sse_decode_String(deserializer);
+    var var_score = sse_decode_u_32(deserializer);
+    return Player(
+        username: var_username, avatarColor: var_avatarColor, score: var_score);
+  }
+
+  @protected
+  PlayerResult sse_decode_player_result(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_player = sse_decode_player(deserializer);
+    var var_isOnline = sse_decode_bool(deserializer);
+    var var_scoreChange = sse_decode_i_32(deserializer);
+    var var_correctAnswerCount = sse_decode_u_32(deserializer);
+    var var_wrongAnswerCount = sse_decode_u_32(deserializer);
+    var var_avgAnswerTime = sse_decode_u_32(deserializer);
+    return PlayerResult(
+        player: var_player,
+        isOnline: var_isOnline,
+        scoreChange: var_scoreChange,
+        correctAnswerCount: var_correctAnswerCount,
+        wrongAnswerCount: var_wrongAnswerCount,
+        avgAnswerTime: var_avgAnswerTime);
+  }
+
+  @protected
+  Question sse_decode_question(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_questionId = sse_decode_u_32(deserializer);
+    var var_question = sse_decode_String(deserializer);
+    var var_answers = sse_decode_list_record_u_32_string(deserializer);
+    return Question(
+        questionId: var_questionId,
+        question: var_question,
+        answers: var_answers);
+  }
+
+  @protected
+  QuestionAnswered sse_decode_question_answered(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_question = sse_decode_String(deserializer);
+    var var_answers = sse_decode_list_String(deserializer);
+    var var_correctAnswer = sse_decode_u_32(deserializer);
+    var var_userAnswer = sse_decode_u_32(deserializer);
+    var var_timeTaken = sse_decode_u_32(deserializer);
+    return QuestionAnswered(
+        question: var_question,
+        answers: var_answers,
+        correctAnswer: var_correctAnswer,
+        userAnswer: var_userAnswer,
+        timeTaken: var_timeTaken);
+  }
+
+  @protected
+  (int, String) sse_decode_record_u_32_string(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_u_32(deserializer);
+    var var_field1 = sse_decode_String(deserializer);
+    return (var_field0, var_field1);
+  }
+
+  @protected
+  Room sse_decode_room(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_id = sse_decode_String(deserializer);
+    var var_roomData = sse_decode_room_data(deserializer);
+    var var_players = sse_decode_list_player(deserializer);
+    var var_isActive = sse_decode_bool(deserializer);
+    var var_isFinished = sse_decode_bool(deserializer);
+    return Room(
+        id: var_id,
+        roomData: var_roomData,
+        players: var_players,
+        isActive: var_isActive,
+        isFinished: var_isFinished);
+  }
+
+  @protected
+  RoomData sse_decode_room_data(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_name = sse_decode_String(deserializer);
+    var var_maxPlayers = sse_decode_u_32(deserializer);
+    var var_questionCount = sse_decode_u_32(deserializer);
+    var var_timePerQuestion = sse_decode_u_32(deserializer);
+    return RoomData(
+        name: var_name,
+        maxPlayers: var_maxPlayers,
+        questionCount: var_questionCount,
+        timePerQuestion: var_timePerQuestion);
+  }
+
+  @protected
+  RoomState sse_decode_room_state(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_hasGameBegun = sse_decode_bool(deserializer);
+    var var_players = sse_decode_list_player(deserializer);
+    var var_questionCount = sse_decode_u_32(deserializer);
+    var var_answerTimeout = sse_decode_u_32(deserializer);
+    var var_maxPlayers = sse_decode_u_32(deserializer);
+    var var_isClosed = sse_decode_bool(deserializer);
+    return RoomState(
+        hasGameBegun: var_hasGameBegun,
+        players: var_players,
+        questionCount: var_questionCount,
+        answerTimeout: var_answerTimeout,
+        maxPlayers: var_maxPlayers,
+        isClosed: var_isClosed);
+  }
+
+  @protected
+  SignupRequest sse_decode_signup_request(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_username = sse_decode_String(deserializer);
+    var var_password = sse_decode_String(deserializer);
+    var var_email = sse_decode_String(deserializer);
+    var var_address = sse_decode_String(deserializer);
+    var var_phoneNumber = sse_decode_String(deserializer);
+    var var_birthday = sse_decode_String(deserializer);
+    return SignupRequest(
+        username: var_username,
+        password: var_password,
+        email: var_email,
+        address: var_address,
+        phoneNumber: var_phoneNumber,
+        birthday: var_birthday);
+  }
+
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint32();
+  }
+
+  @protected
+  int sse_decode_u_8(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint8();
+  }
+
+  @protected
+  void sse_decode_unit(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+  }
+
+  @protected
+  UpdateUserDataRequest sse_decode_update_user_data_request(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_password = sse_decode_opt_String(deserializer);
+    var var_email = sse_decode_String(deserializer);
+    var var_address = sse_decode_String(deserializer);
+    var var_phoneNumber = sse_decode_String(deserializer);
+    var var_avatarColor = sse_decode_String(deserializer);
+    return UpdateUserDataRequest(
+        password: var_password,
+        email: var_email,
+        address: var_address,
+        phoneNumber: var_phoneNumber,
+        avatarColor: var_avatarColor);
+  }
+
+  @protected
+  UserData sse_decode_user_data(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_username = sse_decode_String(deserializer);
+    var var_email = sse_decode_String(deserializer);
+    var var_address = sse_decode_String(deserializer);
+    var var_phoneNumber = sse_decode_String(deserializer);
+    var var_birthday = sse_decode_String(deserializer);
+    var var_avatarColor = sse_decode_String(deserializer);
+    var var_memberSince = sse_decode_Chrono_Naive(deserializer);
+    return UserData(
+        username: var_username,
+        email: var_email,
+        address: var_address,
+        phoneNumber: var_phoneNumber,
+        birthday: var_birthday,
+        avatarColor: var_avatarColor,
+        memberSince: var_memberSince);
+  }
+
+  @protected
+  UserDataAndStatistics sse_decode_user_data_and_statistics(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_userData = sse_decode_user_data(deserializer);
+    var var_userStatistics = sse_decode_user_statistics(deserializer);
+    return UserDataAndStatistics(
+        userData: var_userData, userStatistics: var_userStatistics);
+  }
+
+  @protected
+  UserStatistics sse_decode_user_statistics(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_averageAnswerTime = sse_decode_opt_box_autoadd_u_32(deserializer);
+    var var_correctAnswers = sse_decode_u_32(deserializer);
+    var var_wrongAnswers = sse_decode_u_32(deserializer);
+    var var_totalAnswers = sse_decode_u_32(deserializer);
+    var var_totalGames = sse_decode_u_32(deserializer);
+    var var_score = sse_decode_u_32(deserializer);
+    return UserStatistics(
+        averageAnswerTime: var_averageAnswerTime,
+        correctAnswers: var_correctAnswers,
+        wrongAnswers: var_wrongAnswers,
+        totalAnswers: var_totalAnswers,
+        totalGames: var_totalGames,
+        score: var_score);
+  }
+
+  @protected
+  int sse_decode_usize(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint64();
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          Session self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(self.sseEncode(move: true), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          Session self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(self.sseEncode(move: false), serializer);
+  }
+
+  @protected
+  void sse_encode_Chrono_Naive(DateTime self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_64(self.microsecondsSinceEpoch, serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+          Session self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(self.sseEncode(move: null), serializer);
+  }
+
+  @protected
+  void sse_encode_String(String self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
+  }
+
+  @protected
+  void sse_encode_bool(bool self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint8(self ? 1 : 0);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_error(Error self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_error(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_login_request(
+      LoginRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_login_request(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_room_data(
+      RoomData self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_room_data(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_signup_request(
+      SignupRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_signup_request(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_update_user_data_request(
+      UpdateUserDataRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_update_user_data_request(self, serializer);
+  }
+
+  @protected
+  void sse_encode_error(Error self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case Error_ServerConnectionError(field0: final field0):
+        sse_encode_i_32(0, serializer);
+        sse_encode_String(field0, serializer);
+      case Error_RequestSerializationError(field0: final field0):
+        sse_encode_i_32(1, serializer);
+        sse_encode_String(field0, serializer);
+      case Error_ResponseDeserializationError(field0: final field0):
+        sse_encode_i_32(2, serializer);
+        sse_encode_String(field0, serializer);
+      case Error_RequestTooBig():
+        sse_encode_i_32(3, serializer);
+      case Error_ResponseError(field0: final field0):
+        sse_encode_i_32(4, serializer);
+        sse_encode_String(field0, serializer);
+      case Error_InvalidResponseCode(field0: final field0):
+        sse_encode_i_32(5, serializer);
+        sse_encode_u_8(field0, serializer);
+      case Error_LoginError(field0: final field0):
+        sse_encode_i_32(6, serializer);
+        sse_encode_String(field0, serializer);
+      case Error_SignupError(field0: final field0):
+        sse_encode_i_32(7, serializer);
+        sse_encode_String(field0, serializer);
+      case Error_LogoutError():
+        sse_encode_i_32(8, serializer);
+      case Error_InvalidAddress(field0: final field0):
+        sse_encode_i_32(9, serializer);
+        sse_encode_String(field0, serializer);
+      case Error_InternalServerError():
+        sse_encode_i_32(10, serializer);
+      case Error_UpdateUserDataError(field0: final field0):
+        sse_encode_i_32(11, serializer);
+        sse_encode_String(field0, serializer);
+      case Error_InvalidRoomId(field0: final field0):
+        sse_encode_i_32(12, serializer);
+        sse_encode_String(field0, serializer);
+      case Error_CouldNotCreateRoom():
+        sse_encode_i_32(13, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_game_results(GameResults self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_question_answered(self.userAnswers, serializer);
+    sse_encode_list_player_result(self.playersResults, serializer);
+  }
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt32(self);
+  }
+
+  @protected
+  void sse_encode_i_64(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt64(self);
+  }
+
+  @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_String(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_player(List<Player> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_player(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_player_result(
+      List<PlayerResult> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_player_result(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_prim_u_8_strict(
+      Uint8List self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_list_question_answered(
+      List<QuestionAnswered> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_question_answered(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_record_u_32_string(
+      List<(int, String)> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_record_u_32_string(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_room(List<Room> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_room(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_login_request(LoginRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.username, serializer);
+    sse_encode_String(self.password, serializer);
+  }
+
+  @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_String(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_u_32(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_player(Player self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.username, serializer);
+    sse_encode_String(self.avatarColor, serializer);
+    sse_encode_u_32(self.score, serializer);
+  }
+
+  @protected
+  void sse_encode_player_result(PlayerResult self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_player(self.player, serializer);
+    sse_encode_bool(self.isOnline, serializer);
+    sse_encode_i_32(self.scoreChange, serializer);
+    sse_encode_u_32(self.correctAnswerCount, serializer);
+    sse_encode_u_32(self.wrongAnswerCount, serializer);
+    sse_encode_u_32(self.avgAnswerTime, serializer);
+  }
+
+  @protected
+  void sse_encode_question(Question self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.questionId, serializer);
+    sse_encode_String(self.question, serializer);
+    sse_encode_list_record_u_32_string(self.answers, serializer);
+  }
+
+  @protected
+  void sse_encode_question_answered(
+      QuestionAnswered self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.question, serializer);
+    sse_encode_list_String(self.answers, serializer);
+    sse_encode_u_32(self.correctAnswer, serializer);
+    sse_encode_u_32(self.userAnswer, serializer);
+    sse_encode_u_32(self.timeTaken, serializer);
+  }
+
+  @protected
+  void sse_encode_record_u_32_string(
+      (int, String) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.$1, serializer);
+    sse_encode_String(self.$2, serializer);
+  }
+
+  @protected
+  void sse_encode_room(Room self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.id, serializer);
+    sse_encode_room_data(self.roomData, serializer);
+    sse_encode_list_player(self.players, serializer);
+    sse_encode_bool(self.isActive, serializer);
+    sse_encode_bool(self.isFinished, serializer);
+  }
+
+  @protected
+  void sse_encode_room_data(RoomData self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.name, serializer);
+    sse_encode_u_32(self.maxPlayers, serializer);
+    sse_encode_u_32(self.questionCount, serializer);
+    sse_encode_u_32(self.timePerQuestion, serializer);
+  }
+
+  @protected
+  void sse_encode_room_state(RoomState self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.hasGameBegun, serializer);
+    sse_encode_list_player(self.players, serializer);
+    sse_encode_u_32(self.questionCount, serializer);
+    sse_encode_u_32(self.answerTimeout, serializer);
+    sse_encode_u_32(self.maxPlayers, serializer);
+    sse_encode_bool(self.isClosed, serializer);
+  }
+
+  @protected
+  void sse_encode_signup_request(SignupRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.username, serializer);
+    sse_encode_String(self.password, serializer);
+    sse_encode_String(self.email, serializer);
+    sse_encode_String(self.address, serializer);
+    sse_encode_String(self.phoneNumber, serializer);
+    sse_encode_String(self.birthday, serializer);
+  }
+
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint32(self);
+  }
+
+  @protected
+  void sse_encode_u_8(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint8(self);
+  }
+
+  @protected
+  void sse_encode_unit(void self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+  }
+
+  @protected
+  void sse_encode_update_user_data_request(
+      UpdateUserDataRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_String(self.password, serializer);
+    sse_encode_String(self.email, serializer);
+    sse_encode_String(self.address, serializer);
+    sse_encode_String(self.phoneNumber, serializer);
+    sse_encode_String(self.avatarColor, serializer);
+  }
+
+  @protected
+  void sse_encode_user_data(UserData self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.username, serializer);
+    sse_encode_String(self.email, serializer);
+    sse_encode_String(self.address, serializer);
+    sse_encode_String(self.phoneNumber, serializer);
+    sse_encode_String(self.birthday, serializer);
+    sse_encode_String(self.avatarColor, serializer);
+    sse_encode_Chrono_Naive(self.memberSince, serializer);
+  }
+
+  @protected
+  void sse_encode_user_data_and_statistics(
+      UserDataAndStatistics self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_user_data(self.userData, serializer);
+    sse_encode_user_statistics(self.userStatistics, serializer);
+  }
+
+  @protected
+  void sse_encode_user_statistics(
+      UserStatistics self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_box_autoadd_u_32(self.averageAnswerTime, serializer);
+    sse_encode_u_32(self.correctAnswers, serializer);
+    sse_encode_u_32(self.wrongAnswers, serializer);
+    sse_encode_u_32(self.totalAnswers, serializer);
+    sse_encode_u_32(self.totalGames, serializer);
+    sse_encode_u_32(self.score, serializer);
+  }
+
+  @protected
+  void sse_encode_usize(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint64(self);
+  }
+}

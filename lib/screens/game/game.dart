@@ -10,8 +10,7 @@ import '../../src/rust/api/error.dart';
 import '../../src/rust/api/session.dart';
 import '../../utils/dialogs/error_dialog.dart';
 import '../auth/login.dart';
-import 'game_results/game_overview.dart';
-import 'game_results/question_history.dart';
+import 'game_results/game_results.dart';
 
 enum AnswerStatus {
   correct,
@@ -47,7 +46,6 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
   int currentMilliseconds = 0;
   late List<AnswerStatus> answerStatuses;
   late AnimationController _blinkingController;
-  late List<QuestionHistory> questionsHistory = [];
 
   Future<Question> getQuestion(context) async {
     final question = await widget.session.getQuestion().onError(
@@ -109,7 +107,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
             context,
             MaterialPageRoute(
               builder: (context) => GameResultsPage(
-                questionsHistory: questionsHistory,
+                gameName: widget.gameName,
                 session: widget.session,
                 username: widget.username,
               ),
@@ -170,12 +168,6 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Skeletonizer(
                     child: GameContent(
-                      onSubmitAnswer: (int? rightAnswer, int userAnswer) {
-                        if (rightAnswer != null) {
-                          questionsHistory.add(QuestionHistory(
-                              fakeQuestion, rightAnswer, userAnswer));
-                        }
-                      },
                       onAnswerReceived: (_, __) {},
                       currentMilliseconds: 0,
                       onServerError: () {},
@@ -197,7 +189,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
                       context,
                       MaterialPageRoute(
                         builder: (context) => GameResultsPage(
-                          questionsHistory: questionsHistory,
+                          gameName: widget.gameName,
                           session: widget.session,
                           username: widget.username,
                         ),
@@ -230,12 +222,6 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
                 return Skeletonizer(
                   enabled: false,
                   child: GameContent(
-                    onSubmitAnswer: (int? rightAnswer, int userAnswer) {
-                      if (rightAnswer != null) {
-                        questionsHistory.add(
-                            QuestionHistory(question, rightAnswer, userAnswer));
-                      }
-                    },
                     currentMilliseconds: currentMilliseconds,
                     onServerError: () {
                       // ignore timer

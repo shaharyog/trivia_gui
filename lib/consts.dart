@@ -4,6 +4,7 @@ import 'package:trivia/src/rust/api/request/get_room_state.dart';
 import 'package:trivia/utils/filters.dart';
 import 'package:trivia/src/rust/api/request/get_room_players.dart';
 import 'src/rust/api/request/create_room.dart';
+import 'src/rust/api/request/get_game_results.dart';
 import 'src/rust/api/request/get_rooms.dart';
 import 'src/rust/api/request/get_user_data.dart';
 
@@ -90,9 +91,7 @@ final List<Room> fakeRooms = [
       questionCount: 0,
       timePerQuestion: 10,
     ),
-    players: [
-      Player(username: "Bob Doe", avatarColor: "Blue", score: 130)
-    ],
+    players: [Player(username: "Bob Doe", avatarColor: "Blue", score: 130)],
   ),
   const Room(
     isFinished: false,
@@ -103,9 +102,7 @@ final List<Room> fakeRooms = [
       questionCount: 45,
       timePerQuestion: 0,
     ),
-    players: [
-      Player(username: "Robert Doe", avatarColor: "Orange", score: 90)
-    ],
+    players: [Player(username: "Robert Doe", avatarColor: "Orange", score: 90)],
     isActive: false,
   ),
   const Room(
@@ -117,9 +114,7 @@ final List<Room> fakeRooms = [
       questionCount: 100,
       timePerQuestion: 10,
     ),
-    players: [
-      Player(username: "John Doe", avatarColor: "Blue", score: 100)
-    ],
+    players: [Player(username: "John Doe", avatarColor: "Blue", score: 100)],
     isActive: true,
   )
 ];
@@ -162,4 +157,38 @@ const RoomState fakeRoomState = RoomState(
   isClosed: false,
 );
 
-const Question fakeQuestion = Question(questionId: -1, question: "Aaaaa aaaaa aaaaaa, aaaa aaaaa aaaaa, aaaaa aaa \"aaaaa  aa \"?", answers: [(0, "aaa aaaaa aaaa aaa"), (3, "Aaaa aaaa aaaa aaaa"), (2, "aaa aaaa aaaa"), (1, "aaaa aaaaaaa aaaa aa aaaa aaaaaa")]);
+const Question fakeQuestion = Question(
+    questionId: -1,
+    question: "Aaaaa aaaaa aaaaaa, aaaa aaaaa aaaaa, aaaaa aaa \"aaaaa  aa \"?",
+    answers: [
+      (0, "aaa aaaaa aaaa aaa"),
+      (3, "Aaaa aaaa aaaa aaaa"),
+      (2, "aaa aaaa aaaa"),
+      (1, "aaaa aaaaaaa aaaa aa aaaa aaaaaa")
+    ]);
+const List<PlayerResult> fakePlayerResults = [
+  PlayerResult(
+    player: Player(username: "User user", avatarColor: "Blue", score: 200),
+    isOnline: false,
+    scoreChange: 35,
+    correctAnswerCount: 4,
+    wrongAnswerCount: 4,
+    avgAnswerTime: 14,
+  ),
+  PlayerResult(
+    player: Player(username: "User user", avatarColor: "Green", score: 24),
+    isOnline: false,
+    scoreChange: -90,
+    correctAnswerCount: 1,
+    wrongAnswerCount: 7,
+    avgAnswerTime: 8,
+  ),
+  PlayerResult(
+    player: Player(username: "User user", avatarColor: "Orange", score: 123),
+    isOnline: false,
+    scoreChange: 90,
+    correctAnswerCount: 6,
+    wrongAnswerCount: 2,
+    avgAnswerTime: 18,
+  )
+];

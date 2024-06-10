@@ -15,7 +15,6 @@ class GameContent extends StatefulWidget {
   final int timePerQuestion;
   final int questionCount;
   final Function(bool, int) onAnswerReceived;
-  final Function(int?, int) onSubmitAnswer;
 
   const GameContent({
     super.key,
@@ -25,7 +24,7 @@ class GameContent extends StatefulWidget {
     required this.currentMilliseconds,
     required this.timePerQuestion,
     required this.questionCount,
-    required this.onAnswerReceived, required this.onSubmitAnswer,
+    required this.onAnswerReceived,
   });
 
   @override
@@ -46,11 +45,11 @@ class _GameContentState extends State<GameContent> {
         answerId: answerId,
         questionId: widget.question.questionId,
       );
-      widget.onSubmitAnswer(_correctAnswerId, answerId);
       widget.onAnswerReceived(
           _correctAnswerId == answerId, widget.question.questionId);
       setState(() {});
     } on Error_ServerConnectionError catch (error) {
+      _selectedAnswerId = null;
       _correctAnswerId = null;
       if (mounted) {
         widget.onServerError;
@@ -67,6 +66,7 @@ class _GameContentState extends State<GameContent> {
         );
       }
     } on Error catch (_) {
+      _selectedAnswerId = null;
       _correctAnswerId = null;
       // ignore
     } finally {
@@ -88,7 +88,6 @@ class _GameContentState extends State<GameContent> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-
           children: [
             const Icon(Icons.timer_off_sharp, size: 64.0),
             const SizedBox(height: 16.0),
@@ -188,10 +187,13 @@ class _GameContentState extends State<GameContent> {
   }
 
   Widget createAnswer(int index, BuildContext context) {
+    bool shouldShowAnswer = widget.currentMilliseconds / 1000 >= widget.timePerQuestion &&
+        !Skeletonizer.of(context).enabled;
+
     return SizedBox(
       width: double.infinity,
       child: GestureDetector(
-        onTap: !_isWaitingForAnswer
+        onTap: !_isWaitingForAnswer && !shouldShowAnswer
             ? () {
                 setState(() {
                   _selectedAnswerId = widget.question.answers[index].$1;
@@ -200,7 +202,7 @@ class _GameContentState extends State<GameContent> {
               }
             : null,
         child: MouseRegion(
-          cursor: !_isWaitingForAnswer
+          cursor: !_isWaitingForAnswer && !shouldShowAnswer
               ? SystemMouseCursors.click
               : SystemMouseCursors.basic,
           child: Card(
@@ -225,22 +227,6 @@ class _GameContentState extends State<GameContent> {
       ),
     );
   }
-
-  Widget buildAnswerView(BuildContext context) {
-    if (_isWaitingForAnswer) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    if (_selectedAnswerId == null || _correctAnswerId == null) {
-      return Text("Time's up!, you better hurry next question");
-    } else if (_correctAnswerId == _selectedAnswerId) {
-      return Text(" Correct!");
-    } else {
-      return Text("Wrong");
-    }
-  }
 }
 
 double getFontSize(BuildContext context, {bool title = false}) {
@@ -255,7 +241,7 @@ Color getCardColor(
     required BuildContext context}) {
   if (correctIndex != null) {
     if (cardIndex == correctIndex) {
-      return Color(0xff00ab00);
+      return const Color(0xff00ab00);
     }
     if (selectedIndex == cardIndex) {
       return Colors.red;
