@@ -76,230 +76,237 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 16),
-            GestureDetector(
-              onTap: () {
-                _showColorPicker();
-              },
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 128,
-                    ),
-                    Skeleton.shade(
-                      child: CircleAvatar(
-                        radius: 64,
-                        backgroundColor: avatarColor,
-                        child: Text(
-                          getInitials(
-                              widget.userDataAndStats.userData.username),
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(
-                                color: Colors.white,
-                              ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(height: 16),
+                GestureDetector(
+                  onTap: () {
+                    _showColorPicker();
+                  },
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        const SizedBox(
+                          width: 128,
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Skeleton.ignore(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                          ),
-                          child: IconButton(
-                            onPressed: _showColorPicker,
-                            icon: const Icon(
-                              Icons.edit,
+                        Skeleton.shade(
+                          child: CircleAvatar(
+                            radius: 64,
+                            backgroundColor: avatarColor,
+                            child: Text(
+                              getInitials(
+                                  widget.userDataAndStats.userData.username),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayLarge!
+                                  .copyWith(
+                                    color: Colors.white,
+                                  ),
                             ),
                           ),
                         ),
-                      ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Skeleton.ignore(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                              ),
+                              child: IconButton(
+                                onPressed: _showColorPicker,
+                                icon: const Icon(
+                                  Icons.edit,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Text(
-              widget.userDataAndStats.userData.username,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(
-                "Member since: ${DateFormat("dd/MM/yyyy").format(widget.userDataAndStats.userData.memberSince.toLocal())}",
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: _buildStatistics(
-                  context, widget.userDataAndStats.userStatistics),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
-              child: InputField(
-                enabled: !_isLoading,
-                label: "Password",
-                inputType: TextInputType.visiblePassword,
-                controller: passwordController,
-                errorText: passwordErrorText,
-                showPassword: _showPassword,
-                isPassword: true,
-                onFieldSubmitted: (value) {
-                  // move focus to next field (email)
-                  FocusScope.of(context).requestFocus(emailFocusNode);
-                },
-                validate: (String value) {
-                  setState(() {
-                    _errorText = null;
-                    passwordErrorText = getPasswordErrorText(value);
-                  });
-                },
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-                  child: GestureDetector(
-                    onTap: () {
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  widget.userDataAndStats.userData.username,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Text(
+                    "Member since: ${DateFormat("dd/MM/yyyy").format(widget.userDataAndStats.userData.memberSince.toLocal())}",
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: _buildStatistics(
+                      context, widget.userDataAndStats.userStatistics),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+                  child: InputField(
+                    enabled: !_isLoading,
+                    label: "Password",
+                    inputType: TextInputType.visiblePassword,
+                    controller: passwordController,
+                    errorText: passwordErrorText,
+                    showPassword: _showPassword,
+                    isPassword: true,
+                    onFieldSubmitted: (value) {
+                      // move focus to next field (email)
+                      FocusScope.of(context).requestFocus(emailFocusNode);
+                    },
+                    validate: (String value) {
                       setState(() {
-                        _showPassword = !_showPassword;
+                        _errorText = null;
+                        passwordErrorText = getPasswordErrorText(value);
                       });
                     },
-                    child: MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: Icon(
-                        _showPassword
-                            ? Icons.visibility_rounded
-                            : Icons.visibility_off_rounded,
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _showPassword = !_showPassword;
+                          });
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Icon(
+                            _showPassword
+                                ? Icons.visibility_rounded
+                                : Icons.visibility_off_rounded,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: InputField(
+                    focusNode: emailFocusNode,
+                    suffixIcon: const Icon(Icons.email_outlined),
+                    enabled: !_isLoading,
+                    label: "Email",
+                    inputType: TextInputType.emailAddress,
+                    onFieldSubmitted: (value) {
+                      // move focus to next field (address)
+                      FocusScope.of(context).requestFocus(addressFocusNode);
+                    },
+                    controller: emailController,
+                    errorText: emailErrorText,
+                    validate: (String value) {
+                      setState(() {
+                        _errorText = null;
+                        emailErrorText = getEmailErrorText(value);
+                      });
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: InputField(
+                    focusNode: addressFocusNode,
+                    suffixIcon: const Icon(Icons.home_work_outlined),
+                    enabled: !_isLoading,
+                    controller: addressController,
+                    inputType: TextInputType.streetAddress,
+                    onFieldSubmitted: (value) {
+                      // move focus to next field (phone number)
+                      FocusScope.of(context).requestFocus(phoneNumberFocusNode);
+                    },
+                    label: "Address",
+                    errorText: addressErrorText,
+                    validate: (String value) {
+                      setState(() {
+                        _errorText = null;
+                        addressErrorText = getAddressErrorText(value);
+                      });
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: InputField(
+                    focusNode: phoneNumberFocusNode,
+                    suffixIcon: const Icon(Icons.phone_outlined),
+                    enabled: !_isLoading,
+                    inputType: TextInputType.phone,
+                    controller: phoneNumberController,
+                    label: "Phone number",
+                    errorText: phoneNumberErrorText,
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (value) {
+                      if (isAllFieldsValid() && isSomethingChanged()) _save();
+                    },
+                    validate: (String value) {
+                      setState(() {
+                        _errorText = null;
+                        phoneNumberErrorText = getPhoneNumberErrorText(value);
+                      });
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: InputField(
+                    suffixIcon: const Icon(Icons.calendar_today_outlined),
+                    enabled: false,
+                    controller: birthdateController,
+                    label: "Birthday",
+                    errorText: null,
+                    validate: null,
+                  ),
+                ),
+                if (_errorText != null)
+                  Text(
+                    _errorText!,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                  ),
+                const SizedBox(height: 16),
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    minimumSize: signInAndUpButtonSize,
+                  ),
+                  onPressed:
+                      isAllFieldsValid() && isSomethingChanged() && !_isLoading
+                          ? _save
+                          : null,
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          "Save",
+                        ),
+                ),
+                const SizedBox(height: 16),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: InputField(
-                focusNode: emailFocusNode,
-                suffixIcon: const Icon(Icons.email_outlined),
-                enabled: !_isLoading,
-                label: "Email",
-                inputType: TextInputType.emailAddress,
-                onFieldSubmitted: (value) {
-                  // move focus to next field (address)
-                  FocusScope.of(context).requestFocus(addressFocusNode);
-                },
-                controller: emailController,
-                errorText: emailErrorText,
-                validate: (String value) {
-                  setState(() {
-                    _errorText = null;
-                    emailErrorText = getEmailErrorText(value);
-                  });
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: InputField(
-                focusNode: addressFocusNode,
-                suffixIcon: const Icon(Icons.home_work_outlined),
-                enabled: !_isLoading,
-                controller: addressController,
-                inputType: TextInputType.streetAddress,
-                onFieldSubmitted: (value) {
-                  // move focus to next field (phone number)
-                  FocusScope.of(context).requestFocus(phoneNumberFocusNode);
-                },
-                label: "Address",
-                errorText: addressErrorText,
-                validate: (String value) {
-                  setState(() {
-                    _errorText = null;
-                    addressErrorText = getAddressErrorText(value);
-                  });
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: InputField(
-                focusNode: phoneNumberFocusNode,
-                suffixIcon: const Icon(Icons.phone_outlined),
-                enabled: !_isLoading,
-                inputType: TextInputType.phone,
-                controller: phoneNumberController,
-                label: "Phone number",
-                errorText: phoneNumberErrorText,
-                textInputAction: TextInputAction.done,
-                onFieldSubmitted: (value) {
-                  if (isAllFieldsValid() && isSomethingChanged()) _save();
-                },
-                validate: (String value) {
-                  setState(() {
-                    _errorText = null;
-                    phoneNumberErrorText = getPhoneNumberErrorText(value);
-                  });
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: InputField(
-                suffixIcon: const Icon(Icons.calendar_today_outlined),
-                enabled: false,
-                controller: birthdateController,
-                label: "Birthday",
-                errorText: null,
-                validate: null,
-              ),
-            ),
-            if (_errorText != null)
-              Text(
-                _errorText!,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-              ),
-            const SizedBox(height: 16),
-            FilledButton(
-              style: FilledButton.styleFrom(
-                minimumSize: signInAndUpButtonSize,
-              ),
-              onPressed:
-                  isAllFieldsValid() && isSomethingChanged() && !_isLoading
-                      ? _save
-                      : null,
-              child: _isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text(
-                      "Save",
-                    ),
-            ),
-            const SizedBox(height: 16),
-          ],
+          ),
         ),
       ),
     );
@@ -334,7 +341,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
       });
       passwordController.text = '';
     } on Error_ServerConnectionError catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -351,7 +358,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
         _errorText = "• ${e.format()}";
       });
     } on Error catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, unknownErrorText, e.format());
     } finally {
       setState(() {
@@ -422,9 +429,8 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
       "No Games Played Yet",
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.error
-          ),
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.error),
     );
   }
 
@@ -434,52 +440,74 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
     TextSpan(
       children: [
         if (userStats.totalAnswers != 0)
-        TextSpan(
-          text: "Accuracy:  ",
-          children: [
-            TextSpan(
-              text: "${((userStats.correctAnswers / userStats.totalAnswers) * 100).round()}%\n",
-              style: TextStyle(
-                color: accuracyToColor(((userStats.correctAnswers / userStats.totalAnswers) * 100)),
-                fontWeight: FontWeight.bold,
-              ),
+          TextSpan(
+            text: "Accuracy:  ",
+            style: TextStyle(
+              color: accuracyToColor(
+                  (userStats.correctAnswers / userStats.totalAnswers)),
+              fontWeight: FontWeight.bold,
             ),
-            TextSpan(
-              text: "Correct Answers:  ",
-              children: [
-                TextSpan(
-                  text: "${userStats.correctAnswers}",
-                  style: const TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            ),
-            const TextSpan(
-              text: "    •    ",
-            ),
-            TextSpan(
-              text: "Wrong Answers:  ",
-              children: [
-                TextSpan(
-                  text: "${userStats.wrongAnswers}\n",
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
+            children: [
+              TextSpan(
+                text:
+                    "${((userStats.correctAnswers / userStats.totalAnswers) * 100).round()}%\n",
+                style: TextStyle(
+                  color: accuracyToColor(
+                      (userStats.correctAnswers / userStats.totalAnswers)),
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
-            ),
-          ],
-        ),
-
+              ),
+              TextSpan(
+                text: "Correct Answers:  ",
+                style: const TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                ),
+                children: [
+                  TextSpan(
+                    text: "${userStats.correctAnswers}",
+                    style: const TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
+              ),
+              TextSpan(
+                  text: "    •    ",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: FontWeight.normal,
+                  )),
+              TextSpan(
+                text: "Wrong Answers:  ",
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+                children: [
+                  TextSpan(
+                    text: "${userStats.wrongAnswers}\n",
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         TextSpan(
           text: "Total Games Played:  ",
+          style: const TextStyle(
+            color: Color(0xFF43FFBD),
+            fontWeight: FontWeight.bold,
+          ),
           children: [
             TextSpan(
               text: "${userStats.totalGames}",
               style: const TextStyle(
+                color: Color(0xFF43FFBD),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -490,39 +518,42 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
         ),
         TextSpan(
           text: "Score:  ",
+          style: const TextStyle(
+            color: Color(0xFFFFB156),
+            fontWeight: FontWeight.bold,
+          ),
           children: [
             TextSpan(
               text: "${userStats.score}",
               style: const TextStyle(
+                color: Color(0xFFFFB156),
                 fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
         if (userStats.averageAnswerTime != null)
-          TextSpan(
-            text:
-                "\nAverage Answer Time:  ",
-            children: [
-              TextSpan(
-                text: secondsToReadableTime(userStats.averageAnswerTime!),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+          TextSpan(text: "\nAverage Answer Time:  ", children: [
+            TextSpan(
+              text: secondsToReadableTime(userStats.averageAnswerTime!),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
               ),
-            ]
-          )
+            ),
+          ])
       ],
     ),
   );
 }
 
 Color accuracyToColor(double accuracy) {
-  double factor = accuracy / 100;
-  return Color.fromRGBO(
-    255 - (factor * 255).toInt(),
-    (factor * 255).toInt(),
-    0,
-    1,
-  );
+  // Ensure accuracy is between 0 and 1
+  accuracy = accuracy.clamp(0.0, 1.0);
+
+  // Convert hue to RGB values
+  int rgbValue = (accuracy * 255).toInt();
+  int redValue = 255 - rgbValue;
+  int greenValue = rgbValue;
+
+  return Color.fromARGB(255, redValue, greenValue, 0);
 }

@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 import '../../../consts.dart';
+import '../../../src/rust/api/session.dart';
 import '../../../utils/common_widgets/gradient_text.dart';
 import '../../../utils/dialogs/error_dialog.dart';
 import '../../auth/login.dart';
+import '../../lobby/lobby.dart';
 import 'create_room_col_contents.dart';
 import 'package:trivia/src/rust/api/error.dart';
 
 class CreateRoomAdaptiveSheet extends StatefulWidget {
   final Future<void> Function(
-          String name, int maxPlayers, int questionsCount, int timePerQuestion)
-      onSave;
+    String name,
+    int maxPlayers,
+    int questionsCount,
+    int timePerQuestion,
+  ) onSave;
   final bool isSideSheet;
+  final Session session;
+  final String username;
 
   const CreateRoomAdaptiveSheet(
-      {super.key, required this.onSave, required this.isSideSheet});
+      {super.key,
+      required this.onSave,
+      required this.isSideSheet,
+      required this.session,
+      required this.username});
 
   @override
   State<CreateRoomAdaptiveSheet> createState() =>
@@ -24,7 +35,7 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
   String name = '';
   int maxPlayers = 2;
   int questionsCount = 2;
-  int timePerQuestion = 2;
+  int timePerQuestion = 5;
   bool _isLoading = false;
   String? errorText;
 
@@ -43,10 +54,26 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
             questionsCount,
             timePerQuestion,
           );
-          if (!context.mounted) return;
+          if (!context.mounted || !mounted) return;
           Navigator.pop(context);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return Lobby(
+                  timePerQuestion: timePerQuestion,
+                  questionCount: questionsCount,
+                  username: widget.username,
+                  isAdmin: true,
+                  session: widget.session,
+                  id: "", // id does not matter in this case
+                  roomName: name,
+                );
+              },
+            ),
+          );
         } on Error_ServerConnectionError catch (e) {
-          if (!context.mounted) return;
+          if (!context.mounted  || !mounted) return;
           Navigator.pop(context);
           Navigator.pushReplacement(
             context,
@@ -60,7 +87,7 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
             ),
           );
         } on Error catch (e) {
-          if (!context.mounted) return;
+          if (!context.mounted || !mounted) return;
           setState(() {
             errorText = "• ${e.format()}";
           });
@@ -70,7 +97,7 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
           });
         }
       },
-      saveEnabled: name.isNotEmpty,
+      saveEnabled: name.length >= 4,
     );
     final content = CreateRoomSheetColContents(
       errorText: errorText,
@@ -137,12 +164,19 @@ class _CreateRoomAdaptiveSheetState extends State<CreateRoomAdaptiveSheet> {
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: Center(child: header),
                   ),
-                  content,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: content,
+                    ),
+                  ),
                   actions,
                 ],
               ),

@@ -28,48 +28,50 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return Center(
+      child: FutureBuilder(
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Skeletonizer(
+              child: ProfilePageContent(
+                userDataAndStats: fakeUserDataAndStats,
+                session: widget.session,
+              ),
+            );
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text((snapshot.error as Error).format()),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        future = getUserDataAndStats(context);
+                      });
+                    },
+                    child: const Text("Try Again"),
+                  )
+                ],
+              ),
+            );
+          }
+          final userData = snapshot.data!;
           return Skeletonizer(
+            enabled: false,
             child: ProfilePageContent(
-              userDataAndStats: fakeUserDataAndStats,
+              userDataAndStats: userData,
               session: widget.session,
             ),
           );
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text((snapshot.error as Error).format()),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      future = getUserDataAndStats(context);
-                    });
-                  },
-                  child: const Text("Try Again"),
-                )
-              ],
-            ),
-          );
-        }
-        final userData = snapshot.data!;
-        return Skeletonizer(
-          enabled: false,
-          child: ProfilePageContent(
-            userDataAndStats: userData,
-            session: widget.session,
-          ),
-        );
-      },
-      future: future,
+        },
+        future: future,
+      ),
     );
   }
 

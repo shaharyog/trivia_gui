@@ -9,15 +9,17 @@ Future<Filters?> launchFilterSheet(
   Filters filters,
 ) async {
   bool isConfirmed = false;
-
+  Filters tempFilters = Filters.fromFilters(filters);
   if (getScreenSize(context) == ScreenSize.small) {
     await showModalBottomSheet<dynamic>(
       isScrollControlled: true,
+      enableDrag: true,
+      showDragHandle: true,
       context: context,
       builder: (context) => RoomsFilterAdaptiveSheet(
-        oldFilters: Filters.fromFilters(filters),
+        oldFilters: tempFilters,
         updateFiltersCallback: (newFilters) {
-          filters = newFilters;
+          tempFilters = newFilters;
         },
         isFiltersApplyConfirmed: (confirmed) {
           isConfirmed = confirmed;
@@ -26,6 +28,7 @@ Future<Filters?> launchFilterSheet(
     );
   } else {
     await showModalSideSheet(
+      safeAreaTop: false,
       addDivider: false,
       addBackIconButton: false,
       addActions: false,
@@ -33,9 +36,9 @@ Future<Filters?> launchFilterSheet(
       barrierDismissible: true,
       context,
       body: RoomsFilterAdaptiveSheet(
-        oldFilters: Filters.fromFilters(filters),
+        oldFilters: tempFilters,
         updateFiltersCallback: (newFilters) {
-          filters = newFilters;
+          tempFilters = newFilters;
         },
         isFiltersApplyConfirmed: (confirmed) {
           isConfirmed = confirmed;
@@ -47,7 +50,7 @@ Future<Filters?> launchFilterSheet(
   }
 
   if (isConfirmed) {
-    return filters;
+    return tempFilters;
   }
 
   return null;

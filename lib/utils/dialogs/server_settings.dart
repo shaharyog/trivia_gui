@@ -94,7 +94,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
                               'serverIpKey', serverIpController!.text);
                           prefs.setString(
                               'serverPortKey', serverPortController!.text);
-                          if (!context.mounted) return;
+                          if (!context.mounted || !context.mounted) return;
                           Navigator.pop(context);
                         }
                       : null,

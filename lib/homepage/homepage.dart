@@ -10,10 +10,12 @@ import '../utils/nav/nav_bar.dart';
 
 class HomePage extends StatefulWidget {
   final Session session;
+  final String username;
 
   const HomePage({
     super.key,
     required this.session,
+    required this.username,
   });
 
   @override
@@ -23,6 +25,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentNavIndex = 0;
   Filters filters = Filters();
+  bool isInCreateRoomSheet = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +36,19 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: screenSize == ScreenSize.small
             ? getHomePageAppbar(
-          navigationIndex: _currentNavIndex,
-          session: widget.session,
-          context: context,
-        )
+                navigationIndex: _currentNavIndex,
+                session: widget.session,
+                context: context,
+              )
             : null,
         bottomNavigationBar: screenSize == ScreenSize.small
             ? HomePageBottomNavBar(
-          navigationIndex: _currentNavIndex,
-          onDestinationSelected: destinationSelected,
-        )
+                navigationIndex: _currentNavIndex,
+                onDestinationSelected: destinationSelected,
+              )
             : null,
         body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (screenSize != ScreenSize.small)
               HomePageNavRail(
@@ -56,18 +60,26 @@ class _HomePageState extends State<HomePage> {
               const VerticalDivider(thickness: 1, width: 1),
             Expanded(
               child: HomePageBody(
+                username: widget.username,
                 navigationIndex: _currentNavIndex,
                 session: widget.session,
                 filters: filters,
+                isInCreateRoomSheet: isInCreateRoomSheet,
               ),
             ),
           ],
         ),
         floatingActionButton: _currentNavIndex == 1
             ? HomePageFloatingActionButton(
-          navigationIndex: _currentNavIndex,
-          session: widget.session,
-        )
+                username: widget.username,
+                inCreateRoomSheetChanged: (value) {
+                  setState(() {
+                    isInCreateRoomSheet = value;
+                  });
+                },
+                navigationIndex: _currentNavIndex,
+                session: widget.session,
+              )
             : null,
       ),
     );

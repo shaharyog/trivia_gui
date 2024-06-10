@@ -30,6 +30,12 @@ class CreateRoomSheetColContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sliderTheme = SliderThemeData(
+      inactiveTrackColor:
+      Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      activeTickMarkColor: Colors.transparent,
+      inactiveTickMarkColor: Colors.transparent,
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,12 +57,7 @@ class CreateRoomSheetColContents extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         SliderTheme(
-          data: SliderThemeData(
-            inactiveTrackColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.2),
-            activeTickMarkColor: Colors.transparent,
-            inactiveTickMarkColor: Colors.transparent,
-          ),
+          data: sliderTheme,
           child: Slider(
             value: maxPlayers.toDouble(),
             min: 2,
@@ -75,17 +76,12 @@ class CreateRoomSheetColContents extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         SliderTheme(
-          data: SliderThemeData(
-            inactiveTrackColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.2),
-            activeTickMarkColor: Colors.transparent,
-            inactiveTickMarkColor: Colors.transparent,
-          ),
+          data: sliderTheme,
           child: Slider(
             value: questionsCount.toDouble(),
             min: 2,
             max: 50,
-            divisions: 48,
+            divisions: 49,
             label: questionsCount.toString(),
             onChanged: !isLoading
                 ? (value) {
@@ -99,17 +95,12 @@ class CreateRoomSheetColContents extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         SliderTheme(
-          data: SliderThemeData(
-            inactiveTrackColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.2),
-            activeTickMarkColor: Colors.transparent,
-            inactiveTickMarkColor: Colors.transparent,
-          ),
+          data: sliderTheme,
           child: Slider(
             value: timePerQuestion.toDouble(),
-            min: 1,
+            min: 5,
             max: 180,
-            divisions: 179,
+            divisions: 174,
             label: ' ${secondsToReadableTime(timePerQuestion)} ',
             onChanged: !isLoading
                 ? (value) {
@@ -121,11 +112,13 @@ class CreateRoomSheetColContents extends StatelessWidget {
         if (errorText != null)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              errorText!,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+            child: Center(
+              child: Text(
+                errorText!,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+              ),
             ),
           ),
       ],
@@ -162,7 +155,13 @@ class CreateRoomSheetActions extends StatelessWidget {
                   child: FilledButton(
                     onPressed: !isLoading && saveEnabled ? onSave : null,
                     child: isLoading
-                        ? const CircularProgressIndicator()
+                        ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          )
                         : const Text('Create'),
                   ),
                 ),

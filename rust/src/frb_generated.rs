@@ -32,7 +32,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.0.0-dev.33";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 422255802;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 857472487;
 
 // Section: executor
 
@@ -66,6 +66,55 @@ fn wire_error_format_impl(
             transform_result_sse((move || {
                 Result::<_, ()>::Ok(crate::api::error::Error::format(&api_that))
             })())
+        },
+    )
+}
+fn wire_Session_close_room_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_close_room",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::close_room(&mut api_that)
+                })())
+            }
         },
     )
 }
@@ -120,6 +169,55 @@ fn wire_Session_create_room_impl(
         },
     )
 }
+fn wire_Session_get_game_results_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_get_game_results",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::get_game_results(&mut api_that)
+                })())
+            }
+        },
+    )
+}
 fn wire_Session_get_highscores_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -164,6 +262,55 @@ fn wire_Session_get_highscores_impl(
                     }
                     let mut api_that = api_that_decoded.unwrap();
                     crate::api::session::Session::get_highscores(&mut api_that)
+                })())
+            }
+        },
+    )
+}
+fn wire_Session_get_question_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_get_question",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::get_question(&mut api_that)
                 })())
             }
         },
@@ -214,6 +361,55 @@ fn wire_Session_get_room_players_impl(
                     }
                     let mut api_that = api_that_decoded.unwrap();
                     crate::api::session::Session::get_room_players(&mut api_that, api_room_id)
+                })())
+            }
+        },
+    )
+}
+fn wire_Session_get_room_state_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_get_room_state",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::get_room_state(&mut api_that)
                 })())
             }
         },
@@ -317,6 +513,154 @@ fn wire_Session_get_user_data_impl(
         },
     )
 }
+fn wire_Session_join_room_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_join_room",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            let api_room_id = <String>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::join_room(&mut api_that, api_room_id)
+                })())
+            }
+        },
+    )
+}
+fn wire_Session_leave_game_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_leave_game",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::leave_game(&mut api_that)
+                })())
+            }
+        },
+    )
+}
+fn wire_Session_leave_room_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_leave_room",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::leave_room(&mut api_that)
+                })())
+            }
+        },
+    )
+}
 fn wire_Session_login_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -410,6 +754,110 @@ fn wire_Session_signup_impl(
             move |context| {
                 transform_result_sse((move || {
                     crate::api::session::Session::signup(api_signup_request, api_address)
+                })())
+            }
+        },
+    )
+}
+fn wire_Session_start_game_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_start_game",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::start_game(&mut api_that)
+                })())
+            }
+        },
+    )
+}
+fn wire_Session_submit_answer_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_submit_answer",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            let api_answer_id = <u32>::sse_decode(&mut deserializer);
+            let api_question_id = <u32>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::submit_answer(
+                        &mut api_that,
+                        api_answer_id,
+                        api_question_id,
+                    )
                 })())
             }
         },
@@ -586,10 +1034,45 @@ impl SseDecode for crate::api::error::Error {
     }
 }
 
+impl SseDecode for crate::api::request::get_game_results::GameResults {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_userAnswers =
+            <Vec<crate::api::request::get_game_results::QuestionAnswered>>::sse_decode(
+                deserializer,
+            );
+        let mut var_playersResults =
+            <Vec<crate::api::request::get_game_results::PlayerResult>>::sse_decode(deserializer);
+        return crate::api::request::get_game_results::GameResults {
+            user_answers: var_userAnswers,
+            players_results: var_playersResults,
+        };
+    }
+}
+
+impl SseDecode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
+    }
+}
+
 impl SseDecode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_i64::<NativeEndian>().unwrap()
+    }
+}
+
+impl SseDecode for Vec<String> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<String>::sse_decode(deserializer));
+        }
+        return ans_;
     }
 }
 
@@ -607,6 +1090,20 @@ impl SseDecode for Vec<crate::api::request::get_room_players::Player> {
     }
 }
 
+impl SseDecode for Vec<crate::api::request::get_game_results::PlayerResult> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(
+                <crate::api::request::get_game_results::PlayerResult>::sse_decode(deserializer),
+            );
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Vec<u8> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -614,6 +1111,32 @@ impl SseDecode for Vec<u8> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<u8>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::request::get_game_results::QuestionAnswered> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(
+                <crate::api::request::get_game_results::QuestionAnswered>::sse_decode(deserializer),
+            );
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<(u32, String)> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<(u32, String)>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -681,17 +1204,84 @@ impl SseDecode for crate::api::request::get_room_players::Player {
     }
 }
 
+impl SseDecode for crate::api::request::get_game_results::PlayerResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_player =
+            <crate::api::request::get_room_players::Player>::sse_decode(deserializer);
+        let mut var_isOnline = <bool>::sse_decode(deserializer);
+        let mut var_scoreChange = <i32>::sse_decode(deserializer);
+        let mut var_correctAnswerCount = <u32>::sse_decode(deserializer);
+        let mut var_wrongAnswerCount = <u32>::sse_decode(deserializer);
+        let mut var_avgAnswerTime = <u32>::sse_decode(deserializer);
+        return crate::api::request::get_game_results::PlayerResult {
+            player: var_player,
+            is_online: var_isOnline,
+            score_change: var_scoreChange,
+            correct_answer_count: var_correctAnswerCount,
+            wrong_answer_count: var_wrongAnswerCount,
+            avg_answer_time: var_avgAnswerTime,
+        };
+    }
+}
+
+impl SseDecode for crate::api::request::get_question::Question {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_questionId = <u32>::sse_decode(deserializer);
+        let mut var_question = <String>::sse_decode(deserializer);
+        let mut var_answers = <Vec<(u32, String)>>::sse_decode(deserializer);
+        return crate::api::request::get_question::Question {
+            question_id: var_questionId,
+            question: var_question,
+            answers: var_answers,
+        };
+    }
+}
+
+impl SseDecode for crate::api::request::get_game_results::QuestionAnswered {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_question = <String>::sse_decode(deserializer);
+        let mut var_answers = <Vec<String>>::sse_decode(deserializer);
+        let mut var_correctAnswer = <u32>::sse_decode(deserializer);
+        let mut var_userAnswer = <u32>::sse_decode(deserializer);
+        let mut var_timeTaken = <u32>::sse_decode(deserializer);
+        return crate::api::request::get_game_results::QuestionAnswered {
+            question: var_question,
+            answers: var_answers,
+            correct_answer: var_correctAnswer,
+            user_answer: var_userAnswer,
+            time_taken: var_timeTaken,
+        };
+    }
+}
+
+impl SseDecode for (u32, String) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_field0 = <u32>::sse_decode(deserializer);
+        let mut var_field1 = <String>::sse_decode(deserializer);
+        return (var_field0, var_field1);
+    }
+}
+
 impl SseDecode for crate::api::request::get_rooms::Room {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_id = <String>::sse_decode(deserializer);
         let mut var_roomData =
             <crate::api::request::create_room::RoomData>::sse_decode(deserializer);
+        let mut var_players =
+            <Vec<crate::api::request::get_room_players::Player>>::sse_decode(deserializer);
         let mut var_isActive = <bool>::sse_decode(deserializer);
+        let mut var_isFinished = <bool>::sse_decode(deserializer);
         return crate::api::request::get_rooms::Room {
             id: var_id,
             room_data: var_roomData,
+            players: var_players,
             is_active: var_isActive,
+            is_finished: var_isFinished,
         };
     }
 }
@@ -708,6 +1298,27 @@ impl SseDecode for crate::api::request::create_room::RoomData {
             max_players: var_maxPlayers,
             question_count: var_questionCount,
             time_per_question: var_timePerQuestion,
+        };
+    }
+}
+
+impl SseDecode for crate::api::request::get_room_state::RoomState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_hasGameBegun = <bool>::sse_decode(deserializer);
+        let mut var_players =
+            <Vec<crate::api::request::get_room_players::Player>>::sse_decode(deserializer);
+        let mut var_questionCount = <u32>::sse_decode(deserializer);
+        let mut var_answerTimeout = <u32>::sse_decode(deserializer);
+        let mut var_maxPlayers = <u32>::sse_decode(deserializer);
+        let mut var_isClosed = <bool>::sse_decode(deserializer);
+        return crate::api::request::get_room_state::RoomState {
+            has_game_begun: var_hasGameBegun,
+            players: var_players,
+            question_count: var_questionCount,
+            answer_timeout: var_answerTimeout,
+            max_players: var_maxPlayers,
+            is_closed: var_isClosed,
         };
     }
 }
@@ -832,13 +1443,6 @@ impl SseDecode for usize {
     }
 }
 
-impl SseDecode for i32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
-    }
-}
-
 fn pde_ffi_dispatcher_primary_impl(
     func_id: i32,
     port: flutter_rust_bridge::for_generated::MessagePort,
@@ -848,14 +1452,23 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
+        14 => wire_Session_close_room_impl(port, ptr, rust_vec_len, data_len),
         9 => wire_Session_create_room_impl(port, ptr, rust_vec_len, data_len),
+        19 => wire_Session_get_game_results_impl(port, ptr, rust_vec_len, data_len),
         10 => wire_Session_get_highscores_impl(port, ptr, rust_vec_len, data_len),
+        17 => wire_Session_get_question_impl(port, ptr, rust_vec_len, data_len),
         8 => wire_Session_get_room_players_impl(port, ptr, rust_vec_len, data_len),
+        11 => wire_Session_get_room_state_impl(port, ptr, rust_vec_len, data_len),
         7 => wire_Session_get_rooms_impl(port, ptr, rust_vec_len, data_len),
         5 => wire_Session_get_user_data_impl(port, ptr, rust_vec_len, data_len),
+        12 => wire_Session_join_room_impl(port, ptr, rust_vec_len, data_len),
+        16 => wire_Session_leave_game_impl(port, ptr, rust_vec_len, data_len),
+        13 => wire_Session_leave_room_impl(port, ptr, rust_vec_len, data_len),
         2 => wire_Session_login_impl(port, ptr, rust_vec_len, data_len),
         4 => wire_Session_logout_impl(port, ptr, rust_vec_len, data_len),
         3 => wire_Session_signup_impl(port, ptr, rust_vec_len, data_len),
+        15 => wire_Session_start_game_impl(port, ptr, rust_vec_len, data_len),
+        18 => wire_Session_submit_answer_impl(port, ptr, rust_vec_len, data_len),
         6 => wire_Session_update_user_data_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
@@ -939,6 +1552,27 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::error::Error> for crate::api:
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_game_results::GameResults {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.user_answers.into_into_dart().into_dart(),
+            self.players_results.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_game_results::GameResults
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_game_results::GameResults>
+    for crate::api::request::get_game_results::GameResults
+{
+    fn into_into_dart(self) -> crate::api::request::get_game_results::GameResults {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::request::login::LoginRequest {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -982,12 +1616,85 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_room_players::Pl
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_game_results::PlayerResult {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.player.into_into_dart().into_dart(),
+            self.is_online.into_into_dart().into_dart(),
+            self.score_change.into_into_dart().into_dart(),
+            self.correct_answer_count.into_into_dart().into_dart(),
+            self.wrong_answer_count.into_into_dart().into_dart(),
+            self.avg_answer_time.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_game_results::PlayerResult
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_game_results::PlayerResult>
+    for crate::api::request::get_game_results::PlayerResult
+{
+    fn into_into_dart(self) -> crate::api::request::get_game_results::PlayerResult {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_question::Question {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.question_id.into_into_dart().into_dart(),
+            self.question.into_into_dart().into_dart(),
+            self.answers.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_question::Question
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_question::Question>
+    for crate::api::request::get_question::Question
+{
+    fn into_into_dart(self) -> crate::api::request::get_question::Question {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_game_results::QuestionAnswered {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.question.into_into_dart().into_dart(),
+            self.answers.into_into_dart().into_dart(),
+            self.correct_answer.into_into_dart().into_dart(),
+            self.user_answer.into_into_dart().into_dart(),
+            self.time_taken.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_game_results::QuestionAnswered
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_game_results::QuestionAnswered>
+    for crate::api::request::get_game_results::QuestionAnswered
+{
+    fn into_into_dart(self) -> crate::api::request::get_game_results::QuestionAnswered {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::request::get_rooms::Room {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.id.into_into_dart().into_dart(),
             self.room_data.into_into_dart().into_dart(),
+            self.players.into_into_dart().into_dart(),
             self.is_active.into_into_dart().into_dart(),
+            self.is_finished.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -1023,6 +1730,31 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::request::create_room::RoomDat
     for crate::api::request::create_room::RoomData
 {
     fn into_into_dart(self) -> crate::api::request::create_room::RoomData {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::request::get_room_state::RoomState {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.has_game_begun.into_into_dart().into_dart(),
+            self.players.into_into_dart().into_dart(),
+            self.question_count.into_into_dart().into_dart(),
+            self.answer_timeout.into_into_dart().into_dart(),
+            self.max_players.into_into_dart().into_dart(),
+            self.is_closed.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::request::get_room_state::RoomState
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_room_state::RoomState>
+    for crate::api::request::get_room_state::RoomState
+{
+    fn into_into_dart(self) -> crate::api::request::get_room_state::RoomState {
         self
     }
 }
@@ -1247,10 +1979,41 @@ impl SseEncode for crate::api::error::Error {
     }
 }
 
+impl SseEncode for crate::api::request::get_game_results::GameResults {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Vec<crate::api::request::get_game_results::QuestionAnswered>>::sse_encode(
+            self.user_answers,
+            serializer,
+        );
+        <Vec<crate::api::request::get_game_results::PlayerResult>>::sse_encode(
+            self.players_results,
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
+    }
+}
+
 impl SseEncode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         serializer.cursor.write_i64::<NativeEndian>(self).unwrap();
+    }
+}
+
+impl SseEncode for Vec<String> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <String>::sse_encode(item, serializer);
+        }
     }
 }
 
@@ -1264,12 +2027,42 @@ impl SseEncode for Vec<crate::api::request::get_room_players::Player> {
     }
 }
 
+impl SseEncode for Vec<crate::api::request::get_game_results::PlayerResult> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::request::get_game_results::PlayerResult>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<u8> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <u8>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::request::get_game_results::QuestionAnswered> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::request::get_game_results::QuestionAnswered>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<(u32, String)> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <(u32, String)>::sse_encode(item, serializer);
         }
     }
 }
@@ -1321,12 +2114,54 @@ impl SseEncode for crate::api::request::get_room_players::Player {
     }
 }
 
+impl SseEncode for crate::api::request::get_game_results::PlayerResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::request::get_room_players::Player>::sse_encode(self.player, serializer);
+        <bool>::sse_encode(self.is_online, serializer);
+        <i32>::sse_encode(self.score_change, serializer);
+        <u32>::sse_encode(self.correct_answer_count, serializer);
+        <u32>::sse_encode(self.wrong_answer_count, serializer);
+        <u32>::sse_encode(self.avg_answer_time, serializer);
+    }
+}
+
+impl SseEncode for crate::api::request::get_question::Question {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.question_id, serializer);
+        <String>::sse_encode(self.question, serializer);
+        <Vec<(u32, String)>>::sse_encode(self.answers, serializer);
+    }
+}
+
+impl SseEncode for crate::api::request::get_game_results::QuestionAnswered {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.question, serializer);
+        <Vec<String>>::sse_encode(self.answers, serializer);
+        <u32>::sse_encode(self.correct_answer, serializer);
+        <u32>::sse_encode(self.user_answer, serializer);
+        <u32>::sse_encode(self.time_taken, serializer);
+    }
+}
+
+impl SseEncode for (u32, String) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.0, serializer);
+        <String>::sse_encode(self.1, serializer);
+    }
+}
+
 impl SseEncode for crate::api::request::get_rooms::Room {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.id, serializer);
         <crate::api::request::create_room::RoomData>::sse_encode(self.room_data, serializer);
+        <Vec<crate::api::request::get_room_players::Player>>::sse_encode(self.players, serializer);
         <bool>::sse_encode(self.is_active, serializer);
+        <bool>::sse_encode(self.is_finished, serializer);
     }
 }
 
@@ -1337,6 +2172,18 @@ impl SseEncode for crate::api::request::create_room::RoomData {
         <u32>::sse_encode(self.max_players, serializer);
         <u32>::sse_encode(self.question_count, serializer);
         <u32>::sse_encode(self.time_per_question, serializer);
+    }
+}
+
+impl SseEncode for crate::api::request::get_room_state::RoomState {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.has_game_begun, serializer);
+        <Vec<crate::api::request::get_room_players::Player>>::sse_encode(self.players, serializer);
+        <u32>::sse_encode(self.question_count, serializer);
+        <u32>::sse_encode(self.answer_timeout, serializer);
+        <u32>::sse_encode(self.max_players, serializer);
+        <bool>::sse_encode(self.is_closed, serializer);
     }
 }
 
@@ -1425,13 +2272,6 @@ impl SseEncode for usize {
             .cursor
             .write_u64::<NativeEndian>(self as _)
             .unwrap();
-    }
-}
-
-impl SseEncode for i32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
     }
 }
 

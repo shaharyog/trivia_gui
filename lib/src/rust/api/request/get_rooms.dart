@@ -5,21 +5,31 @@
 
 import '../../frb_generated.dart';
 import 'create_room.dart';
+import 'get_room_players.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 class Room {
   final String id;
   final RoomData roomData;
+  final List<Player> players;
   final bool isActive;
+  final bool isFinished;
 
   const Room({
     required this.id,
     required this.roomData,
+    required this.players,
     required this.isActive,
+    required this.isFinished,
   });
 
   @override
-  int get hashCode => id.hashCode ^ roomData.hashCode ^ isActive.hashCode;
+  int get hashCode =>
+      id.hashCode ^
+      roomData.hashCode ^
+      players.hashCode ^
+      isActive.hashCode ^
+      isFinished.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -28,5 +38,7 @@ class Room {
           runtimeType == other.runtimeType &&
           id == other.id &&
           roomData == other.roomData &&
-          isActive == other.isActive;
+          players == other.players &&
+          isActive == other.isActive &&
+          isFinished == other.isFinished;
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BlinkingCircle extends StatelessWidget {
+  final Color color;
   final AnimationController animationController;
 
-  const BlinkingCircle({super.key, required this.animationController});
+  const BlinkingCircle({super.key, required this.animationController, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +13,8 @@ class BlinkingCircle extends StatelessWidget {
       child: Container(
         width: 12.0,
         height: 12.0,
-        decoration: const BoxDecoration(
-          color: Colors.red,
+        decoration: BoxDecoration(
+          color: color,
           shape: BoxShape.circle,
         ),
       ),

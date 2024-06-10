@@ -100,21 +100,24 @@ class _SignupPageState extends State<SignupPage> {
       Session newSession = await Session.signup(
         address: "$serverIp:$serverPort",
         signupRequest: SignupRequest(
-          username: usernameController.text,
-          password: passwordController.text,
-          email: emailController.text.toLowerCase(),
-          address: addressController.text,
-          birthday: birthdateController.text,
-          phoneNumber: phoneNumberController.text,
+          username: usernameController.text.trim(),
+          password: passwordController.text.trim(),
+          email: emailController.text.toLowerCase().trim(),
+          address: addressController.text.trim(),
+          birthday: birthdateController.text.trim(),
+          phoneNumber: phoneNumberController.text.trim(),
         ),
       );
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       setWindowTitle("Trivia - @${usernameController.text}");
       Navigator.pop(context); // remove signup page from stack
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(session: newSession),
+          builder: (context) => HomePage(
+            session: newSession,
+            username: usernameController.text.trim(),
+          ),
         ),
       );
     } on Error_SignupError catch (e) {
@@ -122,10 +125,10 @@ class _SignupPageState extends State<SignupPage> {
         _errorText = "• ${e.format()}";
       });
     } on Error_ServerConnectionError catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, serverConnErrorText, e.format());
     } on Error catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, "Error", e.format());
     } finally {
       setState(() {

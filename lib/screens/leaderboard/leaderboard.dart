@@ -32,7 +32,9 @@ class _LeaderboardState extends State<Leaderboard> {
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if (futureDone && currData != null) {
+        if (widget.session.isDisposed) {
+          timer.cancel();
+        } if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
             future = getHighScores(context);
@@ -52,6 +54,8 @@ class _LeaderboardState extends State<Leaderboard> {
   Future<List<Player>> getHighScores(BuildContext context) {
     return widget.session.getHighscores().onError(
       (Error_ServerConnectionError error, stackTrace) {
+        timer.cancel();
+        future.ignore();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -112,7 +116,7 @@ class _LeaderboardState extends State<Leaderboard> {
           futureDone = true;
         }
 
-        return Skeletonizer(enabled: false, child: LeaderboardContent(players: currData!));
+        return Skeletonizer(enabled: false, child: LeaderboardContent(players: currData!.where((e) => e.score > 0).toList()));
       },
     );
   }

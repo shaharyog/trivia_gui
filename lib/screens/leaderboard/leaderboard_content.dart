@@ -31,7 +31,7 @@ class LeaderboardContent extends StatelessWidget {
                   size: 64,
                 ),
                 Text(
-                  "No users found",
+                  "No players in the leaderboard.",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
@@ -64,8 +64,8 @@ Widget _buildSmallScreen(BuildContext context, List<Player> topUsers) {
         Expanded(
           flex: 2,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 16.0,
+            padding: EdgeInsets.only(
+              bottom: (topUsers.length > 3) ? 8.0 : 0.0,
             ),
             child: _buildTopThree(
               topUsers: topUsers,
@@ -76,8 +76,11 @@ Widget _buildSmallScreen(BuildContext context, List<Player> topUsers) {
         if (topUsers.length > 3)
           Expanded(
             flex: 3,
-            child: _buildListView(
-                context: context, topUsers: topUsers, startIndex: 3),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: _buildListView(
+                  context: context, topUsers: topUsers, startIndex: 3),
+            ),
           ),
       ],
     ),
@@ -93,10 +96,8 @@ Widget _buildLargeScreen(BuildContext context, List<Player> topUsers) {
         Expanded(
           flex: 3,
           child: Padding(
-            padding: const EdgeInsets.only(
-              top: 16.0,
-              bottom: 16.0,
-              right: 16.0,
+            padding: EdgeInsets.only(
+              right: (topUsers.length > 3) ? 8.0 : 0.0,
             ),
             child: _buildTopThree(
               topUsers: topUsers,
@@ -107,8 +108,11 @@ Widget _buildLargeScreen(BuildContext context, List<Player> topUsers) {
         if (topUsers.length > 3)
           Expanded(
             flex: 2,
-            child: _buildListView(
-                context: context, topUsers: topUsers, startIndex: 3),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: _buildListView(
+                  context: context, topUsers: topUsers, startIndex: 3),
+            ),
           ),
       ],
     ),

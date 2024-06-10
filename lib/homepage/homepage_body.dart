@@ -9,12 +9,16 @@ class HomePageBody extends StatelessWidget {
   final int navigationIndex;
   final Session session;
   final Filters filters;
+  final bool isInCreateRoomSheet;
+  final String username;
 
   const HomePageBody({
     super.key,
     required this.navigationIndex,
     required this.session,
     required this.filters,
+    required this.isInCreateRoomSheet,
+    required this.username,
   });
 
   @override
@@ -24,8 +28,10 @@ class HomePageBody extends StatelessWidget {
         return Leaderboard(session: session);
       case 1:
         return RoomsWidget(
+          username: username,
           session: session,
           filters: filters,
+          isInCreateRoomSheet: isInCreateRoomSheet,
         );
       case 2:
         return ProfilePage(session: session);

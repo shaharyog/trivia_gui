@@ -7,7 +7,10 @@ import '../frb_generated.dart';
 import 'error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'request/create_room.dart';
+import 'request/get_game_results.dart';
+import 'request/get_question.dart';
 import 'request/get_room_players.dart';
+import 'request/get_room_state.dart';
 import 'request/get_rooms.dart';
 import 'request/get_user_data.dart';
 import 'request/login.dart';
@@ -31,22 +34,44 @@ class Session extends RustOpaque {
         RustLib.instance.api.rust_arc_decrement_strong_count_SessionPtr,
   );
 
+  Future<void> closeRoom({dynamic hint}) =>
+      RustLib.instance.api.sessionCloseRoom(that: this, hint: hint);
+
   Future<void> createRoom({required RoomData roomData, dynamic hint}) =>
       RustLib.instance.api
           .sessionCreateRoom(that: this, roomData: roomData, hint: hint);
 
+  Future<GameResults> getGameResults({dynamic hint}) =>
+      RustLib.instance.api.sessionGetGameResults(that: this, hint: hint);
+
   Future<List<Player>> getHighscores({dynamic hint}) =>
       RustLib.instance.api.sessionGetHighscores(that: this, hint: hint);
+
+  Future<Question> getQuestion({dynamic hint}) =>
+      RustLib.instance.api.sessionGetQuestion(that: this, hint: hint);
 
   Future<List<Player>> getRoomPlayers({required String roomId, dynamic hint}) =>
       RustLib.instance.api
           .sessionGetRoomPlayers(that: this, roomId: roomId, hint: hint);
+
+  Future<RoomState> getRoomState({dynamic hint}) =>
+      RustLib.instance.api.sessionGetRoomState(that: this, hint: hint);
 
   Future<List<Room>> getRooms({dynamic hint}) =>
       RustLib.instance.api.sessionGetRooms(that: this, hint: hint);
 
   Future<UserDataAndStatistics> getUserData({dynamic hint}) =>
       RustLib.instance.api.sessionGetUserData(that: this, hint: hint);
+
+  Future<void> joinRoom({required String roomId, dynamic hint}) =>
+      RustLib.instance.api
+          .sessionJoinRoom(that: this, roomId: roomId, hint: hint);
+
+  Future<void> leaveGame({dynamic hint}) =>
+      RustLib.instance.api.sessionLeaveGame(that: this, hint: hint);
+
+  Future<void> leaveRoom({dynamic hint}) =>
+      RustLib.instance.api.sessionLeaveRoom(that: this, hint: hint);
 
   static Future<Session> login(
           {required LoginRequest loginRequest,
@@ -64,6 +89,14 @@ class Session extends RustOpaque {
           dynamic hint}) =>
       RustLib.instance.api.sessionSignup(
           signupRequest: signupRequest, address: address, hint: hint);
+
+  Future<void> startGame({dynamic hint}) =>
+      RustLib.instance.api.sessionStartGame(that: this, hint: hint);
+
+  Future<int> submitAnswer(
+          {required int answerId, required int questionId, dynamic hint}) =>
+      RustLib.instance.api.sessionSubmitAnswer(
+          that: this, answerId: answerId, questionId: questionId, hint: hint);
 
   Future<void> updateUserData(
           {required UpdateUserDataRequest updateUserDataRequest,

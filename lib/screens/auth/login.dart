@@ -38,28 +38,26 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     setWindowTitle("Trivia - Login");
     if (widget.previousSession != null && widget.errorDialogData == null) {
-      SchedulerBinding.instance.addPostFrameCallback(
-        (_) async {
-          try {
-            await widget.previousSession!.logout();
-          } on Error_LogoutError catch (e) {
-            errorDialogData = ErrorDialogData(
-              title: logoutErrorText,
-              message: e.format(),
-            );
-          } on Error_ServerConnectionError catch (e) {
-            errorDialogData = ErrorDialogData(
-              title: serverConnErrorText,
-              message: e.format(),
-            );
-          } on Error catch (e) {
-            errorDialogData = ErrorDialogData(
-              title: unknownErrorText,
-              message: e.format(),
-            );
-          }
+      SchedulerBinding.instance.addPostFrameCallback((_) async {
+        try {
+          await widget.previousSession!.logout();
+        } on Error_LogoutError catch (e) {
+          errorDialogData = ErrorDialogData(
+            title: logoutErrorText,
+            message: e.format(),
+          );
+        } on Error_ServerConnectionError catch (e) {
+          errorDialogData = ErrorDialogData(
+            title: serverConnErrorText,
+            message: e.format(),
+          );
+        } on Error catch (e) {
+          errorDialogData = ErrorDialogData(
+            title: unknownErrorText,
+            message: e.format(),
+          );
         }
-      );
+      });
     }
     if (errorDialogData != null) {
       SchedulerBinding.instance.addPostFrameCallback(
@@ -92,18 +90,21 @@ class _LoginPageState extends State<LoginPage> {
     try {
       Session newSession = await Session.login(
         loginRequest: LoginRequest(
-          username: usernameController.text,
-          password: passwordController.text,
+          username: usernameController.text.trim(),
+          password: passwordController.text.trim(),
         ),
         address: "$serverIp:$serverPort",
       );
 
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       setWindowTitle("Trivia - @${usernameController.text}");
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(session: newSession),
+          builder: (context) => HomePage(
+            session: newSession,
+            username: usernameController.text.trim(),
+          ),
         ),
       );
     } on Error_LoginError catch (_) {
@@ -112,10 +113,10 @@ class _LoginPageState extends State<LoginPage> {
             "• Invalid username or password, or user already logged in";
       });
     } on Error_ServerConnectionError catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, serverConnErrorText, e.format());
     } on Error catch (e) {
-      if (!mounted) return;
+      if (!mounted || !context.mounted) return;
       showErrorDialog(context, unknownErrorText, e.format());
     } finally {
       setState(() {

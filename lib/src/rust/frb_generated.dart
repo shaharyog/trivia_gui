@@ -5,7 +5,10 @@
 
 import 'api/error.dart';
 import 'api/request/create_room.dart';
+import 'api/request/get_game_results.dart';
+import 'api/request/get_question.dart';
 import 'api/request/get_room_players.dart';
+import 'api/request/get_room_state.dart';
 import 'api/request/get_rooms.dart';
 import 'api/request/get_user_data.dart';
 import 'api/request/login.dart';
@@ -62,7 +65,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.0.0-dev.33';
 
   @override
-  int get rustContentHash => 422255802;
+  int get rustContentHash => 857472487;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -75,19 +78,35 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 abstract class RustLibApi extends BaseApi {
   String errorFormat({required Error that, dynamic hint});
 
+  Future<void> sessionCloseRoom({required Session that, dynamic hint});
+
   Future<void> sessionCreateRoom(
       {required Session that, required RoomData roomData, dynamic hint});
+
+  Future<GameResults> sessionGetGameResults(
+      {required Session that, dynamic hint});
 
   Future<List<Player>> sessionGetHighscores(
       {required Session that, dynamic hint});
 
+  Future<Question> sessionGetQuestion({required Session that, dynamic hint});
+
   Future<List<Player>> sessionGetRoomPlayers(
       {required Session that, required String roomId, dynamic hint});
+
+  Future<RoomState> sessionGetRoomState({required Session that, dynamic hint});
 
   Future<List<Room>> sessionGetRooms({required Session that, dynamic hint});
 
   Future<UserDataAndStatistics> sessionGetUserData(
       {required Session that, dynamic hint});
+
+  Future<void> sessionJoinRoom(
+      {required Session that, required String roomId, dynamic hint});
+
+  Future<void> sessionLeaveGame({required Session that, dynamic hint});
+
+  Future<void> sessionLeaveRoom({required Session that, dynamic hint});
 
   Future<Session> sessionLogin(
       {required LoginRequest loginRequest,
@@ -99,6 +118,14 @@ abstract class RustLibApi extends BaseApi {
   Future<Session> sessionSignup(
       {required SignupRequest signupRequest,
       required String address,
+      dynamic hint});
+
+  Future<void> sessionStartGame({required Session that, dynamic hint});
+
+  Future<int> sessionSubmitAnswer(
+      {required Session that,
+      required int answerId,
+      required int questionId,
       dynamic hint});
 
   Future<void> sessionUpdateUserData(
@@ -146,6 +173,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<void> sessionCloseRoom({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 14, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionCloseRoomConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionCloseRoomConstMeta => const TaskConstMeta(
+        debugName: "Session_close_room",
+        argNames: ["that"],
+      );
+
+  @override
   Future<void> sessionCreateRoom(
       {required Session that, required RoomData roomData, dynamic hint}) {
     return handler.executeNormal(NormalTask(
@@ -171,6 +224,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kSessionCreateRoomConstMeta => const TaskConstMeta(
         debugName: "Session_create_room",
         argNames: ["that", "roomData"],
+      );
+
+  @override
+  Future<GameResults> sessionGetGameResults(
+      {required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 19, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_game_results,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetGameResultsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetGameResultsConstMeta => const TaskConstMeta(
+        debugName: "Session_get_game_results",
+        argNames: ["that"],
       );
 
   @override
@@ -201,6 +281,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<Question> sessionGetQuestion({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 17, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_question,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetQuestionConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetQuestionConstMeta => const TaskConstMeta(
+        debugName: "Session_get_question",
+        argNames: ["that"],
+      );
+
+  @override
   Future<List<Player>> sessionGetRoomPlayers(
       {required Session that, required String roomId, dynamic hint}) {
     return handler.executeNormal(NormalTask(
@@ -226,6 +332,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kSessionGetRoomPlayersConstMeta => const TaskConstMeta(
         debugName: "Session_get_room_players",
         argNames: ["that", "roomId"],
+      );
+
+  @override
+  Future<RoomState> sessionGetRoomState({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 11, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_room_state,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionGetRoomStateConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionGetRoomStateConstMeta => const TaskConstMeta(
+        debugName: "Session_get_room_state",
+        argNames: ["that"],
       );
 
   @override
@@ -278,6 +410,86 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kSessionGetUserDataConstMeta => const TaskConstMeta(
         debugName: "Session_get_user_data",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> sessionJoinRoom(
+      {required Session that, required String roomId, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        sse_encode_String(roomId, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 12, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionJoinRoomConstMeta,
+      argValues: [that, roomId],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionJoinRoomConstMeta => const TaskConstMeta(
+        debugName: "Session_join_room",
+        argNames: ["that", "roomId"],
+      );
+
+  @override
+  Future<void> sessionLeaveGame({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 16, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionLeaveGameConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionLeaveGameConstMeta => const TaskConstMeta(
+        debugName: "Session_leave_game",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<void> sessionLeaveRoom({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 13, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionLeaveRoomConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionLeaveRoomConstMeta => const TaskConstMeta(
+        debugName: "Session_leave_room",
         argNames: ["that"],
       );
 
@@ -365,6 +577,64 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kSessionSignupConstMeta => const TaskConstMeta(
         debugName: "Session_signup",
         argNames: ["signupRequest", "address"],
+      );
+
+  @override
+  Future<void> sessionStartGame({required Session that, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 15, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionStartGameConstMeta,
+      argValues: [that],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionStartGameConstMeta => const TaskConstMeta(
+        debugName: "Session_start_game",
+        argNames: ["that"],
+      );
+
+  @override
+  Future<int> sessionSubmitAnswer(
+      {required Session that,
+      required int answerId,
+      required int questionId,
+      dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        sse_encode_u_32(answerId, serializer);
+        sse_encode_u_32(questionId, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 18, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_32,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kSessionSubmitAnswerConstMeta,
+      argValues: [that, answerId, questionId],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kSessionSubmitAnswerConstMeta => const TaskConstMeta(
+        debugName: "Session_submit_answer",
+        argNames: ["that", "answerId", "questionId"],
       );
 
   @override
@@ -543,9 +813,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GameResults dco_decode_game_results(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return GameResults(
+      userAnswers: dco_decode_list_question_answered(arr[0]),
+      playersResults: dco_decode_list_player_result(arr[1]),
+    );
+  }
+
+  @protected
+  int dco_decode_i_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
   int dco_decode_i_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeI64OrU64(raw);
+  }
+
+  @protected
+  List<String> dco_decode_list_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_String).toList();
   }
 
   @protected
@@ -555,9 +849,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<PlayerResult> dco_decode_list_player_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_player_result).toList();
+  }
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
+  }
+
+  @protected
+  List<QuestionAnswered> dco_decode_list_question_answered(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_question_answered).toList();
+  }
+
+  @protected
+  List<(int, String)> dco_decode_list_record_u_32_string(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_record_u_32_string).toList();
   }
 
   @protected
@@ -604,15 +916,74 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Room dco_decode_room(dynamic raw) {
+  PlayerResult dco_decode_player_result(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return PlayerResult(
+      player: dco_decode_player(arr[0]),
+      isOnline: dco_decode_bool(arr[1]),
+      scoreChange: dco_decode_i_32(arr[2]),
+      correctAnswerCount: dco_decode_u_32(arr[3]),
+      wrongAnswerCount: dco_decode_u_32(arr[4]),
+      avgAnswerTime: dco_decode_u_32(arr[5]),
+    );
+  }
+
+  @protected
+  Question dco_decode_question(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
     if (arr.length != 3)
       throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return Question(
+      questionId: dco_decode_u_32(arr[0]),
+      question: dco_decode_String(arr[1]),
+      answers: dco_decode_list_record_u_32_string(arr[2]),
+    );
+  }
+
+  @protected
+  QuestionAnswered dco_decode_question_answered(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return QuestionAnswered(
+      question: dco_decode_String(arr[0]),
+      answers: dco_decode_list_String(arr[1]),
+      correctAnswer: dco_decode_u_32(arr[2]),
+      userAnswer: dco_decode_u_32(arr[3]),
+      timeTaken: dco_decode_u_32(arr[4]),
+    );
+  }
+
+  @protected
+  (int, String) dco_decode_record_u_32_string(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) {
+      throw Exception('Expected 2 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_u_32(arr[0]),
+      dco_decode_String(arr[1]),
+    );
+  }
+
+  @protected
+  Room dco_decode_room(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
     return Room(
       id: dco_decode_String(arr[0]),
       roomData: dco_decode_room_data(arr[1]),
-      isActive: dco_decode_bool(arr[2]),
+      players: dco_decode_list_player(arr[2]),
+      isActive: dco_decode_bool(arr[3]),
+      isFinished: dco_decode_bool(arr[4]),
     );
   }
 
@@ -627,6 +998,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       maxPlayers: dco_decode_u_32(arr[1]),
       questionCount: dco_decode_u_32(arr[2]),
       timePerQuestion: dco_decode_u_32(arr[3]),
+    );
+  }
+
+  @protected
+  RoomState dco_decode_room_state(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return RoomState(
+      hasGameBegun: dco_decode_bool(arr[0]),
+      players: dco_decode_list_player(arr[1]),
+      questionCount: dco_decode_u_32(arr[2]),
+      answerTimeout: dco_decode_u_32(arr[3]),
+      maxPlayers: dco_decode_u_32(arr[4]),
+      isClosed: dco_decode_bool(arr[5]),
     );
   }
 
@@ -866,9 +1253,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GameResults sse_decode_game_results(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_userAnswers = sse_decode_list_question_answered(deserializer);
+    var var_playersResults = sse_decode_list_player_result(deserializer);
+    return GameResults(
+        userAnswers: var_userAnswers, playersResults: var_playersResults);
+  }
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt32();
+  }
+
+  @protected
   int sse_decode_i_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getInt64();
+  }
+
+  @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <String>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_String(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -884,10 +1298,49 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<PlayerResult> sse_decode_list_player_result(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <PlayerResult>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_player_result(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  List<QuestionAnswered> sse_decode_list_question_answered(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <QuestionAnswered>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_question_answered(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<(int, String)> sse_decode_list_record_u_32_string(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <(int, String)>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_record_u_32_string(deserializer));
+    }
+    return ans_;
   }
 
   @protected
@@ -943,12 +1396,73 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PlayerResult sse_decode_player_result(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_player = sse_decode_player(deserializer);
+    var var_isOnline = sse_decode_bool(deserializer);
+    var var_scoreChange = sse_decode_i_32(deserializer);
+    var var_correctAnswerCount = sse_decode_u_32(deserializer);
+    var var_wrongAnswerCount = sse_decode_u_32(deserializer);
+    var var_avgAnswerTime = sse_decode_u_32(deserializer);
+    return PlayerResult(
+        player: var_player,
+        isOnline: var_isOnline,
+        scoreChange: var_scoreChange,
+        correctAnswerCount: var_correctAnswerCount,
+        wrongAnswerCount: var_wrongAnswerCount,
+        avgAnswerTime: var_avgAnswerTime);
+  }
+
+  @protected
+  Question sse_decode_question(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_questionId = sse_decode_u_32(deserializer);
+    var var_question = sse_decode_String(deserializer);
+    var var_answers = sse_decode_list_record_u_32_string(deserializer);
+    return Question(
+        questionId: var_questionId,
+        question: var_question,
+        answers: var_answers);
+  }
+
+  @protected
+  QuestionAnswered sse_decode_question_answered(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_question = sse_decode_String(deserializer);
+    var var_answers = sse_decode_list_String(deserializer);
+    var var_correctAnswer = sse_decode_u_32(deserializer);
+    var var_userAnswer = sse_decode_u_32(deserializer);
+    var var_timeTaken = sse_decode_u_32(deserializer);
+    return QuestionAnswered(
+        question: var_question,
+        answers: var_answers,
+        correctAnswer: var_correctAnswer,
+        userAnswer: var_userAnswer,
+        timeTaken: var_timeTaken);
+  }
+
+  @protected
+  (int, String) sse_decode_record_u_32_string(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_u_32(deserializer);
+    var var_field1 = sse_decode_String(deserializer);
+    return (var_field0, var_field1);
+  }
+
+  @protected
   Room sse_decode_room(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_id = sse_decode_String(deserializer);
     var var_roomData = sse_decode_room_data(deserializer);
+    var var_players = sse_decode_list_player(deserializer);
     var var_isActive = sse_decode_bool(deserializer);
-    return Room(id: var_id, roomData: var_roomData, isActive: var_isActive);
+    var var_isFinished = sse_decode_bool(deserializer);
+    return Room(
+        id: var_id,
+        roomData: var_roomData,
+        players: var_players,
+        isActive: var_isActive,
+        isFinished: var_isFinished);
   }
 
   @protected
@@ -963,6 +1477,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         maxPlayers: var_maxPlayers,
         questionCount: var_questionCount,
         timePerQuestion: var_timePerQuestion);
+  }
+
+  @protected
+  RoomState sse_decode_room_state(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_hasGameBegun = sse_decode_bool(deserializer);
+    var var_players = sse_decode_list_player(deserializer);
+    var var_questionCount = sse_decode_u_32(deserializer);
+    var var_answerTimeout = sse_decode_u_32(deserializer);
+    var var_maxPlayers = sse_decode_u_32(deserializer);
+    var var_isClosed = sse_decode_bool(deserializer);
+    return RoomState(
+        hasGameBegun: var_hasGameBegun,
+        players: var_players,
+        questionCount: var_questionCount,
+        answerTimeout: var_answerTimeout,
+        maxPlayers: var_maxPlayers,
+        isClosed: var_isClosed);
   }
 
   @protected
@@ -1069,12 +1601,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   int sse_decode_usize(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint64();
-  }
-
-  @protected
-  int sse_decode_i_32(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getInt32();
   }
 
   @protected
@@ -1205,9 +1731,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_game_results(GameResults self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_question_answered(self.userAnswers, serializer);
+    sse_encode_list_player_result(self.playersResults, serializer);
+  }
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt32(self);
+  }
+
+  @protected
   void sse_encode_i_64(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt64(self);
+  }
+
+  @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_String(item, serializer);
+    }
   }
 
   @protected
@@ -1220,11 +1768,41 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_list_player_result(
+      List<PlayerResult> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_player_result(item, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_list_prim_u_8_strict(
       Uint8List self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_list_question_answered(
+      List<QuestionAnswered> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_question_answered(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_record_u_32_string(
+      List<(int, String)> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_record_u_32_string(item, serializer);
+    }
   }
 
   @protected
@@ -1272,11 +1850,51 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_player_result(PlayerResult self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_player(self.player, serializer);
+    sse_encode_bool(self.isOnline, serializer);
+    sse_encode_i_32(self.scoreChange, serializer);
+    sse_encode_u_32(self.correctAnswerCount, serializer);
+    sse_encode_u_32(self.wrongAnswerCount, serializer);
+    sse_encode_u_32(self.avgAnswerTime, serializer);
+  }
+
+  @protected
+  void sse_encode_question(Question self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.questionId, serializer);
+    sse_encode_String(self.question, serializer);
+    sse_encode_list_record_u_32_string(self.answers, serializer);
+  }
+
+  @protected
+  void sse_encode_question_answered(
+      QuestionAnswered self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.question, serializer);
+    sse_encode_list_String(self.answers, serializer);
+    sse_encode_u_32(self.correctAnswer, serializer);
+    sse_encode_u_32(self.userAnswer, serializer);
+    sse_encode_u_32(self.timeTaken, serializer);
+  }
+
+  @protected
+  void sse_encode_record_u_32_string(
+      (int, String) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.$1, serializer);
+    sse_encode_String(self.$2, serializer);
+  }
+
+  @protected
   void sse_encode_room(Room self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.id, serializer);
     sse_encode_room_data(self.roomData, serializer);
+    sse_encode_list_player(self.players, serializer);
     sse_encode_bool(self.isActive, serializer);
+    sse_encode_bool(self.isFinished, serializer);
   }
 
   @protected
@@ -1286,6 +1904,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_u_32(self.maxPlayers, serializer);
     sse_encode_u_32(self.questionCount, serializer);
     sse_encode_u_32(self.timePerQuestion, serializer);
+  }
+
+  @protected
+  void sse_encode_room_state(RoomState self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.hasGameBegun, serializer);
+    sse_encode_list_player(self.players, serializer);
+    sse_encode_u_32(self.questionCount, serializer);
+    sse_encode_u_32(self.answerTimeout, serializer);
+    sse_encode_u_32(self.maxPlayers, serializer);
+    sse_encode_bool(self.isClosed, serializer);
   }
 
   @protected
@@ -1363,11 +1992,5 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_usize(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint64(self);
-  }
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putInt32(self);
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:trivia/src/rust/api/request/get_question.dart';
+import 'package:trivia/src/rust/api/request/get_room_state.dart';
 import 'package:trivia/utils/filters.dart';
 import 'package:trivia/src/rust/api/request/get_room_players.dart';
 import 'src/rust/api/request/create_room.dart';
+import 'src/rust/api/request/get_game_results.dart';
 import 'src/rust/api/request/get_rooms.dart';
 import 'src/rust/api/request/get_user_data.dart';
 
@@ -20,17 +23,19 @@ const String unknownErrorText = "Error";
 
 // filters related defaults:
 const String defaultSearchText = "";
-const double defaultQuestionCountRangeStart = 0;
-const double defaultQuestionCountRangeEnd = 100;
-const double defaultPlayersCountRangeStart = 0;
+const double defaultQuestionCountRangeStart = 1;
+const double defaultQuestionCountRangeEnd = 50;
+const double defaultPlayersCountRangeStart = 1;
 const double defaultPlayersCountRangeEnd = 50;
-const bool defaultShowOnlyActive = false;
+const bool defaultShowActive = true;
+const bool defaultShowInactive = true;
+const bool defaultShowFinished = true;
 const SortBy defaultSortBy = SortBy.isActive;
 const bool defaultPutActiveRoomsFirst = false;
 const bool defaultIsReversedSort = false;
 
 // screen size related consts:
-const minScreenSize = Size(500, 700);
+const minScreenSize = Size(500, 800);
 const defaultScreenSize = Size(800, 600);
 
 // animations durations:
@@ -77,16 +82,19 @@ Map<Color, String> avatarColorsMapReversed = {
 // show skeleton while loading, create fake data in order to show skeleton in the right shape
 final List<Room> fakeRooms = [
   const Room(
+    isFinished: true,
     id: '',
-    isActive: false,
+    isActive: true,
     roomData: RoomData(
       name: 'room',
       maxPlayers: 100,
       questionCount: 0,
       timePerQuestion: 10,
     ),
+    players: [Player(username: "Bob Doe", avatarColor: "Blue", score: 130)],
   ),
   const Room(
+    isFinished: false,
     id: '',
     roomData: RoomData(
       name: 'roomRoomRo',
@@ -94,9 +102,11 @@ final List<Room> fakeRooms = [
       questionCount: 45,
       timePerQuestion: 0,
     ),
+    players: [Player(username: "Robert Doe", avatarColor: "Orange", score: 90)],
     isActive: false,
   ),
   const Room(
+    isFinished: false,
     id: '',
     roomData: RoomData(
       name: 'roomRoom',
@@ -104,7 +114,8 @@ final List<Room> fakeRooms = [
       questionCount: 100,
       timePerQuestion: 10,
     ),
-    isActive: false,
+    players: [Player(username: "John Doe", avatarColor: "Blue", score: 100)],
+    isActive: true,
   )
 ];
 
@@ -135,4 +146,49 @@ const List<Player> fakeHighScoresPlayers = [
   Player(username: "Itay Hadas", score: 123, avatarColor: "Purple"),
   Player(username: "Ohad Green", score: 12, avatarColor: "Green"),
   Player(username: "Ron Altman", score: 45, avatarColor: "Teal"),
+];
+
+const RoomState fakeRoomState = RoomState(
+  hasGameBegun: false,
+  players: fakeHighScoresPlayers,
+  questionCount: 12,
+  answerTimeout: 30,
+  maxPlayers: 10,
+  isClosed: false,
+);
+
+const Question fakeQuestion = Question(
+    questionId: -1,
+    question: "Aaaaa aaaaa aaaaaa, aaaa aaaaa aaaaa, aaaaa aaa \"aaaaa  aa \"?",
+    answers: [
+      (0, "aaa aaaaa aaaa aaa"),
+      (3, "Aaaa aaaa aaaa aaaa"),
+      (2, "aaa aaaa aaaa"),
+      (1, "aaaa aaaaaaa aaaa aa aaaa aaaaaa")
+    ]);
+const List<PlayerResult> fakePlayerResults = [
+  PlayerResult(
+    player: Player(username: "User user", avatarColor: "Blue", score: 200),
+    isOnline: false,
+    scoreChange: 35,
+    correctAnswerCount: 4,
+    wrongAnswerCount: 4,
+    avgAnswerTime: 14,
+  ),
+  PlayerResult(
+    player: Player(username: "User user", avatarColor: "Green", score: 24),
+    isOnline: false,
+    scoreChange: -90,
+    correctAnswerCount: 1,
+    wrongAnswerCount: 7,
+    avgAnswerTime: 8,
+  ),
+  PlayerResult(
+    player: Player(username: "User user", avatarColor: "Orange", score: 123),
+    isOnline: false,
+    scoreChange: 90,
+    correctAnswerCount: 6,
+    wrongAnswerCount: 2,
+    avgAnswerTime: 18,
+  )
 ];
