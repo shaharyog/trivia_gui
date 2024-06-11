@@ -86,7 +86,7 @@ jobs:
       - name: Install Inno Setup
         run: choco install innosetup --force
 
-      - run: flutter build windows  # check regular build on windows
+      - run: flutter build windows --verbose # check regular build on windows
       - run: dart pub global activate flutter_distributor
       - run: flutter_distributor release --name=dev --jobs=release-windows-exe
       - run: echo 'y' | flutter_distributor release --name=dev --jobs=release-windows-msix
