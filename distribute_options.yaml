@@ -33,3 +33,8 @@ releases:
         package:
           platform: windows
           target: exe
+
+      - name: release-windows-msix
+        package:
+          platform: windows
+          target: msix

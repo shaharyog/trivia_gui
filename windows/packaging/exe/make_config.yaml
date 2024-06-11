@@ -3,5 +3,6 @@ publisher: Shahar & Yuval
 publisher_url: https://github.com/Shahar-Yogev/trivia_gui # private repository
 display_name: Trivia
 create_desktop_icon: true
+icon: windows/assets/trivia_logo.png
 locales:
   - en
