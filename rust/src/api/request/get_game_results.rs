@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use crate::api::request::get_question::Question;
 use crate::api::request::get_room_players::Player;
 
 use crate::api::request::Request;

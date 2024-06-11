@@ -62,7 +62,7 @@ Widget _buildSmallScreen(BuildContext context, List<Player> topUsers) {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          flex: 2,
+          flex: 1,
           child: Padding(
             padding: EdgeInsets.only(
               bottom: (topUsers.length > 3) ? 8.0 : 0.0,
@@ -75,12 +75,9 @@ Widget _buildSmallScreen(BuildContext context, List<Player> topUsers) {
         ),
         if (topUsers.length > 3)
           Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: _buildListView(
-                  context: context, topUsers: topUsers, startIndex: 3),
-            ),
+            flex: 1,
+            child: _buildListView(
+                context: context, topUsers: topUsers, startIndex: 3),
           ),
       ],
     ),

@@ -5,7 +5,7 @@ use std::time::Duration;
 use crate::api::error::Error;
 use crate::api::request::close_room::CloseRoomRequest;
 use crate::api::request::create_room::{CreateRoomRequest, RoomData};
-use crate::api::request::get_game_results::{GameResults, GetGameResultsRequest, PlayerResult};
+use crate::api::request::get_game_results::{GameResults, GetGameResultsRequest};
 use crate::api::request::get_highscores::GetHighScoresRequest;
 use crate::api::request::get_question::{GetCurrentQuestionRequest, Question};
 use crate::api::request::get_room_players::{GetRoomPlayersRequest, Player};
