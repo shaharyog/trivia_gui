@@ -1,0 +1,7 @@
+app_id: 619EDE49-E3EA-49FD-90D9-92E212AF85B4
+publisher: Shahar & Yuval
+publisher_url: https://github.com/Shahar-Yogev/trivia_gui # private repository
+display_name: Trivia
+create_desktop_icon: true
+locales:
+  - en

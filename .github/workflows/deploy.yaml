@@ -33,6 +33,7 @@ jobs:
       - run: dart pub global activate flutter_distributor
       - run: flutter_distributor release --name=dev --jobs=release-linux-rpm
       - run: flutter_distributor release --name=dev --jobs=release-linux-deb
+      - run: flutter_distributor release --name=dev --jobs=release-linux-appimage
       - run: flutter_distributor release --name=dev --jobs=release-android
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -43,6 +44,7 @@ jobs:
             ./dist/**/*.apk
             ./dist/**/*.rpm
             ./dist/**/*.deb
+            ./dist/**/*.AppImage
           if-no-files-found: error
           retention-days: 1 # delete artifacts after 1 day
   release:
