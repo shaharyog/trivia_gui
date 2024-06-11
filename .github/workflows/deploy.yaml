@@ -55,6 +55,17 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
 
+      - name: Install Chocolatey
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+          iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+        shell: powershell
+
+      - run:  |
+          choco feature enable -n allowGlobalConfirmation
+          choco install yq --force
+
       - name: Set up Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
 
@@ -70,17 +81,8 @@ jobs:
       - run: flutter_rust_bridge_codegen generate
       - run: flutter pub get
 
-      - name: Install Chocolatey
-        run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force
-          [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-          iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-        shell: powershell
-
       - name: Install Inno Setup
-        run: |
-          choco feature enable -n allowGlobalConfirmation
-          choco install innosetup --force
+        run: choco install innosetup --force
 
       - run: dart pub global activate flutter_distributor
       - run: flutter_distributor release --name=dev --jobs=release-windows-exe
