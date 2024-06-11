@@ -106,6 +106,7 @@ jobs:
           name: apk-rpm-deb
           path: artifacts
           github_token: ${{ secrets.TOKEN }}
+
       - name: Download windows artifacts
         uses: actions/download-artifact@v4
         with:
