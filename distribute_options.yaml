@@ -2,13 +2,11 @@ output: dist/
 releases:
   - name: dev
     jobs:
-      # Build and publish apk
       - name: release-android
         package:
           platform: android
           target: apk
 
-      # Build and publish ipa
       - name: release-ios
         package:
           platform: ios
@@ -25,3 +23,18 @@ releases:
         package:
           platform: linux
           target: rpm
+
+      - name: release-linux-appimage
+        package:
+          platform: linux
+          target: appimage
+
+      - name: release-windows-exe
+        package:
+          platform: windows
+          target: exe
+
+      - name: release-windows-msix
+        package:
+          platform: windows
+          target: msix

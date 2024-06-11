@@ -1,0 +1,26 @@
+display_name: Trivia
+
+icon: linux/assets/trivia_logo.png
+
+keywords:
+  - Trivia
+  - Trivia Game
+  - Quiz
+
+generic_name: Trivia
+
+actions:
+  - name: Play
+    label: play-trivia
+    arguments:
+      - --play
+
+categories:
+  - X-Quiz
+  - X-Games
+
+
+startup_notify: true
+
+
+include: []
