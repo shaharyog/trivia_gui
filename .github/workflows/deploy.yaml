@@ -24,6 +24,7 @@ jobs:
           channel: stable
           flutter-version-file: pubspec.yaml # path to pubspec.yaml
 
+      - run: flutter clean
       - run: flutter_rust_bridge_codegen generate
       - run: flutter pub get
       - run: |
@@ -78,12 +79,14 @@ jobs:
           channel: stable
           flutter-version-file: pubspec.yaml # path to pubspec.yaml
 
+      - run: flutter clean
       - run: flutter_rust_bridge_codegen generate
       - run: flutter pub get
 
       - name: Install Inno Setup
         run: choco install innosetup --force
 
+      - run: flutter build windows  # check regular build on windows
       - run: dart pub global activate flutter_distributor
       - run: flutter_distributor release --name=dev --jobs=release-windows-exe
       - run: echo 'y' | flutter_distributor release --name=dev --jobs=release-windows-msix
