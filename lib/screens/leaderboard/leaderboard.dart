@@ -32,9 +32,7 @@ class _LeaderboardState extends State<Leaderboard> {
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if (widget.session.isDisposed) {
-          timer.cancel();
-        } if (futureDone && currData != null) {
+        if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
             future = getHighScores(context);
@@ -116,7 +114,10 @@ class _LeaderboardState extends State<Leaderboard> {
           futureDone = true;
         }
 
-        return Skeletonizer(enabled: false, child: LeaderboardContent(players: currData!.where((e) => e.score > 0).toList()));
+        return Skeletonizer(
+            enabled: false,
+            child: LeaderboardContent(
+                players: currData!.where((e) => e.score > 0).toList()));
       },
     );
   }

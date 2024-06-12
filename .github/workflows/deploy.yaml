@@ -129,5 +129,4 @@ jobs:
           artifacts: "artifacts/**/*.apk,artifacts/**/*.rpm,artifacts/**/*.deb,artifacts/**/*.AppImage,artifacts/**/*.exe,artifacts/**/*.msix"
           token: ${{ secrets.TOKEN }}
           commit: ${{ github.sha }}
-          bodyFile: INSTALLATION_INSTRUCTIONS.md
 

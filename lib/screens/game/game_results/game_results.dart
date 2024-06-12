@@ -44,9 +44,6 @@ class _GameResultsPageState extends State<GameResultsPage> {
       (timer) {
         if (!mounted && !context.mounted) {
           return;
-        }
-        if (widget.session.isDisposed) {
-          timer.cancel();
         } else if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
@@ -215,7 +212,8 @@ class _GameResultsPageState extends State<GameResultsPage> {
   }
 
   List<PlayerResult> putUserOnTop(List<PlayerResult> playersResults) {
-    if (!playersResults.any((element) => element.player.username == widget.username)) {
+    if (!playersResults
+        .any((element) => element.player.username == widget.username)) {
       return playersResults;
     }
 

@@ -41,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       SchedulerBinding.instance.addPostFrameCallback((_) async {
         try {
           await widget.previousSession!.logout();
+          widget.previousSession!.dispose();
         } on Error_LogoutError catch (e) {
           errorDialogData = ErrorDialogData(
             title: logoutErrorText,

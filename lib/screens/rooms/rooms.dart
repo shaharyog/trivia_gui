@@ -59,9 +59,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if (widget.session.isDisposed) {
-          timer.cancel();
-        } else if (futureDone && currData != null) {
+        if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
             future = getRooms(context);
@@ -190,7 +188,8 @@ class _RoomsWidgetState extends State<RoomsWidget>
                             onRoomJoin: (Room room) async {
                               try {
                                 await widget.session.joinRoom(roomId: room.id);
-                                if (!context.mounted || !context.mounted) return;
+                                if (!context.mounted || !context.mounted)
+                                  return;
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -212,7 +211,8 @@ class _RoomsWidgetState extends State<RoomsWidget>
                               } on Error_ServerConnectionError catch (e) {
                                 timer.cancel();
                                 future.ignore();
-                                if (!context.mounted || !context.mounted) return;
+                                if (!context.mounted || !context.mounted)
+                                  return;
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -225,7 +225,8 @@ class _RoomsWidgetState extends State<RoomsWidget>
                                   ),
                                 );
                               } on Error catch (e) {
-                                if (!context.mounted || !context.mounted) return;
+                                if (!context.mounted || !context.mounted)
+                                  return;
                                 showErrorDialog(
                                     context, "Failed to join room", e.format());
                               }

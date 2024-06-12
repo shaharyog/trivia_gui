@@ -2,7 +2,7 @@ name: trivia
 description: "A Trivia Game By Shahar Yogev & Yuval Bar"
 publish_to: 'none'
 
-version: 4.0.9
+version: 4.1.0
 environment:
   sdk: '>=3.4.0 <4.0.0'
   flutter: 3.22.0
@@ -18,7 +18,7 @@ dependencies:
   dynamic_color: ^1.7.0
   rust_lib_trivia:
     path: rust_builder
-  flutter_rust_bridge: 2.0.0-dev.33
+  flutter_rust_bridge: 2.0.0-dev.34
   freezed_annotation: ^2.4.1
   ffi: ^2.1.2
   shared_preferences: ^2.2.3
@@ -28,6 +28,7 @@ dependencies:
   flutter_gradient_animation_text: ^1.0.2
   window_manager: ^0.3.8
   flutter_distributor: ^0.4.3
+  pin_code_fields: ^8.0.1
 
 dev_dependencies:
   flutter_test:

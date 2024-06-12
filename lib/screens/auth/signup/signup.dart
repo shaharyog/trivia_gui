@@ -1,18 +1,19 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../consts.dart';
-import '../../homepage/homepage.dart';
-import '../../utils/common_functionalities/window_management.dart';
-import '../../utils/common_widgets/gradient_text.dart';
-import '../../utils/dialogs/server_settings.dart';
-import '../../src/rust/api/error.dart';
-import '../../src/rust/api/request/signup.dart';
-import '../../src/rust/api/session.dart';
-import '../../utils/dialogs/error_dialog.dart';
-import '../../utils/common_widgets/input_field.dart';
-import '../../utils/common_widgets/toggle_theme_button.dart';
-import '../../utils/common_functionalities/user_data_validation.dart';
+import 'package:trivia/screens/auth/signup/verification_dialog.dart';
+import '../../../consts.dart';
+import '../../../homepage/homepage.dart';
+import '../../../utils/common_functionalities/window_management.dart';
+import '../../../utils/common_widgets/gradient_text.dart';
+import '../../../utils/dialogs/server_settings.dart';
+import '../../../src/rust/api/error.dart';
+import '../../../src/rust/api/request/signup.dart';
+import '../../../src/rust/api/session.dart';
+import '../../../utils/dialogs/error_dialog.dart';
+import '../../../utils/common_widgets/input_field.dart';
+import '../../../utils/common_widgets/toggle_theme_button.dart';
+import '../../../utils/common_functionalities/user_data_validation.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -109,15 +110,16 @@ class _SignupPageState extends State<SignupPage> {
         ),
       );
       if (!mounted || !context.mounted) return;
-      setWindowTitle("Trivia - @${usernameController.text}");
-      Navigator.pop(context); // remove signup page from stack
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(
-            session: newSession,
-            username: usernameController.text.trim(),
-          ),
+      setState(() {
+        _isLoading = false;
+      });
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => SignupVerificationDialog(
+          session: newSession,
+          username: usernameController.text.trim(),
+          email: emailController.text.trim(),
         ),
       );
     } on Error_SignupError catch (e) {

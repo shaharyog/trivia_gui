@@ -32,6 +32,8 @@ pub enum Error {
     InvalidRoomId(String),
     #[error("Could not create room")]
     CouldNotCreateRoom,
+    #[error("Submitted verification code too many times")]
+    VerificationCodeTooManyAttempts,
 }
 
 impl Error {

@@ -16,6 +16,8 @@ pub mod leave_game;
 pub mod submit_answer;
 pub mod get_game_results;
 pub mod start_game;
+pub mod submit_verification_code;
+pub mod resend_verification_code;
 
 use crate::api::error::Error;
 use serde::{Deserialize, Serialize};

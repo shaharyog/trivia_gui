@@ -18,9 +18,11 @@ use crate::api::request::leave_room::LeaveRoomRequest;
 use crate::api::request::login::LoginRequest;
 use crate::api::request::logout::LogoutRequest;
 use crate::api::request::Request;
+use crate::api::request::resend_verification_code::ResendVerificationCodeRequest;
 use crate::api::request::signup::SignupRequest;
 use crate::api::request::start_game::StartGameRequest;
 use crate::api::request::submit_answer::SubmitAnswerRequest;
+use crate::api::request::submit_verification_code::SubmitVerificationCodeRequest;
 use crate::api::request::update_user_data::UpdateUserDataRequest;
 
 #[flutter_rust_bridge::frb(opaque)]
@@ -232,5 +234,27 @@ impl Session {
         }
 
         Ok(response.game_results)
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn submit_verification_code(&mut self, code: String) -> Result<bool, Error> {
+        let response = SubmitVerificationCodeRequest {
+            code
+        }.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::VerificationCodeTooManyAttempts);
+        }
+
+        Ok(response.is_verified)
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn resend_verification_code(&mut self) -> Result<(), Error> {
+        let response = ResendVerificationCodeRequest.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(())
     }
 }

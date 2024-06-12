@@ -54,14 +54,13 @@ class _LobbyState extends State<Lobby> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              Game(
-                username: widget.username,
-                questionCount: widget.questionCount,
-                timePerQuestion: widget.timePerQuestion,
-                gameName: widget.roomName,
-                session: widget.session,
-              ),
+          builder: (context) => Game(
+            username: widget.username,
+            questionCount: widget.questionCount,
+            timePerQuestion: widget.timePerQuestion,
+            gameName: widget.roomName,
+            session: widget.session,
+          ),
         ),
       );
     } on Error_ServerConnectionError {
@@ -71,23 +70,24 @@ class _LobbyState extends State<Lobby> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              LoginPage(
-                errorDialogData: ErrorDialogData(
-                  title: serverConnErrorText,
-                  message: serverConnErrorText,
-                ),
-              ),
+          builder: (context) => LoginPage(
+            errorDialogData: ErrorDialogData(
+              title: serverConnErrorText,
+              message: serverConnErrorText,
+            ),
+          ),
         ),
       );
     } on Error catch (error) {
       if (!mounted || !context.mounted) return;
       // show error dialog
       showDialog(
-          context: context,
-          builder: (context) =>
-              ErrorDialog(
-                  title: "Could not start game", message: error.format()));
+        context: context,
+        builder: (context) => ErrorDialog(
+          title: "Could not start game",
+          message: error.format(),
+        ),
+      );
     }
   }
 
@@ -97,10 +97,8 @@ class _LobbyState extends State<Lobby> {
     future = getRoomState(context);
     timer = Timer.periodic(
       const Duration(milliseconds: 300),
-          (timer) {
-        if (widget.session.isDisposed) {
-          timer.cancel();
-        } else if (futureDone && currData != null) {
+      (timer) {
+        if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
             future = getRoomState(context);
@@ -119,19 +117,18 @@ class _LobbyState extends State<Lobby> {
 
   Future<RoomState> getRoomState(BuildContext context) async {
     RoomState roomState = await widget.session.getRoomState().onError(
-          (Error_ServerConnectionError error, stackTrace) {
+      (Error_ServerConnectionError error, stackTrace) {
         timer.cancel();
         future.ignore();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                LoginPage(
-                  errorDialogData: ErrorDialogData(
-                    title: serverConnErrorText,
-                    message: error.format(),
-                  ),
-                ),
+            builder: (context) => LoginPage(
+              errorDialogData: ErrorDialogData(
+                title: serverConnErrorText,
+                message: error.format(),
+              ),
+            ),
           ),
         );
         return const RoomState(
@@ -143,21 +140,20 @@ class _LobbyState extends State<Lobby> {
             isClosed: false);
       },
     );
-    if (roomState.isClosed && context.mounted  && mounted) {
+    if (roomState.isClosed && context.mounted && mounted) {
       returnToHomepage(context);
     }
     if (roomState.hasGameBegun && context.mounted && mounted) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              Game(
-                username: widget.username,
-                session: widget.session,
-                questionCount: widget.questionCount,
-                timePerQuestion: widget.timePerQuestion,
-                gameName: widget.roomName,
-              ),
+          builder: (context) => Game(
+            username: widget.username,
+            session: widget.session,
+            questionCount: widget.questionCount,
+            timePerQuestion: widget.timePerQuestion,
+            gameName: widget.roomName,
+          ),
         ),
       );
     }
@@ -184,14 +180,14 @@ class _LobbyState extends State<Lobby> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton:
-      widget.isAdmin && currData != null && currData!.players.length > 1
-          ? FloatingActionButton(
-        onPressed: () {
-          startGame();
-        },
-        child: const Icon(Icons.play_arrow_sharp),
-      )
-          : null,
+          widget.isAdmin && currData != null && currData!.players.length > 1
+              ? FloatingActionButton(
+                  onPressed: () {
+                    startGame();
+                  },
+                  child: const Icon(Icons.play_arrow_sharp),
+                )
+              : null,
       appBar: AppBar(
         title: const Text("Lobby"),
         actions: [
@@ -220,11 +216,10 @@ class _LobbyState extends State<Lobby> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          HomePage(
-                            session: widget.session,
-                            username: widget.username,
-                          ),
+                      builder: (context) => HomePage(
+                        session: widget.session,
+                        username: widget.username,
+                      ),
                     ),
                   );
                 } on Error_ServerConnectionError catch (e) {
@@ -232,13 +227,12 @@ class _LobbyState extends State<Lobby> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          LoginPage(
-                            errorDialogData: ErrorDialogData(
-                              title: serverConnErrorText,
-                              message: e.format(),
-                            ),
-                          ),
+                      builder: (context) => LoginPage(
+                        errorDialogData: ErrorDialogData(
+                          title: serverConnErrorText,
+                          message: e.format(),
+                        ),
+                      ),
                     ),
                   );
                 } catch (e) {
@@ -246,11 +240,10 @@ class _LobbyState extends State<Lobby> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          HomePage(
-                            session: widget.session,
-                            username: widget.username,
-                          ),
+                      builder: (context) => HomePage(
+                        session: widget.session,
+                        username: widget.username,
+                      ),
                     ),
                   );
                 }
@@ -357,11 +350,10 @@ class _LobbyState extends State<Lobby> {
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            HomePage(
-              session: widget.session,
-              username: widget.username,
-            ),
+        builder: (context) => HomePage(
+          session: widget.session,
+          username: widget.username,
+        ),
       ),
     );
   }

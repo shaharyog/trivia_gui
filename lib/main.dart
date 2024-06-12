@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'consts.dart';
 import 'screens/auth/login.dart';
-import 'screens/auth/signup.dart';
+import 'screens/auth/signup/signup.dart';
 import 'package:provider/provider.dart';
 import 'providers/theme_provider.dart';
 import 'package:trivia/src/rust/frb_generated.dart';
