@@ -25,8 +25,8 @@ jobs:
           flutter-version-file: pubspec.yaml # path to pubspec.yaml
 
       - run: flutter clean
-      - run: flutter_rust_bridge_codegen generate
       - run: flutter pub get
+      - run: flutter_rust_bridge_codegen generate
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
@@ -80,8 +80,8 @@ jobs:
           flutter-version-file: pubspec.yaml # path to pubspec.yaml
 
       - run: flutter clean
-      - run: flutter_rust_bridge_codegen generate
       - run: flutter pub get
+      - run: flutter_rust_bridge_codegen generate
 
       - name: Install Inno Setup
         run: choco install innosetup --force
