@@ -112,7 +112,7 @@ jobs:
       - name: Download android and linux artifacts
         uses: actions/download-artifact@v4
         with:
-          name: apk-rpm-deb
+          name: apk-rpm-deb-appimage
           path: artifacts
           github_token: ${{ secrets.TOKEN }}
 
