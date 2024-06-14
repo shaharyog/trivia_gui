@@ -44,6 +44,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
   String? selectedRoomId;
   final FocusNode _keyboardFocusNode = FocusNode();
   bool isInRoomDetailsBottomSheet = false;
+  String? currentBottomSheetRoomId;
   bool isInFilterSheet = false;
 
   @override
@@ -59,6 +60,10 @@ class _RoomsWidgetState extends State<RoomsWidget>
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
+        if (!mounted && !context.mounted) {
+          timer.cancel();
+          return;
+        }
         if (futureDone && currData != null) {
           setState(() {
             futureDone = false;
@@ -181,6 +186,15 @@ class _RoomsWidgetState extends State<RoomsWidget>
                             )) {
                           selectedRoomId = null;
                         }
+                        if (isInRoomDetailsBottomSheet &&  currentBottomSheetRoomId != null) {
+                          if (!filterRooms(currData!, widget.filters).any(
+                                (room) => room.id == currentBottomSheetRoomId,
+                          )) {
+                            Navigator.pop(context);
+                            isInRoomDetailsBottomSheet = false;
+                            currentBottomSheetRoomId = null;
+                          }
+                        }
 
                         return Skeletonizer(
                           enabled: false,
@@ -188,8 +202,9 @@ class _RoomsWidgetState extends State<RoomsWidget>
                             onRoomJoin: (Room room) async {
                               try {
                                 await widget.session.joinRoom(roomId: room.id);
-                                if (!context.mounted || !context.mounted)
+                                if (!context.mounted || !context.mounted) {
                                   return;
+                                }
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -211,8 +226,9 @@ class _RoomsWidgetState extends State<RoomsWidget>
                               } on Error_ServerConnectionError catch (e) {
                                 timer.cancel();
                                 future.ignore();
-                                if (!context.mounted || !context.mounted)
+                                if (!context.mounted || !context.mounted) {
                                   return;
+                                }
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -225,8 +241,9 @@ class _RoomsWidgetState extends State<RoomsWidget>
                                   ),
                                 );
                               } on Error catch (e) {
-                                if (!context.mounted || !context.mounted)
+                                if (!context.mounted || !context.mounted) {
                                   return;
+                                }
                                 showErrorDialog(
                                     context, "Failed to join room", e.format());
                               }
@@ -410,6 +427,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
     setState(() {
       selectedRoomId = null;
       isInRoomDetailsBottomSheet = true;
+      currentBottomSheetRoomId = roomId;
     });
     await showModalBottomSheet(
       isScrollControlled: true,
@@ -423,6 +441,8 @@ class _RoomsWidgetState extends State<RoomsWidget>
             username: widget.username,
             onSwitchToLargeScreen: () {
               selectedRoomId = roomId;
+              currentBottomSheetRoomId = null;
+              isInRoomDetailsBottomSheet = false;
             },
             isBottomSheet: true,
             room: currData!.singleWhere(
@@ -434,6 +454,7 @@ class _RoomsWidgetState extends State<RoomsWidget>
     );
     setState(() {
       isInRoomDetailsBottomSheet = false;
+      currentBottomSheetRoomId = null;
     });
   }
 

@@ -98,6 +98,10 @@ class _LobbyState extends State<Lobby> {
     timer = Timer.periodic(
       const Duration(milliseconds: 300),
       (timer) {
+        if (!mounted && !context.mounted) {
+          timer.cancel();
+          return;
+        }
         if (futureDone && currData != null) {
           setState(() {
             futureDone = false;

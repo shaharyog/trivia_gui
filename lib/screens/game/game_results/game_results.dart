@@ -43,6 +43,7 @@ class _GameResultsPageState extends State<GameResultsPage> {
       const Duration(seconds: 2),
       (timer) {
         if (!mounted && !context.mounted) {
+          timer.cancel();
           return;
         } else if (futureDone && currData != null) {
           setState(() {

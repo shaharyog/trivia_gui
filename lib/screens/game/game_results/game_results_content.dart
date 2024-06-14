@@ -131,6 +131,9 @@ class GameResultsContent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           getScoreIcon(index),
                           if (playersResults[index].scoreChange != 0)
@@ -178,14 +181,17 @@ class GameResultsContent extends StatelessWidget {
                             child: Skeleton.shade(
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 4.0),
-                                child: Container(
-                                  width: 12.0,
-                                  height: 12.0,
-                                  decoration: BoxDecoration(
-                                    color: playersResults[index].isOnline
-                                        ? Colors.greenAccent
-                                        : Colors.grey,
-                                    shape: BoxShape.circle,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 2.0),
+                                  child: Container(
+                                    width: 12.0,
+                                    height: 12.0,
+                                    decoration: BoxDecoration(
+                                      color: playersResults[index].isOnline
+                                          ? Colors.greenAccent
+                                          : Colors.grey,
+                                      shape: BoxShape.circle,
+                                    ),
                                   ),
                                 ),
                               ),

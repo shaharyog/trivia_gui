@@ -81,6 +81,9 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
           setState(() {
             currentMilliseconds = timer.tick * 16;
           });
+        } else {
+          timer.cancel();
+          return;
         }
       },
     );

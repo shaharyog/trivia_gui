@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:trivia/src/rust/api/request/get_game_results.dart';
 import 'package:trivia/utils/common_functionalities/seconds_to_readable.dart';
@@ -243,14 +244,12 @@ class _GameOverviewState extends State<GameOverview> {
               cardIndex: index,
               context: context),
           child: Center(
-            child: Text(
+            child: AutoSizeText(
               widget.questionsHistory[questionIndex].answers[index],
+              maxLines: 2,
               textAlign: TextAlign.center,
-              maxLines: 1,
+              style: Theme.of(context).textTheme.displaySmall,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: getFontSize(context),
-              ),
             ),
           ),
         ),
@@ -271,7 +270,7 @@ class _GameOverviewState extends State<GameOverview> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 64.0,
+              horizontal: 16.0,
               vertical: 8.0,
             ),
             child: buildAnswersList(context, questionIndex),
@@ -322,11 +321,6 @@ Future<bool> launchExitConfirmationDialog(
   );
 
   return isConfirmed;
-}
-
-double getFontSize(BuildContext context, {bool title = false}) {
-  return (((MediaQuery.of(context).size.height / 2) - 32) / 4) *
-      (title ? 0.4 : 0.25);
 }
 
 Color getCardColor(

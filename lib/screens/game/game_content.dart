@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../consts.dart';
@@ -115,7 +116,7 @@ class _GameContentState extends State<GameContent> {
               ),
         Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 32.0,
+            horizontal: 16.0,
             vertical: 16.0,
           ),
           child: buildQuestionWidget(context),
@@ -123,7 +124,7 @@ class _GameContentState extends State<GameContent> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 64.0,
+              horizontal: 24.0,
               vertical: 8.0,
             ),
             child: buildAnswersList(context),
@@ -212,14 +213,12 @@ class _GameContentState extends State<GameContent> {
                 cardIndex: index,
                 context: context),
             child: Center(
-              child: Text(
+              child: AutoSizeText(
                 widget.question.answers[index].$2,
+                maxLines: 2,
                 textAlign: TextAlign.center,
-                maxLines: 1,
+                style: Theme.of(context).textTheme.displaySmall,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: getFontSize(context),
-                ),
               ),
             ),
           ),
@@ -229,10 +228,6 @@ class _GameContentState extends State<GameContent> {
   }
 }
 
-double getFontSize(BuildContext context, {bool title = false}) {
-  return (((MediaQuery.of(context).size.height / 2) - 32) / 4) *
-      (title ? 0.4 : 0.25);
-}
 
 Color getCardColor(
     {required int? selectedIndex,
