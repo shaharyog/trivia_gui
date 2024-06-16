@@ -14,6 +14,7 @@ import '../../utils/dialogs/server_settings.dart';
 import '../../src/rust/api/session.dart';
 import '../../utils/dialogs/error_dialog.dart';
 import '../../utils/common_widgets/toggle_theme_button.dart';
+import 'password_recovery_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   final ErrorDialogData? errorDialogData;
@@ -263,41 +264,70 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.symmetric(
                         vertical: 32.0,
                       ),
-                      child: Text.rich(
-                        TextSpan(
-                          text: "Don't have an account? ",
-                          children: [
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text.rich(
                             TextSpan(
-                              text: "Sign up",
-                              style: !_isLoading
-                                  ? Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      )
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        color: Theme.of(context).disabledColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = !_isLoading
-                                    ? () {
-                                        Navigator.pushNamed(context, '/signup');
-                                      }
-                                    : null,
-                              mouseCursor: !_isLoading
+                              text: "Don't have an account? ",
+                              children: [
+                                TextSpan(
+                                  text: "Sign up",
+                                  style: !_isLoading
+                                      ? Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          )
+                                      : Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            color:
+                                                Theme.of(context).disabledColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = !_isLoading
+                                        ? () {
+                                            Navigator.pushNamed(
+                                                context, '/signup');
+                                          }
+                                        : null,
+                                  mouseCursor: !_isLoading
+                                      ? SystemMouseCursors.click
+                                      : MouseCursor.defer,
+                                ),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: !_isLoading ? () {
+                              showDialog(context: context, barrierDismissible: false, builder: (context) => PasswordRecoveryDialog());
+                            } : null,
+                            child: MouseRegion(
+                              cursor: !_isLoading
                                   ? SystemMouseCursors.click
                                   : MouseCursor.defer,
+                              child: Text(
+                                "Forgot Password?",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       )),
                 ],
               ),
