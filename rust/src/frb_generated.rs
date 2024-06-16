@@ -191,29 +191,12 @@ fn wire__crate__api__session__Session_forgot_password_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_that = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
-            >>::sse_decode(&mut deserializer);
             let api_email = <String>::sse_decode(&mut deserializer);
+            let api_address = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
                 transform_result_sse((move || {
-                    let mut api_that_decoded = None;
-                    let decode_indices_ =
-                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
-                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
-                        );
-                    for i in decode_indices_ {
-                        match i {
-                            0 => {
-                                api_that_decoded =
-                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
-                            }
-                            _ => unreachable!(),
-                        }
-                    }
-                    let mut api_that = api_that_decoded.unwrap();
-                    crate::api::session::Session::forgot_password(&mut api_that, api_email)
+                    crate::api::session::Session::forgot_password(api_email, api_address)
                 })())
             }
         },

@@ -260,8 +260,10 @@ impl Session {
     }
 
     #[flutter_rust_bridge::frb]
-    pub fn forgot_password(&mut self, email: String) -> Result<(), Error> {
-        let response = ForgotPasswordRequest { email }.write_and_read(&mut self.socket)?;
+    pub fn forgot_password(email: String, address: String) -> Result<(), Error> {
+        let mut socket = Self::connect(address)?;
+
+        let response = ForgotPasswordRequest { email }.write_and_read(&mut socket)?;
         if !response.status {
             return Err(Error::InternalServerError);
         }

@@ -85,7 +85,7 @@ abstract class RustLibApi extends BaseApi {
       {required Session that, required RoomData roomData, dynamic hint});
 
   Future<void> crateApiSessionSessionForgotPassword(
-      {required Session that, required String email, dynamic hint});
+      {required String email, required String address, dynamic hint});
 
   Future<GameResults> crateApiSessionSessionGetGameResults(
       {required Session that, dynamic hint});
@@ -248,13 +248,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Future<void> crateApiSessionSessionForgotPassword(
-      {required Session that, required String email, dynamic hint}) {
+      {required String email, required String address, dynamic hint}) {
     return handler.executeNormal(NormalTask(
       callFfi: (port_) {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
-            that, serializer);
         sse_encode_String(email, serializer);
+        sse_encode_String(address, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
             funcId: 22, port: port_);
       },
@@ -263,7 +262,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         decodeErrorData: sse_decode_error,
       ),
       constMeta: kCrateApiSessionSessionForgotPasswordConstMeta,
-      argValues: [that, email],
+      argValues: [email, address],
       apiImpl: this,
       hint: hint,
     ));
@@ -272,7 +271,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiSessionSessionForgotPasswordConstMeta =>
       const TaskConstMeta(
         debugName: "Session_forgot_password",
-        argNames: ["that", "email"],
+        argNames: ["email", "address"],
       );
 
   @override
