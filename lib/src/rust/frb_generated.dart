@@ -937,6 +937,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         return Error_CouldNotCreateRoom();
       case 14:
         return Error_VerificationCodeTooManyAttempts();
+      case 15:
+        return Error_EmailDoesNotExist();
       default:
         throw Exception("unreachable");
     }
@@ -1378,6 +1380,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         return Error_CouldNotCreateRoom();
       case 14:
         return Error_VerificationCodeTooManyAttempts();
+      case 15:
+        return Error_EmailDoesNotExist();
       default:
         throw UnimplementedError('');
     }
@@ -1858,6 +1862,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_i_32(13, serializer);
       case Error_VerificationCodeTooManyAttempts():
         sse_encode_i_32(14, serializer);
+      case Error_EmailDoesNotExist():
+        sse_encode_i_32(15, serializer);
     }
   }
 

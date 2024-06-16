@@ -34,6 +34,8 @@ pub enum Error {
     CouldNotCreateRoom,
     #[error("Submitted verification code too many times")]
     VerificationCodeTooManyAttempts,
+    #[error("Email does not exist")]
+    EmailDoesNotExist,
 }
 
 impl Error {

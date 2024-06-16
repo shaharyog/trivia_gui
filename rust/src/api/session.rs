@@ -265,7 +265,7 @@ impl Session {
 
         let response = ForgotPasswordRequest { email }.write_and_read(&mut socket)?;
         if !response.status {
-            return Err(Error::InternalServerError);
+            return Err(Error::EmailDoesNotExist);
         }
 
         Ok(())

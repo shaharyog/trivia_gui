@@ -33,6 +33,7 @@ mixin _$Error {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -52,6 +53,7 @@ mixin _$Error {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -71,6 +73,7 @@ mixin _$Error {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -99,6 +102,7 @@ mixin _$Error {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -121,6 +125,7 @@ mixin _$Error {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -143,6 +148,7 @@ mixin _$Error {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -247,6 +253,7 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return serverConnectionError(field0);
   }
@@ -269,6 +276,7 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return serverConnectionError?.call(field0);
   }
@@ -291,6 +299,7 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (serverConnectionError != null) {
@@ -325,6 +334,7 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return serverConnectionError(this);
   }
@@ -350,6 +360,7 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return serverConnectionError?.call(this);
   }
@@ -375,6 +386,7 @@ class _$Error_ServerConnectionErrorImpl extends Error_ServerConnectionError {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (serverConnectionError != null) {
@@ -479,6 +491,7 @@ class _$Error_RequestSerializationErrorImpl
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return requestSerializationError(field0);
   }
@@ -501,6 +514,7 @@ class _$Error_RequestSerializationErrorImpl
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return requestSerializationError?.call(field0);
   }
@@ -523,6 +537,7 @@ class _$Error_RequestSerializationErrorImpl
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (requestSerializationError != null) {
@@ -557,6 +572,7 @@ class _$Error_RequestSerializationErrorImpl
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return requestSerializationError(this);
   }
@@ -582,6 +598,7 @@ class _$Error_RequestSerializationErrorImpl
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return requestSerializationError?.call(this);
   }
@@ -607,6 +624,7 @@ class _$Error_RequestSerializationErrorImpl
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (requestSerializationError != null) {
@@ -712,6 +730,7 @@ class _$Error_ResponseDeserializationErrorImpl
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return responseDeserializationError(field0);
   }
@@ -734,6 +753,7 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return responseDeserializationError?.call(field0);
   }
@@ -756,6 +776,7 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (responseDeserializationError != null) {
@@ -790,6 +811,7 @@ class _$Error_ResponseDeserializationErrorImpl
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return responseDeserializationError(this);
   }
@@ -815,6 +837,7 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return responseDeserializationError?.call(this);
   }
@@ -840,6 +863,7 @@ class _$Error_ResponseDeserializationErrorImpl
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (responseDeserializationError != null) {
@@ -915,6 +939,7 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return requestTooBig();
   }
@@ -937,6 +962,7 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return requestTooBig?.call();
   }
@@ -959,6 +985,7 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (requestTooBig != null) {
@@ -993,6 +1020,7 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return requestTooBig(this);
   }
@@ -1018,6 +1046,7 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return requestTooBig?.call(this);
   }
@@ -1043,6 +1072,7 @@ class _$Error_RequestTooBigImpl extends Error_RequestTooBig {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (requestTooBig != null) {
@@ -1137,6 +1167,7 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return responseError(field0);
   }
@@ -1159,6 +1190,7 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return responseError?.call(field0);
   }
@@ -1181,6 +1213,7 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (responseError != null) {
@@ -1215,6 +1248,7 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return responseError(this);
   }
@@ -1240,6 +1274,7 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return responseError?.call(this);
   }
@@ -1265,6 +1300,7 @@ class _$Error_ResponseErrorImpl extends Error_ResponseError {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (responseError != null) {
@@ -1367,6 +1403,7 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return invalidResponseCode(field0);
   }
@@ -1389,6 +1426,7 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return invalidResponseCode?.call(field0);
   }
@@ -1411,6 +1449,7 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (invalidResponseCode != null) {
@@ -1445,6 +1484,7 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return invalidResponseCode(this);
   }
@@ -1470,6 +1510,7 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return invalidResponseCode?.call(this);
   }
@@ -1495,6 +1536,7 @@ class _$Error_InvalidResponseCodeImpl extends Error_InvalidResponseCode {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (invalidResponseCode != null) {
@@ -1595,6 +1637,7 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return loginError(field0);
   }
@@ -1617,6 +1660,7 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return loginError?.call(field0);
   }
@@ -1639,6 +1683,7 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (loginError != null) {
@@ -1673,6 +1718,7 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return loginError(this);
   }
@@ -1698,6 +1744,7 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return loginError?.call(this);
   }
@@ -1723,6 +1770,7 @@ class _$Error_LoginErrorImpl extends Error_LoginError {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (loginError != null) {
@@ -1822,6 +1870,7 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return signupError(field0);
   }
@@ -1844,6 +1893,7 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return signupError?.call(field0);
   }
@@ -1866,6 +1916,7 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (signupError != null) {
@@ -1900,6 +1951,7 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return signupError(this);
   }
@@ -1925,6 +1977,7 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return signupError?.call(this);
   }
@@ -1950,6 +2003,7 @@ class _$Error_SignupErrorImpl extends Error_SignupError {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (signupError != null) {
@@ -2023,6 +2077,7 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return logoutError();
   }
@@ -2045,6 +2100,7 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return logoutError?.call();
   }
@@ -2067,6 +2123,7 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (logoutError != null) {
@@ -2101,6 +2158,7 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return logoutError(this);
   }
@@ -2126,6 +2184,7 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return logoutError?.call(this);
   }
@@ -2151,6 +2210,7 @@ class _$Error_LogoutErrorImpl extends Error_LogoutError {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (logoutError != null) {
@@ -2246,6 +2306,7 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return invalidAddress(field0);
   }
@@ -2268,6 +2329,7 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return invalidAddress?.call(field0);
   }
@@ -2290,6 +2352,7 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (invalidAddress != null) {
@@ -2324,6 +2387,7 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return invalidAddress(this);
   }
@@ -2349,6 +2413,7 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return invalidAddress?.call(this);
   }
@@ -2374,6 +2439,7 @@ class _$Error_InvalidAddressImpl extends Error_InvalidAddress {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (invalidAddress != null) {
@@ -2450,6 +2516,7 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return internalServerError();
   }
@@ -2472,6 +2539,7 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return internalServerError?.call();
   }
@@ -2494,6 +2562,7 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (internalServerError != null) {
@@ -2528,6 +2597,7 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return internalServerError(this);
   }
@@ -2553,6 +2623,7 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return internalServerError?.call(this);
   }
@@ -2578,6 +2649,7 @@ class _$Error_InternalServerErrorImpl extends Error_InternalServerError {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (internalServerError != null) {
@@ -2674,6 +2746,7 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return updateUserDataError(field0);
   }
@@ -2696,6 +2769,7 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return updateUserDataError?.call(field0);
   }
@@ -2718,6 +2792,7 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (updateUserDataError != null) {
@@ -2752,6 +2827,7 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return updateUserDataError(this);
   }
@@ -2777,6 +2853,7 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return updateUserDataError?.call(this);
   }
@@ -2802,6 +2879,7 @@ class _$Error_UpdateUserDataErrorImpl extends Error_UpdateUserDataError {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (updateUserDataError != null) {
@@ -2902,6 +2980,7 @@ class _$Error_InvalidRoomIdImpl extends Error_InvalidRoomId {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return invalidRoomId(field0);
   }
@@ -2924,6 +3003,7 @@ class _$Error_InvalidRoomIdImpl extends Error_InvalidRoomId {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return invalidRoomId?.call(field0);
   }
@@ -2946,6 +3026,7 @@ class _$Error_InvalidRoomIdImpl extends Error_InvalidRoomId {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (invalidRoomId != null) {
@@ -2980,6 +3061,7 @@ class _$Error_InvalidRoomIdImpl extends Error_InvalidRoomId {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return invalidRoomId(this);
   }
@@ -3005,6 +3087,7 @@ class _$Error_InvalidRoomIdImpl extends Error_InvalidRoomId {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return invalidRoomId?.call(this);
   }
@@ -3030,6 +3113,7 @@ class _$Error_InvalidRoomIdImpl extends Error_InvalidRoomId {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (invalidRoomId != null) {
@@ -3106,6 +3190,7 @@ class _$Error_CouldNotCreateRoomImpl extends Error_CouldNotCreateRoom {
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return couldNotCreateRoom();
   }
@@ -3128,6 +3213,7 @@ class _$Error_CouldNotCreateRoomImpl extends Error_CouldNotCreateRoom {
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return couldNotCreateRoom?.call();
   }
@@ -3150,6 +3236,7 @@ class _$Error_CouldNotCreateRoomImpl extends Error_CouldNotCreateRoom {
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (couldNotCreateRoom != null) {
@@ -3184,6 +3271,7 @@ class _$Error_CouldNotCreateRoomImpl extends Error_CouldNotCreateRoom {
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return couldNotCreateRoom(this);
   }
@@ -3209,6 +3297,7 @@ class _$Error_CouldNotCreateRoomImpl extends Error_CouldNotCreateRoom {
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return couldNotCreateRoom?.call(this);
   }
@@ -3234,6 +3323,7 @@ class _$Error_CouldNotCreateRoomImpl extends Error_CouldNotCreateRoom {
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (couldNotCreateRoom != null) {
@@ -3306,6 +3396,7 @@ class _$Error_VerificationCodeTooManyAttemptsImpl
     required TResult Function(String field0) invalidRoomId,
     required TResult Function() couldNotCreateRoom,
     required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
   }) {
     return verificationCodeTooManyAttempts();
   }
@@ -3328,6 +3419,7 @@ class _$Error_VerificationCodeTooManyAttemptsImpl
     TResult? Function(String field0)? invalidRoomId,
     TResult? Function()? couldNotCreateRoom,
     TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
   }) {
     return verificationCodeTooManyAttempts?.call();
   }
@@ -3350,6 +3442,7 @@ class _$Error_VerificationCodeTooManyAttemptsImpl
     TResult Function(String field0)? invalidRoomId,
     TResult Function()? couldNotCreateRoom,
     TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (verificationCodeTooManyAttempts != null) {
@@ -3384,6 +3477,7 @@ class _$Error_VerificationCodeTooManyAttemptsImpl
         couldNotCreateRoom,
     required TResult Function(Error_VerificationCodeTooManyAttempts value)
         verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
   }) {
     return verificationCodeTooManyAttempts(this);
   }
@@ -3409,6 +3503,7 @@ class _$Error_VerificationCodeTooManyAttemptsImpl
     TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult? Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
   }) {
     return verificationCodeTooManyAttempts?.call(this);
   }
@@ -3434,6 +3529,7 @@ class _$Error_VerificationCodeTooManyAttemptsImpl
     TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
     TResult Function(Error_VerificationCodeTooManyAttempts value)?
         verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
     required TResult orElse(),
   }) {
     if (verificationCodeTooManyAttempts != null) {
@@ -3447,4 +3543,208 @@ abstract class Error_VerificationCodeTooManyAttempts extends Error {
   const factory Error_VerificationCodeTooManyAttempts() =
       _$Error_VerificationCodeTooManyAttemptsImpl;
   const Error_VerificationCodeTooManyAttempts._() : super._();
+}
+
+/// @nodoc
+abstract class _$$Error_EmailDoesNotExistImplCopyWith<$Res> {
+  factory _$$Error_EmailDoesNotExistImplCopyWith(
+          _$Error_EmailDoesNotExistImpl value,
+          $Res Function(_$Error_EmailDoesNotExistImpl) then) =
+      __$$Error_EmailDoesNotExistImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$Error_EmailDoesNotExistImplCopyWithImpl<$Res>
+    extends _$ErrorCopyWithImpl<$Res, _$Error_EmailDoesNotExistImpl>
+    implements _$$Error_EmailDoesNotExistImplCopyWith<$Res> {
+  __$$Error_EmailDoesNotExistImplCopyWithImpl(
+      _$Error_EmailDoesNotExistImpl _value,
+      $Res Function(_$Error_EmailDoesNotExistImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$Error_EmailDoesNotExistImpl extends Error_EmailDoesNotExist {
+  const _$Error_EmailDoesNotExistImpl() : super._();
+
+  @override
+  String toString() {
+    return 'Error.emailDoesNotExist()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Error_EmailDoesNotExistImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String field0) serverConnectionError,
+    required TResult Function(String field0) requestSerializationError,
+    required TResult Function(String field0) responseDeserializationError,
+    required TResult Function() requestTooBig,
+    required TResult Function(String field0) responseError,
+    required TResult Function(int field0) invalidResponseCode,
+    required TResult Function(String field0) loginError,
+    required TResult Function(String field0) signupError,
+    required TResult Function() logoutError,
+    required TResult Function(String field0) invalidAddress,
+    required TResult Function() internalServerError,
+    required TResult Function(String field0) updateUserDataError,
+    required TResult Function(String field0) invalidRoomId,
+    required TResult Function() couldNotCreateRoom,
+    required TResult Function() verificationCodeTooManyAttempts,
+    required TResult Function() emailDoesNotExist,
+  }) {
+    return emailDoesNotExist();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String field0)? serverConnectionError,
+    TResult? Function(String field0)? requestSerializationError,
+    TResult? Function(String field0)? responseDeserializationError,
+    TResult? Function()? requestTooBig,
+    TResult? Function(String field0)? responseError,
+    TResult? Function(int field0)? invalidResponseCode,
+    TResult? Function(String field0)? loginError,
+    TResult? Function(String field0)? signupError,
+    TResult? Function()? logoutError,
+    TResult? Function(String field0)? invalidAddress,
+    TResult? Function()? internalServerError,
+    TResult? Function(String field0)? updateUserDataError,
+    TResult? Function(String field0)? invalidRoomId,
+    TResult? Function()? couldNotCreateRoom,
+    TResult? Function()? verificationCodeTooManyAttempts,
+    TResult? Function()? emailDoesNotExist,
+  }) {
+    return emailDoesNotExist?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String field0)? serverConnectionError,
+    TResult Function(String field0)? requestSerializationError,
+    TResult Function(String field0)? responseDeserializationError,
+    TResult Function()? requestTooBig,
+    TResult Function(String field0)? responseError,
+    TResult Function(int field0)? invalidResponseCode,
+    TResult Function(String field0)? loginError,
+    TResult Function(String field0)? signupError,
+    TResult Function()? logoutError,
+    TResult Function(String field0)? invalidAddress,
+    TResult Function()? internalServerError,
+    TResult Function(String field0)? updateUserDataError,
+    TResult Function(String field0)? invalidRoomId,
+    TResult Function()? couldNotCreateRoom,
+    TResult Function()? verificationCodeTooManyAttempts,
+    TResult Function()? emailDoesNotExist,
+    required TResult orElse(),
+  }) {
+    if (emailDoesNotExist != null) {
+      return emailDoesNotExist();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Error_ServerConnectionError value)
+        serverConnectionError,
+    required TResult Function(Error_RequestSerializationError value)
+        requestSerializationError,
+    required TResult Function(Error_ResponseDeserializationError value)
+        responseDeserializationError,
+    required TResult Function(Error_RequestTooBig value) requestTooBig,
+    required TResult Function(Error_ResponseError value) responseError,
+    required TResult Function(Error_InvalidResponseCode value)
+        invalidResponseCode,
+    required TResult Function(Error_LoginError value) loginError,
+    required TResult Function(Error_SignupError value) signupError,
+    required TResult Function(Error_LogoutError value) logoutError,
+    required TResult Function(Error_InvalidAddress value) invalidAddress,
+    required TResult Function(Error_InternalServerError value)
+        internalServerError,
+    required TResult Function(Error_UpdateUserDataError value)
+        updateUserDataError,
+    required TResult Function(Error_InvalidRoomId value) invalidRoomId,
+    required TResult Function(Error_CouldNotCreateRoom value)
+        couldNotCreateRoom,
+    required TResult Function(Error_VerificationCodeTooManyAttempts value)
+        verificationCodeTooManyAttempts,
+    required TResult Function(Error_EmailDoesNotExist value) emailDoesNotExist,
+  }) {
+    return emailDoesNotExist(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult? Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult? Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult? Function(Error_RequestTooBig value)? requestTooBig,
+    TResult? Function(Error_ResponseError value)? responseError,
+    TResult? Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult? Function(Error_LoginError value)? loginError,
+    TResult? Function(Error_SignupError value)? signupError,
+    TResult? Function(Error_LogoutError value)? logoutError,
+    TResult? Function(Error_InvalidAddress value)? invalidAddress,
+    TResult? Function(Error_InternalServerError value)? internalServerError,
+    TResult? Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult? Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult? Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
+    TResult? Function(Error_VerificationCodeTooManyAttempts value)?
+        verificationCodeTooManyAttempts,
+    TResult? Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
+  }) {
+    return emailDoesNotExist?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Error_ServerConnectionError value)? serverConnectionError,
+    TResult Function(Error_RequestSerializationError value)?
+        requestSerializationError,
+    TResult Function(Error_ResponseDeserializationError value)?
+        responseDeserializationError,
+    TResult Function(Error_RequestTooBig value)? requestTooBig,
+    TResult Function(Error_ResponseError value)? responseError,
+    TResult Function(Error_InvalidResponseCode value)? invalidResponseCode,
+    TResult Function(Error_LoginError value)? loginError,
+    TResult Function(Error_SignupError value)? signupError,
+    TResult Function(Error_LogoutError value)? logoutError,
+    TResult Function(Error_InvalidAddress value)? invalidAddress,
+    TResult Function(Error_InternalServerError value)? internalServerError,
+    TResult Function(Error_UpdateUserDataError value)? updateUserDataError,
+    TResult Function(Error_InvalidRoomId value)? invalidRoomId,
+    TResult Function(Error_CouldNotCreateRoom value)? couldNotCreateRoom,
+    TResult Function(Error_VerificationCodeTooManyAttempts value)?
+        verificationCodeTooManyAttempts,
+    TResult Function(Error_EmailDoesNotExist value)? emailDoesNotExist,
+    required TResult orElse(),
+  }) {
+    if (emailDoesNotExist != null) {
+      return emailDoesNotExist(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Error_EmailDoesNotExist extends Error {
+  const factory Error_EmailDoesNotExist() = _$Error_EmailDoesNotExistImpl;
+  const Error_EmailDoesNotExist._() : super._();
 }

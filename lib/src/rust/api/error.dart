@@ -48,6 +48,7 @@ sealed class Error with _$Error {
   const factory Error.couldNotCreateRoom() = Error_CouldNotCreateRoom;
   const factory Error.verificationCodeTooManyAttempts() =
       Error_VerificationCodeTooManyAttempts;
+  const factory Error.emailDoesNotExist() = Error_EmailDoesNotExist;
 
   String format({dynamic hint}) =>
       RustLib.instance.api.crateApiErrorErrorFormat(that: this, hint: hint);

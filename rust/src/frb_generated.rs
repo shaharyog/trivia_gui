@@ -1163,6 +1163,9 @@ impl SseDecode for crate::api::error::Error {
             14 => {
                 return crate::api::error::Error::VerificationCodeTooManyAttempts;
             }
+            15 => {
+                return crate::api::error::Error::EmailDoesNotExist;
+            }
             _ => {
                 unimplemented!("");
             }
@@ -1728,6 +1731,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::error::Error {
             crate::api::error::Error::VerificationCodeTooManyAttempts => {
                 [14.into_dart()].into_dart()
             }
+            crate::api::error::Error::EmailDoesNotExist => [15.into_dart()].into_dart(),
         }
     }
 }
@@ -2162,6 +2166,9 @@ impl SseEncode for crate::api::error::Error {
             }
             crate::api::error::Error::VerificationCodeTooManyAttempts => {
                 <i32>::sse_encode(14, serializer);
+            }
+            crate::api::error::Error::EmailDoesNotExist => {
+                <i32>::sse_encode(15, serializer);
             }
         }
     }
