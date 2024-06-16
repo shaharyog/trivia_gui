@@ -41,6 +41,10 @@ class Session extends RustOpaque {
       RustLib.instance.api.crateApiSessionSessionCreateRoom(
           that: this, roomData: roomData, hint: hint);
 
+  Future<void> forgotPassword({required String email, dynamic hint}) =>
+      RustLib.instance.api.crateApiSessionSessionForgotPassword(
+          that: this, email: email, hint: hint);
+
   Future<GameResults> getGameResults({dynamic hint}) => RustLib.instance.api
       .crateApiSessionSessionGetGameResults(that: this, hint: hint);
 

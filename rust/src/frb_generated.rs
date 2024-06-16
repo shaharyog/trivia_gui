@@ -32,7 +32,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.0.0-dev.34";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1119867040;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -508554814;
 
 // Section: executor
 
@@ -164,6 +164,56 @@ fn wire__crate__api__session__Session_create_room_impl(
                     }
                     let mut api_that = api_that_decoded.unwrap();
                     crate::api::session::Session::create_room(&mut api_that, api_room_data)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__session__Session_forgot_password_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "Session_forgot_password",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>,
+            >>::sse_decode(&mut deserializer);
+            let api_email = <String>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse((move || {
+                    let mut api_that_decoded = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::rust_auto_opaque_decode_compute_order(
+                            vec![api_that.rust_auto_opaque_lock_order_info(0, true)],
+                        );
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_that_decoded =
+                                    Some(api_that.rust_auto_opaque_decode_sync_ref_mut())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let mut api_that = api_that_decoded.unwrap();
+                    crate::api::session::Session::forgot_password(&mut api_that, api_email)
                 })())
             }
         },
@@ -1555,6 +1605,12 @@ fn pde_ffi_dispatcher_primary_impl(
     match func_id {
         14 => wire__crate__api__session__Session_close_room_impl(port, ptr, rust_vec_len, data_len),
         9 => wire__crate__api__session__Session_create_room_impl(port, ptr, rust_vec_len, data_len),
+        22 => wire__crate__api__session__Session_forgot_password_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
         19 => wire__crate__api__session__Session_get_game_results_impl(
             port,
             ptr,

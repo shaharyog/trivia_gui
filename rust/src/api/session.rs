@@ -5,6 +5,7 @@ use std::time::Duration;
 use crate::api::error::Error;
 use crate::api::request::close_room::CloseRoomRequest;
 use crate::api::request::create_room::{CreateRoomRequest, RoomData};
+use crate::api::request::forgot_password::ForgotPasswordRequest;
 use crate::api::request::get_game_results::{GameResults, GetGameResultsRequest};
 use crate::api::request::get_highscores::GetHighScoresRequest;
 use crate::api::request::get_question::{GetCurrentQuestionRequest, Question};
@@ -217,7 +218,7 @@ impl Session {
     pub fn submit_answer(&mut self, answer_id: u32, question_id: u32) -> Result<u32, Error> {
         let response = SubmitAnswerRequest {
             answer_id,
-            question_id
+            question_id,
         }.write_and_read(&mut self.socket)?;
         if !response.status {
             return Err(Error::InternalServerError);
@@ -251,6 +252,16 @@ impl Session {
     #[flutter_rust_bridge::frb]
     pub fn resend_verification_code(&mut self) -> Result<(), Error> {
         let response = ResendVerificationCodeRequest.write_and_read(&mut self.socket)?;
+        if !response.status {
+            return Err(Error::InternalServerError);
+        }
+
+        Ok(())
+    }
+
+    #[flutter_rust_bridge::frb]
+    pub fn forgot_password(&mut self, email: String) -> Result<(), Error> {
+        let response = ForgotPasswordRequest { email }.write_and_read(&mut self.socket)?;
         if !response.status {
             return Err(Error::InternalServerError);
         }

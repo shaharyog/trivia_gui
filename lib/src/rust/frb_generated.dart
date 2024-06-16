@@ -65,7 +65,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.0.0-dev.34';
 
   @override
-  int get rustContentHash => 1119867040;
+  int get rustContentHash => -508554814;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -83,6 +83,9 @@ abstract class RustLibApi extends BaseApi {
 
   Future<void> crateApiSessionSessionCreateRoom(
       {required Session that, required RoomData roomData, dynamic hint});
+
+  Future<void> crateApiSessionSessionForgotPassword(
+      {required Session that, required String email, dynamic hint});
 
   Future<GameResults> crateApiSessionSessionGetGameResults(
       {required Session that, dynamic hint});
@@ -241,6 +244,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(
         debugName: "Session_create_room",
         argNames: ["that", "roomData"],
+      );
+
+  @override
+  Future<void> crateApiSessionSessionForgotPassword(
+      {required Session that, required String email, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that, serializer);
+        sse_encode_String(email, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 22, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: sse_decode_error,
+      ),
+      constMeta: kCrateApiSessionSessionForgotPasswordConstMeta,
+      argValues: [that, email],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiSessionSessionForgotPasswordConstMeta =>
+      const TaskConstMeta(
+        debugName: "Session_forgot_password",
+        argNames: ["that", "email"],
       );
 
   @override
