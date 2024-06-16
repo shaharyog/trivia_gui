@@ -35,8 +35,6 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
   String? passwordErrorText;
   bool _showPassword = false;
   TextEditingController emailController = TextEditingController();
-  String? emailErrorText;
-  FocusNode emailFocusNode = FocusNode();
   TextEditingController addressController = TextEditingController();
   String? addressErrorText;
   FocusNode addressFocusNode = FocusNode();
@@ -67,7 +65,6 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
     addressController.dispose();
     phoneNumberController.dispose();
     birthdateController.dispose();
-    emailFocusNode.dispose();
     addressFocusNode.dispose();
     phoneNumberFocusNode.dispose();
     super.dispose();
@@ -176,7 +173,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                     isPassword: true,
                     onFieldSubmitted: (value) {
                       // move focus to next field (email)
-                      FocusScope.of(context).requestFocus(emailFocusNode);
+                      FocusScope.of(context).requestFocus(addressFocusNode);
                     },
                     validate: (String value) {
                       setState(() {
@@ -202,28 +199,6 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: InputField(
-                    focusNode: emailFocusNode,
-                    suffixIcon: const Icon(Icons.email_outlined),
-                    enabled: !_isLoading,
-                    label: "Email",
-                    inputType: TextInputType.emailAddress,
-                    onFieldSubmitted: (value) {
-                      // move focus to next field (address)
-                      FocusScope.of(context).requestFocus(addressFocusNode);
-                    },
-                    controller: emailController,
-                    errorText: emailErrorText,
-                    validate: (String value) {
-                      setState(() {
-                        _errorText = null;
-                        emailErrorText = getEmailErrorText(value);
-                      });
-                    },
                   ),
                 ),
                 Padding(
@@ -268,6 +243,17 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
                         phoneNumberErrorText = getPhoneNumberErrorText(value);
                       });
                     },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: InputField(
+                    suffixIcon: const Icon(Icons.email_sharp),
+                    enabled: false,
+                    controller: emailController,
+                    label: "Email",
+                    errorText: null,
+                    validate: null,
                   ),
                 ),
                 Padding(
@@ -322,7 +308,6 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
         updateUserDataRequest: UpdateUserDataRequest(
           password:
               passwordController.text.isEmpty ? null : passwordController.text,
-          email: emailController.text,
           address: addressController.text,
           phoneNumber: phoneNumberController.text,
           avatarColor: avatarColorsMapReversed[avatarColor]!,
@@ -371,7 +356,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
     bool isAllFieldsEntered = emailController.text.isNotEmpty &&
         addressController.text.isNotEmpty &&
         phoneNumberController.text.isNotEmpty;
-    bool isAllFieldsWithoutError = emailErrorText == null &&
+    bool isAllFieldsWithoutError =
         passwordErrorText == null &&
         addressErrorText == null &&
         phoneNumberErrorText == null;

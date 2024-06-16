@@ -1366,13 +1366,11 @@ impl SseDecode for crate::api::request::update_user_data::UpdateUserDataRequest 
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_password = <Option<String>>::sse_decode(deserializer);
-        let mut var_email = <String>::sse_decode(deserializer);
         let mut var_address = <String>::sse_decode(deserializer);
         let mut var_phoneNumber = <String>::sse_decode(deserializer);
         let mut var_avatarColor = <String>::sse_decode(deserializer);
         return crate::api::request::update_user_data::UpdateUserDataRequest {
             password: var_password,
-            email: var_email,
             address: var_address,
             phone_number: var_phoneNumber,
             avatar_color: var_avatarColor,
@@ -1790,7 +1788,6 @@ impl flutter_rust_bridge::IntoDart
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.password.into_into_dart().into_dart(),
-            self.email.into_into_dart().into_dart(),
             self.address.into_into_dart().into_dart(),
             self.phone_number.into_into_dart().into_dart(),
             self.avatar_color.into_into_dart().into_dart(),
@@ -2222,7 +2219,6 @@ impl SseEncode for crate::api::request::update_user_data::UpdateUserDataRequest 
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Option<String>>::sse_encode(self.password, serializer);
-        <String>::sse_encode(self.email, serializer);
         <String>::sse_encode(self.address, serializer);
         <String>::sse_encode(self.phone_number, serializer);
         <String>::sse_encode(self.avatar_color, serializer);
