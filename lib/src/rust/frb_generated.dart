@@ -1154,14 +1154,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   UpdateUserDataRequest dco_decode_update_user_data_request(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 5)
-      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
     return UpdateUserDataRequest(
       password: dco_decode_opt_String(arr[0]),
-      email: dco_decode_String(arr[1]),
-      address: dco_decode_String(arr[2]),
-      phoneNumber: dco_decode_String(arr[3]),
-      avatarColor: dco_decode_String(arr[4]),
+      address: dco_decode_String(arr[1]),
+      phoneNumber: dco_decode_String(arr[2]),
+      avatarColor: dco_decode_String(arr[3]),
     );
   }
 
@@ -1638,13 +1637,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_password = sse_decode_opt_String(deserializer);
-    var var_email = sse_decode_String(deserializer);
     var var_address = sse_decode_String(deserializer);
     var var_phoneNumber = sse_decode_String(deserializer);
     var var_avatarColor = sse_decode_String(deserializer);
     return UpdateUserDataRequest(
         password: var_password,
-        email: var_email,
         address: var_address,
         phoneNumber: var_phoneNumber,
         avatarColor: var_avatarColor);
@@ -2053,7 +2050,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       UpdateUserDataRequest self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_opt_String(self.password, serializer);
-    sse_encode_String(self.email, serializer);
     sse_encode_String(self.address, serializer);
     sse_encode_String(self.phoneNumber, serializer);
     sse_encode_String(self.avatarColor, serializer);

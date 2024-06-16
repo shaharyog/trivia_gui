@@ -8,14 +8,12 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 class UpdateUserDataRequest {
   final String? password;
-  final String email;
   final String address;
   final String phoneNumber;
   final String avatarColor;
 
   const UpdateUserDataRequest({
     this.password,
-    required this.email,
     required this.address,
     required this.phoneNumber,
     required this.avatarColor,
@@ -24,7 +22,6 @@ class UpdateUserDataRequest {
   @override
   int get hashCode =>
       password.hashCode ^
-      email.hashCode ^
       address.hashCode ^
       phoneNumber.hashCode ^
       avatarColor.hashCode;
@@ -35,7 +32,6 @@ class UpdateUserDataRequest {
       other is UpdateUserDataRequest &&
           runtimeType == other.runtimeType &&
           password == other.password &&
-          email == other.email &&
           address == other.address &&
           phoneNumber == other.phoneNumber &&
           avatarColor == other.avatarColor;

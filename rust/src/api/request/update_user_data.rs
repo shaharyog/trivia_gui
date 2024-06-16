@@ -3,7 +3,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize)]
 pub struct UpdateUserDataRequest {
     pub password: Option<String>,
-    pub email: String,
     pub address: String,
     #[serde(rename = "phoneNumber")]
     pub phone_number: String,
