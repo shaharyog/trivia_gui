@@ -52,7 +52,7 @@ class _GameContentState extends State<GameContent> {
     } on Error_ServerConnectionError catch (error) {
       _selectedAnswerId = null;
       _correctAnswerId = null;
-      if (mounted || context.mounted) {
+      if (mounted ) {
         widget.onServerError;
         Navigator.pushReplacement(
           context,
@@ -87,15 +87,30 @@ class _GameContentState extends State<GameContent> {
     if (shouldShowAnswerView && _selectedAnswerId == null) {
       return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Icon(Icons.timer_off_sharp, size: 64.0),
-            const SizedBox(height: 16.0),
-            Text(
-              "Times up!",
-              style: Theme.of(context).textTheme.displayLarge,
+            LinearProgressIndicator(
+              value: (widget.timePerQuestion +
+                  5 -
+                  (widget.currentMilliseconds / 1000)) /
+                  5,
             ),
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.timer_off_sharp, size: 64.0),
+                    const SizedBox(height: 16.0),
+                    Text(
+                      "Times up!",
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
           ],
         ),
       );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:trivia/screens/game/game_results/game_overview.dart';
+import 'package:trivia/screens/rooms/rooms_components/blinking_circle.dart';
 import 'package:trivia/utils/common_functionalities/seconds_to_readable.dart';
 
 import '../../../consts.dart';
@@ -9,7 +10,7 @@ import '../../../src/rust/api/session.dart';
 import '../../../utils/common_functionalities/user_data_validation.dart';
 import '../../../utils/common_widgets/gradient_text.dart';
 
-class GameResultsContent extends StatelessWidget {
+class GameResultsContent extends StatefulWidget {
   final List<PlayerResult> playersResults;
   final Session session;
   final String username;
@@ -17,11 +18,36 @@ class GameResultsContent extends StatelessWidget {
   final List<QuestionAnswered> questionsHistory;
 
   @override
-  const GameResultsContent({super.key,
-    required this.playersResults,
-    required this.username,
-    required this.gameName,
-    required this.session, required this.questionsHistory});
+  const GameResultsContent(
+      {super.key,
+      required this.playersResults,
+      required this.username,
+      required this.gameName,
+      required this.session,
+      required this.questionsHistory});
+
+  @override
+  State<GameResultsContent> createState() => _GameResultsContentState();
+}
+
+class _GameResultsContentState extends State<GameResultsContent>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _blinkingController;
+
+  @override
+  void initState() {
+    super.initState();
+    _blinkingController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 750),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _blinkingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,26 +65,18 @@ class GameResultsContent extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Skeleton.replace(
                   replacement: Text(
-                    gameName,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .displayMedium!
-                        .copyWith(
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    widget.gameName,
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                   ),
                   child: AnimatedGradientText(
-                    gameName,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .displayMedium!
-                        .copyWith(
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    widget.gameName,
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                     colors: const [
                       Color(0xff9dd769),
                       Color(0xfff0a13a),
@@ -72,57 +90,51 @@ class GameResultsContent extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 "Players results: ",
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .titleLarge,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
             // players list
             ListView.separated(
               shrinkWrap: true,
-              itemCount: playersResults.length + 1,
+              itemCount: widget.playersResults.length + 1,
               itemBuilder: (context, index) {
-                if (index == playersResults.length) {
+                if (index == widget.playersResults.length) {
                   return const SizedBox(
                     height: 84,
                   );
                 }
 
                 return ListTile(
-                  onTap: playersResults[index].player.username != username
+                  onTap: widget.playersResults[index].player.username !=
+                          widget.username
                       ? null
                       : () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            GameOverview(
-                              username: username,
-                              session: session,
-                              questionsHistory: questionsHistory,
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GameOverview(
+                                username: widget.username,
+                                session: widget.session,
+                                questionsHistory: widget.questionsHistory,
+                              ),
                             ),
-                      ),
-                    );
-                  },
+                          );
+                        },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                   leading: Skeleton.shade(
                     child: CircleAvatar(
-                      backgroundColor: avatarColorsMap[
-                      playersResults[index].player.avatarColor] ??
+                      backgroundColor: avatarColorsMap[widget
+                              .playersResults[index].player.avatarColor] ??
                           Colors.blue,
                       radius: 20,
                       child: Text(
-                        getInitials(playersResults[index].player.username),
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(
-                          color: Colors.white,
-                        ),
+                        getInitials(
+                            widget.playersResults[index].player.username),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: Colors.white,
+                            ),
                       ),
                     ),
                   ),
@@ -136,20 +148,23 @@ class GameResultsContent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           getScoreIcon(index),
-                          if (playersResults[index].scoreChange != 0)
+                          if (widget.playersResults[index].scoreChange != 0)
                             Text(
-                              playersResults[index].scoreChange.toString(),
+                              widget.playersResults[index].scoreChange
+                                  .toString(),
                               style: TextStyle(
-                                color: playersResults[index].scoreChange > 0
-                                    ? Colors.green
-                                    : Colors.red,
+                                color:
+                                    widget.playersResults[index].scoreChange > 0
+                                        ? Colors.green
+                                        : Colors.red,
                               ),
                             )
                         ],
                       ),
 
                       // score
-                      if (username == playersResults[index].player.username)
+                      if (widget.username ==
+                          widget.playersResults[index].player.username)
                         SizedBox(
                           width: 48,
                           child: ClipRect(
@@ -164,16 +179,14 @@ class GameResultsContent extends StatelessWidget {
                                 const SizedBox(height: 2),
                                 Text(
                                   'You',
-                                  style: Theme
-                                      .of(context)
-                                      .textTheme
-                                      .titleSmall,
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      if (username != playersResults[index].player.username)
+                      if (widget.username !=
+                          widget.playersResults[index].player.username)
                         SizedBox(
                           width: 48,
                           child: Align(
@@ -183,16 +196,20 @@ class GameResultsContent extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 4.0),
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 2.0),
-                                  child: Container(
-                                    width: 12.0,
-                                    height: 12.0,
-                                    decoration: BoxDecoration(
-                                      color: playersResults[index].isOnline
-                                          ? Colors.greenAccent
-                                          : Colors.grey,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
+                                  child: widget.playersResults[index].isOnline
+                                      ? BlinkingCircle(
+                                          animationController:
+                                              _blinkingController,
+                                          color: Colors.greenAccent,
+                                        )
+                                      : Container(
+                                          width: 12.0,
+                                          height: 12.0,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.grey,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),
@@ -201,23 +218,21 @@ class GameResultsContent extends StatelessWidget {
                     ],
                   ),
                   title: Text(
-                    playersResults[index].player.username,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(
-                      fontWeight: (index == playersResults.length - 1)
-                          ? FontWeight.w500
-                          : FontWeight.normal,
-                    ),
+                    widget.playersResults[index].player.username,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight:
+                              (index == widget.playersResults.length - 1)
+                                  ? FontWeight.w500
+                                  : FontWeight.normal,
+                        ),
                   ),
                   subtitle: ClipRect(
                     child: Skeleton.unite(
                       child: Row(
                         children: [
                           Text(
-                            playersResults[index].player.score.toString(),
+                            widget.playersResults[index].player.score
+                                .toString(),
                           ),
                           const SizedBox(width: 2),
                           const Icon(
@@ -226,15 +241,14 @@ class GameResultsContent extends StatelessWidget {
                           ),
                           const SizedBox(width: 10),
                           Text(secondsToReadableTime(
-                              playersResults[index].avgAnswerTime)),
+                              widget.playersResults[index].avgAnswerTime)),
                           const SizedBox(width: 4),
                           const Icon(
                             Icons.timer_sharp,
                             size: 16,
                           ),
                           const SizedBox(width: 10),
-                          Text(playersResults[index]
-                              .correctAnswerCount
+                          Text(widget.playersResults[index].correctAnswerCount
                               .toString()),
                           const SizedBox(width: 2),
                           const Icon(
@@ -242,8 +256,7 @@ class GameResultsContent extends StatelessWidget {
                             size: 16,
                           ),
                           const SizedBox(width: 10),
-                          Text(playersResults[index]
-                              .wrongAnswerCount
+                          Text(widget.playersResults[index].wrongAnswerCount
                               .toString()),
                           const SizedBox(width: 2),
                           const Icon(
@@ -257,7 +270,7 @@ class GameResultsContent extends StatelessWidget {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                if (index == playersResults.length - 1) {
+                if (index == widget.playersResults.length - 1) {
                   return const SizedBox.shrink();
                 }
                 return const Padding(
@@ -273,23 +286,23 @@ class GameResultsContent extends StatelessWidget {
   }
 
   Widget getScoreIcon(int index) {
-    if (playersResults[index].scoreChange > 200) {
+    if (widget.playersResults[index].scoreChange > 200) {
       return const Icon(
         Icons.keyboard_double_arrow_up_sharp,
         color: Colors.green,
       );
     }
-    if (playersResults[index].scoreChange > 0) {
+    if (widget.playersResults[index].scoreChange > 0) {
       return const Icon(
         Icons.arrow_upward_sharp,
         color: Colors.green,
       );
-    } else if (playersResults[index].scoreChange < -150) {
+    } else if (widget.playersResults[index].scoreChange < -150) {
       return const Icon(
         Icons.keyboard_double_arrow_down_sharp,
         color: Colors.red,
       );
-    } else if (playersResults[index].scoreChange < 0) {
+    } else if (widget.playersResults[index].scoreChange < 0) {
       return const Icon(
         Icons.arrow_downward_sharp,
         color: Colors.red,
