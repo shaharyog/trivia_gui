@@ -8,7 +8,6 @@ import 'screens/auth/signup/signup.dart';
 import 'package:provider/provider.dart';
 import 'providers/theme_provider.dart';
 import 'package:trivia/src/rust/frb_generated.dart';
-
 import 'utils/common_functionalities/window_management.dart';
 
 void main() async {
