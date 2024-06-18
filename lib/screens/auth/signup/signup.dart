@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trivia/screens/auth/signup/verification_dialog.dart';
 import '../../../consts.dart';
-import '../../../homepage/homepage.dart';
 import '../../../utils/common_functionalities/window_management.dart';
 import '../../../utils/common_widgets/gradient_text.dart';
 import '../../../utils/dialogs/server_settings.dart';

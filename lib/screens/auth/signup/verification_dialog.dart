@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:trivia/consts.dart';
 import 'package:trivia/homepage/homepage.dart';
 import 'package:trivia/src/rust/api/error.dart';
@@ -28,7 +27,6 @@ class SignupVerificationDialog extends StatefulWidget {
 
 class _SignupVerificationDialogState extends State<SignupVerificationDialog> {
   bool _isLoading = false;
-  String? _errorText;
   TextEditingController codeController = TextEditingController();
   String? codeErrorText;
 
@@ -47,7 +45,9 @@ class _SignupVerificationDialogState extends State<SignupVerificationDialog> {
           .submitVerificationCode(code: codeController.text);
       if (!mounted || !context.mounted) return;
       if (!isVerified) {
-        _errorText = "• Incorrect verification code";
+        setState(() {
+          codeErrorText = "• Incorrect verification code";
+        });
         return;
       }
       setWindowTitle("Trivia - @${widget.username}");
@@ -84,7 +84,7 @@ class _SignupVerificationDialogState extends State<SignupVerificationDialog> {
     } on Error catch (error) {
       if (!mounted || !context.mounted) return;
       setState(() {
-        _errorText = "• ${error.format()}";
+        codeErrorText = "• ${error.format()}";
       });
     } finally {
       setState(() {
@@ -112,7 +112,7 @@ class _SignupVerificationDialogState extends State<SignupVerificationDialog> {
     } on Error catch (error) {
       if (!mounted || !context.mounted) return;
       setState(() {
-        _errorText = "• ${error.format()}";
+        codeErrorText = "• ${error.format()}";
       });
     } finally {
       setState(() {
@@ -120,6 +120,7 @@ class _SignupVerificationDialogState extends State<SignupVerificationDialog> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -166,7 +167,6 @@ class _SignupVerificationDialogState extends State<SignupVerificationDialog> {
               validate: (String value) {
                 setState(
                   () {
-                    _errorText = null;
                     if (value.isEmpty) {
                       codeErrorText = null;
                     }
@@ -182,18 +182,13 @@ class _SignupVerificationDialogState extends State<SignupVerificationDialog> {
               label: "Verification Code",
             ),
           ),
-          if (_errorText != null)
-            Text(
-              _errorText!,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-            ),
           GestureDetector(
-            onTap: !_isLoading ? () {
-              _errorText = null;
-              resendVerificationCode();
-            } : null,
+            onTap: !_isLoading
+                ? () {
+                    codeErrorText = null;
+                    resendVerificationCode();
+                  }
+                : null,
             child: MouseRegion(
               cursor: !_isLoading
                   ? SystemMouseCursors.click

@@ -15,9 +15,11 @@ void main() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
-    await windowManager.setTitle("Trivia");
+    await windowManager.center();
     await windowManager.setSize(defaultScreenSize);
     await windowManager.setMinimumSize(minScreenSize);
+    await windowManager.show();
+
   }
 
 

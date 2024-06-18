@@ -35,8 +35,8 @@ const bool defaultPutActiveRoomsFirst = false;
 const bool defaultIsReversedSort = false;
 
 // screen size related consts:
-const minScreenSize = Size(500, 800);
-const defaultScreenSize = Size(800, 600);
+const minScreenSize = Size(600, 800);
+const defaultScreenSize = Size(600, 800);
 
 // animations durations:
 const int defaultBlinkingCircleDuration = 550;
