@@ -206,11 +206,7 @@ class _RoomDetailsContentsState extends State<RoomDetailsContents> {
                   ),
                   title: Text(
                     widget.room.players[index].username,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: (index == widget.room.players.length - 1)
-                              ? FontWeight.w500
-                              : FontWeight.normal,
-                        ),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   subtitle: ClipRect(
                     child: Skeleton.unite(
