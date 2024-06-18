@@ -85,17 +85,17 @@ class _GameResultsPageState extends State<GameResultsPage> {
       timer.cancel();
       future.ignore();
       if (!context.mounted || !mounted) return;
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LoginPage(
-              errorDialogData: ErrorDialogData(
-                title: serverConnErrorText,
-                message: serverConnErrorText,
-              ),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(
+            errorDialogData: ErrorDialogData(
+              title: serverConnErrorText,
+              message: serverConnErrorText,
             ),
           ),
-          (route) => false);
+        ),
+      );
     } on Error catch (error) {
       showErrorDialog(context, "Failed to leave game", error.format());
     }
@@ -213,8 +213,7 @@ class _GameResultsPageState extends State<GameResultsPage> {
   }
 
   List<PlayerResult> putUserOnTop(List<PlayerResult> playersResults) {
-    if (!playersResults
-        .any((element) => element.username == widget.username)) {
+    if (!playersResults.any((element) => element.username == widget.username)) {
       return playersResults;
     }
 
@@ -223,17 +222,5 @@ class _GameResultsPageState extends State<GameResultsPage> {
     playersResults.remove(user);
     playersResults.insert(0, user);
     return playersResults;
-  }
-
-  void returnToHomepage(context) async {
-    await Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(
-          session: widget.session,
-          username: widget.username,
-        ),
-      ),
-    );
   }
 }

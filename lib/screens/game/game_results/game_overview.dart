@@ -148,6 +148,7 @@ class _GameOverviewState extends State<GameOverview> {
     try {
       await widget.session.leaveGame();
       if (!context.mounted || !mounted) return;
+      Navigator.pop(context);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -159,6 +160,7 @@ class _GameOverviewState extends State<GameOverview> {
       );
     } on Error_ServerConnectionError {
       if (!context.mounted || !mounted) return;
+      Navigator.pop(context);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
