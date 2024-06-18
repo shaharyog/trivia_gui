@@ -1051,15 +1051,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   PlayerResult dco_decode_player_result(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 6)
-      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    if (arr.length != 7)
+      throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
     return PlayerResult(
-      player: dco_decode_player(arr[0]),
-      isOnline: dco_decode_bool(arr[1]),
-      scoreChange: dco_decode_i_32(arr[2]),
-      correctAnswerCount: dco_decode_u_32(arr[3]),
-      wrongAnswerCount: dco_decode_u_32(arr[4]),
-      avgAnswerTime: dco_decode_u_32(arr[5]),
+      username: dco_decode_String(arr[0]),
+      avatarColor: dco_decode_String(arr[1]),
+      isOnline: dco_decode_bool(arr[2]),
+      scoreChange: dco_decode_i_32(arr[3]),
+      correctAnswerCount: dco_decode_u_32(arr[4]),
+      wrongAnswerCount: dco_decode_u_32(arr[5]),
+      avgAnswerTime: dco_decode_u_32(arr[6]),
     );
   }
 
@@ -1533,14 +1534,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   PlayerResult sse_decode_player_result(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_player = sse_decode_player(deserializer);
+    var var_username = sse_decode_String(deserializer);
+    var var_avatarColor = sse_decode_String(deserializer);
     var var_isOnline = sse_decode_bool(deserializer);
     var var_scoreChange = sse_decode_i_32(deserializer);
     var var_correctAnswerCount = sse_decode_u_32(deserializer);
     var var_wrongAnswerCount = sse_decode_u_32(deserializer);
     var var_avgAnswerTime = sse_decode_u_32(deserializer);
     return PlayerResult(
-        player: var_player,
+        username: var_username,
+        avatarColor: var_avatarColor,
         isOnline: var_isOnline,
         scoreChange: var_scoreChange,
         correctAnswerCount: var_correctAnswerCount,
@@ -1989,7 +1992,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_player_result(PlayerResult self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_player(self.player, serializer);
+    sse_encode_String(self.username, serializer);
+    sse_encode_String(self.avatarColor, serializer);
     sse_encode_bool(self.isOnline, serializer);
     sse_encode_i_32(self.scoreChange, serializer);
     sse_encode_u_32(self.correctAnswerCount, serializer);

@@ -4,7 +4,6 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../../frb_generated.dart';
-import 'get_room_players.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 class GameResults {
@@ -29,7 +28,8 @@ class GameResults {
 }
 
 class PlayerResult {
-  final Player player;
+  final String username;
+  final String avatarColor;
   final bool isOnline;
   final int scoreChange;
   final int correctAnswerCount;
@@ -37,7 +37,8 @@ class PlayerResult {
   final int avgAnswerTime;
 
   const PlayerResult({
-    required this.player,
+    required this.username,
+    required this.avatarColor,
     required this.isOnline,
     required this.scoreChange,
     required this.correctAnswerCount,
@@ -47,7 +48,8 @@ class PlayerResult {
 
   @override
   int get hashCode =>
-      player.hashCode ^
+      username.hashCode ^
+      avatarColor.hashCode ^
       isOnline.hashCode ^
       scoreChange.hashCode ^
       correctAnswerCount.hashCode ^
@@ -59,7 +61,8 @@ class PlayerResult {
       identical(this, other) ||
       other is PlayerResult &&
           runtimeType == other.runtimeType &&
-          player == other.player &&
+          username == other.username &&
+          avatarColor == other.avatarColor &&
           isOnline == other.isOnline &&
           scoreChange == other.scoreChange &&
           correctAnswerCount == other.correctAnswerCount &&

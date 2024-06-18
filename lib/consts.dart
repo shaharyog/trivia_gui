@@ -168,7 +168,7 @@ const Question fakeQuestion = Question(
     ]);
 const List<PlayerResult> fakePlayerResults = [
   PlayerResult(
-    player: Player(username: "User user", avatarColor: "Blue", score: 200),
+    username: "User user", avatarColor: "Blue",
     isOnline: false,
     scoreChange: 35,
     correctAnswerCount: 4,
@@ -176,7 +176,7 @@ const List<PlayerResult> fakePlayerResults = [
     avgAnswerTime: 14,
   ),
   PlayerResult(
-    player: Player(username: "User user", avatarColor: "Green", score: 24),
+    username: "User user", avatarColor: "Green",
     isOnline: false,
     scoreChange: -90,
     correctAnswerCount: 1,
@@ -184,7 +184,7 @@ const List<PlayerResult> fakePlayerResults = [
     avgAnswerTime: 8,
   ),
   PlayerResult(
-    player: Player(username: "User user", avatarColor: "Orange", score: 123),
+   username: "User user", avatarColor: "Orange",
     isOnline: false,
     scoreChange: 90,
     correctAnswerCount: 6,

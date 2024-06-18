@@ -214,12 +214,12 @@ class _GameResultsPageState extends State<GameResultsPage> {
 
   List<PlayerResult> putUserOnTop(List<PlayerResult> playersResults) {
     if (!playersResults
-        .any((element) => element.player.username == widget.username)) {
+        .any((element) => element.username == widget.username)) {
       return playersResults;
     }
 
     final user = playersResults
-        .firstWhere((element) => element.player.username == widget.username);
+        .firstWhere((element) => element.username == widget.username);
     playersResults.remove(user);
     playersResults.insert(0, user);
     return playersResults;

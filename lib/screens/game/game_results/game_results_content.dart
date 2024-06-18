@@ -105,7 +105,7 @@ class _GameResultsContentState extends State<GameResultsContent>
                 }
 
                 return ListTile(
-                  onTap: widget.playersResults[index].player.username !=
+                  onTap: widget.playersResults[index].username !=
                           widget.username
                       ? null
                       : () {
@@ -126,12 +126,12 @@ class _GameResultsContentState extends State<GameResultsContent>
                   leading: Skeleton.shade(
                     child: CircleAvatar(
                       backgroundColor: avatarColorsMap[widget
-                              .playersResults[index].player.avatarColor] ??
+                              .playersResults[index].avatarColor] ??
                           Colors.blue,
                       radius: 20,
                       child: Text(
                         getInitials(
-                            widget.playersResults[index].player.username),
+                            widget.playersResults[index].username),
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               color: Colors.white,
                             ),
@@ -164,7 +164,7 @@ class _GameResultsContentState extends State<GameResultsContent>
 
                       // score
                       if (widget.username ==
-                          widget.playersResults[index].player.username)
+                          widget.playersResults[index].username)
                         SizedBox(
                           width: 48,
                           child: ClipRect(
@@ -186,7 +186,7 @@ class _GameResultsContentState extends State<GameResultsContent>
                           ),
                         ),
                       if (widget.username !=
-                          widget.playersResults[index].player.username)
+                          widget.playersResults[index].username)
                         SizedBox(
                           width: 48,
                           child: Align(
@@ -218,28 +218,13 @@ class _GameResultsContentState extends State<GameResultsContent>
                     ],
                   ),
                   title: Text(
-                    widget.playersResults[index].player.username,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight:
-                              (index == widget.playersResults.length - 1)
-                                  ? FontWeight.w500
-                                  : FontWeight.normal,
-                        ),
+                    widget.playersResults[index].username,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   subtitle: ClipRect(
                     child: Skeleton.unite(
                       child: Row(
                         children: [
-                          Text(
-                            widget.playersResults[index].player.score
-                                .toString(),
-                          ),
-                          const SizedBox(width: 2),
-                          const Icon(
-                            Icons.star_border_sharp,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 10),
                           Text(secondsToReadableTime(
                               widget.playersResults[index].avgAnswerTime)),
                           const SizedBox(width: 4),

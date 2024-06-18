@@ -1346,15 +1346,16 @@ impl SseDecode for crate::api::request::get_room_players::Player {
 impl SseDecode for crate::api::request::get_game_results::PlayerResult {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_player =
-            <crate::api::request::get_room_players::Player>::sse_decode(deserializer);
+        let mut var_username = <String>::sse_decode(deserializer);
+        let mut var_avatarColor = <String>::sse_decode(deserializer);
         let mut var_isOnline = <bool>::sse_decode(deserializer);
         let mut var_scoreChange = <i32>::sse_decode(deserializer);
         let mut var_correctAnswerCount = <u32>::sse_decode(deserializer);
         let mut var_wrongAnswerCount = <u32>::sse_decode(deserializer);
         let mut var_avgAnswerTime = <u32>::sse_decode(deserializer);
         return crate::api::request::get_game_results::PlayerResult {
-            player: var_player,
+            username: var_username,
+            avatar_color: var_avatarColor,
             is_online: var_isOnline,
             score_change: var_scoreChange,
             correct_answer_count: var_correctAnswerCount,
@@ -1809,7 +1810,8 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::request::get_room_players::Pl
 impl flutter_rust_bridge::IntoDart for crate::api::request::get_game_results::PlayerResult {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
-            self.player.into_into_dart().into_dart(),
+            self.username.into_into_dart().into_dart(),
+            self.avatar_color.into_into_dart().into_dart(),
             self.is_online.into_into_dart().into_dart(),
             self.score_change.into_into_dart().into_dart(),
             self.correct_answer_count.into_into_dart().into_dart(),
@@ -2312,7 +2314,8 @@ impl SseEncode for crate::api::request::get_room_players::Player {
 impl SseEncode for crate::api::request::get_game_results::PlayerResult {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <crate::api::request::get_room_players::Player>::sse_encode(self.player, serializer);
+        <String>::sse_encode(self.username, serializer);
+        <String>::sse_encode(self.avatar_color, serializer);
         <bool>::sse_encode(self.is_online, serializer);
         <i32>::sse_encode(self.score_change, serializer);
         <u32>::sse_encode(self.correct_answer_count, serializer);

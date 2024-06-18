@@ -8,7 +8,9 @@ pub struct GetGameResultsRequest;
 
 #[derive(Deserialize)]
 pub struct PlayerResult {
-    pub player: Player,
+    pub username: String,
+    #[serde(rename = "avatarColor")]
+    pub avatar_color: String,
     #[serde(rename = "isOnline")]
     pub is_online: bool,
     #[serde(rename = "scoreChange")]

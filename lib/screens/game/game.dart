@@ -24,7 +24,7 @@ class Game extends StatefulWidget {
   final int questionCount;
   final String gameName;
   final String username;
-
+  
   const Game({
     super.key,
     required this.session,
@@ -48,6 +48,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
   late AnimationController _blinkingController;
 
   Future<Question> getQuestion(context) async {
+    print("Getting current question: $currQuestionId");
     final question = await widget.session.getQuestion().onError(
       (Error_ServerConnectionError error, stackTrace) {
         currQuestionFuture.ignore();
@@ -67,6 +68,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
         return const Question(questionId: -1, question: "", answers: []);
       },
     );
+    print("Got question with id: ${question.questionId}");
     setState(() {
       currQuestionId = question.questionId;
     });
