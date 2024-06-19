@@ -146,6 +146,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
+    player.dispose();
     currQuestionFuture.ignore();
     questionsTimer.cancel();
     durationTimer.cancel();
