@@ -18,9 +18,9 @@ and integrates with the game's backend through the `flutter_rust_bridge` library
 10. SQLITE_ORM to manage the database
 11. Pretty Logging using the fmt library
 12. CI/CD to release executables to multiple platforms including:
-   - windows (exe and msix installers)
-   - linux (deb, rpm and AppImage)
-   - android (apk)
+    - windows (exe and msix installers)
+    - linux (deb, rpm and AppImage)
+    - android (apk)
 
 ## Getting Started
 
