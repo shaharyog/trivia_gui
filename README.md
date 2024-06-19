@@ -43,7 +43,7 @@ These instructions will help you set up the frontend development environment on 
 5. Generate code from rust, run:
     - `flutter_rust_bridge_codegen generate`
 6. Build flutter project:
-    - `flutter build <os> --release`, Replace <os> with windows, linux, etc...
+    - `flutter build <os> --release`, Replace `<os>` with windows, linux, etc...
 7. Run the executable provided by the build command.
 
 ## Authors
