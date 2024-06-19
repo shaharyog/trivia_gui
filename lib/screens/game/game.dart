@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:trivia/screens/game/game_content.dart';
@@ -39,6 +40,7 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> with SingleTickerProviderStateMixin {
+  final player = AudioPlayer();
   late Future<Question> currQuestionFuture;
   int currQuestionId = 0;
   late Timer questionsTimer;
@@ -89,9 +91,17 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
     );
   }
 
+  void _initAudioPlayer() async {
+    await player.play(
+      AssetSource("game_sound.mp3"),
+    );
+    player.setReleaseMode(ReleaseMode.loop);
+  }
+
   @override
   void initState() {
     super.initState();
+    _initAudioPlayer();
     _blinkingController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: defaultBlinkingCircleDuration),
@@ -265,13 +275,13 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
                           color: Colors.grey,
                         )
                       : Container(
-                              width: 12,
-                              height: 12,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: getColorByStatus(index),
-                              ),
-                            ),
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: getColorByStatus(index),
+                          ),
+                        ),
                 ),
               ),
             ),
