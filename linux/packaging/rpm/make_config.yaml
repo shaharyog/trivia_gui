@@ -19,4 +19,6 @@ categories:
   - Quiz
   - Games
 
+metainfo: linux/packaging/trivia.appdata.xml
+
 startup_notify: true

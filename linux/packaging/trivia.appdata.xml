@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+    <id>trivia</id>
+    <name>Trivia</name>
+    <summary>A Trivia Game By Shahar Yogev and Yuval Bar</summary>
+    <description>
+        <p>The application can be used to play trivia game from multiple platforms</p>
+    </description>
+    <launchable type="desktop-id">trivia.desktop</launchable>
+    <url type="homepage">https://github.com/Shahar-Yogev/trivia_gui</url>
+    <provides>
+        <id>trivia.desktop</id>
+    </provides>
+</component>

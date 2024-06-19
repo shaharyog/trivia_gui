@@ -19,6 +19,7 @@ categories:
   - X-Quiz
   - X-Games
 
+metainfo: linux/packaging/trivia.appdata.xml
 
 startup_notify: true
 
