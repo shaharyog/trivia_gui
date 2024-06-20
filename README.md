@@ -3,6 +3,9 @@
 This is the frontend for the Trivia Game developed by Shahar Yogev and Yuval Bar. The frontend is built using Flutter
 and integrates with the game's backend through the `flutter_rust_bridge` library.
 
+## Demo
+### [Here is a link](https://www.youtube.com/watch?v=NjpXF6E9N5U&feature=youtu.be) to the YouTube video showcasing our trivia game.
+
 ## Bonuses
 
 1. Email Verification
@@ -63,6 +66,7 @@ These instructions will help you set up the frontend development environment on 
 2. sometimes there is an error, again only in the logs, the functionality is perfectly stable, the error is related to
    the rust_flutter_bridge and the disposal of the session object, we did not investigate it deeply, as again it is not
    critical, and does not affect the functionality.
+   zz
 
 ## Authors
 
