@@ -37,6 +37,10 @@ jobs:
           sudo apt-get install libunwind-dev
           sudo apt-get install clang cmake pkg-config liblzma-dev
           sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+      - run: |
+          wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          chmod +x appimagetool
+          mv appimagetool /usr/local/bin/
       - run: dart pub global activate flutter_distributor --version 0.4.3 # version 0.4.4 is broken
       - run: flutter_distributor release --name=dev --jobs=release-linux-rpm
       - run: flutter_distributor release --name=dev --jobs=release-linux-deb
