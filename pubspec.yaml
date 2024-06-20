@@ -2,7 +2,7 @@ name: trivia
 description: "A Trivia Game By Shahar Yogev & Yuval Bar"
 publish_to: 'none'
 
-version: 4.2.5
+version: 4.2.6
 environment:
   sdk: '>=3.4.0 <4.0.0'
   flutter: 3.22.0
