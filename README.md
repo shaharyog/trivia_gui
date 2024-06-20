@@ -21,6 +21,9 @@ and integrates with the game's backend through the `flutter_rust_bridge` library
     - windows (exe and msix installers)
     - linux (deb, rpm and AppImage)
     - android (apk)
+13. Music sound in game screen
+14. Config file (`config.json` to set ip and port, the default is `0.0.0.0, 8826`)
+
 
 ## Getting Started
 
@@ -45,6 +48,9 @@ These instructions will help you set up the frontend development environment on 
 6. Build flutter project:
     - `flutter build <os> --release`, Replace `<os>` with windows, linux, etc...
 7. Run the executable provided by the build command.
+
+### Installation
+#### We have released each version of our gui in the releases tab in GitHub, so you can download directly from there, for specific installation instructions refer to this [guide](INSTALLATION_INSTRUCTIONS.md)
 
 ## Authors
 - Shahar Yogev
