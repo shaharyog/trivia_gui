@@ -96,6 +96,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
       AssetSource("game_sound.mp3"),
     );
     player.setReleaseMode(ReleaseMode.loop);
+    player.setVolume(1);
   }
 
   @override
@@ -161,13 +162,26 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
         title: Text("Game - ${widget.gameName}"),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 4.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: Text("${currQuestionId + 1} / ${widget.questionCount}"),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
             child: themeToggleButton(context),
           ),
+          Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: IconButton(
+              icon: player.volume > 0 ? const Icon(Icons.volume_up_sharp) : const Icon(Icons.volume_off_sharp),
+              onPressed: () async {
+                if (player.volume > 0 ) {
+                  await player.setVolume(0);
+                } else {
+                  await player.setVolume(1);
+                }
+              },
+            ),
+          )
         ],
       ),
       body: Column(

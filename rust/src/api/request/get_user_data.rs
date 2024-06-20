@@ -20,7 +20,7 @@ pub struct UserData {
 
 #[derive(Deserialize)]
 pub struct UserStatistics {
-    #[serde(rename = "averageAnswerTime")]
+    #[serde(rename = "avgAnswerTime")]
     pub average_answer_time: Option<u32>,
     #[serde(rename = "correctAnswers")]
     pub correct_answers: u32,

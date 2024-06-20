@@ -356,8 +356,7 @@ class _ProfilePageContentState extends State<ProfilePageContent> {
     bool isAllFieldsEntered = emailController.text.isNotEmpty &&
         addressController.text.isNotEmpty &&
         phoneNumberController.text.isNotEmpty;
-    bool isAllFieldsWithoutError =
-        passwordErrorText == null &&
+    bool isAllFieldsWithoutError = passwordErrorText == null &&
         addressErrorText == null &&
         phoneNumberErrorText == null;
     return isAllFieldsEntered && isAllFieldsWithoutError;
@@ -518,14 +517,22 @@ Widget _buildStatistics(BuildContext context, UserStatistics userStats) {
           ],
         ),
         if (userStats.averageAnswerTime != null)
-          TextSpan(text: "\nAverage Answer Time:  ", children: [
-            TextSpan(
-              text: secondsToReadableTime(userStats.averageAnswerTime!),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+          TextSpan(
+            text: "\nAverage Answer Time:  ",
+            style: const TextStyle(
+              color: Color(0xFF8356FF),
+              fontWeight: FontWeight.bold,
             ),
-          ])
+            children: [
+              TextSpan(
+                text: secondsToReadableTime(userStats.averageAnswerTime!),
+                style: const TextStyle(
+                  color: Color(0xFF8356FF),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          )
       ],
     ),
   );
