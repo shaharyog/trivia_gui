@@ -65,7 +65,7 @@ class _GameOverviewState extends State<GameOverview> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +87,7 @@ class _GameOverviewState extends State<GameOverview> {
                     child: getPage(_currentQuestionIndex),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: Wrap(
                       alignment: WrapAlignment.center,
                       spacing: 8.0,
@@ -246,12 +246,15 @@ class _GameOverviewState extends State<GameOverview> {
               cardIndex: index,
               context: context),
           child: Center(
-            child: AutoSizeText(
-              widget.questionsHistory[questionIndex].answers[index],
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.displaySmall,
-              overflow: TextOverflow.ellipsis,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AutoSizeText(
+                widget.questionsHistory[questionIndex].answers[index],
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.displaySmall,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ),
@@ -260,25 +263,19 @@ class _GameOverviewState extends State<GameOverview> {
   }
 
   Widget getPage(int questionIndex) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 32.0,
-            vertical: 16.0,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: buildQuestionWidget(context, questionIndex),
           ),
-          child: buildQuestionWidget(context, questionIndex),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
-            ),
+          Expanded(
             child: buildAnswersList(context, questionIndex),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

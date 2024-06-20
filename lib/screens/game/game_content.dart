@@ -228,12 +228,15 @@ class _GameContentState extends State<GameContent> {
                 cardIndex: index,
                 context: context),
             child: Center(
-              child: AutoSizeText(
-                widget.question.answers[index].$2,
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.displaySmall,
-                overflow: TextOverflow.ellipsis,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AutoSizeText(
+                  widget.question.answers[index].$2,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.displaySmall,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ),
